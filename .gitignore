@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.production
+
+# Vite cache
+.vite/
+
+# Node binaries bundled in project root (not needed on GitHub)
+node.exe
+npm
+npm.cmd
+npm.ps1
+npx
+corepack.cmd
+nodevars.bat
+install_tools.bat
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Antigravity AI config
+.antigravity/
