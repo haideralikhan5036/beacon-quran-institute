@@ -154,12 +154,12 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
       <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-black/30 backdrop-blur-md rounded-[4rem] shadow-2xl border border-accent/20 overflow-hidden grid lg:grid-cols-12 min-h-[850px] text-amber-50">
+        <div className="card-shine rounded-[4rem] shadow-2xl overflow-hidden grid lg:grid-cols-12 min-h-[850px] text-amber-50">
           {/* Information Sidebar */}
-          <div className="lg:col-span-5 p-12 sm:p-20 bg-black/40 backdrop-blur-md text-amber-50 border-b lg:border-b-0 lg:border-r border-accent/20 flex flex-col justify-between relative overflow-hidden">
+          <div className="lg:col-span-5 p-12 sm:p-20 bg-[#051b23]/70 backdrop-blur-md text-amber-50 border-b lg:border-b-0 lg:border-r border-[#949693]/25 flex flex-col justify-between relative overflow-hidden">
              <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] border border-accent rounded-full -mr-64 -mt-64 translate-x-10 -translate-y-10 opacity-20"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 border border-accent rounded-full -ml-32 -mb-32 translate-y-10 opacity-20"></div>
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] border border-[#757454] rounded-full -mr-64 -mt-64 translate-x-10 -translate-y-10 opacity-30"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 border border-[#757454] rounded-full -ml-32 -mb-32 translate-y-10 opacity-30"></div>
              </div>
 
              <div className={`relative z-10 ${isAr ? 'text-right' : 'text-left'}`}>
@@ -228,7 +228,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
           </div>
 
           {/* Form Container */}
-          <div className="lg:col-span-7 p-12 sm:p-24 bg-black/20 backdrop-blur-md text-amber-50 relative">
+          <div className="lg:col-span-7 p-12 sm:p-24 bg-[#030d12]/40 backdrop-blur-md text-amber-50 relative">
             <AnimatePresence>
               {isSuccess && (
                 <motion.div 
@@ -331,9 +331,9 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                          name="course"
                          value={formData.course}
                          onChange={handleChange}
-                         className={`w-full py-5.5 bg-black/40 border border-accent/20 rounded-3xl focus:border-accent focus:bg-black/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
+                         className={`w-full py-5.5 bg-[#051b23]/80 border border-[#949693]/30 rounded-3xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
                        >
-                         {coursesList.map(c => <option key={c} value={c} className="bg-primary text-white">{c}</option>)}
+                         {coursesList.map(c => <option key={c} value={c} className="bg-[#051b23] text-amber-50 py-2">{c}</option>)}
                        </select>
                        <div className={`absolute ${isAr ? 'left-6' : 'right-6'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
                          <ArrowRight className="w-4 h-4 rotate-90" />
@@ -351,9 +351,9 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                          name="plan"
                          value={formData.plan}
                          onChange={handleChange}
-                         className={`w-full py-5.5 bg-black/40 border border-accent/20 rounded-3xl focus:border-accent focus:bg-black/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
+                         className={`w-full py-5.5 bg-[#051b23]/80 border border-[#949693]/30 rounded-3xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
                        >
-                         {plansList.map(p => <option key={p} value={p} className="bg-primary text-white">{p}</option>)}
+                         {plansList.map(p => <option key={p} value={p} className="bg-[#051b23] text-amber-50 py-2">{p}</option>)}
                        </select>
                        <div className={`absolute ${isAr ? 'left-6' : 'right-6'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
                          <ArrowRight className="w-4 h-4 rotate-90" />
@@ -387,7 +387,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-12 py-5.5 group bg-primary text-white rounded-[20px] font-serif font-bold uppercase tracking-[0.15em] text-[15px] shadow-2xl shadow-primary/20 hover:bg-accent hover:shadow-accent/40 active:scale-95 transition-all flex items-center justify-center disabled:opacity-70 relative overflow-hidden cursor-pointer"
+                    className="px-12 py-5.5 group bg-[#084C63] text-white border border-[#949693]/30 rounded-[20px] font-serif font-bold uppercase tracking-[0.15em] text-[15px] shadow-2xl shadow-[#084C63]/40 hover:bg-[#757454] hover:shadow-[#757454]/40 active:scale-95 transition-all flex items-center justify-center disabled:opacity-70 relative overflow-hidden cursor-pointer"
                   >
                     {isSubmitting ? submittingBtnText : submitBtnTextText}
                   </button>

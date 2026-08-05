@@ -141,11 +141,11 @@ export default function Hero() {
               <div className={`flex flex-wrap gap-5 ${isAr ? 'flex-row-reverse' : ''}`}>
                 <MagneticButton 
                   onClick={scrollToContact}
-                  className="group relative overflow-hidden bg-primary text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all shadow-xl shadow-primary/20 flex items-center gap-2 cursor-pointer"
+                  className="group relative overflow-hidden bg-[#084C63] text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all shadow-xl shadow-[#084C63]/30 flex items-center gap-2 cursor-pointer border border-[#949693]/30"
                 >
                   <span className="relative z-10">{t('hero.startJourney')}</span>
                   <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10 ${isAr ? 'rotate-180' : ''}`} />
-                  <div className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                  <div className="absolute inset-0 bg-[#757454] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                 </MagneticButton>
                 
                 <button 
@@ -202,7 +202,7 @@ export default function Hero() {
                 decoding="async"
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent opacity-80"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030d12]/90 via-[#084C63]/30 to-transparent opacity-80"></div>
               
               <div className="absolute bottom-8 left-6 right-6 sm:bottom-12 sm:left-10 sm:right-10">
                 <motion.div 

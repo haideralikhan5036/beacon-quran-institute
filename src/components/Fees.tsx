@@ -326,7 +326,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                   >
                     {plan.highlight && (
                       <div 
-                        className={`absolute top-10 bg-accent text-primary px-5 py-2 rounded-full display text-[8px] font-black uppercase tracking-[0.3em] shadow-lg animate-pulse ${isAr ? 'left-10' : 'right-10'}`}
+                        className={`absolute top-10 bg-[#757454] text-amber-50 px-5 py-2 rounded-full display text-[8px] font-black uppercase tracking-[0.3em] shadow-lg animate-pulse ${isAr ? 'left-10' : 'right-10'}`}
                         style={{ transform: "translateZ(35px)", transformStyle: "preserve-3d" }}
                       >
                         {isAr ? "الباقة الموصى بها" : "Recommended"}
@@ -369,10 +369,10 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                             setActiveIndex(index);
                           }
                         }}
-                        className={`group relative overflow-hidden w-full py-5 rounded-[1.8rem] serif font-bold uppercase tracking-[0.3em] text-[11px] transition-all shadow-xl hover:shadow-2xl ${
+                        className={`group relative overflow-hidden w-full py-5 rounded-[1.8rem] serif font-bold uppercase tracking-[0.3em] text-[11px] transition-all shadow-xl hover:shadow-2xl cursor-pointer ${
                           plan.highlight
-                            ? 'bg-accent text-primary shadow-accent/20'
-                            : 'bg-primary text-white shadow-primary/20'
+                            ? 'bg-[#757454] text-amber-50 hover:bg-[#084C63] border border-[#949693]/30'
+                            : 'bg-[#084C63] text-white hover:bg-[#757454] border border-[#949693]/30'
                         }`}
                       >
                         <span className={`relative z-10 flex items-center justify-center gap-3 font-semibold ${isAr ? 'flex-row-reverse' : ''}`}>
