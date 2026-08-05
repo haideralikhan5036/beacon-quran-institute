@@ -6,24 +6,26 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-arabic: "Noto Naskh Arabic", serif;
 
-  --color-primary: #7c3f10;   /* Warm Mahogany Brown */
-  --color-accent: #B88E43;    /* Logo Gold */
-  --color-cream: #FCFAF5;     /* Refined Cream */
-  --color-dark: #1a0c04;      /* Deep Dark Wood */
-  --color-olive: #c49a4a;     /* Light Amber */
-  --color-ink: #f5e6c8;
-  --color-paper: #1a0c04;
-  --color-bg-warm: #0e0702;
+  --color-primary: #084C63;   /* Midnight Green */
+  --color-secondary: #757454; /* Fusion Gold */
+  --color-accent: #949693;    /* Spanish Grey */
+  --color-gold: #c2ac6c;      /* Light Fusion Gold */
+  --color-cream: #F7F8F7;     /* Off White */
+  --color-dark: #051b23;      /* Deep Midnight Dark */
+  --color-olive: #757454;     /* Fusion Gold */
+  --color-ink: #f0f4f6;
+  --color-paper: #051b23;
+  --color-bg-warm: #030d12;
 }
 
 :root {
-  --bg: #0e0702;
-  --ink: #f5e6c8;
+  --bg: #030d12;
+  --ink: #f0f4f6;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #07130e;
+  background-color: #030d12;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -193,21 +195,22 @@ html.dark {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(184, 142, 67, 0.25);
+  background: rgba(117, 116, 84, 0.35);
   border-radius: 10px;
   transition: background 0.3s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(184, 142, 67, 0.45);
+  background: rgba(8, 76, 99, 0.65);
 }
 
-/* ── Card Shine Effect ────────────────────────────────────────────── */
+/* ── Card Shine Effect — Midnight Green + Fusion Gold ───────────────────── */
 .card-shine {
-  background: linear-gradient(145deg, rgba(45,18,3,0.92) 0%, rgba(28,10,1,0.96) 100%);
-  border: 1px solid rgba(184, 142, 67, 0.3);
+  background: linear-gradient(145deg, rgba(8, 76, 99, 0.85) 0%, rgba(3, 22, 29, 0.94) 100%);
+  border: 1px solid rgba(148, 150, 147, 0.35);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .card-shine::before {
@@ -220,9 +223,9 @@ html.dark {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(245, 210, 135, 0.07) 45%,
-    rgba(245, 210, 135, 0.13) 50%,
-    rgba(245, 210, 135, 0.07) 55%,
+    rgba(212, 190, 120, 0.08) 45%,
+    rgba(212, 190, 120, 0.18) 50%,
+    rgba(212, 190, 120, 0.08) 55%,
     transparent 100%
   );
   transition: left 0.75s ease;
@@ -241,9 +244,9 @@ html.dark {
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    rgba(245, 210, 135, 0.05) 0%,
+    rgba(117, 116, 84, 0.08) 0%,
     transparent 50%,
-    rgba(245, 210, 135, 0.02) 100%
+    rgba(8, 76, 99, 0.04) 100%
   );
   pointer-events: none;
   z-index: 1;
