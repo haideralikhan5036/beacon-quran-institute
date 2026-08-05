@@ -28,6 +28,7 @@ export default function AncientLibraryEnvironment() {
     [0, 0.3, 1],
     [1.0, 1.06, 0.95]
   );
+  const tunnelFilter = useTransform(tunnelBrightness, (b) => `brightness(${b})`);
 
   // Vignette gets tighter as you "walk deeper" — edges darken
   const vignetteBg = useTransform(
@@ -183,7 +184,7 @@ export default function AncientLibraryEnvironment() {
           x: isMobile ? 0 : imgShiftX,
           y: isMobile ? 0 : imgShiftY,
           // Brightness only — NO blur, NO saturate — keeps image crisp
-          filter: useTransform(tunnelBrightness, (b) => `brightness(${b})`),
+          filter: tunnelFilter,
         }}
       >
         <img
