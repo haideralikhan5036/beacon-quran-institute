@@ -1,7 +1,7 @@
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Sparkles } from 'lucide-react';
 import { ViewState } from '../App';
 import { Reveal } from './ui/Reveal';
-import logo from '../assets/images/regenerated_image_1778881551298.jpg';
+import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer({ setView }: { setView: (view: ViewState) => void }) {

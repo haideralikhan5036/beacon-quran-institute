@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { BookOpen, User, Phone, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import logo from '../assets/images/regenerated_image_1778881551298.jpg';
+import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
 
 import { ViewState } from '../App';
