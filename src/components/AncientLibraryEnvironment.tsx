@@ -8,57 +8,66 @@ export default function AncientLibraryEnvironment() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const prefersReduced = useReducedMotion();
 
-  // ─── Scroll Physics ──────────────────────────────────────────────────────────
+  // ─── Scroll ──────────────────────────────────────────────────────────────────
   const { scrollYProgress } = useScroll();
-  const smoothScroll = useSpring(scrollYProgress, { damping: 30, stiffness: 60, mass: 0.9 });
+  const smoothScroll = useSpring(scrollYProgress, { damping: 25, stiffness: 50, mass: 1.0 });
 
-  // TUNNEL EFFECT: scale image as user scrolls — "walking into corridor" illusion
-  const tunnelScale      = useTransform(smoothScroll, [0, 1], [1, 1.85]);
-  const tunnelY          = useTransform(smoothScroll, [0, 1], ['0%', '-8%']);
-  const tunnelFilter     = useTransform(smoothScroll, [0, 0.4, 1], [
-    'brightness(1) saturate(1.05)',
-    'brightness(1.04) saturate(1.1)',
-    'brightness(0.88) saturate(1.0)',
-  ]);
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TUNNEL EFFECT — zoom FORWARD into the corridor, not upward
+  //
+  // Key insight: transformOrigin is set to the VANISHING POINT of the corridor
+  // which is at ~38% from left, ~52% from top in this specific image.
+  // Scale increases → feels like walking INTO the corridor.
+  // NO Y translation — that was causing the wrong "upward" movement.
+  // ═══════════════════════════════════════════════════════════════════════════
+  const tunnelScale = useTransform(smoothScroll, [0, 1], [1.0, 1.9]);
 
-  // Vignette — gentle so image stays razor-sharp
+  // Slight brightness increase then settle — mimics walking into a lit space
+  const tunnelBrightness = useTransform(
+    smoothScroll,
+    [0, 0.3, 1],
+    [1.0, 1.06, 0.95]
+  );
+
+  // Vignette gets tighter as you "walk deeper" — edges darken
   const vignetteBg = useTransform(
     smoothScroll,
     [0, 1],
     [
-      'radial-gradient(ellipse 90% 80% at 48% 50%, transparent 0%, rgba(3,6,12,0.12) 65%, rgba(3,6,12,0.60) 100%)',
-      'radial-gradient(ellipse 65% 58% at 48% 50%, transparent 0%, rgba(3,6,12,0.32) 58%, rgba(3,6,12,0.80) 100%)',
+      'radial-gradient(ellipse 95% 90% at 38% 52%, transparent 0%, rgba(2,4,8,0.08) 65%, rgba(2,4,8,0.55) 100%)',
+      'radial-gradient(ellipse 60% 55% at 38% 52%, transparent 0%, rgba(2,4,8,0.30) 55%, rgba(2,4,8,0.88) 100%)',
     ]
   );
 
   // ─── Mouse Parallax ──────────────────────────────────────────────────────────
   const rawMouseX = useMotionValue(0);
   const rawMouseY = useMotionValue(0);
-  const springCfg = { damping: 45, stiffness: 55, mass: 1.1 };
+  const springCfg = { damping: 50, stiffness: 45, mass: 1.2 };
   const smoothMouseX = useSpring(rawMouseX, springCfg);
   const smoothMouseY = useSpring(rawMouseY, springCfg);
 
-  const imgShiftX = useTransform(smoothMouseX, [-0.5, 0.5], ['-1.5%', '1.5%']);
-  const imgShiftY = useTransform(smoothMouseY, [-0.5, 0.5], ['-1.5%', '1.5%']);
+  // Very subtle parallax tilt — enhances depth without distorting the tunnel
+  const imgShiftX = useTransform(smoothMouseX, [-0.5, 0.5], ['-1%', '1%']);
+  const imgShiftY = useTransform(smoothMouseY, [-0.5, 0.5], ['-0.8%', '0.8%']);
 
-  const fgParticleX = useTransform(smoothMouseX, [-0.5, 0.5], [-60, 60]);
-  const fgParticleY = useTransform(smoothMouseY, [-0.5, 0.5], [-60, 60]);
+  const fgParticleX = useTransform(smoothMouseX, [-0.5, 0.5], [-40, 40]);
+  const fgParticleY = useTransform(smoothMouseY, [-0.5, 0.5], [-40, 40]);
 
-  // ─── Arch ring animations (4 rings) ─────────────────────────────────────────
-  const arch0Opacity = useTransform(smoothScroll, [0.00, 0.12, 0.28], [0, 0.7, 0]);
-  const arch0Scale   = useTransform(smoothScroll, [0.00, 0.28], [0.55, 1.6]);
-  const arch1Opacity = useTransform(smoothScroll, [0.18, 0.30, 0.46], [0, 0.6, 0]);
-  const arch1Scale   = useTransform(smoothScroll, [0.18, 0.46], [0.65, 1.7]);
-  const arch2Opacity = useTransform(smoothScroll, [0.36, 0.50, 0.66], [0, 0.55, 0]);
-  const arch2Scale   = useTransform(smoothScroll, [0.36, 0.66], [0.7, 1.8]);
-  const arch3Opacity = useTransform(smoothScroll, [0.55, 0.68, 0.85], [0, 0.5, 0]);
-  const arch3Scale   = useTransform(smoothScroll, [0.55, 0.85], [0.75, 1.9]);
+  // ─── Arch ring scroll animations (pre-computed, no hooks in JSX) ─────────────
+  const arch0Opacity = useTransform(smoothScroll, [0.00, 0.14, 0.30], [0, 0.75, 0]);
+  const arch0Scale   = useTransform(smoothScroll, [0.00, 0.30], [0.5, 1.65]);
+  const arch1Opacity = useTransform(smoothScroll, [0.20, 0.34, 0.50], [0, 0.65, 0]);
+  const arch1Scale   = useTransform(smoothScroll, [0.20, 0.50], [0.6, 1.75]);
+  const arch2Opacity = useTransform(smoothScroll, [0.40, 0.54, 0.70], [0, 0.55, 0]);
+  const arch2Scale   = useTransform(smoothScroll, [0.40, 0.70], [0.65, 1.85]);
+  const arch3Opacity = useTransform(smoothScroll, [0.58, 0.72, 0.88], [0, 0.45, 0]);
+  const arch3Scale   = useTransform(smoothScroll, [0.58, 0.88], [0.7, 1.95]);
 
-  const archAnimations = [
-    { opacity: arch0Opacity, scale: arch0Scale, w: '36vw', h: '50vh', border: 'rgba(184,142,67,0.45)' },
-    { opacity: arch1Opacity, scale: arch1Scale, w: '50vw', h: '65vh', border: 'rgba(184,142,67,0.35)' },
-    { opacity: arch2Opacity, scale: arch2Scale, w: '64vw', h: '78vh', border: 'rgba(184,142,67,0.28)' },
-    { opacity: arch3Opacity, scale: arch3Scale, w: '80vw', h: '92vh', border: 'rgba(184,142,67,0.20)' },
+  const archRings = [
+    { opacity: arch0Opacity, scale: arch0Scale, w: '42vw', h: '58vh' },
+    { opacity: arch1Opacity, scale: arch1Scale, w: '58vw', h: '72vh' },
+    { opacity: arch2Opacity, scale: arch2Scale, w: '72vw', h: '85vh' },
+    { opacity: arch3Opacity, scale: arch3Scale, w: '86vw', h: '96vh' },
   ];
 
   useEffect(() => {
@@ -73,21 +82,25 @@ export default function AncientLibraryEnvironment() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        rawMouseX.set(e.clientX / window.innerWidth - 0.5);
+        rawMouseX.set(e.clientX / window.innerWidth  - 0.5);
         rawMouseY.set(e.clientY / window.innerHeight - 0.5);
         ticking = false;
       });
     };
-    window.addEventListener('mousemove', onMouseMove);
+
+    if (!prefersReduced && !isMobile) {
+      window.addEventListener('mousemove', onMouseMove);
+    }
     window.addEventListener('resize', checkMobile);
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', checkMobile);
     };
-  }, [rawMouseX, rawMouseY]);
+  }, [rawMouseX, rawMouseY, prefersReduced, isMobile]);
 
-  // ─── HTML5 Canvas: Floating Golden Dust Particles ───────────────────────────
+  // ─── Canvas: Floating Golden Dust Particles ───────────────────────────────
   useEffect(() => {
+    if (prefersReduced) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -104,18 +117,18 @@ export default function AncientLibraryEnvironment() {
     };
     window.addEventListener('resize', onResize);
 
-    const count = isMobile ? 22 : 60; // Mobile: minimal particles for perf
+    const count = isMobile ? 22 : 60;
     const particles = Array.from({ length: count }).map(() => ({
       x:          Math.random() * W,
       y:          Math.random() * H,
-      r:          Math.random() * 2.4 + 0.5,
-      alpha:      Math.random() * 0.55 + 0.15,
-      baseAlpha:  Math.random() * 0.55 + 0.15,
-      vx:         (Math.random() - 0.5) * 0.3,
-      vy:         -(Math.random() * 0.5 + 0.07),
-      pulseSpeed: Math.random() * 0.018 + 0.004,
+      r:          Math.random() * 2.2 + 0.5,
+      alpha:      Math.random() * 0.5 + 0.12,
+      baseAlpha:  Math.random() * 0.5 + 0.12,
+      vx:         (Math.random() - 0.5) * 0.28,
+      vy:         -(Math.random() * 0.45 + 0.06),
+      pulseSpeed: Math.random() * 0.016 + 0.004,
       pulsePhase: Math.random() * Math.PI * 2,
-      hue:        36 + Math.random() * 20,
+      hue:        34 + Math.random() * 22,
     }));
 
     const draw = () => {
@@ -127,15 +140,15 @@ export default function AncientLibraryEnvironment() {
         if (p.x > W + 20) p.x = -20;
         if (p.y < -20)    p.y = H + 20;
         p.pulsePhase += p.pulseSpeed;
-        p.alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.2;
+        p.alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.18;
 
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        g.addColorStop(0,   `hsla(${p.hue}, 90%, 68%, ${Math.max(0, p.alpha)})`);
-        g.addColorStop(0.5, `hsla(${p.hue}, 80%, 50%, ${Math.max(0, p.alpha * 0.3)})`);
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4.5);
+        g.addColorStop(0,   `hsla(${p.hue}, 88%, 66%, ${Math.max(0, p.alpha)})`);
+        g.addColorStop(0.5, `hsla(${p.hue}, 78%, 48%, ${Math.max(0, p.alpha * 0.28)})`);
         g.addColorStop(1,   'rgba(0,0,0,0)');
         ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.r * 4.5, 0, Math.PI * 2);
         ctx.fill();
       }
       animId = requestAnimationFrame(draw);
@@ -146,95 +159,123 @@ export default function AncientLibraryEnvironment() {
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(animId);
     };
-  }, [isMobile]);
+  }, [isMobile, prefersReduced]);
 
   if (!mounted) return null;
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] select-none bg-[#07130e]">
-
-      {/* ═══ 1. REAL PHOTO BACKGROUND + SCROLL TUNNEL ZOOM ════════════════════ */}
-      <div className="absolute inset-0 overflow-hidden" style={{ perspective: '900px' }}>
-        <motion.div
-          className="absolute inset-0 will-change-transform"
-          style={{
-            scale: tunnelScale,
-            y: tunnelY,
-            x: isMobile ? '0%' : imgShiftX,
-            filter: tunnelFilter,
-            transformOrigin: '48% 50%',
-          }}
-        >
-          <img
-            src={libraryBg}
-            alt=""
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            style={{ imageRendering: 'high-quality', minHeight: '100vh', minWidth: '100vw' }}
-            draggable={false}
-          />
-        </motion.div>
-      </div>
-
-      {/* ═══ 2. SCROLL-DRIVEN RADIAL VIGNETTE ═════════════════════════════════ */}
+    <div
+      className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] select-none"
+      style={{ backgroundColor: '#0a0c0f' }}
+    >
+      {/* ═══════════════════════════════════════════════════════════════════════
+          1. BACKGROUND IMAGE — Full quality, no distortion
+             transformOrigin set to VANISHING POINT of corridor (~38% L, 52% T)
+             Scale only — no Y shift — so zoom goes FORWARD into the tunnel
+         ═══════════════════════════════════════════════════════════════════════ */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 will-change-transform"
+        style={{
+          scale: tunnelScale,
+          // Vanishing point = where the circular arches converge in the distance
+          transformOrigin: '38% 52%',
+          // Subtle parallax on desktop only
+          x: isMobile ? 0 : imgShiftX,
+          y: isMobile ? 0 : imgShiftY,
+          // Brightness only — NO blur, NO saturate — keeps image crisp
+          filter: useTransform(tunnelBrightness, (b) => `brightness(${b})`),
+        }}
+      >
+        <img
+          src={libraryBg}
+          alt=""
+          // High priority — loads before JS renders
+          fetchPriority="high"
+          decoding="sync"
+          className="absolute inset-0 w-full h-full"
+          style={{
+            objectFit: 'cover',
+            objectPosition: '38% center',
+            // Crisp rendering — no browser upscale blurring
+            imageRendering: 'auto',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+          }}
+          draggable={false}
+        />
+      </motion.div>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          2. SCROLL-DRIVEN VIGNETTE — tightens as you walk deeper
+             Center aligned with vanishing point (38% 52%)
+         ═══════════════════════════════════════════════════════════════════════ */}
+      <motion.div
+        className="absolute inset-0"
         style={{ background: vignetteBg }}
       />
 
-      {/* ═══ 3. WARM AMBER CEILING GLOW ═══════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          3. CONSTANT TOP FADE — helps navbar readability
+         ═══════════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 top-0 h-[35%] pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(200,110,20,0.08) 0%, transparent 100%)' }}
+        className="absolute inset-x-0 top-0 h-[20%] pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, rgba(2,4,8,0.45) 0%, transparent 100%)' }}
       />
 
-      {/* ═══ 4. FLOOR FOG ══════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          4. BOTTOM FADE — floor readability
+         ═══════════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 bottom-0 h-[18%] pointer-events-none"
-        style={{ background: 'linear-gradient(to top, rgba(4,10,6,0.6) 0%, transparent 100%)' }}
+        className="absolute inset-x-0 bottom-0 h-[15%] pointer-events-none"
+        style={{ background: 'linear-gradient(to top, rgba(2,4,8,0.6) 0%, transparent 100%)' }}
       />
 
-      {/* ═══ 5. ARABIC TEXTURE OVERLAY ═════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          5. ARABIC TEXTURE — extremely subtle grain/depth
+         ═══════════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-0 opacity-[0.022] mix-blend-overlay pointer-events-none"
+        className="absolute inset-0 opacity-[0.018] mix-blend-overlay pointer-events-none"
         style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}
       />
 
-      {/* ═══ 6. CANVAS GOLDEN DUST PARTICLES ══════════════════════════════════ */}
-      <motion.div
-        className="absolute inset-0 z-[5] pointer-events-none"
-        style={{ x: fgParticleX, y: fgParticleY }}
-      >
-        <canvas ref={canvasRef} className="absolute inset-0 opacity-65" />
-      </motion.div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          6. GOLDEN DUST PARTICLES — floating ambience
+         ═══════════════════════════════════════════════════════════════════════ */}
+      {!prefersReduced && (
+        <motion.div
+          className="absolute inset-0 z-[5] pointer-events-none"
+          style={{ x: fgParticleX, y: fgParticleY }}
+        >
+          <canvas ref={canvasRef} className="absolute inset-0 opacity-60" />
+        </motion.div>
+      )}
 
-      {/* ═══ 7. SCROLL-TRIGGERED GOLDEN ARCH RINGS ════════════════════════════ */}
-      {archAnimations.map((arch, i) => (
+      {/* ═══════════════════════════════════════════════════════════════════════
+          7. SCROLL-TRIGGERED CIRCULAR ARCH RINGS
+             These echo the circular arch motif in the real photo
+         ═══════════════════════════════════════════════════════════════════════ */}
+      {archRings.map((arch, i) => (
         <motion.div
           key={i}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{ opacity: arch.opacity, scale: arch.scale }}
+          style={{
+            opacity: arch.opacity,
+            scale: arch.scale,
+            transformOrigin: '38% 52%',
+          }}
         >
           <div
-            className="rounded-t-full"
+            className="rounded-full"
             style={{
               width: arch.w,
               height: arch.h,
-              border: `2px solid ${arch.border}`,
-              boxShadow: `0 0 30px rgba(184,142,67,0.15), inset 0 0 20px rgba(184,142,67,0.05)`,
+              border: `${2.5 - i * 0.4}px solid rgba(184,142,67,${0.5 - i * 0.08})`,
+              boxShadow: `0 0 35px rgba(184,142,67,0.12), inset 0 0 25px rgba(184,142,67,0.04)`,
+              marginLeft: '-8%',
             }}
           />
         </motion.div>
       ))}
-
-      {/* ═══ 8. TOP + BOTTOM READABILITY FADE ════════════════════════════════ */}
-      <div
-        className="absolute inset-0 pointer-events-none z-[8]"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(4,10,6,0.35) 0%, transparent 14%, transparent 80%, rgba(4,10,6,0.5) 100%)'
-        }}
-      />
     </div>
   );
 }
