@@ -104,7 +104,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.45 }}
-                className="text-accent block leading-none italic serif font-normal my-1"
+                className="text-accent block leading-none italic serif font-semibold my-1"
               >
                 {t('hero.title2')}
               </motion.span>
@@ -132,7 +132,7 @@ export default function Hero() {
             </Reveal>
  
             <Reveal delay={0.75} width="100%">
-              <p className={`text-xl md:text-2xl text-primary/60 max-w-xl mb-12 leading-relaxed text-balance serif italic ${isAr ? 'text-right' : ''}`}>
+              <p className={`text-xl md:text-2xl text-amber-100/90 max-w-xl mb-12 leading-relaxed text-balance serif italic ${isAr ? 'text-right' : ''}`}>
                 {t('hero.description')}
               </p>
             </Reveal>
@@ -153,7 +153,7 @@ export default function Hero() {
                     const el = document.getElementById('courses');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="group flex items-center gap-3 border border-primary/10 text-primary px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-primary hover:text-white transition-all shadow-lg active:scale-95 cursor-pointer"
+                  className="group flex items-center gap-3 border border-accent/30 text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-primary hover:text-white transition-all shadow-lg active:scale-95 cursor-pointer"
                 >
                   <PlayCircle className="w-5 h-5 text-accent group-hover:text-white transition-colors" />
                   <span>{t('hero.methodology')}</span>
@@ -182,7 +182,7 @@ export default function Hero() {
                   <div className={`flex gap-1 ${isAr ? 'flex-row-reverse' : ''}`}>
                     {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="w-3 h-3 fill-accent text-accent" />)}
                   </div>
-                  <p className={`display text-[10px] font-bold uppercase text-primary/40 ${isAr ? 'tracking-normal' : 'tracking-widest'}`}>{t('hero.trustedBy')}</p>
+                  <p className={`display text-[10px] font-bold uppercase text-amber-100/70 ${isAr ? 'tracking-normal' : 'tracking-widest'}`}>{t('hero.trustedBy')}</p>
                 </div>
               </div>
             </Reveal>
@@ -239,7 +239,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <p className="text-xl sm:text-3xl font-bold display text-amber-100 leading-none tracking-tight"><StatCounter value={50} suffix="+" /></p>
-                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent/70 mt-1">
+                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent mt-1">
                        {isAr ? "معلم ومعلمة مجازين" : "Certified Teachers"}
                      </p>
                   </div>
@@ -251,7 +251,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <p className="text-xl sm:text-3xl font-bold display text-amber-100 leading-none tracking-tight"><StatCounter value={1400} suffix="+" /></p>
-                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent/70 mt-1">
+                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent mt-1">
                        {isAr ? "طالب عبر العالم" : "Total Students"}
                      </p>
                   </div>
@@ -267,7 +267,7 @@ export default function Hero() {
             >
                <div className={`flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="display text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.4em] text-white/40">
+                  <span className="display text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.4em] text-white/70">
                     {isAr ? "الحالة: نشط الآن" : "Status: Active"}
                   </span>
                </div>

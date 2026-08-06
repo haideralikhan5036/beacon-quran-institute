@@ -109,9 +109,9 @@ export default function WhyUs() {
 
   const titleSub = isAr ? 'عن صرح ومنارة القرآن الكريْم' : 'About the Institute';
   const mainTitle = isAr ? (
-    <>إرث عريـــق مـن<br /><span className="text-accent italic font-normal">التعليم الإلهي</span> المبارك</>
+    <>إرث عريـــق مـن<br /><span className="text-accent italic font-semibold">التعليم الإلهي</span> المبارك</>
   ) : (
-    <>A Legacy of <br /><span className="text-accent italic font-normal">Divine</span> Education</>
+    <>A Legacy of <br /><span className="text-accent italic font-semibold">Divine</span> Education</>
   );
   const descriptionText = isAr 
     ? 'تأسس معهد منارة القرآن الكريم على ركائز الإتقان التام في التجويد ونشر النور والهدى الإلهي. نوفر واحة آمنة ومثالية لكل من يرجو الاتصال بآيات الذكر الحكيم وترتيلها وفهمها عبر توجيه فردي دقيق وممتاز.' 
@@ -157,7 +157,7 @@ export default function WhyUs() {
             </Reveal>
 
             <Reveal direction={isAr ? 'left' : 'right'} delay={0.3}>
-              <p className="text-white/70 text-lg mb-12 leading-relaxed text-balance font-medium">
+              <p className="text-white/90 text-lg mb-12 leading-relaxed text-balance font-medium">
                 {descriptionText}
               </p>
             </Reveal>
@@ -336,7 +336,7 @@ export default function WhyUs() {
                       </h4>
 
                       {/* Desc */}
-                      <p className={`text-white/60 text-xs sm:text-sm leading-relaxed flex-grow font-medium transition-all duration-500 delay-75 ${isAr ? 'text-right' : 'text-left'} ${
+                      <p className={`text-white/85 text-xs sm:text-sm leading-relaxed flex-grow font-medium transition-all duration-500 delay-75 ${isAr ? 'text-right' : 'text-left'} ${
                         isActive 
                           ? 'opacity-100 transform translate-y-0' 
                           : 'opacity-0 transform translate-y-4 pointer-events-none'

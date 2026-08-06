@@ -9,15 +9,15 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
           <div>
             <button 
               onClick={onBack}
-              className="flex items-center gap-2 text-amber-100/60 hover:text-accent mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"
+              className="flex items-center gap-2 text-amber-100/85 hover:text-accent mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4 text-accent" />
               Back to Home
             </button>
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-accent mb-4">Academic Recognition</h2>
-            <h1 className="text-4xl md:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8">Certificate of <span className="text-accent italic font-normal">Appraisal</span></h1>
+            <h1 className="text-4xl md:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8">Certificate of <span className="text-accent italic font-semibold">Appraisal</span></h1>
             
-            <p className="text-amber-100/80 text-lg leading-relaxed mb-12 font-medium">
+            <p className="text-amber-100/95 text-lg leading-relaxed mb-12 font-medium">
               At Beacon Quran Institute, we believe in celebrating the milestones of our students. Upon successful completion of a course, we issue a formal Certificate of Appraisal to recognize your dedication and achievement.
             </p>
 
@@ -39,7 +39,7 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
                    </div>
                    <div>
                       <h4 className="font-bold serif text-amber-50 text-xl mb-1">{item.title}</h4>
-                      <p className="text-amber-100/70 text-sm">{item.desc}</p>
+                      <p className="text-amber-100/90 text-sm">{item.desc}</p>
                    </div>
                  </motion.div>
                ))}
@@ -70,17 +70,17 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
                   <h2 className="text-4xl font-bold serif text-amber-50 mb-2">Certificate of Appraisal</h2>
                   <div className="w-20 h-1 bg-accent mx-auto mb-10"></div>
                   
-                  <p className="text-amber-100/70 font-serif italic mb-2">This is to certify that</p>
+                  <p className="text-amber-100/90 font-serif italic mb-2">This is to certify that</p>
                   <p className="text-3xl font-bold serif text-amber-50 mb-8 border-b border-accent/30 inline-block px-12">Ahmed Abdullah</p>
                   
-                  <p className="text-amber-100/80 leading-relaxed mb-12 max-w-md mx-auto">
+                  <p className="text-amber-100/95 leading-relaxed mb-12 max-w-md mx-auto">
                      has successfully completed the <span className="font-bold text-accent">Advanced Tajweed & Recitation</span> course with grade <span className="text-accent font-bold">A+</span> on this day of 25th May 2024.
                   </p>
 
                   <div className="flex justify-between items-end px-6">
                      <div className="text-left">
                         <div className="w-32 h-0.5 bg-accent/30 mb-2"></div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-100/60">Head of Department</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-100/85">Head of Department</p>
                      </div>
                      <div className="w-20 h-20 border-4 border-accent/30 rounded-full flex items-center justify-center">
                         <div className="w-14 h-14 bg-accent/20 rounded-full flex items-center justify-center">

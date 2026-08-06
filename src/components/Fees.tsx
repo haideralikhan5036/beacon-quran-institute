@@ -199,7 +199,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
             <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8 text-balance">{titleText}</h3>
           </Reveal>
           <Reveal delay={0.3}>
-            <p className="text-amber-100/80 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
+            <p className="text-amber-100/95 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
               {descText}
             </p>
           </Reveal>
@@ -214,7 +214,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
               className={`px-5 py-2.5 rounded-full font-bold uppercase tracking-widest text-[9px] transition-all duration-300 relative ${
                 activeIndex === idx
                   ? 'bg-accent text-primary border border-accent/40 shadow-lg scale-105'
-                  : 'bg-black/30 backdrop-blur-md hover:bg-black/50 text-amber-100/80 hover:text-white border border-accent/20 hover:scale-102'
+                  : 'bg-black/30 backdrop-blur-md hover:bg-black/50 text-amber-100/95 hover:text-white border border-accent/20 hover:scale-102'
               }`}
             >
               <span className="relative z-10 flex items-center gap-1.5">
@@ -334,16 +334,16 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                     )}
 
                     <div className="mb-10 sm:mb-12" style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}>
-                      <h4 className={`display text-[10px] font-bold uppercase tracking-[0.5em] mb-4 ${plan.highlight ? 'text-accent' : 'text-primary'}`}>
+                      <h4 className={`display text-[10px] font-bold uppercase tracking-[0.5em] mb-4 ${plan.highlight ? 'text-accent' : 'text-amber-100'}`}>
                         {plan.name}
                       </h4>
                       <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
                         <span className="text-6xl sm:text-7xl font-bold serif tracking-tight">{plan.price}</span>
-                        <span className="display text-[10px] font-bold uppercase tracking-[0.4em] opacity-40 mb-3">
+                        <span className="display text-[10px] font-bold uppercase tracking-[0.4em] opacity-70 mb-3">
                           {isAr ? " / شهر" : " / mo"}
                         </span>
                       </div>
-                      <p className="display text-[9px] font-bold uppercase tracking-widest mt-4 opacity-40">
+                      <p className="display text-[9px] font-bold uppercase tracking-widest mt-4 opacity-70">
                         {plan.period}
                       </p>
                     </div>
@@ -354,7 +354,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                       {plan.features.map((feature) => (
                         <li key={feature} className={`flex items-center gap-4 group/item ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 group-hover/item:scale-150 ${plan.highlight ? 'bg-accent' : 'bg-accent/40'}`}></div>
-                          <span className={`text-xs sm:text-sm font-medium opacity-80 tracking-tight ${isAr ? 'text-right' : 'text-left'}`}>{feature}</span>
+                          <span className={`text-xs sm:text-sm font-medium opacity-95 tracking-tight ${isAr ? 'text-right' : 'text-left'}`}>{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -398,7 +398,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
              <p className="display text-[10px] font-bold uppercase tracking-widest text-accent mb-2">
                {isAr ? "باقات مخصصة لمجموعات العوائل" : "Flexible Learning Packages"}
              </p>
-             <p className="text-amber-100/80 italic text-sm">
+             <p className="text-amber-100/95 italic text-sm">
                {isAr ? (
                  <>هل تحتاج إلى خطة مرنة تناسب الإخوة والأخوات أو حلقات دراسية مكثفة؟ <span className="text-accent font-bold cursor-pointer hover:underline" onClick={() => handlePlanSelect('Flexible Plan')}>تواصل مع مكتب التسجيل والقبول</span></>
                ) : (

@@ -7,7 +7,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 text-amber-100/60 hover:text-accent mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"
+          className="flex items-center gap-2 text-amber-100/85 hover:text-accent mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4 text-accent" />
           Back to Home
@@ -16,11 +16,11 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
         <div className="bg-black/30 backdrop-blur-md p-10 md:p-16 rounded-[3rem] border border-accent/20 shadow-2xl text-amber-50">
           <div className="mb-12">
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-accent mb-4">Legal Framework</h2>
-            <h1 className="text-4xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-6">Terms of <span className="text-accent italic font-normal">Service</span></h1>
-            <p className="text-amber-100/60">Last Updated: May 2024</p>
+            <h1 className="text-4xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-6">Terms of <span className="text-accent italic font-semibold">Service</span></h1>
+            <p className="text-amber-100/85">Last Updated: May 2024</p>
           </div>
 
-          <div className="space-y-12 text-amber-100/80 leading-relaxed">
+          <div className="space-y-12 text-amber-100/95 leading-relaxed">
             <section>
               <div className="flex items-center gap-3 mb-4">
                 <CheckCircle className="w-6 h-6 text-accent" />
@@ -97,7 +97,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
               <AlertCircle className="w-6 h-6 text-accent shrink-0" />
               <div>
                 <h4 className="font-bold serif text-amber-50 mb-2">Acceptance of Terms</h4>
-                <p className="text-sm text-amber-100/70">
+                <p className="text-sm text-amber-100/90">
                   By registering for classes at Beacon Quran Institute, you agree to abide by the above terms and conditions. These terms may be updated periodically, and continued enrollment constitutes acceptance of the new terms.
                 </p>
               </div>

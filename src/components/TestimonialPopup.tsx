@@ -129,7 +129,7 @@ export default function TestimonialPopup() {
                 <span className="text-[9px] font-black uppercase tracking-wider text-primary">
                   {currentTestimonial.name}
                 </span>
-                <span className="text-[8px] uppercase tracking-tight text-primary/40 font-bold">
+                <span className="text-[8px] uppercase tracking-tight text-amber-100/70 font-bold">
                   {currentTestimonial.location}
                 </span>
               </div>

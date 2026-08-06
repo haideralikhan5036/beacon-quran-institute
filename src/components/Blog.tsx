@@ -85,7 +85,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
           <div className="max-w-2xl">
             <button 
               onClick={onBack}
-              className="group flex items-center gap-3 text-amber-100/60 hover:text-accent mb-8 font-bold uppercase tracking-[0.3em] text-[9px] transition-all cursor-pointer"
+              className="group flex items-center gap-3 text-amber-100/85 hover:text-accent mb-8 font-bold uppercase tracking-[0.3em] text-[9px] transition-all cursor-pointer"
             >
               <div className="w-8 h-8 rounded-full border border-accent/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent group-hover:text-primary transition-all">
                 <ArrowLeft className="w-3.5 h-3.5 text-accent group-hover:text-primary" />
@@ -98,16 +98,16 @@ export default function Blog({ onBack }: { onBack: () => void }) {
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-[1.1] tracking-tight">
               The Beacon <br/>
-              <span className="text-accent italic font-normal">Digest</span>
+              <span className="text-accent italic font-semibold">Digest</span>
             </h1>
           </div>
           
           <div className="relative w-full md:w-96 group">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-100/40 group-hover:text-accent transition-colors" />
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-100/60 group-hover:text-accent transition-colors" />
             <input 
               type="text" 
               placeholder="Search wisdom..."
-              className="w-full pl-16 pr-6 py-6 bg-black/30 backdrop-blur-md border border-accent/20 text-amber-50 placeholder:text-amber-100/40 rounded-[2rem] focus:border-accent focus:bg-black/50 outline-none transition-all shadow-xl"
+              className="w-full pl-16 pr-6 py-6 bg-black/30 backdrop-blur-md border border-accent/20 text-amber-50 placeholder:text-amber-100/60 rounded-[2rem] focus:border-accent focus:bg-black/50 outline-none transition-all shadow-xl"
             />
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                         <span className="px-5 py-1.5 bg-accent/10 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] text-accent border border-accent/20 shadow-sm">
                           {post.category}
                         </span>
-                        <div className="flex items-center gap-3 text-[9px] uppercase font-bold tracking-[0.3em] text-amber-100/60">
+                        <div className="flex items-center gap-3 text-[9px] uppercase font-bold tracking-[0.3em] text-amber-100/85">
                           <Calendar className="w-3.5 h-3.5 text-accent" />
                           {post.date}
                         </div>
@@ -154,7 +154,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                       <h3 className="text-2xl lg:text-3xl font-bold serif text-amber-50 mb-6 group-hover:text-accent transition-colors leading-[1.2] tracking-tight">
                         {post.title}
                       </h3>
-                      <p className="text-amber-100/70 text-lg leading-relaxed mb-10 line-clamp-2 italic serif">
+                      <p className="text-amber-100/90 text-lg leading-relaxed mb-10 line-clamp-2 italic serif">
                         "{post.excerpt}"
                       </p>
                       
@@ -163,7 +163,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                           <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-all">
                             <User className="w-5 h-5" />
                           </div>
-                          <span className="display text-[10px] font-bold uppercase tracking-[0.2em] text-amber-100/60 group-hover:text-amber-50 transition-colors">{post.author}</span>
+                          <span className="display text-[10px] font-bold uppercase tracking-[0.2em] text-amber-100/85 group-hover:text-amber-50 transition-colors">{post.author}</span>
                         </div>
                         <button className="display text-[10px] font-bold uppercase tracking-[0.3em] text-accent flex items-center gap-3 group-hover:gap-5 transition-all">
                           Read Transcript
@@ -182,11 +182,11 @@ export default function Blog({ onBack }: { onBack: () => void }) {
             <div className="bg-black/40 backdrop-blur-md text-amber-50 p-8 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] border border-accent/30 shadow-2xl relative overflow-hidden">
                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
                <h4 className="text-lg sm:text-xl font-bold serif mb-4 sm:mb-6 text-accent">Newsletter</h4>
-               <p className="text-amber-100/70 text-sm mb-6 sm:mb-8 leading-relaxed">Join 5,000+ subscribers for weekly Quranic insights and institute updates.</p>
+               <p className="text-amber-100/90 text-sm mb-6 sm:mb-8 leading-relaxed">Join 5,000+ subscribers for weekly Quranic insights and institute updates.</p>
                <input 
                  type="email" 
                  placeholder="your@email.com"
-                 className="w-full px-4 py-4 bg-black/30 border border-accent/20 text-amber-50 placeholder:text-amber-100/40 rounded-xl mb-4 focus:bg-black/50 focus:border-accent outline-none"
+                 className="w-full px-4 py-4 bg-black/30 border border-accent/20 text-amber-50 placeholder:text-amber-100/60 rounded-xl mb-4 focus:bg-black/50 focus:border-accent outline-none"
                />
                <button className="w-full bg-accent text-primary py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-amber-100 transition-all cursor-pointer">Subscribe Now</button>
             </div>

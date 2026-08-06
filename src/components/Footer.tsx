@@ -69,7 +69,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               </div>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-amber-100/60 leading-relaxed text-base serif italic max-w-xs block">
+              <p className="text-amber-100/90 leading-relaxed text-base serif italic max-w-xs block">
                 {brandDesc}
               </p>
             </Reveal>
@@ -105,7 +105,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                   <li>
                     <button 
                       onClick={() => { link.action(); window.scrollTo(0, 0); }}
-                      className={`text-sm font-medium text-white/50 hover:text-accent transition-all flex items-center gap-3 group cursor-pointer ${isAr ? 'flex-row-reverse w-full' : ''}`}
+                      className={`text-sm font-medium text-white/80 hover:text-accent transition-all flex items-center gap-3 group cursor-pointer ${isAr ? 'flex-row-reverse w-full' : ''}`}
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-accent/20 group-hover:bg-accent group-hover:scale-150 transition-all"></span>
                       {link.name}
@@ -125,7 +125,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               {curriculumLinks.map((link, i) => (
                 <Reveal key={link} delay={0.5 + i * 0.1} direction="up" distance={10}>
                   <li>
-                    <a href="#courses" className={`text-sm font-medium text-white/50 hover:text-accent transition-all flex items-center gap-3 group ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                    <a href="#courses" className={`text-sm font-medium text-white/80 hover:text-accent transition-all flex items-center gap-3 group ${isAr ? 'flex-row-reverse text-right' : ''}`}>
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                       {link}
                     </a>
@@ -185,7 +185,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           <Reveal delay={1.0}>
             <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
               <Sparkles className="w-4 h-4 text-accent animate-pulse" />
-              <p className="display text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+              <p className="display text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
                 {finePrintText}
               </p>
             </div>
@@ -194,7 +194,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           <Reveal delay={1.1}>
             <div className={`flex flex-wrap justify-center gap-8 ${isAr ? 'flex-row-reverse' : ''}`}>
               {legalItems.map(item => (
-                <button key={item} className="display text-[9px] font-bold uppercase tracking-widest text-white/30 hover:text-accent transition-colors cursor-pointer">
+                <button key={item} className="display text-[9px] font-bold uppercase tracking-widest text-white/70 hover:text-accent transition-colors cursor-pointer">
                   {item}
                 </button>
               ))}
@@ -202,7 +202,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           </Reveal>
 
           <Reveal delay={1.2}>
-            <p className="display text-[9px] font-bold uppercase tracking-[0.3em] text-white/20">
+            <p className="display text-[9px] font-bold uppercase tracking-[0.3em] text-white/60">
               {copyrightText}
             </p>
           </Reveal>

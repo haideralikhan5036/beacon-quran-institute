@@ -183,7 +183,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                  )}
                </Reveal>
                <Reveal delay={0.3}>
-                 <p className="text-white/60 text-lg leading-relaxed mb-16 text-balance font-medium">
+                 <p className="text-amber-100/90 text-lg leading-relaxed mb-16 text-balance font-medium">
                    {descText}
                  </p>
                </Reveal>
@@ -220,7 +220,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                  <div className="flex gap-2 justify-center">
                    {[...Array(5)].map((_, i) => <CheckCircle2 key={i} className="w-4 h-4 text-accent" />)}
                  </div>
-                 <p className="display text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 mt-8 leading-relaxed">
+                 <p className="display text-[10px] font-bold uppercase tracking-[0.3em] text-white/60 mt-8 leading-relaxed">
                    {subFooterLabel}
                  </p>
                </div>
@@ -241,7 +241,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                      <CheckCircle2 className="w-10 h-10 animate-pulse" />
                   </div>
                   <h4 className="text-4xl font-bold display text-primary mb-6">{successTitleText}</h4>
-                  <p className="text-primary/60 mb-12 max-w-sm leading-relaxed text-lg font-medium text-balance">
+                  <p className="text-amber-100/90 mb-12 max-w-sm leading-relaxed text-lg font-medium text-balance">
                     {successDescText}
                   </p>
                   <button 
@@ -262,13 +262,13 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                       {labelName}
                     </label>
                     <div className="relative group">
-                      <User className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.name ? 'text-red-400' : 'text-amber-100/40 group-focus-within:text-accent'}`} />
+                      <User className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.name ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border rounded-3xl outline-none transition-all placeholder:text-amber-100/40 text-amber-50 font-semibold text-sm ${
+                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm ${
                           errors.name ? 'border-red-400 focus:ring-red-400' : 'border-accent/20 focus:border-accent focus:bg-black/50 focus:shadow-xl'
                         }`}
                         placeholder={placeholderName}
@@ -283,13 +283,13 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                       {labelPhone}
                     </label>
                     <div className="relative group">
-                      <Phone className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.phone ? 'text-red-400' : 'text-amber-100/40 group-focus-within:text-accent'}`} />
+                      <Phone className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.phone ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/40 text-amber-50 font-semibold text-sm`}
+                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm`}
                         placeholder={placeholderPhone}
                         dir="ltr"
                       />
@@ -305,13 +305,13 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                     {labelEmail}
                   </label>
                   <div className="relative group">
-                    <Mail className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.email ? 'text-red-400' : 'text-amber-100/40 group-focus-within:text-accent'}`} />
+                    <Mail className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.email ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right font-medium' : 'pl-16 pr-8 text-left font-semibold'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/40 text-amber-50 text-sm`}
+                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right font-medium' : 'pl-16 pr-8 text-left font-semibold'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 text-sm`}
                       placeholder={placeholderEmail}
                       dir="ltr"
                     />
@@ -369,13 +369,13 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                     {labelNotes}
                   </label>
                   <div className="relative group">
-                    <MessageSquare className={`absolute ${isAr ? 'right-6' : 'left-6'} top-7 w-4.5 h-4.5 text-amber-100/40 group-focus-within:text-accent`} />
+                    <MessageSquare className={`absolute ${isAr ? 'right-6' : 'left-6'} top-7 w-4.5 h-4.5 text-amber-100/60 group-focus-within:text-accent`} />
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       rows={4}
-                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-6 bg-black/30 border border-accent/20 rounded-3xl focus:border-accent focus:bg-black/50 outline-none transition-all resize-none text-amber-50 placeholder:text-amber-100/40 font-semibold text-sm`}
+                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-6 bg-black/30 border border-accent/20 rounded-3xl focus:border-accent focus:bg-black/50 outline-none transition-all resize-none text-amber-50 placeholder:text-amber-100/60 font-semibold text-sm`}
                       placeholder={placeholderNotes}
                     ></textarea>
                   </div>
@@ -395,7 +395,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
               </Reveal>
 
               <Reveal delay={0.8}>
-                <div className="flex items-center justify-center gap-3 opacity-20">
+                <div className="flex items-center justify-center gap-3 opacity-60">
                    <div className="h-px flex-grow bg-primary"></div>
                    <p className="display text-[8px] font-bold uppercase tracking-[0.4em] text-center">
                      {bottomSecurityLabel}

@@ -43,7 +43,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
         <div className="text-center mb-24 relative">
           <button 
             onClick={onBack}
-            className="group flex items-center gap-3 text-amber-100/60 hover:text-accent mx-auto mb-12 font-bold uppercase tracking-[0.3em] text-[9px] transition-all cursor-pointer"
+            className="group flex items-center gap-3 text-amber-100/85 hover:text-accent mx-auto mb-12 font-bold uppercase tracking-[0.3em] text-[9px] transition-all cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full border border-accent/20 flex items-center justify-center group-hover:border-accent group-hover:bg-accent group-hover:text-primary transition-all">
               <ArrowLeft className="w-3.5 h-3.5 text-accent group-hover:text-primary" />
@@ -58,7 +58,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
           
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] tracking-tighter leading-[0.9]">
             Concierge <br/>
-            <span className="text-accent italic font-normal">& Service</span>
+            <span className="text-accent italic font-semibold">& Service</span>
           </h1>
           
           <p className="text-amber-100/80 max-w-2xl mx-auto mt-12 text-xl leading-relaxed font-medium">
@@ -81,7 +81,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
                 <service.icon className="w-8 h-8 text-accent group-hover:text-primary" />
               </div>
               <h3 className="text-2xl font-bold serif text-amber-50 mb-4">{service.title}</h3>
-              <p className="text-amber-100/70 leading-relaxed">
+              <p className="text-amber-100/90 leading-relaxed">
                 {service.description}
               </p>
             </motion.div>
@@ -94,7 +94,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
              <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                    <h2 className="text-3xl md:text-4xl font-bold serif mb-6">Need Support?</h2>
-                   <p className="text-white/70 text-lg leading-relaxed mb-8">
+                   <p className="text-white/90 font-medium text-lg leading-relaxed mb-8">
                       Our customer service team is available 24/7 to assist you with class scheduling, fee payments, and technical support.
                    </p>
                    <div className="flex flex-col sm:flex-row gap-6 items-center">
@@ -116,19 +116,19 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
                    <div className="grid grid-cols-2 gap-4">
                       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                          <span className="block text-accent font-bold text-3xl mb-2">99%</span>
-                         <span className="text-white/60 text-xs uppercase tracking-widest font-bold">Satisfaction</span>
+                         <span className="text-white/80 text-xs uppercase tracking-widest font-bold">Satisfaction</span>
                       </div>
                       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                          <span className="block text-accent font-bold text-3xl mb-2">24/7</span>
-                         <span className="text-white/60 text-xs uppercase tracking-widest font-bold">Support</span>
+                         <span className="text-white/80 text-xs uppercase tracking-widest font-bold">Support</span>
                       </div>
                       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                          <span className="block text-accent font-bold text-3xl mb-2">5+</span>
-                         <span className="text-white/60 text-xs uppercase tracking-widest font-bold">Languages</span>
+                         <span className="text-white/80 text-xs uppercase tracking-widest font-bold">Languages</span>
                       </div>
                       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                          <span className="block text-accent font-bold text-3xl mb-2">1k+</span>
-                         <span className="text-white/60 text-xs uppercase tracking-widest font-bold">Active Students</span>
+                         <span className="text-white/80 text-xs uppercase tracking-widest font-bold">Active Students</span>
                       </div>
                    </div>
                 </div>

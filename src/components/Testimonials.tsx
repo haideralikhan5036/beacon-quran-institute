@@ -174,7 +174,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
           {full && (
              <button 
                onClick={() => setView?.('home')}
-               className={`group absolute -top-12 flex items-center gap-3 text-primary/40 hover:text-accent display text-[11px] font-bold uppercase tracking-[0.2em] transition-all ${isAr ? 'right-0' : 'left-0'}`}
+               className={`group absolute -top-12 flex items-center gap-3 text-amber-100/80 hover:text-accent display text-[11px] font-bold uppercase tracking-[0.2em] transition-all ${isAr ? 'right-0' : 'left-0'}`}
              >
                {isAr ? (
                  <>
@@ -201,7 +201,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
             </h3>
           </Reveal>
           <Reveal delay={0.3}>
-            <p className="text-amber-100/80 max-w-2xl mx-auto text-lg leading-relaxed text-balance font-medium">
+            <p className="text-amber-100/95 max-w-2xl mx-auto text-lg leading-relaxed text-balance font-medium">
               {sectionDesc}
             </p>
           </Reveal>
@@ -310,7 +310,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                       </div>
                       
                       <div className="flex-grow relative z-10 w-full text-center md:text-left">
-                        <Quote className={`w-8 h-8 text-accent/30 mb-4 group-hover:text-accent/50 transition-colors ${isAr ? 'ml-auto mr-0 transform scale-x-[-1]' : 'ml-0 mr-auto'}`} />
+                        <Quote className={`w-8 h-8 text-accent/60 mb-4 group-hover:text-accent/50 transition-colors ${isAr ? 'ml-auto mr-0 transform scale-x-[-1]' : 'ml-0 mr-auto'}`} />
                         <p className={`text-base sm:text-lg serif text-amber-100/90 leading-relaxed italic mb-8 ${isAr ? 'text-right' : 'text-left'}`}>
                           "{item.text}"
                         </p>

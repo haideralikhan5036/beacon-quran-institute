@@ -101,7 +101,7 @@ export default function Teachers() {
             <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold display text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8 text-balance">{titleText}</h3>
           </Reveal>
           <Reveal delay={0.3}>
-            <p className="text-amber-100/80 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
+            <p className="text-amber-100/95 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
               {descText}
             </p>
           </Reveal>
@@ -136,11 +136,11 @@ export default function Teachers() {
                   <h4 className="text-xl font-bold display text-amber-50 mb-4 group-hover:text-accent transition-colors">{teacher.name}</h4>
                   
                   <div className="space-y-3 mt-auto pt-6 border-t border-accent/10">
-                    <div className={`flex items-center gap-3 text-amber-100/70 text-xs ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                    <div className={`flex items-center gap-3 text-amber-100/90 text-xs ${isAr ? 'flex-row-reverse text-right' : ''}`}>
                       <GraduationCap className="w-3.5 h-3.5 text-accent shrink-0" />
                       <span>{teacher.qualification}</span>
                     </div>
-                    <div className={`flex items-center gap-3 text-amber-100/70 text-xs ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                    <div className={`flex items-center gap-3 text-amber-100/90 text-xs ${isAr ? 'flex-row-reverse text-right' : ''}`}>
                       <BookOpen className="w-3.5 h-3.5 text-accent shrink-0" />
                       <span>{teacher.specialization}</span>
                     </div>
@@ -164,7 +164,7 @@ export default function Teachers() {
             <div className={`inline-flex flex-wrap items-center justify-center gap-6 sm:gap-8 px-8 py-5 sm:py-6 bg-black/30 backdrop-blur-md rounded-full border border-accent/20 shadow-xl text-amber-50`}>
                <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
                  <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-                 <span className="display text-[10px] font-bold uppercase tracking-widest text-amber-100/80">{globalScholarsText}</span>
+                 <span className="display text-[10px] font-bold uppercase tracking-widest text-amber-100/95">{globalScholarsText}</span>
                </div>
                <div className="hidden sm:block w-px h-6 bg-accent/20"></div>
                <button className="text-accent font-bold uppercase tracking-widest text-[10px] hover:text-white transition-colors cursor-pointer">

@@ -70,7 +70,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
             <div className="hidden sm:block">
               <div className="flex flex-col leading-tight">
                  <h1 className={`font-bold display tracking-tight uppercase transition-all duration-700 text-lg text-amber-100`}>
-                   BEACON <span className="text-accent font-normal">QURAN</span> INSTITUTE
+                   BEACON <span className="text-accent font-semibold">QURAN</span> INSTITUTE
                  </h1>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                   className={`relative px-3 py-2 font-bold transition-all duration-500 hover:text-accent ${
                     isAr ? 'text-[12.5px] tracking-normal font-semibold' : 'text-[10px] uppercase tracking-[0.2em]'
                   } ${
-                    scrolled || isOpen ? 'text-primary' : 'text-primary/70'
+                    scrolled || isOpen ? 'text-amber-100' : 'text-amber-100/80'
                   }`}
                 >
                   {t(link.key)}
@@ -275,7 +275,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                       {t('nav.startLearning')}
                       <ArrowRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />
                     </button>
-                    <p className="text-center mt-6 text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">Secure Registration Portal</p>
+                    <p className="text-center mt-6 text-[10px] text-white/60 uppercase tracking-[0.2em] font-bold">Secure Registration Portal</p>
                   </motion.div>
                 </div>
 
@@ -284,7 +284,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                      <Phone className="w-5 h-5 text-accent hover:scale-110 transition-transform cursor-pointer" />
                      <BookOpen className="w-5 h-5 text-accent hover:scale-110 transition-transform cursor-pointer" />
                    </div>
-                   <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Beacon Quran v1.2</span>
+                   <span className="text-[10px] uppercase tracking-widest text-white/60 font-bold">Beacon Quran v1.2</span>
                 </div>
               </div>
             </motion.div>

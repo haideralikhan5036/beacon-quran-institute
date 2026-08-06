@@ -292,7 +292,7 @@ function CourseCard3D({
       className={`relative w-[280px] sm:w-[340px] h-[380px] sm:h-[450px] rounded-[3rem] transition-[border-color,color,opacity,box-shadow] duration-200 ease-out select-none cursor-pointer card-shine border ${
         isActive 
           ? 'text-amber-50 font-medium border-accent/60 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
-          : 'text-amber-100/60 opacity-60 hover:opacity-100 border-accent/20'
+          : 'text-amber-100/80 opacity-70 hover:opacity-100 border-accent/20'
       } ${isAr ? 'text-right' : 'text-left'}`}
     >
       {/* 3D Border Glow overlay light */}
@@ -336,7 +336,7 @@ function CourseCard3D({
           <h4 className="text-2xl sm:text-3.5xl font-bold display leading-tight mb-2 text-amber-50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
             {course.title}
           </h4>
-          <p className={`text-xs sm:text-sm font-medium leading-relaxed ${isActive ? 'text-amber-100/90' : 'text-amber-100/60'}`}>
+          <p className={`text-xs sm:text-sm font-medium leading-relaxed ${isActive ? 'text-amber-100/90' : 'text-amber-100/80'}`}>
             {course.desc}
           </p>
         </div>
@@ -707,7 +707,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
             </div>
 
             {/* Scrolling Indicator Hint (Desktop Only) */}
-            <div className={`hidden lg:flex items-center gap-3.5 mt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-primary/40 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
+            <div className={`hidden lg:flex items-center gap-3.5 mt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-100/70 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
               <div className="flex flex-col gap-1 text-accent animate-bounce">
                 <MousePointer className="w-3.5 h-3.5" />
               </div>
@@ -720,7 +720,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
             </div>
 
             {/* Swiping Indicator Hint (Mobile Only) */}
-            <div className={`flex lg:hidden items-center gap-2 mt-6 text-[9px] font-bold uppercase tracking-[0.15em] text-primary/40 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex lg:hidden items-center gap-2 mt-6 text-[9px] font-bold uppercase tracking-[0.15em] text-amber-100/70 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
               <span>
                 {isAr 
                   ? "اسحب لليمين أو اليسار للتنقل بين التخصصات الأكاديمية" 
@@ -739,7 +739,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
              <p className="display text-[10px] font-bold uppercase tracking-widest text-accent mb-2">
                {isAr ? "عروض وباقات مخصصة للعائلات" : "Flexible Learning Packages"}
              </p>
-             <p className="text-amber-100/80 italic text-sm">
+             <p className="text-amber-100/95 italic text-sm">
                {isAr ? (
                  <>هل تبحث عن باقة مخصصة للإخوة والأخوات، أو برنامج فردي مكثف؟ <span className="text-accent font-bold cursor-pointer hover:underline" onClick={handleEnrollNow}>تواصل مع مكتب التسجيل والقبول</span></>
                ) : (
