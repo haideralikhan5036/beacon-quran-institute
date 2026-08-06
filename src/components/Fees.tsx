@@ -267,15 +267,13 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                   ? (isMobile ? 100 : 280) 
                   : (isMobile ? -100 : -280);
 
-              const zTranslate = diff === 0 ? 80 : -160;
-              const rotationY = diff === 0 ? 0 : diff === 1 ? -35 : 35;
-              const cardScale = diff === 0 ? 1.02 : (isMobile ? 0.78 : 0.85);
+              const zTranslate = isMobile ? 0 : (diff === 0 ? 80 : -160);
+              const rotationY = isMobile ? 0 : (diff === 0 ? 0 : diff === 1 ? -35 : 35);
+              const cardScale = diff === 0 ? 1.02 : (isMobile ? 0.82 : 0.85);
               const cardOpacity = diff === 0 ? 1 : 0.5;
 
               // Professional cinematographic depth of focus and color dimming
-              const blurFilter = isActive 
-                ? "blur(0px) brightness(1)" 
-                : "blur(1.5px) brightness(0.82)";
+              const blurFilter = isMobile ? "none" : (isActive ? "blur(0px) brightness(1)" : "blur(1.5px) brightness(0.82)");
 
               return (
                 <motion.div

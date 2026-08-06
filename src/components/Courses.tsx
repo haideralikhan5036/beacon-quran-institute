@@ -657,8 +657,8 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
                   const xTranslate = effectiveDiff * stepWidth;
                   
                   // Active card is positioned closer with depth, adjacent cards fall behind
-                  const zTranslate = 80 - 240 * Math.min(Math.abs(effectiveDiff), 1.2);
-                  const rotationY = effectiveDiff * -35; 
+                  const zTranslate = isMobile ? 0 : 80 - 240 * Math.min(Math.abs(effectiveDiff), 1.2);
+                  const rotationY = isMobile ? 0 : effectiveDiff * -35; 
                   const cardScale = 1 - 0.16 * Math.min(Math.abs(effectiveDiff), 1.2);
                   const opacity = 1 - 0.65 * Math.min(Math.abs(effectiveDiff), 1.1);
 

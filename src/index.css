@@ -251,3 +251,26 @@ html.dark {
   pointer-events: none;
   z-index: 1;
 }
+
+/* ── Mobile Hardware Acceleration & Smooth Scroll Optimizations ───────── */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .card-shine {
+    background: rgba(5, 27, 35, 0.96) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+  }
+  .card-shine::before {
+    display: none !important;
+  }
+}

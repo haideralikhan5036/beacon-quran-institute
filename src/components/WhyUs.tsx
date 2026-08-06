@@ -228,7 +228,7 @@ export default function WhyUs() {
                 if (diff === 0) {
                   xTranslate = 0;
                   yTranslate = 0;
-                  zTranslate = 140;
+                  zTranslate = isMobile ? 0 : 140;
                   rotateY = 0;
                   rotateX = 0;
                   rotateZ = 0;
@@ -236,47 +236,49 @@ export default function WhyUs() {
                   cardOpacity = 1;
                 } else if (diff === 1) {
                   xTranslate = isMobile ? (factor * 30) : (factor * 140);
-                  yTranslate = isMobile ? 12 : 18;
-                  zTranslate = isMobile ? 25 : 50;
-                  rotateY = factor * -35;
-                  rotateX = 5;
-                  rotateZ = factor * 8;
+                  yTranslate = isMobile ? 10 : 18;
+                  zTranslate = isMobile ? 0 : 50;
+                  rotateY = isMobile ? 0 : factor * -35;
+                  rotateX = isMobile ? 0 : 5;
+                  rotateZ = isMobile ? 0 : factor * 8;
                   cardScale = isMobile ? 0.92 : 0.88;
                   cardOpacity = 0.82;
                 } else if (diff === -1) {
                   xTranslate = isMobile ? (factor * -30) : (factor * -140);
-                  yTranslate = isMobile ? 12 : 18;
-                  zTranslate = isMobile ? 25 : 50;
-                  rotateY = factor * 35;
-                  rotateX = 5;
-                  rotateZ = factor * -8;
+                  yTranslate = isMobile ? 10 : 18;
+                  zTranslate = isMobile ? 0 : 50;
+                  rotateY = isMobile ? 0 : factor * 35;
+                  rotateX = isMobile ? 0 : 5;
+                  rotateZ = isMobile ? 0 : factor * -8;
                   cardScale = isMobile ? 0.92 : 0.88;
                   cardOpacity = 0.82;
                 } else if (diff === 2) {
                   xTranslate = isMobile ? (factor * 55) : (factor * 250);
-                  yTranslate = isMobile ? 24 : 36;
-                  zTranslate = isMobile ? -30 : -50;
-                  rotateY = factor * -50;
-                  rotateX = 10;
-                  rotateZ = factor * 16;
+                  yTranslate = isMobile ? 20 : 36;
+                  zTranslate = isMobile ? 0 : -50;
+                  rotateY = isMobile ? 0 : factor * -50;
+                  rotateX = isMobile ? 0 : 10;
+                  rotateZ = isMobile ? 0 : factor * 16;
                   cardScale = isMobile ? 0.84 : 0.76;
                   cardOpacity = 0.35;
                 } else if (diff === -2) {
                   xTranslate = isMobile ? (factor * -55) : (factor * -250);
-                  yTranslate = isMobile ? 24 : 36;
-                  zTranslate = isMobile ? -30 : -50;
-                  rotateY = factor * 50;
-                  rotateX = 10;
-                  rotateZ = factor * -16;
+                  yTranslate = isMobile ? 20 : 36;
+                  zTranslate = isMobile ? 0 : -50;
+                  rotateY = isMobile ? 0 : factor * 50;
+                  rotateX = isMobile ? 0 : 10;
+                  rotateZ = isMobile ? 0 : factor * -16;
                   cardScale = isMobile ? 0.84 : 0.76;
                   cardOpacity = 0.35;
                 }
 
-                const blurFilter = isActive 
-                  ? "blur(0px) brightness(1)" 
-                  : Math.abs(diff) === 1
-                    ? "blur(1px) brightness(0.88)"
-                    : "blur(3px) brightness(0.68)";
+                const blurFilter = isMobile
+                  ? "none"
+                  : isActive 
+                    ? "blur(0px) brightness(1)" 
+                    : Math.abs(diff) === 1
+                      ? "blur(1px) brightness(0.88)"
+                      : "blur(3px) brightness(0.68)";
 
                 return (
                   <motion.div

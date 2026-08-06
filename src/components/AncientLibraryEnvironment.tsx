@@ -92,9 +92,9 @@ export default function AncientLibraryEnvironment() {
     };
   }, [rawMouseX, rawMouseY, prefersReduced, isMobile]);
 
-  // ─── Canvas: Brand Colored (Midnight Green & Fusion Gold) Dust Particles ──────
+  // ─── Canvas: Brand Colored Dust Particles (Desktop Only) ──────
   useEffect(() => {
-    if (prefersReduced) return;
+    if (prefersReduced || isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -111,7 +111,7 @@ export default function AncientLibraryEnvironment() {
     };
     window.addEventListener('resize', onResize);
 
-    const count = isMobile ? 20 : 55;
+    const count = 45;
     const particles = Array.from({ length: count }).map(() => {
       const isGold = Math.random() > 0.4;
       return {
@@ -233,9 +233,9 @@ export default function AncientLibraryEnvironment() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          6. SCROLL-TRIGGERED CIRCULAR ARCH RINGS — Fusion Gold Tint
+          6. SCROLL-TRIGGERED CIRCULAR ARCH RINGS — Desktop Only
          ═══════════════════════════════════════════════════════════════════════ */}
-      {archRings.map((arch, i) => (
+      {!isMobile && archRings.map((arch, i) => (
         <motion.div
           key={i}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
