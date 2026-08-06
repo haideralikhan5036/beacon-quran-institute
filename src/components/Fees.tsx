@@ -226,33 +226,33 @@ export default function Fees({ onSelectPlan }: FeesProps) {
         </div>
 
         {/* 3D Rotating Stage Container */}
-        <div className="relative w-full max-w-[1200px] mx-auto min-h-[580px] sm:min-h-[660px] flex items-center justify-center overflow-visible px-4">
+        <div className="relative w-full max-w-[1050px] mx-auto min-h-[460px] sm:min-h-[500px] flex items-center justify-center overflow-visible px-4">
           
           {/* Aesthetic central 3D stage floor light projection & elliptical silhouette reflection */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[85%] sm:w-[50%] h-[15px] bg-primary/5 rounded-full blur-md opacity-70 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[60%] sm:w-[35%] h-[8px] bg-accent/10 rounded-full blur pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
-          <div className="absolute inset-x-0 top-12 bottom-12 bg-gradient-to-tr from-accent/[0.03] via-transparent to-primary/[0.03] blur-3xl rounded-full scale-90 pointer-events-none z-0" />
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[80%] sm:w-[45%] h-[12px] bg-primary/5 rounded-full blur-md opacity-70 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[55%] sm:w-[30%] h-[6px] bg-accent/10 rounded-full blur pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
+          <div className="absolute inset-x-0 top-8 bottom-8 bg-gradient-to-tr from-accent/[0.03] via-transparent to-primary/[0.03] blur-3xl rounded-full scale-90 pointer-events-none z-0" />
 
           {/* Left Arrow Button */}
           <button
             onClick={prevPlan}
-            className="absolute left-0 sm:left-4 md:left-8 w-14 h-14 rounded-full bg-black/30 backdrop-blur-md text-amber-100 border border-accent/30 shadow-[0_0_20px_rgba(184,142,67,0.15)] hover:shadow-[0_0_30px_rgba(184,142,67,0.3)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
+            className="absolute left-0 sm:left-2 md:left-4 w-11 h-11 rounded-full bg-black/30 backdrop-blur-md text-amber-100 border border-accent/30 shadow-[0_0_20px_rgba(184,142,67,0.15)] hover:shadow-[0_0_30px_rgba(184,142,67,0.3)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
             aria-label="Previous plan"
           >
-            <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
           {/* Right Arrow Button */}
           <button
             onClick={nextPlan}
-            className="absolute right-0 sm:right-4 md:right-8 w-14 h-14 rounded-full bg-black/30 backdrop-blur-md text-amber-100 border border-accent/30 shadow-[0_0_20px_rgba(184,142,67,0.15)] hover:shadow-[0_0_30px_rgba(184,142,67,0.3)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
+            className="absolute right-0 sm:right-2 md:right-4 w-11 h-11 rounded-full bg-black/30 backdrop-blur-md text-amber-100 border border-accent/30 shadow-[0_0_20px_rgba(184,142,67,0.15)] hover:shadow-[0_0_30px_rgba(184,142,67,0.3)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
             aria-label="Next plan"
           >
-            <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
           </button>
 
           {/* 3D Isometric Viewport Layout */}
-          <div className="w-full h-[580px] sm:h-[640px] relative flex items-center justify-center overflow-visible" style={{ perspective: 2200, transformStyle: 'preserve-3d' }}>
+          <div className="w-full h-[460px] sm:h-[500px] relative flex items-center justify-center overflow-visible" style={{ perspective: 2200, transformStyle: 'preserve-3d' }}>
             {plansList.map((plan, index) => {
               let diff = index - activeIndex;
               if (diff === 2) diff = -1;
@@ -264,28 +264,18 @@ export default function Fees({ onSelectPlan }: FeesProps) {
               const xTranslate = diff === 0 
                 ? 0 
                 : diff === 1 
-                  ? (isMobile ? 120 : 360) 
-                  : (isMobile ? -120 : -360);
+                  ? (isMobile ? 100 : 280) 
+                  : (isMobile ? -100 : -280);
 
-              const zTranslate = diff === 0 ? 100 : -180;
-              const rotationY = diff === 0 ? 0 : diff === 1 ? -45 : 45;
-              const cardScale = diff === 0 ? 1.02 : (isMobile ? 0.74 : 0.83);
-              const cardOpacity = diff === 0 ? 1 : 0.45;
+              const zTranslate = diff === 0 ? 80 : -160;
+              const rotationY = diff === 0 ? 0 : diff === 1 ? -35 : 35;
+              const cardScale = diff === 0 ? 1.02 : (isMobile ? 0.78 : 0.85);
+              const cardOpacity = diff === 0 ? 1 : 0.5;
 
               // Professional cinematographic depth of focus and color dimming
               const blurFilter = isActive 
                 ? "blur(0px) brightness(1)" 
                 : "blur(1.5px) brightness(0.82)";
-
-              let innerStyle: React.CSSProperties | undefined;
-
-              if (index === 0) {
-                innerStyle = { borderRadius: '63px' };
-              } else if (index === 1) {
-                innerStyle = { borderRadius: '24px' };
-              } else if (index === 2) {
-                innerStyle = { borderRadius: '60px' };
-              }
 
               return (
                 <motion.div
@@ -312,49 +302,48 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                   onClick={() => {
                     if (!isActive) setActiveIndex(index);
                   }}
-                  className="w-[280px] sm:w-[350px] md:w-[380px] h-full"
+                  className="w-[260px] sm:w-[300px] md:w-[320px] h-full"
                 >
                   <ThreeDCard
                     highlight={plan.highlight}
-                    style={innerStyle}
                     isActive={isActive}
-                    className={`p-10 sm:p-12 w-full h-full relative overflow-hidden flex flex-col border backdrop-blur-md transition-all duration-700 select-none card-shine ${
+                    className={`p-6 sm:p-8 w-full h-full relative overflow-hidden flex flex-col rounded-[2.2rem] border backdrop-blur-md transition-all duration-700 select-none card-shine ${
                       plan.highlight
-                        ? 'text-amber-50 border-accent/50 shadow-[0_25px_60px_rgba(0,0,0,0.6)]'
+                        ? 'text-amber-50 border-accent/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)]'
                         : 'text-amber-100/90 border-accent/20 hover:border-accent/35'
                     } ${isAr ? 'text-right' : 'text-left'}`}
                   >
                     {plan.highlight && (
                       <div 
-                        className={`absolute top-10 bg-[#757454] text-amber-50 px-5 py-2 rounded-full display text-[8px] font-black uppercase tracking-[0.3em] shadow-lg animate-pulse ${isAr ? 'left-10' : 'right-10'}`}
+                        className={`absolute top-6 bg-[#757454] text-amber-50 px-4 py-1.5 rounded-full display text-[7.5px] font-black uppercase tracking-[0.25em] shadow-lg animate-pulse ${isAr ? 'left-6' : 'right-6'}`}
                         style={{ transform: "translateZ(35px)", transformStyle: "preserve-3d" }}
                       >
                         {isAr ? "الباقة الموصى بها" : "Recommended"}
                       </div>
                     )}
 
-                    <div className="mb-10 sm:mb-12" style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}>
-                      <h4 className={`display text-[10px] font-bold uppercase tracking-[0.5em] mb-4 ${plan.highlight ? 'text-accent' : 'text-amber-100'}`}>
+                    <div className="mb-6 sm:mb-8" style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}>
+                      <h4 className={`display text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] mb-3 ${plan.highlight ? 'text-accent' : 'text-amber-100'}`}>
                         {plan.name}
                       </h4>
-                      <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
-                        <span className="text-6xl sm:text-7xl font-bold serif tracking-tight">{plan.price}</span>
-                        <span className="display text-[10px] font-bold uppercase tracking-[0.4em] opacity-70 mb-3">
+                      <div className={`flex items-baseline gap-1.5 ${isAr ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
+                        <span className="text-4xl sm:text-5xl font-bold serif tracking-tight">{plan.price}</span>
+                        <span className="display text-[9px] font-bold uppercase tracking-[0.3em] opacity-70 mb-2">
                           {isAr ? " / شهر" : " / mo"}
                         </span>
                       </div>
-                      <p className="display text-[9px] font-bold uppercase tracking-widest mt-4 opacity-70">
+                      <p className="display text-[8px] font-bold uppercase tracking-widest mt-2 opacity-70">
                         {plan.period}
                       </p>
                     </div>
 
-                    <div className={`h-px w-full mb-10 ${plan.highlight ? 'bg-white/10' : 'bg-primary/5'}`} style={{ transform: "translateZ(15px)" }}></div>
+                    <div className={`h-px w-full mb-6 ${plan.highlight ? 'bg-white/10' : 'bg-primary/5'}`} style={{ transform: "translateZ(15px)" }}></div>
 
-                    <ul className="space-y-5 mb-12 flex-grow overflow-y-auto pr-1" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
+                    <ul className="space-y-3.5 mb-8 flex-grow overflow-y-auto pr-1" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
                       {plan.features.map((feature) => (
-                        <li key={feature} className={`flex items-center gap-4 group/item ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <li key={feature} className={`flex items-center gap-3 group/item ${isAr ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 group-hover/item:scale-150 ${plan.highlight ? 'bg-accent' : 'bg-accent/40'}`}></div>
-                          <span className={`text-xs sm:text-sm font-medium opacity-95 tracking-tight ${isAr ? 'text-right' : 'text-left'}`}>{feature}</span>
+                          <span className={`text-xs font-medium opacity-95 tracking-tight ${isAr ? 'text-right' : 'text-left'}`}>{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -369,7 +358,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                             setActiveIndex(index);
                           }
                         }}
-                        className={`group relative overflow-hidden w-full py-5 rounded-[1.8rem] serif font-bold uppercase tracking-[0.3em] text-[11px] transition-all shadow-xl hover:shadow-2xl cursor-pointer ${
+                        className={`group relative overflow-hidden w-full py-3.5 rounded-2xl serif font-bold uppercase tracking-[0.25em] text-[10px] transition-all shadow-xl hover:shadow-2xl cursor-pointer ${
                           plan.highlight
                             ? 'bg-[#757454] text-amber-50 hover:bg-[#084C63] border border-[#949693]/30'
                             : 'bg-[#084C63] text-white hover:bg-[#757454] border border-[#949693]/30'
