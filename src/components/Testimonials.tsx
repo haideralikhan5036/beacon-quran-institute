@@ -168,7 +168,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
   const readAllButtonText = isAr ? `قراءة جميع الـ ${testimonialsList.length} قصص نجاح` : `Read All ${testimonialsList.length} Stories`;
 
   return (
-    <section id="reviews" className={`py-16 sm:py-20 relative overflow-hidden ${full ? 'bg-[#084C63]/80 backdrop-blur-sm min-h-screen' : 'bg-[#084C63]/60 backdrop-blur-sm'}`}>
+    <section id="reviews" className={`py-16 sm:py-20 relative overflow-hidden ${full ? 'bg-transparent min-h-screen' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 sm:mb-24 relative">
           {full && (
