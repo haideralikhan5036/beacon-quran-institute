@@ -289,7 +289,7 @@ function CourseCard3D({
         boxShadow: dynamicShadow,
         borderColor: dynamicBorderColor,
       }}
-      className={`relative w-[280px] sm:w-[340px] h-[380px] sm:h-[450px] rounded-[3rem] transition-[border-color,color,opacity,box-shadow] duration-200 ease-out select-none cursor-pointer card-shine border ${
+      className={`relative w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] rounded-[3rem] transition-[border-color,color,opacity,box-shadow] duration-200 ease-out select-none cursor-pointer card-shine border ${
         isActive 
           ? 'text-amber-50 font-medium border-accent/60 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
           : 'text-amber-100/80 opacity-70 hover:opacity-100 border-accent/20'
@@ -385,7 +385,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
     if (isPaused || touchActive) return;
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % coursesList.length);
-    }, 3000); // 3 seconds rotation interval
+    }, 1800); // 1.8 seconds rotation interval
     return () => clearInterval(interval);
   }, [isPaused, touchActive, coursesList.length]);
 
@@ -638,7 +638,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
               <div className="absolute -bottom-6 w-[200px] h-[15px] bg-primary/10 rounded-full blur-md opacity-60 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
               
               {/* Carousel Viewport mapping */}
-              <div className="w-[280px] sm:w-[340px] h-[380px] sm:h-[450px] relative flex items-center justify-center overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
+              <div className="w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] relative flex items-center justify-center overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
                 {coursesList.map((course, index) => {
                   let diff = index - activeIndex;
 
