@@ -157,19 +157,21 @@ export default function WhyUs() {
             </Reveal>
 
             <Reveal direction={isAr ? 'left' : 'right'} delay={0.3}>
-              <p className="text-white/90 text-lg mb-12 leading-relaxed text-balance font-medium">
-                {descriptionText}
-              </p>
+              <div className="bg-[#030d12]/75 backdrop-blur-md p-6 sm:p-7 rounded-3xl border border-[#757454]/40 shadow-2xl mb-8">
+                <p className="text-amber-50 text-base sm:text-lg leading-relaxed text-balance font-medium">
+                  {descriptionText}
+                </p>
+              </div>
             </Reveal>
 
-            <div className="space-y-6 mb-12">
+            <div className="space-y-3.5 mb-10">
               {bullets.map((item, i) => (
                 <Reveal key={item} direction={isAr ? 'left' : 'right'} delay={0.4 + (i * 0.1)}>
-                  <div className={`flex items-center gap-4 group ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40 group-hover:bg-accent transition-all duration-500">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-accent group-hover:text-primary transition-colors" />
+                  <div className={`p-4 sm:p-4.5 rounded-2xl bg-[#051b23]/85 backdrop-blur-md border border-[#757454]/30 hover:border-amber-300/60 shadow-lg flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] ${isAr ? 'flex-row-reverse text-right' : 'text-left'}`}>
+                    <div className="w-8 h-8 rounded-xl bg-[#757454]/20 flex items-center justify-center border border-[#757454]/50 group-hover:bg-[#757454] transition-all duration-300 shrink-0">
+                      <CheckCircle2 className="w-4 h-4 text-amber-200 group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-white/90 font-semibold tracking-wide text-sm">{item}</span>
+                    <span className="text-amber-50 font-semibold tracking-wide text-sm sm:text-base leading-snug">{item}</span>
                   </div>
                 </Reveal>
               ))}
