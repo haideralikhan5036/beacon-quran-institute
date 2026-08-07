@@ -228,113 +228,92 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* "Our Impact" Radial Arc Gauge Component (Matching Screenshot 3) */}
+            {/* "Our Impact" Radial Arc Gauge Component (Exact Match to User Reference Image) */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-6 lg:-right-12 bottom-4 sm:bottom-10 z-20 card-shine border border-[#949693]/35 p-6 sm:p-7 rounded-[2.5rem] shadow-[0_25px_70px_rgba(0,0,0,0.8)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[340px] sm:max-w-[420px] ${isAr ? 'text-right' : 'text-left'}`}
+              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-8 z-20 card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[360px] sm:max-w-[480px] w-full ${isAr ? 'text-right' : 'text-left'}`}
             >
-              {/* Header Title */}
-              <div className={`flex items-center justify-between mb-6 pb-3 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
-                <h4 className="text-xl sm:text-2xl font-bold display text-white tracking-tight">
-                  {isAr ? "أثرنا" : "Our"} <span className="serif italic text-amber-200 font-semibold">{isAr ? " التعليمي" : "Impact"}</span>
-                </h4>
-                <div className={`flex items-center gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="display text-[8px] uppercase tracking-widest text-amber-200 font-bold">
-                    {isAr ? "محدث مباشر" : "Live Global"}
+              <div className={`grid grid-cols-[80px,110px,1fr] sm:grid-cols-[100px,130px,1fr] gap-3 sm:gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
+                
+                {/* 1. Left Title: Our Impact */}
+                <div className={`flex flex-col justify-center ${isAr ? 'text-right' : 'text-left'}`}>
+                  <h4 className="text-2xl sm:text-3xl font-bold display text-white leading-none tracking-tight">
+                    {isAr ? "أثرنا" : "Our"}
+                  </h4>
+                  <span className="serif italic text-emerald-400 font-bold text-xl sm:text-2xl mt-1 block">
+                    {isAr ? "التعليمي" : "Impact"}
                   </span>
                 </div>
-              </div>
 
-              {/* Arc Layout: Left Curved Arcs + Dotted Leader Lines + Metric Labels */}
-              <div className={`grid grid-cols-[100px,1fr] sm:grid-cols-[120px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
-                
-                {/* SVG Radial Arc Gauge Chart */}
-                <div className="relative w-[100px] h-[160px] sm:w-[120px] sm:h-[180px] flex items-center justify-center">
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 160">
-                    {/* Outer Arc (Students 1400+) */}
+                {/* 2. Center SVG: 3 Curved Arc Blocks + Numbers inside + Leader Lines */}
+                <div className="relative w-[110px] h-[170px] sm:w-[130px] sm:h-[190px] flex items-center justify-center">
+                  <svg className="w-full h-full" viewBox="0 0 130 190">
+                    {/* Top Arc Segment (Students) */}
                     <path
-                      d="M 50 15 A 40 40 0 0 1 50 95"
-                      fill="none"
-                      stroke="#084C63"
-                      strokeWidth="10"
-                      strokeLinecap="round"
-                      className="transition-all duration-1000"
+                      d="M 85 20 A 70 70 0 0 0 35 60 L 52 70 A 50 50 0 0 1 88 40 Z"
+                      fill="#084C63"
                     />
-                    {/* Middle Arc (Teachers 50+) */}
+                    <text x="63" y="44" fill="#FFFFFF" fontSize="11" fontWeight="bold" textAnchor="middle">1400+</text>
+
+                    {/* Middle Arc Segment (Teachers) */}
                     <path
-                      d="M 50 28 A 27 27 0 0 1 50 82"
-                      fill="none"
-                      stroke="#059669"
-                      strokeWidth="9"
-                      strokeLinecap="round"
-                      className="transition-all duration-1000"
+                      d="M 30 70 A 70 70 0 0 0 30 120 L 48 112 A 50 50 0 0 1 48 78 Z"
+                      fill="#059669"
                     />
-                    {/* Inner Arc (Nations 30+) */}
+                    <text x="38" y="99" fill="#FFFFFF" fontSize="11" fontWeight="bold" textAnchor="middle">50+</text>
+
+                    {/* Bottom Arc Segment (Nations) */}
                     <path
-                      d="M 50 40 A 15 15 0 0 1 50 70"
-                      fill="none"
-                      stroke="#757454"
-                      strokeWidth="8"
-                      strokeLinecap="round"
-                      className="transition-all duration-1000"
+                      d="M 35 130 A 70 70 0 0 0 85 170 L 88 150 A 50 50 0 0 1 52 120 Z"
+                      fill="#02342c"
                     />
+                    <text x="63" y="152" fill="#FFFFFF" fontSize="11" fontWeight="bold" textAnchor="middle">30+</text>
+
+                    {/* Leader Line 1 (Top) */}
+                    <line x1="88" y1="40" x2="118" y2="40" stroke="rgba(148,150,147,0.5)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="118" cy="40" r="3" fill="#084C63" />
+
+                    {/* Leader Line 2 (Middle) */}
+                    <line x1="48" y1="95" x2="118" y2="95" stroke="rgba(148,150,147,0.5)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="118" cy="95" r="3" fill="#059669" />
+
+                    {/* Leader Line 3 (Bottom) */}
+                    <line x1="88" y1="150" x2="118" y2="150" stroke="rgba(148,150,147,0.5)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="118" cy="150" r="3" fill="#02342c" />
                   </svg>
-                  
-                  {/* Floating Number Overlay on Arc Center */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-                    <span className="text-xs font-bold text-amber-200 display uppercase tracking-widest">{isAr ? "عالمي" : "Global"}</span>
-                  </div>
                 </div>
 
-                {/* Metric Items with Dotted Leader Lines */}
+                {/* 3. Right Column: Labels Aligned to Leader Line Dots */}
                 <div className="space-y-4">
-                  {/* Metric 1: Total Students */}
-                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
-                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-xl sm:text-2xl font-bold display text-amber-50 leading-none">
-                        <StatCounter value={1400} suffix="+" />
-                      </span>
-                      <span className="text-xs font-bold text-[#084C63] uppercase tracking-wider">
-                        {isAr ? "طالب نشط" : "Students"}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
-                      {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Enrolled active global learners"}
+                  {/* Item 1: Total Students */}
+                  <div className={`flex flex-col justify-center min-h-[45px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <h5 className="text-xs sm:text-sm font-bold text-emerald-400 tracking-tight leading-none">
+                      {isAr ? "طلاب نشطون" : "Total Students"}
+                    </h5>
+                    <p className="text-[9.5px] text-amber-100/70 font-medium mt-1 leading-tight">
+                      {isAr ? "خريجون ودارسون حالياً" : "Active enrolled learners worldwide"}
                     </p>
-                    <div className="h-px w-full bg-gradient-to-r from-[#084C63]/50 to-transparent mt-2" />
                   </div>
 
-                  {/* Metric 2: Certified Teachers */}
-                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
-                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-xl sm:text-2xl font-bold display text-emerald-400 leading-none">
-                        <StatCounter value={50} suffix="+" />
-                      </span>
-                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                        {isAr ? "معلم مجاز" : "Teachers"}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
-                      {isAr ? "كادر تعليمي بأسانيد متصلة" : "Certified expert Ijazah tutors"}
+                  {/* Item 2: Certified Teachers */}
+                  <div className={`flex flex-col justify-center min-h-[45px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <h5 className="text-xs sm:text-sm font-bold text-emerald-400 tracking-tight leading-none">
+                      {isAr ? "كادر مجاز" : "Certified Teachers"}
+                    </h5>
+                    <p className="text-[9.5px] text-amber-100/70 font-medium mt-1 leading-tight">
+                      {isAr ? "معلمون بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
                     </p>
-                    <div className="h-px w-full bg-gradient-to-r from-emerald-500/50 to-transparent mt-2" />
                   </div>
 
-                  {/* Metric 3: Global Nations */}
-                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
-                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-xl sm:text-2xl font-bold display text-amber-200 leading-none">
-                        <StatCounter value={30} suffix="+" />
-                      </span>
-                      <span className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                        {isAr ? "دولة" : "Nations"}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
-                      {isAr ? "تغطية دولية عبر ٤ قارات" : "Active presence across 4 continents"}
+                  {/* Item 3: Global Nations */}
+                  <div className={`flex flex-col justify-center min-h-[45px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <h5 className="text-xs sm:text-sm font-bold text-emerald-400 tracking-tight leading-none">
+                      {isAr ? "دول التغطية" : "Global Nations"}
+                    </h5>
+                    <p className="text-[9.5px] text-amber-100/70 font-medium mt-1 leading-tight">
+                      {isAr ? "تغطية عبر ٤ قارات" : "Active presence across 4 continents"}
                     </p>
                   </div>
                 </div>
