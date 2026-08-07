@@ -735,17 +735,17 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
 
         {/* Flexible Learning Packages Prompt */}
         <Reveal delay={0.5} direction="up" distance={20}>
-          <div className="mt-16 text-center card-shine border border-[#757454]/40 p-8 sm:p-10 rounded-[2.5rem] max-w-3xl mx-auto text-amber-50 shadow-2xl">
-             <div className="inline-block bg-[#757454]/20 border border-[#757454]/50 px-4 py-1.5 rounded-full mb-4">
+          <div className="mt-16 text-center card-shine border border-[#949693]/40 p-8 sm:p-10 rounded-[2.5rem] max-w-3xl mx-auto text-amber-50 shadow-2xl">
+             <div className="inline-block bg-[#084C63]/30 border border-[#949693]/40 px-4 py-1.5 rounded-full mb-4">
                <p className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200">
                  {isAr ? "عروض وباقات مخصصة للعائلات" : "Flexible Learning Packages"}
                </p>
              </div>
              <p className="text-amber-50 font-medium text-base sm:text-lg leading-relaxed">
                {isAr ? (
-                 <>هل تبحث عن باقة مخصصة للإخوة والأخوات، أو برنامج فردي مكثف؟ <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#757454] hover:text-white transition-colors cursor-pointer" onClick={handleEnrollNow}>تواصل مع مكتب التسجيل والقبول</span></>
+                 <>هل تبحث عن باقة مخصصة للإخوة والأخوات، أو برنامج فردي مكثف؟ <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#949693] hover:text-white transition-colors cursor-pointer" onClick={handleEnrollNow}>تواصل مع مكتب التسجيل والقبول</span></>
                ) : (
-                 <>Need a custom plan for family siblings or specialized intensive courses? <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#757454] hover:text-white transition-colors cursor-pointer" onClick={handleEnrollNow}>Contact our registrar</span></>
+                 <>Need a custom plan for family siblings or specialized intensive courses? <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#949693] hover:text-white transition-colors cursor-pointer" onClick={handleEnrollNow}>Contact our registrar</span></>
                )}
              </p>
           </div>

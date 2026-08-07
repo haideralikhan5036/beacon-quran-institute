@@ -85,7 +85,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 lg:gap-20 items-center">
           <div className="relative">
             <Reveal direction="right" delay={0.1}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#051b23]/90 backdrop-blur-md border border-[#757454]/60 text-amber-200 mb-8 shadow-xl shadow-black/40">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#051b23]/90 backdrop-blur-md border border-[#949693]/40 text-amber-200 mb-8 shadow-xl shadow-black/40">
                 <Sparkles className="w-4 h-4 text-accent animate-pulse" />
                 <span className={`display uppercase font-extrabold text-amber-200 ${isAr ? 'text-[12px] tracking-normal' : 'text-[10px] tracking-[0.25em]'}`}>{t('hero.badge')}</span>
               </div>
@@ -132,7 +132,7 @@ export default function Hero() {
             </Reveal>
  
             <Reveal delay={0.75} width="100%">
-              <div className="bg-[#030d12]/75 backdrop-blur-md p-6 sm:p-7 rounded-3xl border border-[#757454]/40 shadow-2xl max-w-xl mb-10">
+              <div className="bg-[#030d12]/75 backdrop-blur-md p-6 sm:p-7 rounded-3xl border border-[#949693]/40 shadow-2xl max-w-xl mb-10">
                 <p className={`text-lg md:text-xl text-amber-50 leading-relaxed text-balance serif italic ${isAr ? 'text-right' : ''}`}>
                   {t('hero.description')}
                 </p>

@@ -157,7 +157,7 @@ export default function WhyUs() {
             </Reveal>
 
             <Reveal direction={isAr ? 'left' : 'right'} delay={0.3}>
-              <div className="bg-[#030d12]/75 backdrop-blur-md p-6 sm:p-7 rounded-3xl border border-[#757454]/40 shadow-2xl mb-8">
+              <div className="card-shine border border-[#949693]/35 p-6 sm:p-7 rounded-3xl shadow-2xl mb-8">
                 <p className="text-amber-50 text-base sm:text-lg leading-relaxed text-balance font-medium">
                   {descriptionText}
                 </p>
@@ -167,9 +167,9 @@ export default function WhyUs() {
             <div className="space-y-3.5 mb-10">
               {bullets.map((item, i) => (
                 <Reveal key={item} direction={isAr ? 'left' : 'right'} delay={0.4 + (i * 0.1)}>
-                  <div className={`p-4 sm:p-4.5 rounded-2xl bg-[#051b23]/85 backdrop-blur-md border border-[#757454]/30 hover:border-amber-300/60 shadow-lg flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] ${isAr ? 'flex-row-reverse text-right' : 'text-left'}`}>
-                    <div className="w-8 h-8 rounded-xl bg-[#757454]/20 flex items-center justify-center border border-[#757454]/50 group-hover:bg-[#757454] transition-all duration-300 shrink-0">
-                      <CheckCircle2 className="w-4 h-4 text-amber-200 group-hover:text-white transition-colors" />
+                  <div className={`p-4 sm:p-4.5 rounded-2xl card-shine border border-[#949693]/30 hover:border-amber-300/60 shadow-lg flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] ${isAr ? 'flex-row-reverse text-right' : 'text-left'}`}>
+                    <div className="w-9 h-9 rounded-xl bg-[#084C63]/40 flex items-center justify-center border border-[#949693]/40 group-hover:bg-[#084C63] transition-all duration-300 shrink-0">
+                      <CheckCircle2 className="w-4.5 h-4.5 text-amber-200 group-hover:text-white transition-colors" />
                     </div>
                     <span className="text-amber-50 font-semibold tracking-wide text-sm sm:text-base leading-snug">{item}</span>
                   </div>
@@ -178,10 +178,10 @@ export default function WhyUs() {
             </div>
 
             <Reveal direction={isAr ? 'left' : 'right'} delay={0.8}>
-               <button className="relative group overflow-hidden bg-accent text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[10px] transition-shadow hover:shadow-2xl hover:shadow-accent/20">
+               <button className="group relative overflow-hidden bg-[#084C63] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-xl shadow-[#084C63]/30 border border-[#949693]/30 flex items-center gap-2 cursor-pointer">
                  <span className="relative z-10">{buttonText}</span>
-                 <div className="absolute inset-0 bg-white translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white group-hover:text-primary flex items-center justify-center font-bold uppercase tracking-[0.2em] text-[10px]">{buttonHover}</div>
+                 <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10 ${isAr ? 'rotate-180' : ''}`} />
+                 <div className="absolute inset-0 bg-[#757454] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                </button>
             </Reveal>
           </div>
