@@ -85,9 +85,9 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 lg:gap-20 items-center">
           <div className="relative">
             <Reveal direction="right" delay={0.1}>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-accent/30 text-amber-200 mb-8 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
-                <span className={`display uppercase font-bold ${isAr ? 'text-[11px] tracking-normal font-semibold' : 'text-[10px] tracking-[0.2em]'}`}>{t('hero.badge')}</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#051b23]/90 backdrop-blur-md border border-[#757454]/60 text-amber-200 mb-8 shadow-xl shadow-black/40">
+                <Sparkles className="w-4 h-4 text-accent animate-pulse" />
+                <span className={`display uppercase font-extrabold text-amber-200 ${isAr ? 'text-[12px] tracking-normal' : 'text-[10px] tracking-[0.25em]'}`}>{t('hero.badge')}</span>
               </div>
             </Reveal>
 
@@ -120,21 +120,23 @@ export default function Hero() {
 
             <Reveal delay={0.65} width="100%">
               <div 
-                className="flex flex-col items-start gap-4 mb-10"
+                className="flex flex-col items-start gap-4 mb-8"
               >
                 <div className="flex flex-col items-start">
                   <div className="display text-accent font-bold text-[10px] uppercase mb-2 tracking-[0.4em]">
                     {t('hero.subtitle')}
                   </div>
-                  <div className="w-16 h-[2.5px] bg-accent/20" />
+                  <div className="w-16 h-[2.5px] bg-accent/30" />
                 </div>
               </div>
             </Reveal>
  
             <Reveal delay={0.75} width="100%">
-              <p className={`text-xl md:text-2xl text-amber-100/90 max-w-xl mb-12 leading-relaxed text-balance serif italic ${isAr ? 'text-right' : ''}`}>
-                {t('hero.description')}
-              </p>
+              <div className="bg-[#030d12]/75 backdrop-blur-md p-6 sm:p-7 rounded-3xl border border-[#757454]/40 shadow-2xl max-w-xl mb-10">
+                <p className={`text-lg md:text-xl text-amber-50 leading-relaxed text-balance serif italic ${isAr ? 'text-right' : ''}`}>
+                  {t('hero.description')}
+                </p>
+              </div>
             </Reveal>
 
             <Reveal delay={0.85} width="100%">

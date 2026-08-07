@@ -145,7 +145,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
     if (loading || isPaused || displayTestimonials.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % displayTestimonials.length);
-    }, 7000);
+    }, 3800);
     return () => clearInterval(interval);
   }, [displayTestimonials.length, loading, isPaused]);
 
