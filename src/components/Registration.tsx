@@ -154,9 +154,9 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
       <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="card-shine rounded-[4rem] shadow-2xl overflow-hidden grid lg:grid-cols-12 min-h-[850px] text-amber-50">
+        <div className="card-shine rounded-[3.5rem] border border-[#949693]/35 shadow-2xl overflow-hidden grid lg:grid-cols-12 text-amber-50">
           {/* Information Sidebar */}
-          <div className="lg:col-span-5 p-12 sm:p-20 bg-[#051b23]/70 backdrop-blur-md text-amber-50 border-b lg:border-b-0 lg:border-r border-[#949693]/25 flex flex-col justify-between relative overflow-hidden">
+          <div className="lg:col-span-5 p-8 sm:p-12 bg-[#051b23]/70 backdrop-blur-md text-amber-50 border-b lg:border-b-0 lg:border-r border-[#949693]/25 flex flex-col justify-between relative overflow-hidden">
              <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] border border-[#757454] rounded-full -mr-64 -mt-64 translate-x-10 -translate-y-10 opacity-30"></div>
                 <div className="absolute bottom-0 left-0 w-64 h-64 border border-[#757454] rounded-full -ml-32 -mb-32 translate-y-10 opacity-30"></div>
@@ -164,51 +164,51 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
 
              <div className={`relative z-10 ${isAr ? 'text-right' : 'text-left'}`}>
                <Reveal delay={0.1}>
-                 <div className={`flex items-center gap-2 mb-8 ${isAr ? 'flex-row-reverse' : ''}`}>
+                 <div className={`flex items-center gap-2 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
                    <Sparkles className="w-4 h-4 text-accent" />
                    <h2 className="display text-[11px] font-bold uppercase tracking-[0.4em] text-accent">{badgeText}</h2>
                  </div>
                </Reveal>
                <Reveal delay={0.2}>
                  {isAr ? (
-                   <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold display mb-10 leading-tight text-balance">
+                   <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold display mb-6 leading-tight text-balance">
                      {titleText1} <br />
                      <span className="text-accent italic">{titleText2}</span> {titleText3}
                    </h3>
                  ) : (
-                   <h3 className="text-4xl sm:text-5xl lg:text-7xl font-bold display mb-10 leading-tight text-balance">
+                   <h3 className="text-3xl sm:text-4xl lg:text-6xl font-bold display mb-6 leading-tight text-balance">
                      {titleText1} <br />
                      <span className="text-accent italic">{titleText2}</span> {titleText3}
                    </h3>
                  )}
                </Reveal>
                <Reveal delay={0.3}>
-                 <p className="text-amber-100/90 text-lg leading-relaxed mb-16 text-balance font-medium">
+                 <p className="text-amber-100/90 text-base leading-relaxed mb-10 text-balance font-medium">
                    {descText}
                  </p>
                </Reveal>
 
-               <div className="space-y-12">
+               <div className="space-y-8">
                  <Reveal delay={0.4} direction="up" distance={20}>
-                   <div className={`flex items-center gap-6 group ${isAr ? 'flex-row-reverse' : ''}`}>
-                     <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/10 rounded-[1.8rem] flex items-center justify-center group-hover:bg-accent transition-all duration-500 transform group-hover:rotate-12 shadow-inner">
-                       <Phone className="w-6 h-6 text-accent group-hover:text-primary transition-colors" />
+                   <div className={`flex items-center gap-5 group ${isAr ? 'flex-row-reverse' : ''}`}>
+                     <div className="w-14 h-14 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-accent transition-all duration-500 transform group-hover:rotate-12 shadow-inner shrink-0">
+                       <Phone className="w-5 h-5 text-accent group-hover:text-primary transition-colors" />
                      </div>
                      <div className={`${isAr ? 'text-right' : 'text-left'}`}>
-                       <p className="display text-[9px] font-bold uppercase tracking-widest text-accent mb-1.5 opacity-80">{whatsappLabel}</p>
-                       <p className="text-2xl font-bold display group-hover:text-accent transition-colors tracking-tight" dir="ltr">+92 346 1573771</p>
+                       <p className="display text-[8.5px] font-bold uppercase tracking-widest text-accent mb-1 opacity-80">{whatsappLabel}</p>
+                       <p className="text-xl font-bold display group-hover:text-accent transition-colors tracking-tight" dir="ltr">+92 346 1573771</p>
                      </div>
                    </div>
                  </Reveal>
 
                  <Reveal delay={0.5} direction="up" distance={20}>
-                   <div className={`flex items-center gap-6 group ${isAr ? 'flex-row-reverse' : ''}`}>
-                     <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/10 rounded-[1.8rem] flex items-center justify-center group-hover:bg-accent transition-all duration-500 transform group-hover:-rotate-12 shadow-inner">
-                       <Mail className="w-6 h-6 text-accent group-hover:text-primary transition-colors" />
+                   <div className={`flex items-center gap-5 group ${isAr ? 'flex-row-reverse' : ''}`}>
+                     <div className="w-14 h-14 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-accent transition-all duration-500 transform group-hover:-rotate-12 shadow-inner shrink-0">
+                       <Mail className="w-5 h-5 text-accent group-hover:text-primary transition-colors" />
                      </div>
                      <div className={`${isAr ? 'text-right' : 'text-left'}`}>
-                       <p className="display text-[9px] font-bold uppercase tracking-widest text-accent mb-1.5 opacity-80">{registryLabel}</p>
-                       <p className="text-sm font-bold display group-hover:text-accent transition-colors break-all" dir="ltr">beaconquraninstitute@gmail.com</p>
+                       <p className="display text-[8.5px] font-bold uppercase tracking-widest text-accent mb-1 opacity-80">{registryLabel}</p>
+                       <p className="text-xs sm:text-sm font-bold display group-hover:text-accent transition-colors break-all" dir="ltr">beaconquraninstitute@gmail.com</p>
                      </div>
                    </div>
                  </Reveal>
@@ -216,11 +216,11 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
              </div>
 
              <Reveal delay={0.6} direction="up" distance={20}>
-               <div className="mt-20 pt-12 border-t border-white/10 relative z-10 text-center">
+               <div className="mt-10 pt-8 border-t border-white/10 relative z-10 text-center">
                  <div className="flex gap-2 justify-center">
                    {[...Array(5)].map((_, i) => <CheckCircle2 key={i} className="w-4 h-4 text-accent" />)}
                  </div>
-                 <p className="display text-[10px] font-bold uppercase tracking-[0.3em] text-white/60 mt-8 leading-relaxed">
+                 <p className="display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/60 mt-4 leading-relaxed">
                    {subFooterLabel}
                  </p>
                </div>
@@ -228,7 +228,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
           </div>
 
           {/* Form Container */}
-          <div className="lg:col-span-7 p-12 sm:p-24 bg-[#030d12]/40 backdrop-blur-md text-amber-50 relative">
+          <div className="lg:col-span-7 p-8 sm:p-12 lg:p-14 bg-[#030d12]/40 backdrop-blur-md text-amber-50 relative">
             <AnimatePresence>
               {isSuccess && (
                 <motion.div 
@@ -254,21 +254,21 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
               )}
             </AnimatePresence>
 
-            <form onSubmit={handleSubmit} className="space-y-10 relative">
-              <div className="grid md:grid-cols-2 gap-10">
+            <form onSubmit={handleSubmit} className="space-y-6 relative">
+              <div className="grid md:grid-cols-2 gap-6">
                 <Reveal delay={0.1} direction="up" distance={20}>
-                  <div className="space-y-4">
-                    <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                  <div className="space-y-2.5">
+                    <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                       {labelName}
                     </label>
                     <div className="relative group">
-                      <User className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.name ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
+                      <User className={`absolute ${isAr ? 'right-5' : 'left-5'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.name ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm ${
+                        className={`w-full ${isAr ? 'pr-14 pl-6 text-right' : 'pl-14 pr-6 text-left'} py-4 bg-black/30 border rounded-2xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm ${
                           errors.name ? 'border-red-400 focus:ring-red-400' : 'border-accent/20 focus:border-accent focus:bg-black/50 focus:shadow-xl'
                         }`}
                         placeholder={placeholderName}
@@ -278,18 +278,18 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                   </div>
                 </Reveal>
                 <Reveal delay={0.2} direction="up" distance={20}>
-                  <div className="space-y-4">
-                    <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                  <div className="space-y-2.5">
+                    <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                       {labelPhone}
                     </label>
                     <div className="relative group">
-                      <Phone className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.phone ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
+                      <Phone className={`absolute ${isAr ? 'right-5' : 'left-5'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.phone ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm`}
+                        className={`w-full ${isAr ? 'pr-14 pl-6 text-right' : 'pl-14 pr-6 text-left'} py-4 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-2xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 font-semibold text-sm`}
                         placeholder={placeholderPhone}
                         dir="ltr"
                       />
@@ -300,18 +300,18 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
               </div>
 
               <Reveal delay={0.3} direction="up" distance={20}>
-                <div className="space-y-4">
-                  <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                <div className="space-y-2.5">
+                  <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                     {labelEmail}
                   </label>
                   <div className="relative group">
-                    <Mail className={`absolute ${isAr ? 'right-6' : 'left-6'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.email ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
+                    <Mail className={`absolute ${isAr ? 'right-5' : 'left-5'} top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${errors.email ? 'text-red-400' : 'text-amber-100/60 group-focus-within:text-accent'}`} />
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right font-medium' : 'pl-16 pr-8 text-left font-semibold'} py-5.5 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-3xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 text-sm`}
+                      className={`w-full ${isAr ? 'pr-14 pl-6 text-right font-medium' : 'pl-14 pr-6 text-left font-semibold'} py-4 bg-black/30 border border-accent/20 focus:border-accent focus:bg-black/50 rounded-2xl outline-none transition-all placeholder:text-amber-100/60 text-amber-50 text-sm`}
                       placeholder={placeholderEmail}
                       dir="ltr"
                     />
@@ -320,10 +320,10 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                 </div>
               </Reveal>
 
-              <div className="grid md:grid-cols-2 gap-10">
+              <div className="grid md:grid-cols-2 gap-6">
                 <Reveal delay={0.4} direction="up" distance={20}>
-                  <div className="space-y-4">
-                    <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                  <div className="space-y-2.5">
+                    <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                       {labelCourse}
                     </label>
                     <div className="relative group">
@@ -331,19 +331,19 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                          name="course"
                          value={formData.course}
                          onChange={handleChange}
-                         className={`w-full py-5.5 bg-[#051b23]/80 border border-[#949693]/30 rounded-3xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
+                         className={`w-full py-4 bg-[#051b23]/80 border border-[#949693]/30 rounded-2xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-6 pl-10 text-right' : 'pl-6 pr-10 text-left'}`}
                        >
                          {coursesList.map(c => <option key={c} value={c} className="bg-[#051b23] text-amber-50 py-2">{c}</option>)}
                        </select>
-                       <div className={`absolute ${isAr ? 'left-6' : 'right-6'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
+                       <div className={`absolute ${isAr ? 'left-5' : 'right-5'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
                          <ArrowRight className="w-4 h-4 rotate-90" />
                        </div>
                     </div>
                   </div>
                 </Reveal>
                 <Reveal delay={0.5} direction="up" distance={20}>
-                  <div className="space-y-4">
-                    <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                  <div className="space-y-2.5">
+                    <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                       {labelPlan}
                     </label>
                     <div className="relative group">
@@ -351,11 +351,11 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                          name="plan"
                          value={formData.plan}
                          onChange={handleChange}
-                         className={`w-full py-5.5 bg-[#051b23]/80 border border-[#949693]/30 rounded-3xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-8 pl-12 text-right' : 'pl-8 pr-12 text-left'}`}
+                         className={`w-full py-4 bg-[#051b23]/80 border border-[#949693]/30 rounded-2xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-6 pl-10 text-right' : 'pl-6 pr-10 text-left'}`}
                        >
                          {plansList.map(p => <option key={p} value={p} className="bg-[#051b23] text-amber-50 py-2">{p}</option>)}
                        </select>
-                       <div className={`absolute ${isAr ? 'left-6' : 'right-6'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
+                       <div className={`absolute ${isAr ? 'left-5' : 'right-5'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
                          <ArrowRight className="w-4 h-4 rotate-90" />
                        </div>
                     </div>
@@ -364,18 +364,18 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
               </div>
 
               <Reveal delay={0.6} direction="up" distance={20}>
-                <div className="space-y-4">
-                  <label className={`display text-[11px] font-bold uppercase tracking-[0.4em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
+                <div className="space-y-2.5">
+                  <label className={`display text-[10.5px] font-bold uppercase tracking-[0.3em] text-accent block ${isAr ? 'text-right mr-1' : 'ml-1'}`}>
                     {labelNotes}
                   </label>
                   <div className="relative group">
-                    <MessageSquare className={`absolute ${isAr ? 'right-6' : 'left-6'} top-7 w-4.5 h-4.5 text-amber-100/60 group-focus-within:text-accent`} />
+                    <MessageSquare className={`absolute ${isAr ? 'right-5' : 'left-5'} top-5 w-4.5 h-4.5 text-amber-100/60 group-focus-within:text-accent`} />
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      rows={4}
-                      className={`w-full ${isAr ? 'pr-16 pl-8 text-right' : 'pl-16 pr-8 text-left'} py-6 bg-black/30 border border-accent/20 rounded-3xl focus:border-accent focus:bg-black/50 outline-none transition-all resize-none text-amber-50 placeholder:text-amber-100/60 font-semibold text-sm`}
+                      rows={3}
+                      className={`w-full ${isAr ? 'pr-14 pl-6 text-right' : 'pl-14 pr-6 text-left'} py-4 bg-black/30 border border-accent/20 rounded-2xl focus:border-accent focus:bg-black/50 outline-none transition-all resize-none text-amber-50 placeholder:text-amber-100/60 font-semibold text-sm`}
                       placeholder={placeholderNotes}
                     ></textarea>
                   </div>
@@ -387,7 +387,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-12 py-5.5 group bg-[#084C63] text-white border border-[#949693]/30 rounded-[20px] font-serif font-bold uppercase tracking-[0.15em] text-[15px] shadow-2xl shadow-[#084C63]/40 hover:bg-[#757454] hover:shadow-[#757454]/40 active:scale-95 transition-all flex items-center justify-center disabled:opacity-70 relative overflow-hidden cursor-pointer"
+                    className="px-10 py-4 group bg-[#084C63] text-white border border-[#949693]/30 rounded-xl font-serif font-bold uppercase tracking-[0.15em] text-[14px] shadow-2xl shadow-[#084C63]/40 hover:bg-[#757454] hover:shadow-[#757454]/40 active:scale-95 transition-all flex items-center justify-center disabled:opacity-70 relative overflow-hidden cursor-pointer"
                   >
                     {isSubmitting ? submittingBtnText : submitBtnTextText}
                   </button>

@@ -228,66 +228,118 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Float Floating Stats Component */}
+            {/* "Our Impact" Radial Arc Gauge Component (Matching Screenshot 3) */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-8 lg:-right-16 top-0 sm:top-10 z-20 bg-black/40 backdrop-blur-xl p-4 sm:p-8 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.6)] border border-accent/20 flex flex-col gap-4 sm:gap-6 min-w-[150px] sm:min-w-[220px] ${isAr ? 'text-right' : 'text-left'}`}
+              className={`absolute -right-2 sm:-right-6 lg:-right-12 bottom-4 sm:bottom-10 z-20 card-shine border border-[#949693]/35 p-6 sm:p-7 rounded-[2.5rem] shadow-[0_25px_70px_rgba(0,0,0,0.8)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[340px] sm:max-w-[420px] ${isAr ? 'text-right' : 'text-left'}`}
             >
-               <div className={`flex items-center gap-4 sm:gap-5 ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
-                     <span className="text-accent font-bold">★</span>
-                  </div>
-                  <div>
-                    <p className="text-xl sm:text-3xl font-bold display text-amber-100 leading-none tracking-tight"><StatCounter value={50} suffix="+" /></p>
-                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent mt-1">
-                       {isAr ? "معلم ومعلمة مجازين" : "Certified Teachers"}
-                     </p>
-                  </div>
-               </div>
-               <div className="h-px bg-primary/5"></div>
-               <div className={`flex items-center gap-4 sm:gap-5 ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent text-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-accent/20">
-                     <span className="text-primary font-bold">✔</span>
-                  </div>
-                  <div>
-                    <p className="text-xl sm:text-3xl font-bold display text-amber-100 leading-none tracking-tight"><StatCounter value={1400} suffix="+" /></p>
-                     <p className="display text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-accent mt-1">
-                       {isAr ? "طالب عبر العالم" : "Total Students"}
-                     </p>
-                  </div>
-               </div>
-            </motion.div>
+              {/* Header Title */}
+              <div className={`flex items-center justify-between mb-6 pb-3 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
+                <h4 className="text-xl sm:text-2xl font-bold display text-white tracking-tight">
+                  {isAr ? "أثرنا" : "Our"} <span className="serif italic text-amber-200 font-semibold">{isAr ? " التعليمي" : "Impact"}</span>
+                </h4>
+                <div className={`flex items-center gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="display text-[8px] uppercase tracking-widest text-amber-200 font-bold">
+                    {isAr ? "محدث مباشر" : "Live Global"}
+                  </span>
+                </div>
+              </div>
 
-            {/* Live Status Widget */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -left-4 sm:-left-20 bottom-10 sm:bottom-16 z-30 bg-black/50 backdrop-blur-md p-5 sm:p-7 mt-0 ml-10 rounded-[24px] border border-accent/20 shadow-2xl min-w-[180px] sm:min-w-[220px]"
-            >
-               <div className={`flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="display text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.4em] text-white/70">
-                    {isAr ? "الحالة: نشط الآن" : "Status: Active"}
-                  </span>
-               </div>
-               <div className={`flex flex-col gap-1 ${isAr ? 'items-end' : ''}`}>
-                  <span className="display text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-accent">
-                    {isAr ? "الحلقات الدراسية الفعالة" : "Active Sessions"}
-                  </span>
-                  <div className={`flex items-center justify-between w-full ${isAr ? 'flex-row-reverse' : ''}`}>
-                     <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight tabular-nums">1,402</span>
-                     <div className={`flex -space-x-1.5 sm:-space-x-2 ${isAr ? 'flex-row-reverse space-x-reverse opacity-90' : ''}`}>
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-primary bg-accent/20 flex items-center justify-center overflow-hidden">
-                             <img src={`https://i.pravatar.cc/100?img=${i+20}`} alt="Active" className="w-full h-full object-cover" loading="lazy" decoding="async" />
-                          </div>
-                        ))}
-                     </div>
+              {/* Arc Layout: Left Curved Arcs + Dotted Leader Lines + Metric Labels */}
+              <div className={`grid grid-cols-[100px,1fr] sm:grid-cols-[120px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
+                
+                {/* SVG Radial Arc Gauge Chart */}
+                <div className="relative w-[100px] h-[160px] sm:w-[120px] sm:h-[180px] flex items-center justify-center">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 160">
+                    {/* Outer Arc (Students 1400+) */}
+                    <path
+                      d="M 50 15 A 40 40 0 0 1 50 95"
+                      fill="none"
+                      stroke="#084C63"
+                      strokeWidth="10"
+                      strokeLinecap="round"
+                      className="transition-all duration-1000"
+                    />
+                    {/* Middle Arc (Teachers 50+) */}
+                    <path
+                      d="M 50 28 A 27 27 0 0 1 50 82"
+                      fill="none"
+                      stroke="#059669"
+                      strokeWidth="9"
+                      strokeLinecap="round"
+                      className="transition-all duration-1000"
+                    />
+                    {/* Inner Arc (Nations 30+) */}
+                    <path
+                      d="M 50 40 A 15 15 0 0 1 50 70"
+                      fill="none"
+                      stroke="#757454"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      className="transition-all duration-1000"
+                    />
+                  </svg>
+                  
+                  {/* Floating Number Overlay on Arc Center */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                    <span className="text-xs font-bold text-amber-200 display uppercase tracking-widest">{isAr ? "عالمي" : "Global"}</span>
                   </div>
-               </div>
+                </div>
+
+                {/* Metric Items with Dotted Leader Lines */}
+                <div className="space-y-4">
+                  {/* Metric 1: Total Students */}
+                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-amber-50 leading-none">
+                        <StatCounter value={1400} suffix="+" />
+                      </span>
+                      <span className="text-xs font-bold text-[#084C63] uppercase tracking-wider">
+                        {isAr ? "طالب نشط" : "Students"}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
+                      {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Enrolled active global learners"}
+                    </p>
+                    <div className="h-px w-full bg-gradient-to-r from-[#084C63]/50 to-transparent mt-2" />
+                  </div>
+
+                  {/* Metric 2: Certified Teachers */}
+                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-emerald-400 leading-none">
+                        <StatCounter value={50} suffix="+" />
+                      </span>
+                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                        {isAr ? "معلم مجاز" : "Teachers"}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
+                      {isAr ? "كادر تعليمي بأسانيد متصلة" : "Certified expert Ijazah tutors"}
+                    </p>
+                    <div className="h-px w-full bg-gradient-to-r from-emerald-500/50 to-transparent mt-2" />
+                  </div>
+
+                  {/* Metric 3: Global Nations */}
+                  <div className={`flex flex-col relative group ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-amber-200 leading-none">
+                        <StatCounter value={30} suffix="+" />
+                      </span>
+                      <span className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                        {isAr ? "دولة" : "Nations"}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-amber-100/70 font-medium mt-0.5">
+                      {isAr ? "تغطية دولية عبر ٤ قارات" : "Active presence across 4 continents"}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
             </motion.div>
           </motion.div>
         </div>
