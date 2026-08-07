@@ -385,7 +385,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
     if (isPaused || touchActive) return;
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % coursesList.length);
-    }, 1800); // 1.8 seconds rotation interval
+    }, 3500); // 3.5 seconds rotation interval
     return () => clearInterval(interval);
   }, [isPaused, touchActive, coursesList.length]);
 

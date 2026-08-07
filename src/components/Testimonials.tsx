@@ -295,7 +295,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                     }}
                     className="w-full max-w-3xl origin-center"
                   >
-                    <div className={`p-8 sm:p-12 rounded-[3rem] bg-[#084C63]/70 backdrop-blur-md border border-accent/20 hover:border-accent/50 hover:bg-[#084C63]/85 shadow-2xl transition-all duration-700 text-amber-50 group flex flex-col md:flex-row gap-8 sm:gap-10 items-start relative overflow-hidden ${isAr ? 'md:flex-row-reverse' : ''}`}>
+                    <div className={`p-8 sm:p-12 rounded-[3rem] card-shine border border-accent/40 shadow-2xl transition-all duration-700 text-amber-50 group flex flex-col md:flex-row gap-8 sm:gap-10 items-start relative overflow-hidden ${isAr ? 'md:flex-row-reverse' : ''}`}>
                       <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-accent/10 transition-colors"></div>
                       
                       <div className="shrink-0 flex flex-col items-center gap-4 relative z-10 mx-auto">

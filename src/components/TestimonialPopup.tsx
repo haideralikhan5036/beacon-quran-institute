@@ -92,7 +92,7 @@ export default function TestimonialPopup() {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: -20, scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed bottom-6 left-6 z-[100] w-[280px] bg-black/70 backdrop-blur-xl border border-accent/30 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-5 text-amber-50 flex gap-4 overflow-hidden group"
+          className="fixed bottom-6 left-6 z-[100] w-[280px] card-shine border border-accent/40 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-5 text-amber-50 flex gap-4 overflow-hidden group"
         >
           {/* Subtle Progress Bar */}
           <motion.div 
