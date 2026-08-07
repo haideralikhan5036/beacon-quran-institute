@@ -92,14 +92,14 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               </div>
               Back to Home
             </button>
-            <div className="flex items-center gap-3 mb-4">
-               <div className="w-2 h-[2px] bg-accent" />
-               <h2 className="display text-[10px] font-bold uppercase tracking-[0.5em] text-accent">Knowledge Hub</h2>
+            <div className="card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[2.5rem] shadow-2xl mb-6 md:mb-0">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-3">
+               <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.4em] text-amber-200">Knowledge Hub</h2>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-[1.1] tracking-tight">
-              The Beacon <br/>
-              <span className="text-accent italic font-semibold">Digest</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold serif text-amber-50 leading-[1.1] tracking-tight">
+              The Beacon <span className="text-amber-200 italic font-semibold">Digest</span>
             </h1>
+          </div>
           </div>
           
           <div className="relative w-full md:w-96 group">

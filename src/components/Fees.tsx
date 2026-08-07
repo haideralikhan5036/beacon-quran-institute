@@ -188,22 +188,18 @@ export default function Fees({ onSelectPlan }: FeesProps) {
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <Reveal delay={0.1}>
-            <div className={`flex items-center justify-center gap-2 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <Sparkles className="w-4 h-4 text-accent" />
-              <h2 className="display text-[10px] font-bold uppercase tracking-[0.4em] text-accent">{subtitleText}</h2>
+        <Reveal delay={0.1} width="100%">
+          <div className="card-shine border border-[#949693]/35 p-6 sm:p-9 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-2xl">
+            <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
+              <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
+              <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">{subtitleText}</h2>
             </div>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8 text-balance">{titleText}</h3>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <p className="text-amber-100/95 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold serif text-amber-50 mb-4 text-balance">{titleText}</h3>
+            <p className="text-amber-100/95 max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
               {descText}
             </p>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
         {/* Premium Plan Toggle / Tabs */}
         <div className={`flex justify-center flex-wrap gap-2 mb-12 sm:mb-16 ${isAr ? 'flex-row-reverse' : ''}`}>

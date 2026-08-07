@@ -508,19 +508,17 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16">
-          <Reveal delay={0.1}>
-            <div className={`flex items-center justify-center gap-2 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <Sparkles className="w-4 h-4 text-accent animate-pulse" />
-              <h2 className="display text-[11px] font-bold uppercase tracking-[0.4em] text-accent">{sectionSubtitle}</h2>
+        <Reveal delay={0.1} width="100%">
+          <div className="card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-2xl">
+            <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
+              <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
+              <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">{sectionSubtitle}</h2>
             </div>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-6 text-balance">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-amber-50 text-balance">
               {sectionTitle}
             </h3>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
         {/* 3D Immersive Grid Layout */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center min-h-[580px]">
