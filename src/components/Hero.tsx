@@ -228,99 +228,99 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* "Our Impact" Radial Arc Gauge Component (Pixel-Perfect Match to Reference Image with Live Counters Inside Arc Blocks) */}
+            {/* "Our Impact" Radial Arc Gauge Component (100% Identical Match to Reference Image) */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-8 z-20 card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[420px] sm:max-w-[560px] w-full ${isAr ? 'text-right' : 'text-left'}`}
+              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-8 z-20 card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[440px] sm:max-w-[580px] w-full ${isAr ? 'text-right' : 'text-left'}`}
             >
-              <div className={`grid grid-cols-[80px,130px,1fr] sm:grid-cols-[100px,150px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
+              <div className={`grid grid-cols-[90px,140px,1fr] sm:grid-cols-[110px,160px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
                 
                 {/* 1. Left Title: Our Impact */}
                 <div className={`flex flex-col justify-center ${isAr ? 'text-right' : 'text-left'}`}>
-                  <h4 className="text-2xl sm:text-3xl font-bold display text-white leading-none tracking-tight">
+                  <h4 className="text-3xl sm:text-4xl font-bold display text-white leading-none tracking-tight">
                     {isAr ? "أثرنا" : "Our"}
                   </h4>
-                  <span className="serif italic text-[#757454] font-bold text-xl sm:text-2xl mt-1 block">
+                  <span className="serif italic text-[#008d75] font-bold text-2xl sm:text-3xl mt-1 block">
                     {isAr ? "التعليمي" : "Impact"}
                   </span>
                 </div>
 
-                {/* 2. Center SVG: 3 Curved Arc Blocks with Live Counters INSIDE + Dotted Leader Lines */}
-                <div className="relative w-[130px] h-[200px] sm:w-[150px] sm:h-[200px] flex items-center justify-center">
-                  <svg className="w-full h-full" viewBox="0 0 150 200">
-                    {/* Arc Block 1 (Top: Midnight Green #084C63) */}
+                {/* 2. Center SVG: 3 Thick Arc Blocks with Numbers Inside + Leader Lines + Green Dots */}
+                <div className="relative w-[140px] h-[200px] sm:w-[160px] sm:h-[200px] flex items-center justify-center">
+                  <svg className="w-full h-full" viewBox="0 0 160 200">
+                    {/* Top Arc Block (Dark Teal Green) */}
                     <path
-                      d="M 100 20 A 75 75 0 0 0 40 65 L 60 77 A 52 52 0 0 1 103 42 Z"
-                      fill="#084C63"
+                      d="M 110 20 A 80 80 0 0 0 45 68 L 68 80 A 55 55 0 0 1 113 44 Z"
+                      fill="#044d41"
                     />
 
-                    {/* Arc Block 2 (Middle: Fusion Gold #757454) */}
+                    {/* Middle Arc Block (Bright Teal Green) */}
                     <path
-                      d="M 35 75 A 75 75 0 0 0 35 125 L 55 117 A 52 52 0 0 1 55 83 Z"
-                      fill="#757454"
+                      d="M 40 78 A 80 80 0 0 0 40 128 L 62 120 A 55 55 0 0 1 62 86 Z"
+                      fill="#008d75"
                     />
 
-                    {/* Arc Block 3 (Bottom: Spanish Grey #949693) */}
+                    {/* Bottom Arc Block (Deep Midnight Green) */}
                     <path
-                      d="M 40 135 A 75 75 0 0 0 100 180 L 103 158 A 52 52 0 0 1 60 123 Z"
-                      fill="#032530"
+                      d="M 45 138 A 80 80 0 0 0 110 186 L 113 162 A 55 55 0 0 1 68 126 Z"
+                      fill="#02342c"
                     />
 
-                    {/* Dotted Leader Line 1 (Top) -> Points directly to Item 1 */}
-                    <path d="M 103 42 L 125 32 L 145 32" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="145" cy="32" r="3.5" fill="#084C63" />
+                    {/* Leader Line 1 (Top: angled up-right to dot) */}
+                    <path d="M 113 44 L 132 32 L 152 32" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
+                    <circle cx="152" cy="32" r="3.5" fill="#008d75" />
 
-                    {/* Dotted Leader Line 2 (Middle) -> Points directly to Item 2 */}
-                    <line x1="55" y1="100" x2="145" y2="100" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="145" cy="100" r="3.5" fill="#757454" />
+                    {/* Leader Line 2 (Middle: horizontal right to dot) */}
+                    <line x1="62" y1="103" x2="152" y2="103" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
+                    <circle cx="152" cy="103" r="3.5" fill="#008d75" />
 
-                    {/* Dotted Leader Line 3 (Bottom) -> Points directly to Item 3 */}
-                    <path d="M 103 158 L 125 168 L 145 168" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="145" cy="168" r="3.5" fill="#032530" />
+                    {/* Leader Line 3 (Bottom: angled down-right to dot) */}
+                    <path d="M 113 162 L 132 174 L 152 174" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
+                    <circle cx="152" cy="174" r="3.5" fill="#008d75" />
                   </svg>
 
-                  {/* Animated StatCounters INSIDE Arc Blocks */}
-                  <div className="absolute top-[28px] left-[54px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
+                  {/* Animated StatCounters Inside Arc Blocks */}
+                  <div className="absolute top-[32px] left-[60px] text-white font-bold text-[11px] sm:text-[12px] pointer-events-none drop-shadow">
                     <StatCounter value={1400} suffix="+" />
                   </div>
-                  <div className="absolute top-[90px] left-[32px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
+                  <div className="absolute top-[93px] left-[36px] text-white font-bold text-[11px] sm:text-[12px] pointer-events-none drop-shadow">
                     <StatCounter value={50} suffix="+" />
                   </div>
-                  <div className="absolute top-[148px] left-[54px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
+                  <div className="absolute top-[152px] left-[60px] text-white font-bold text-[11px] sm:text-[12px] pointer-events-none drop-shadow">
                     <StatCounter value={30} suffix="+" />
                   </div>
                 </div>
 
-                {/* 3. Right Column: Labels Aligned to Leader Line Dots */}
+                {/* 3. Right Column: Headings & Subtitles Aligned to Dots */}
                 <div className="h-[200px] flex flex-col justify-between py-1">
-                  {/* Item 1: Total Students (aligned with y=32) */}
+                  {/* Item 1 (aligned to top dot at y=32) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-[#084C63] text-amber-100 tracking-tight leading-none">
+                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
                       {isAr ? "طلاب نشطون" : "Total Students"}
                     </h5>
-                    <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
+                    <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Active enrolled learners worldwide"}
                     </p>
                   </div>
 
-                  {/* Item 2: Certified Teachers (aligned with y=100) */}
+                  {/* Item 2 (aligned to middle dot at y=103) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-amber-300 tracking-tight leading-none">
+                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
                       {isAr ? "كادر مجاز" : "Certified Teachers"}
                     </h5>
-                    <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
+                    <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "كادر تعليمي بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
                     </p>
                   </div>
 
-                  {/* Item 3: Global Nations (aligned with y=168) */}
+                  {/* Item 3 (aligned to bottom dot at y=174) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-[#949693] tracking-tight leading-none">
+                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
                       {isAr ? "دول التغطية" : "Global Nations"}
                     </h5>
-                    <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
+                    <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "تغطية عبر ٤ قارات" : "Active presence across 4 continents"}
                     </p>
                   </div>
