@@ -189,102 +189,109 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
               <div className="absolute inset-0 bg-radial-at-tr from-accent/5 to-transparent pointer-events-none" />
             </motion.div>
             
-            {/* Drawer */}
+            {/* Compact Mobile Menu - Floating Glass Sheet Drawer */}
             <motion.div
               initial={{ x: isAr ? '-100%' : '100%' }}
               animate={{ x: 0 }}
               exit={{ x: isAr ? '-100%' : '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200, mass: 1 }}
-              className={`fixed top-0 bottom-0 w-[85%] max-w-sm lg:hidden bg-[#0a1a0f]/98 backdrop-blur-xl z-[110] flex flex-col shadow-[-20px_0_100px_rgba(0,0,0,0.9)] border-accent/30 overflow-hidden ${
-                isAr ? 'left-0 border-r border-l-0' : 'right-0 border-l border-r-0'
+              transition={{ type: "spring", damping: 28, stiffness: 240 }}
+              className={`fixed top-0 bottom-0 w-[78%] max-w-[285px] lg:hidden card-shine bg-[#051b23]/95 backdrop-blur-2xl z-[110] flex flex-col shadow-[-15px_0_60px_rgba(0,0,0,0.95)] border-y-0 border-[#949693]/35 overflow-hidden ${
+                isAr ? 'left-0 rounded-r-[2.5rem] border-r border-l-0' : 'right-0 rounded-l-[2.5rem] border-l border-r-0'
               }`}
             >
-              {/* Added subtle depth with a gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-black/30 pointer-events-none" />
-              <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
+              {/* Subtle ambient brand glow */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#084C63]/30 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#757454]/20 rounded-full blur-3xl pointer-events-none" />
               
-              <div className="relative flex-1 flex flex-col z-10">
-                <div className="flex justify-between items-center p-6 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 bg-white/5 rounded-2xl p-1 overflow-hidden">
+              <div className="relative flex-1 flex flex-col z-10 p-6">
+                {/* Header: Logo & Compact Close */}
+                <div className={`flex justify-between items-center pb-5 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <div className="w-10 h-10 bg-white/10 rounded-xl p-0.5 overflow-hidden border border-white/10">
                       <img src={logo} alt="Logo" className="w-full h-full object-contain" decoding="async" />
                     </div>
-                    <div className="flex flex-col leading-none text-left">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white tracking-[0.2em]">BEACON QURAN</span>
-                      <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-accent">Institute</span>
+                    <div className={`flex flex-col leading-none ${isAr ? 'text-right' : 'text-left'}`}>
+                      <span className="text-[9px] font-black uppercase tracking-wider text-amber-50">BEACON QURAN</span>
+                      <span className="text-[7.5px] font-extrabold uppercase tracking-widest text-amber-200/80">Institute</span>
                     </div>
                   </div>
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-accent hover:bg-white/20 transition-colors"
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-amber-100 hover:bg-white/20 transition-all active:scale-90"
                   >
-                    <motion.div 
-                      className="relative w-6 h-6"
-                    >
-                      <div className="absolute top-3 left-0 w-6 h-0.5 bg-current rotate-45" />
-                      <div className="absolute top-3 left-0 w-6 h-0.5 bg-current -rotate-45" />
+                    <motion.div className="relative w-4 h-4">
+                      <div className="absolute top-2 left-0 w-4 h-0.5 bg-current rotate-45" />
+                      <div className="absolute top-2 left-0 w-4 h-0.5 bg-current -rotate-45" />
                     </motion.div>
                   </button>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-2 p-10 pt-4">
-                  <div className={`mb-10 ${isAr ? 'text-right' : 'text-left'}`}>
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-accent block mb-2 opacity-80">{isAr ? 'البوابات والأقسام' : 'Menu Exploration'}</span>
-                    <div className={`h-[2px] w-12 bg-accent ${isAr ? 'mr-0 ml-auto' : 'ml-0'}`} />
-                  </div>
+                {/* Nav Links Section */}
+                <div className="flex-1 flex flex-col justify-center py-6 space-y-2">
+                  <span className={`text-[8.5px] font-black uppercase tracking-[0.3em] text-amber-200/70 block mb-2 ${isAr ? 'text-right' : 'text-left'}`}>
+                    {isAr ? 'القائمة الرئيسية' : 'Navigation'}
+                  </span>
 
-                  <div className="space-y-4">
-                    {navLinks.map((link, idx) => (
-                      <motion.button
-                        key={link.key}
-                        initial={{ opacity: 0, x: isAr ? -50 : 50, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                        transition={{ 
-                          delay: 0.2 + idx * 0.08,
-                          duration: 0.6,
-                          ease: [0.16, 1, 0.3, 1] 
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                          setView(link.view as ViewState);
+                  {navLinks.map((link, idx) => (
+                    <motion.button
+                      key={link.key}
+                      initial={{ opacity: 0, x: isAr ? -30 : 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.05, duration: 0.4 }}
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => {
+                        setView(link.view as ViewState);
+                        if (link.href.startsWith('#')) {
+                          const id = link.href.substring(1);
+                          if (id) {
+                            setTimeout(() => {
+                              const el = document.getElementById(id);
+                              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                          }
+                        } else {
                           window.scrollTo({ top: 0, behavior: 'smooth' });
-                          setIsOpen(false);
-                        }}
-                        className={`text-2xl sm:text-3xl font-bold serif tracking-tight py-2 transition-all flex items-center gap-6 group w-full ${
-                          isAr ? 'text-right flex-row-reverse' : 'text-left'
-                        } ${
-                          currentView === link.view ? 'text-accent' : 'text-white/90 hover:text-accent'
-                        }`}
-                      >
-                        <div className={`w-3 h-[1px] bg-accent transition-all duration-500 ${currentView === link.view ? 'w-8' : 'w-3 opacity-30 group-hover:w-8 group-hover:opacity-100'}`} />
-                        {t(link.key)}
-                      </motion.button>
-                    ))}
-                  </div>
-                  
-                  <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-auto pt-10"
-                  >
-                    <button 
-                      onClick={() => { setView('home'); setIsOpen(false); setTimeout(() => { const el = document.getElementById('registration'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}
-                      className="w-full bg-accent text-white p-5 rounded-full font-bold text-xs uppercase tracking-[0.2em] shadow-2xl shadow-accent/30 flex items-center justify-center gap-3 active:scale-95 transition-all hover:translate-y-[-2px]"
+                        }
+                        setIsOpen(false);
+                      }}
+                      className={`text-sm font-bold tracking-tight py-2.5 px-4 rounded-xl transition-all flex items-center gap-3 group w-full ${
+                        isAr ? 'text-right flex-row-reverse' : 'text-left'
+                      } ${
+                        currentView === link.view 
+                          ? 'bg-[#084C63]/60 text-amber-100 border border-[#949693]/35 shadow-lg' 
+                          : 'text-amber-100/80 hover:bg-white/5 hover:text-white'
+                      }`}
                     >
-                      {t('nav.startLearning')}
-                      <ArrowRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />
-                    </button>
-                    <p className="text-center mt-6 text-[10px] text-white/60 uppercase tracking-[0.2em] font-bold">Secure Registration Portal</p>
-                  </motion.div>
+                      <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                        currentView === link.view ? 'bg-amber-200 scale-125' : 'bg-white/30 group-hover:bg-amber-200'
+                      }`} />
+                      <span className="flex-1">{t(link.key)}</span>
+                      <ArrowRight className={`w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-all ${isAr ? 'rotate-180' : ''}`} />
+                    </motion.button>
+                  ))}
                 </div>
+                
+                {/* Language Switcher Badge & CTA Button */}
+                <div className="pt-4 border-t border-white/10 space-y-3">
+                  <div className={`flex items-center justify-between px-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-amber-100/60">
+                      {isAr ? 'اللغة' : 'Language'}
+                    </span>
+                    <button
+                      onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+                      className="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full text-[10px] font-bold text-amber-200 transition-all"
+                    >
+                      {language === 'en' ? 'العربية' : 'English'}
+                    </button>
+                  </div>
 
-                <div className={`p-10 border-t border-white/10 bg-black/20 flex justify-between items-center mt-auto ${isAr ? 'flex-row-reverse' : ''}`}>
-                   <div className="flex gap-6">
-                     <Phone className="w-5 h-5 text-accent hover:scale-110 transition-transform cursor-pointer" />
-                     <BookOpen className="w-5 h-5 text-accent hover:scale-110 transition-transform cursor-pointer" />
-                   </div>
-                   <span className="text-[10px] uppercase tracking-widest text-white/60 font-bold">Beacon Quran v1.2</span>
+                  <button 
+                    onClick={() => { setView('home'); setIsOpen(false); setTimeout(() => { const el = document.getElementById('registration'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}
+                    className="w-full bg-[#084C63] text-white py-3.5 rounded-xl font-serif font-bold text-xs uppercase tracking-wider border border-[#949693]/40 shadow-xl hover:bg-[#757454] active:scale-95 transition-all flex items-center justify-center gap-2"
+                  >
+                    {t('nav.startLearning')}
+                    <ArrowRight className={`w-3.5 h-3.5 ${isAr ? 'rotate-180' : ''}`} />
+                  </button>
                 </div>
               </div>
             </motion.div>

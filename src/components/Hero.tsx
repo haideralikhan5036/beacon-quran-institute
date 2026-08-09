@@ -228,14 +228,14 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* "Our Impact" Radial Arc Gauge Component (Strict Brand Colors + Animated Counters + Perfect Line Alignment) */}
+            {/* "Our Impact" Radial Arc Gauge Component (Direct Counter + Title Pairing & Connected Leader Lines) */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-8 z-20 card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[420px] sm:max-w-[540px] w-full ${isAr ? 'text-right' : 'text-left'}`}
+              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-8 z-20 card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/85 text-amber-50 max-w-[420px] sm:max-w-[560px] w-full ${isAr ? 'text-right' : 'text-left'}`}
             >
-              <div className={`grid grid-cols-[80px,140px,1fr] sm:grid-cols-[100px,160px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
+              <div className={`grid grid-cols-[80px,130px,1fr] sm:grid-cols-[100px,150px,1fr] gap-4 items-center ${isAr ? 'direction-rtl' : ''}`}>
                 
                 {/* 1. Left Title: Our Impact */}
                 <div className={`flex flex-col justify-center ${isAr ? 'text-right' : 'text-left'}`}>
@@ -247,79 +247,86 @@ export default function Hero() {
                   </span>
                 </div>
 
-                {/* 2. Center SVG: 3 Curved Arc Blocks + Animated Counters inside + Dotted Leader Lines */}
-                <div className="relative w-[140px] h-[200px] sm:w-[160px] sm:h-[200px] flex items-center justify-center">
-                  <svg className="w-full h-full" viewBox="0 0 160 200">
+                {/* 2. Center SVG: 3 Arc Block Segments + Indicator Badges + Connected Dotted Leader Lines */}
+                <div className="relative w-[130px] h-[200px] sm:w-[150px] sm:h-[200px] flex items-center justify-center">
+                  <svg className="w-full h-full" viewBox="0 0 150 200">
                     {/* Arc Block 1 (Top: Midnight Green #084C63) */}
                     <path
-                      d="M 105 20 A 75 75 0 0 0 45 65 L 65 77 A 52 52 0 0 1 108 42 Z"
+                      d="M 100 20 A 75 75 0 0 0 40 65 L 60 77 A 52 52 0 0 1 103 42 Z"
                       fill="#084C63"
                     />
+                    <text x="75" y="44" fill="#FFFFFF" fontSize="10" fontWeight="extrabold" textAnchor="middle">98%</text>
 
                     {/* Arc Block 2 (Middle: Fusion Gold #757454) */}
                     <path
-                      d="M 40 75 A 75 75 0 0 0 40 125 L 60 117 A 52 52 0 0 1 60 83 Z"
+                      d="M 35 75 A 75 75 0 0 0 35 125 L 55 117 A 52 52 0 0 1 55 83 Z"
                       fill="#757454"
                     />
+                    <text x="44" y="103" fill="#FFFFFF" fontSize="10" fontWeight="extrabold" textAnchor="middle">★</text>
 
                     {/* Arc Block 3 (Bottom: Spanish Grey #949693) */}
                     <path
-                      d="M 45 135 A 75 75 0 0 0 105 180 L 108 158 A 52 52 0 0 1 65 123 Z"
+                      d="M 40 135 A 75 75 0 0 0 100 180 L 103 158 A 52 52 0 0 1 60 123 Z"
                       fill="#949693"
                     />
+                    <text x="75" y="152" fill="#FFFFFF" fontSize="10" fontWeight="extrabold" textAnchor="middle">🌐</text>
 
-                    {/* Dotted Leader Line 1 (Top) -> Points directly to Item 1 */}
-                    <line x1="108" y1="35" x2="155" y2="35" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="155" cy="35" r="3.5" fill="#084C63" />
+                    {/* Dotted Leader Line 1 (Top) -> Points directly to Counter 1 */}
+                    <line x1="103" y1="35" x2="145" y2="35" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="145" cy="35" r="3.5" fill="#084C63" />
 
-                    {/* Dotted Leader Line 2 (Middle) -> Points directly to Item 2 */}
-                    <line x1="60" y1="100" x2="155" y2="100" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="155" cy="100" r="3.5" fill="#757454" />
+                    {/* Dotted Leader Line 2 (Middle) -> Points directly to Counter 2 */}
+                    <line x1="55" y1="100" x2="145" y2="100" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="145" cy="100" r="3.5" fill="#757454" />
 
-                    {/* Dotted Leader Line 3 (Bottom) -> Points directly to Item 3 */}
-                    <line x1="108" y1="165" x2="155" y2="165" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
-                    <circle cx="155" cy="165" r="3.5" fill="#949693" />
+                    {/* Dotted Leader Line 3 (Bottom) -> Points directly to Counter 3 */}
+                    <line x1="103" y1="165" x2="145" y2="165" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <circle cx="145" cy="165" r="3.5" fill="#949693" />
                   </svg>
-
-                  {/* Animated Counters Positioned Overlay inside Arc Blocks */}
-                  <div className="absolute top-[28px] left-[62px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
-                    <StatCounter value={1400} suffix="+" />
-                  </div>
-                  <div className="absolute top-[90px] left-[36px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
-                    <StatCounter value={50} suffix="+" />
-                  </div>
-                  <div className="absolute top-[152px] left-[62px] text-amber-50 font-bold text-[10px] sm:text-[11px] pointer-events-none drop-shadow">
-                    <StatCounter value={30} suffix="+" />
-                  </div>
                 </div>
 
-                {/* 3. Right Column: 3 Items aligned EXACTLY horizontally to each leader line dot */}
+                {/* 3. Right Column: Live Counter Number + Title Heading Paired Side-by-Side in front of Leader Line Dots */}
                 <div className="h-[200px] flex flex-col justify-between py-1">
-                  {/* Item 1: Total Students (aligned with y=35) */}
-                  <div className={`flex flex-col justify-center h-[50px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-amber-50 tracking-tight leading-none">
-                      {isAr ? "طلاب نشطون" : "Total Students"}
-                    </h5>
+                  {/* Item 1: Animated Counter 1400+ DIRECTLY paired with Total Students */}
+                  <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-white tracking-tight leading-none">
+                        <StatCounter value={1400} suffix="+" />
+                      </span>
+                      <h5 className="text-xs sm:text-sm font-bold text-amber-200 uppercase tracking-wider">
+                        {isAr ? "طالب نشط" : "Total Students"}
+                      </h5>
+                    </div>
                     <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
-                      {isAr ? "خريجون ودارسون حالياً" : "Active enrolled learners worldwide"}
+                      {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Active enrolled learners worldwide"}
                     </p>
                   </div>
 
-                  {/* Item 2: Certified Teachers (aligned with y=100) */}
-                  <div className={`flex flex-col justify-center h-[50px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-[#FCD34D] tracking-tight leading-none">
-                      {isAr ? "كادر مجاز" : "Certified Teachers"}
-                    </h5>
+                  {/* Item 2: Animated Counter 50+ DIRECTLY paired with Certified Teachers */}
+                  <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-amber-300 tracking-tight leading-none">
+                        <StatCounter value={50} suffix="+" />
+                      </span>
+                      <h5 className="text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider">
+                        {isAr ? "معلم مجاز" : "Certified Teachers"}
+                      </h5>
+                    </div>
                     <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
-                      {isAr ? "معلمون بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
+                      {isAr ? "كادر تعليمي بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
                     </p>
                   </div>
 
-                  {/* Item 3: Global Nations (aligned with y=165) */}
-                  <div className={`flex flex-col justify-center h-[50px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-xs sm:text-sm font-bold text-[#949693] tracking-tight leading-none">
-                      {isAr ? "دول التغطية" : "Global Nations"}
-                    </h5>
+                  {/* Item 3: Animated Counter 30+ DIRECTLY paired with Global Nations */}
+                  <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-bold display text-[#949693] tracking-tight leading-none">
+                        <StatCounter value={30} suffix="+" />
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold text-[#949693] uppercase tracking-wider">
+                        {isAr ? "دولة" : "Global Nations"}
+                      </span>
+                    </div>
                     <p className="text-[9px] sm:text-[10px] text-amber-100/70 font-medium mt-1 leading-tight">
                       {isAr ? "تغطية عبر ٤ قارات" : "Active presence across 4 continents"}
                     </p>
