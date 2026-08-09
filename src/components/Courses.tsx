@@ -460,15 +460,114 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
           </div>
         </Reveal>
 
-        {/* ── SINGLE-ROW IN-PLACE EXPANDING SLIT-PEELED CARD SUITE (01 - 06) ── */}
+        {/* ── 3D SLIT-PEELED CARD SUITE ── */}
         <div className="card-shine border-2 border-[#757454]/60 bg-[#030d12]/95 backdrop-blur-2xl p-4 sm:p-8 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] relative overflow-hidden">
           
           <p className="text-center display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300/90 mb-6 sm:mb-8">
-            {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة في مكانها" : "Click any number tab (01 - 06) to expand its course card in place"}
+            {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة" : "Tap any number tab (01 - 06) to expand its course card"}
           </p>
 
-          {/* 1-Row Responsive Card Accordion Suite */}
-          <div className="flex flex-col lg:flex-row gap-4 sm:gap-5 min-h-[560px] lg:min-h-[540px] items-stretch justify-center">
+          {/* ── 1. MOBILE ONLY VIEW (Sleek Horizontal 3D Pill Dock + Active Card) ── */}
+          <div className="flex flex-col gap-6 lg:hidden">
+            
+            {/* Horizontal Scrollable 3D Ribbon Pill Dock */}
+            <div className="flex items-center gap-3 overflow-x-auto pb-3 pt-1 px-1 scrollbar-none snap-x">
+              {coursesList.map((course, idx) => {
+                const isActive = idx === activeIndex;
+                const theme = ribbonThemes[idx];
+
+                return (
+                  <button
+                    key={course.title}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`snap-center shrink-0 px-4 py-3 rounded-2xl font-bold text-xs transition-all duration-300 flex items-center gap-2.5 cursor-pointer border ${
+                      isActive 
+                        ? `${theme.activeBg} ${theme.border} text-white shadow-xl scale-105 border-2` 
+                        : 'bg-[#051b23]/80 border-white/10 text-amber-100/70'
+                    }`}
+                  >
+                    <span className={`w-6 h-6 rounded-lg ${theme.bg} ${theme.text} flex items-center justify-center font-extrabold text-xs shadow`}>
+                      {theme.num}
+                    </span>
+                    <span className="whitespace-nowrap">{course.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Mobile Active Card Display */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCourse.title}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3 }}
+                className={`p-5 sm:p-7 rounded-[2.5rem] bg-[#051b23] border-2 border-[#757454] shadow-2xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}
+              >
+                {/* Header */}
+                <div className={`flex items-center justify-between gap-3 mb-5 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <div className="w-12 h-12 rounded-xl bg-[#084C63]/60 border border-[#757454] flex items-center justify-center shrink-0">
+                      <activeCourse.icon className="w-6 h-6 text-amber-200" />
+                    </div>
+                    <div>
+                      <span className="display text-[9px] font-extrabold uppercase tracking-[0.25em] text-amber-300 block mb-0.5">
+                        {isAr ? `المسار 0${activeIndex + 1} من 06` : `Track 0${activeIndex + 1} of 06`}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-bold display text-amber-50">
+                        {activeCourse.title}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Intro */}
+                <p className="text-xs sm:text-sm text-amber-100/90 font-medium leading-relaxed mb-5">
+                  {activeCourse.details.intro}
+                </p>
+
+                {/* Milestones */}
+                <div className="bg-[#030d12]/80 border border-[#757454]/40 p-4 rounded-2xl space-y-2 mb-5">
+                  <h4 className={`display text-[9.5px] font-extrabold uppercase tracking-[0.2em] text-amber-300 mb-2 ${isAr ? 'text-right' : ''}`}>
+                    {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
+                  </h4>
+                  {activeCourse.details.benefits.map((benefit, bIdx) => (
+                    <div key={bIdx} className={`flex items-start gap-2 text-amber-100/90 text-xs font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Hadith */}
+                <div className={`p-3.5 rounded-xl bg-[#084C63]/20 border-l-4 border-amber-300 text-[11px] italic text-amber-100/90 mb-5 ${isAr ? 'border-l-0 border-r-4 text-right' : ''}`}>
+                  {isAr ? activeCourse.details.quote : `"${activeCourse.details.quote}"`}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => onViewDetails?.(activeCourse.title)}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
+                  >
+                    <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                    <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <button
+                    onClick={handleEnrollNow}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  >
+                    <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* ── 2. DESKTOP ONLY VIEW (100% UNTOUCHED Approved 1-Row In-Place Slit Cards) ── */}
+          <div className="hidden lg:flex flex-row gap-5 min-h-[540px] items-stretch justify-center">
             {coursesList.map((course, idx) => {
               const isActive = idx === activeIndex;
               const theme = ribbonThemes[idx];
@@ -481,35 +580,35 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   className={`relative cursor-pointer rounded-[2.5rem] transition-all duration-500 overflow-hidden ${
                     isActive 
-                      ? 'lg:flex-[4.5] bg-[#051b23] border-2 border-[#757454] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-30' 
-                      : 'lg:flex-[1.2] bg-[#030d12]/90 border border-white/10 hover:border-[#757454]/60 opacity-85 hover:opacity-100 z-10'
+                      ? 'flex-[4.5] bg-[#051b23] border-2 border-[#757454] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-30' 
+                      : 'flex-[1.2] bg-[#030d12]/90 border border-white/10 hover:border-[#757454]/60 opacity-85 hover:opacity-100 z-10'
                   }`}
                 >
                   {/* Collapsed Slit-Peeled State (Stands in place when inactive) */}
                   {!isActive && (
-                    <div className="h-full min-h-[140px] lg:min-h-[500px] w-full p-4 sm:p-6 flex flex-row lg:flex-col justify-between items-center relative overflow-hidden group">
+                    <div className="h-full min-h-[500px] w-full p-6 flex flex-col justify-between items-center relative overflow-hidden group">
                       
                       {/* Paper Slit Cutout Edge Shadow */}
                       <div className="absolute left-0 top-0 bottom-0 w-2 bg-black/80 shadow-[3px_0_12px_rgba(0,0,0,0.9)]" />
 
                       {/* 3D Peeled Paper Ribbon Beak (Exactly matching reference screenshot) */}
                       <div 
-                        className={`w-20 h-24 lg:w-20 lg:h-32 rounded-r-3xl border-r-2 border-y-2 ${theme.border} ${theme.bg} shadow-2xl flex flex-col items-center justify-center p-2 group-hover:scale-105 transition-transform`}
+                        className={`w-20 h-32 rounded-r-3xl border-r-2 border-y-2 ${theme.border} ${theme.bg} shadow-2xl flex flex-col items-center justify-center p-2 group-hover:scale-105 transition-transform`}
                         style={{
                           clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)'
                         }}
                       >
-                        <span className={`display text-3xl lg:text-4xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`}>
+                        <span className={`display text-4xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`}>
                           {theme.num}
                         </span>
                       </div>
 
                       {/* Course Title Label */}
-                      <div className={`flex flex-col items-start lg:items-center ${isAr ? 'text-right' : 'text-left lg:text-center'}`}>
+                      <div className={`flex flex-col items-center ${isAr ? 'text-right' : 'text-center'}`}>
                         <span className="display text-[9px] font-extrabold uppercase tracking-widest text-amber-300/80 mb-1">
                           0{idx + 1}
                         </span>
-                        <h4 className="text-base sm:text-lg font-bold display text-amber-50 leading-tight lg:[writing-mode:vertical-rl] lg:rotate-180">
+                        <h4 className="text-lg font-bold display text-amber-50 leading-tight [writing-mode:vertical-rl] rotate-180">
                           {course.title}
                         </h4>
                       </div>
@@ -527,7 +626,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                       initial={{ opacity: 0, x: isAr ? -20 : 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.4 }}
-                      className={`p-6 sm:p-9 h-full flex flex-col justify-between text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}
+                      className={`p-9 h-full flex flex-col justify-between text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}
                     >
                       <div>
                         {/* Active Ribbon Header Badge */}
@@ -543,13 +642,13 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                               <span className="display text-[9.5px] font-extrabold uppercase tracking-[0.3em] text-amber-300 block mb-0.5">
                                 {isAr ? `المسار الأكاديمي 0${idx + 1} من 06` : `Academic Track 0${idx + 1} of 06`}
                               </span>
-                              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold display text-amber-50 leading-tight">
+                              <h3 className="text-3xl lg:text-4xl font-bold display text-amber-50 leading-tight">
                                 {course.title}
                               </h3>
                             </div>
                           </div>
 
-                          <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#084C63]/50 border border-[#757454]/60">
+                          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#084C63]/50 border border-[#757454]/60">
                             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                             <span className="display text-[9px] font-extrabold uppercase tracking-widest text-amber-200">
                               {isAr ? "المسار المفتوح" : "Active Path"}
@@ -558,7 +657,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                         </div>
 
                         {/* Course Overview */}
-                        <p className="text-sm sm:text-base text-amber-100/90 font-medium leading-relaxed mb-6">
+                        <p className="text-base text-amber-100/90 font-medium leading-relaxed mb-6">
                           {course.details.intro}
                         </p>
 
@@ -582,13 +681,13 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                       </div>
 
                       {/* Action Buttons inside the Active Card */}
-                      <div className={`flex flex-col sm:flex-row items-center gap-3 pt-2 ${isAr ? 'sm:flex-row-reverse' : ''}`}>
+                      <div className={`flex items-center gap-3 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             onViewDetails?.(course.title);
                           }}
-                          className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2.5 group cursor-pointer"
+                          className="px-7 py-3.5 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2.5 group cursor-pointer"
                         >
                           <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
                           <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
@@ -599,7 +698,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                             e.stopPropagation();
                             handleEnrollNow();
                           }}
-                          className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                          className="px-6 py-3.5 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
                         >
                           <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
                         </button>
