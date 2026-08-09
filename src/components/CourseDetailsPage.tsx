@@ -446,9 +446,14 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
   const { isAr } = useLanguage();
   const courseList = isAr ? courseDetailsAr : courseDetailsEn;
 
-  // Determine initial active course index
+  // Determine initial active course index with robust bidirectional fuzzy matching
   const initialIndex = selectedCourseId 
-    ? Math.max(0, courseList.findIndex(c => c.id === selectedCourseId || c.title.toLowerCase().includes(selectedCourseId.toLowerCase())))
+    ? Math.max(0, courseList.findIndex(c => {
+        const target = selectedCourseId.trim().toLowerCase();
+        const title = c.title.trim().toLowerCase();
+        const id = c.id.trim().toLowerCase();
+        return id === target || title.includes(target) || target.includes(title);
+      }))
     : 0;
 
   const [activeIndex, setActiveIndex] = useState(initialIndex >= 0 ? initialIndex : 0);

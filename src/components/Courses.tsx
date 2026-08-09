@@ -222,11 +222,13 @@ interface CoursesProps {
 function CourseCard3D({ 
   course, 
   index,
-  isActive
+  isActive,
+  onViewDetails
 }: { 
   course: typeof courses[0]; 
   index: number;
   isActive: boolean;
+  onViewDetails?: (courseId: string) => void;
 }) {
   const { isAr } = useLanguage();
   const x = useMotionValue(0);
@@ -345,10 +347,14 @@ function CourseCard3D({
         {/* Floating Accent Ring */}
         {isActive && (
           <div 
-            className={`absolute bottom-10 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-accent ${isAr ? 'left-10 flex-row-reverse' : 'right-10'}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetails?.(course.title);
+            }}
+            className={`absolute bottom-10 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-accent hover:text-amber-200 cursor-pointer ${isAr ? 'left-10 flex-row-reverse' : 'right-10'}`}
             style={{ transform: "translateZ(45px)", transformStyle: "preserve-3d" }}
           >
-            <span>{isAr ? "مسار معتمد" : "Academic Track"}</span>
+            <span>{isAr ? "معرفة تفاصيل المسار" : "Academic Track"}</span>
             {isAr ? (
               <ArrowRight className="w-3.5 h-3.5 rotate-180" />
             ) : (
@@ -361,7 +367,7 @@ function CourseCard3D({
   );
 }
 
-export default function Courses({ onSelectCourse }: CoursesProps) {
+export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps) {
   const { isAr } = useLanguage();
   const coursesList = isAr ? coursesAr : courses;
 
@@ -610,6 +616,7 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
                       course={course}
                       index={index}
                       isActive={isActive}
+                      onViewDetails={onViewDetails}
                     />
                   </motion.div>
                 );
