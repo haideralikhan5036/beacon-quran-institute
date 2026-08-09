@@ -216,6 +216,7 @@ const coursesAr = [
 
 interface CoursesProps {
   onSelectCourse?: (courseTitle: string) => void;
+  onViewDetails?: (courseId: string) => void;
 }
 
 function CourseCard3D({ 
@@ -588,15 +589,18 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
                 {/* Button Controls */}
                 <div className={`flex flex-col sm:flex-row gap-4 pt-2 ${isAr ? 'sm:justify-start flex-row-reverse' : ''}`}>
                   <button
-                    onClick={handleEnrollNow}
-                    className="px-8 py-5 rounded-2xl bg-primary text-white font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-accent hover:text-primary transition-all shadow-xl shadow-primary/10 flex items-center justify-center gap-3 group"
+                    onClick={() => onViewDetails?.(activeCourse.title)}
+                    className="px-6 py-4 rounded-2xl bg-[#084C63] text-white font-bold uppercase tracking-[0.15em] text-[10.5px] border border-amber-300/60 hover:bg-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
                   >
-                    <span>{isAr ? `ابدأ مسار ${activeCourse.title}` : `Start ${activeCourse.title}`}</span>
-                    {isAr ? (
-                      <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1.5 transition-transform" />
-                    ) : (
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                    )}
+                    <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                    <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <button
+                    onClick={handleEnrollNow}
+                    className="px-6 py-4 rounded-2xl bg-white/5 border border-white/20 text-amber-100 font-bold uppercase tracking-[0.15em] text-[10.5px] hover:bg-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
                   </button>
                 </div>
 

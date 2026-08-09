@@ -40,7 +40,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
   const navLinks = [
     { key: 'nav.home', name: 'Home', view: 'home', href: '#' },
     { key: 'nav.about', name: 'About', view: 'home', href: '#about' },
-    { key: 'nav.courses', name: 'Courses', view: 'home', href: '#courses' },
+    { key: 'nav.courses', name: 'Courses', view: 'courses', href: '#courses' },
     { key: 'nav.services', name: 'Services', view: 'services', href: '#services' },
     { key: 'nav.blog', name: 'Blog', view: 'blog', href: '#blog' },
     { key: 'nav.testimonials', name: 'Testimonials', view: 'testimonials', href: '#reviews' },

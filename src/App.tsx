@@ -22,8 +22,9 @@ const Blog              = lazy(() => import('./components/Blog'));
 const CustomerServices  = lazy(() => import('./components/CustomerServices'));
 const TermsOfService    = lazy(() => import('./components/TermsOfService'));
 const CertificateOfAppraisal = lazy(() => import('./components/CertificateOfAppraisal'));
+const CourseDetailsPage = lazy(() => import('./components/CourseDetailsPage'));
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses';
 
 // Lightweight spinner for lazy boundaries
 const Spinner = () => (
@@ -35,7 +36,22 @@ const Spinner = () => (
 export default function App() {
   const [view, setView] = useState<ViewState>('home');
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  const handleViewCourseDetails = (courseId: string) => {
+    setSelectedCourseId(courseId);
+    setView('courses');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleRegisterFromDetails = (courseTitle: string) => {
+    setSelectedCourse(courseTitle);
+    setView('home');
+    setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  };
 
   return (
     <div className="min-h-screen font-sans text-amber-50 relative">
@@ -49,7 +65,10 @@ export default function App() {
           {view === 'home' && (
             <>
               <Hero />
-              <Courses onSelectCourse={setSelectedCourse} />
+              <Courses 
+                onSelectCourse={setSelectedCourse} 
+                onViewDetails={handleViewCourseDetails}
+              />
               <WhyUs />
               <Testimonials setView={setView} />
               <Fees onSelectPlan={setSelectedPlan} />
@@ -58,6 +77,13 @@ export default function App() {
                 preSelectedPlan={selectedPlan}
               />
             </>
+          )}
+          {view === 'courses'     && (
+            <CourseDetailsPage 
+              onBack={() => setView('home')} 
+              selectedCourseId={selectedCourseId}
+              onRegisterCourse={handleRegisterFromDetails}
+            />
           )}
           {view === 'testimonials' && <Testimonials full setView={setView} />}
           {view === 'blog'        && <Blog onBack={() => setView('home')} />}
