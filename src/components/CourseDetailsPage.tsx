@@ -473,8 +473,8 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
         </div>
 
         {/* Header Card Box */}
-        <div className="card-shine border border-[#949693]/35 p-8 sm:p-12 rounded-[3rem] shadow-2xl text-center max-w-4xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/40 border border-[#949693]/40 mb-4">
+        <div className="card-shine border border-[#757454]/60 p-8 sm:p-12 rounded-[3rem] shadow-[0_0_30px_rgba(117,116,84,0.2)] text-center max-w-4xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/50 border border-[#757454]/60 mb-4">
             <Sparkles className="w-4 h-4 text-amber-200" />
             <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.4em] text-amber-200">
               {isAr ? "دليل المسارات الأكاديمية الشامل" : "Comprehensive Course Catalog"}
@@ -501,8 +501,8 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
                 onClick={() => setActiveIndex(idx)}
                 className={`px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2.5 cursor-pointer shadow-lg ${
                   isActive 
-                    ? 'bg-[#084C63] text-white border border-amber-300/80 shadow-[#084C63]/40 scale-105' 
-                    : 'card-shine border border-[#949693]/30 text-amber-100/80 hover:text-white hover:border-amber-300/40'
+                    ? 'bg-[#757454] text-white border border-[#757454] shadow-[#757454]/40 scale-105' 
+                    : 'card-shine border border-[#757454]/40 text-amber-100/80 hover:text-white hover:border-[#757454]'
                 } ${isAr ? 'flex-row-reverse' : ''}`}
               >
                 <TabIcon className={`w-4 h-4 ${isActive ? 'text-amber-300' : 'text-amber-100/60'}`} />
@@ -522,14 +522,14 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
             transition={{ duration: 0.45 }}
             className="space-y-12"
           >
-            {/* Top Overview & Specs Hero Banner */}
-            <div className={`card-shine border border-[#949693]/35 p-8 sm:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
+            {/* Top Overview & Specs Hero Banner with Fusion Gold Fine Edges */}
+            <div className={`card-shine border border-[#757454]/70 p-8 sm:p-12 rounded-[3rem] shadow-[0_0_35px_rgba(117,116,84,0.25)] relative overflow-hidden text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
               <div className="absolute top-0 right-0 w-80 h-80 bg-[#084C63]/30 rounded-full blur-3xl pointer-events-none"></div>
 
               <div className={`grid lg:grid-cols-[1fr,320px] gap-8 lg:gap-12 items-center ${isAr ? 'direction-rtl' : ''}`}>
                 <div>
                   <div className={`flex items-center gap-4 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-14 h-14 bg-[#084C63]/60 border border-amber-300/50 rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
+                    <div className="w-14 h-14 bg-[#084C63]/60 border border-[#757454] rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
                       <Icon className="w-7 h-7 text-amber-200" />
                     </div>
                     <div>
@@ -546,13 +546,13 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
                     {activeCourse.tagline}
                   </p>
 
-                  <div className={`bg-[#084C63]/30 border-l-4 border-amber-300 p-4 rounded-r-2xl text-sm italic text-amber-100/90 font-medium ${isAr ? 'border-l-0 border-r-4 rounded-r-none rounded-l-2xl' : ''}`}>
+                  <div className={`bg-[#084C63]/30 border-l-4 border-[#757454] p-4 rounded-r-2xl text-sm italic text-amber-100/90 font-medium ${isAr ? 'border-l-0 border-r-4 rounded-r-none rounded-l-2xl' : ''}`}>
                     {isAr ? activeCourse.quote : `"${activeCourse.quote}"`}
                   </div>
                 </div>
 
-                {/* Specs Box */}
-                <div className="bg-[#051b23]/90 border border-[#949693]/40 p-6 sm:p-7 rounded-[2rem] space-y-4 shadow-xl">
+                {/* Specs Box with Fusion Gold Edges and Spanish Grey Button */}
+                <div className="bg-[#051b23]/90 border border-[#757454]/60 p-6 sm:p-7 rounded-[2rem] space-y-4 shadow-xl">
                   <h3 className="display text-[11px] font-extrabold uppercase tracking-[0.25em] text-amber-300 mb-2 border-b border-white/10 pb-2">
                     {isAr ? "مواصفات وتفاصيل المسار" : "Course Specifications"}
                   </h3>
@@ -578,9 +578,10 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
                   </div>
 
                   <div className="pt-2">
+                    {/* Spanish Grey Button with Fusion Gold Hover */}
                     <button
                       onClick={() => onRegisterCourse(activeCourse.title)}
-                      className="w-full py-4 rounded-xl bg-[#084C63] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/60 hover:bg-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
+                      className="w-full py-4 rounded-xl bg-[#949693] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-[#757454]/60 transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
                     >
                       <span>{isAr ? `التسجيل في ${activeCourse.title}` : `Enroll in ${activeCourse.title}`}</span>
                       <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
@@ -594,9 +595,9 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
             <div className="grid lg:grid-cols-3 gap-8">
               
               {/* Section 1: Who Is This Course For? */}
-              <div className={`card-shine border border-[#949693]/35 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
+              <div className={`card-shine border border-[#757454]/60 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
                 <div className={`flex items-center gap-3 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-amber-300/40 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-[#757454] flex items-center justify-center shrink-0">
                     <UserCheck className="w-5 h-5 text-amber-200" />
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold display text-amber-50">
@@ -614,9 +615,9 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
               </div>
 
               {/* Section 2: Key Benefits & Outcomes */}
-              <div className={`card-shine border border-[#949693]/35 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
+              <div className={`card-shine border border-[#757454]/60 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
                 <div className={`flex items-center gap-3 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-amber-300/40 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-[#757454] flex items-center justify-center shrink-0">
                     <ShieldCheck className="w-5 h-5 text-amber-200" />
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold display text-amber-50">
@@ -634,9 +635,9 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
               </div>
 
               {/* Section 3: Curriculum Modules Roadmap */}
-              <div className={`card-shine border border-[#949693]/35 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
+              <div className={`card-shine border border-[#757454]/60 p-8 rounded-[2.5rem] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
                 <div className={`flex items-center gap-3 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-amber-300/40 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#084C63]/50 border border-[#757454] flex items-center justify-center shrink-0">
                     <BookMarked className="w-5 h-5 text-amber-200" />
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold display text-amber-50">
@@ -645,8 +646,8 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
                 </div>
                 <div className="space-y-3.5">
                   {activeCourse.curriculum.map((module, idx) => (
-                    <div key={idx} className={`p-3.5 rounded-xl bg-[#051b23]/80 border border-[#949693]/30 text-amber-100 text-xs sm:text-sm font-semibold flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-                      <span className="w-6 h-6 rounded-lg bg-[#084C63] text-amber-200 flex items-center justify-center text-xs font-bold shrink-0">
+                    <div key={idx} className={`p-3.5 rounded-xl bg-[#051b23]/80 border border-[#757454]/40 text-amber-100 text-xs sm:text-sm font-semibold flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="w-6 h-6 rounded-lg bg-[#757454] text-white flex items-center justify-center text-xs font-bold shrink-0">
                         {idx + 1}
                       </span>
                       <span>{module}</span>
@@ -657,8 +658,8 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
 
             </div>
 
-            {/* Bottom Registration Prompt Banner */}
-            <div className="card-shine border border-[#949693]/35 p-8 sm:p-12 rounded-[3rem] shadow-2xl text-center max-w-4xl mx-auto text-amber-50">
+            {/* Bottom Registration Prompt Banner with Spanish Grey Button */}
+            <div className="card-shine border border-[#757454]/70 p-8 sm:p-12 rounded-[3rem] shadow-2xl text-center max-w-4xl mx-auto text-amber-50">
               <h3 className="text-2xl sm:text-3xl font-bold display mb-3">
                 {isAr ? `جاهز للبدء في مسار ${activeCourse.title}؟` : `Ready to Begin ${activeCourse.title}?`}
               </h3>
@@ -669,7 +670,7 @@ export default function CourseDetailsPage({ onBack, selectedCourseId, onRegister
               </p>
               <button
                 onClick={() => onRegisterCourse(activeCourse.title)}
-                className="px-10 py-5 rounded-full bg-[#084C63] text-white font-bold uppercase tracking-[0.2em] text-xs border border-amber-300/80 hover:bg-[#757454] transition-all shadow-2xl inline-flex items-center gap-3 cursor-pointer"
+                className="px-10 py-5 rounded-full bg-[#949693] hover:bg-[#757454] text-white font-bold uppercase tracking-[0.2em] text-xs border border-[#757454] transition-all shadow-2xl inline-flex items-center gap-3 cursor-pointer"
               >
                 <span>{isAr ? "سجل في التجربة المجانية" : "Enroll for Free 3-Day Trial"}</span>
                 <ArrowRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />

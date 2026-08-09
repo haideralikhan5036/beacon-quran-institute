@@ -632,8 +632,12 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
             {/* Action Buttons: Read Full Course Details & Quick Enroll */}
             <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
               <button
-                onClick={() => onViewDetails?.(activeCourse.title)}
-                className="w-full sm:w-auto px-8 py-4.5 rounded-2xl bg-[#084C63] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/70 hover:bg-[#757454] transition-all shadow-2xl flex items-center justify-center gap-3 group cursor-pointer"
+                onClick={() => {
+                  if (onViewDetails) {
+                    onViewDetails(activeCourse.title);
+                  }
+                }}
+                className="w-full sm:w-auto px-8 py-4.5 rounded-2xl bg-[#949693] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-[#757454]/80 transition-all shadow-2xl flex items-center justify-center gap-3 group cursor-pointer"
               >
                 <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
                 <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
