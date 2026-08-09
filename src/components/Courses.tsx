@@ -372,6 +372,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
   const coursesList = isAr ? coursesAr : courses;
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const mobileRibbonRef = useRef<HTMLDivElement>(null);
   const activeCourse = coursesList[activeIndex];
 
   const handleEnrollNow = () => {
@@ -379,6 +380,21 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
     setTimeout(() => {
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
+  };
+
+  // Auto-scroll mobile ribbon when tapping a course pill so the next course peeks into view!
+  const handleMobileSelect = (idx: number) => {
+    setActiveIndex(idx);
+    if (mobileRibbonRef.current) {
+      const container = mobileRibbonRef.current;
+      const buttons = container.querySelectorAll<HTMLButtonElement>('button');
+      if (buttons[idx]) {
+        const targetBtn = buttons[idx];
+        const containerWidth = container.offsetWidth;
+        const scrollLeft = targetBtn.offsetLeft - (containerWidth / 2) + (targetBtn.offsetWidth / 2);
+        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      }
+    }
   };
 
   // Brand Theme Palette for the 6 Slit-Peeled Cards (01 - 06)
@@ -467,11 +483,25 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
             {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة" : "Tap any number tab (01 - 06) to expand its course card"}
           </p>
 
-          {/* ── 1. MOBILE ONLY VIEW (Sleek Horizontal 3D Pill Dock + Active Card) ── */}
-          <div className="flex flex-col gap-6 lg:hidden">
+          {/* ── 1. MOBILE ONLY VIEW (Ultra-Highlighted 3D Pill Dock + Auto-Scroll + Active Card) ── */}
+          <div className="flex flex-col gap-5 lg:hidden">
             
-            {/* Horizontal Scrollable 3D Ribbon Pill Dock */}
-            <div className="flex items-center gap-3 overflow-x-auto pb-3 pt-1 px-1 scrollbar-none snap-x">
+            {/* Header & Swipe Hint */}
+            <div className={`flex items-center justify-between px-1 ${isAr ? 'flex-row-reverse' : ''}`}>
+              <div className="flex items-center gap-1.5 text-[#FCD34D] font-extrabold text-[11px] uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-[#FCD34D] animate-pulse" />
+                <span>{isAr ? "اختر المسار (01 - 06):" : "Select Course Track (01 - 06):"}</span>
+              </div>
+              <span className="text-[10px] font-bold text-amber-200/90 flex items-center gap-1 animate-pulse">
+                {isAr ? "اسحب للمزيد ➔" : "Swipe for more ➔"}
+              </span>
+            </div>
+
+            {/* Horizontal Scrollable High-Contrast 3D Ribbon Pill Dock */}
+            <div 
+              ref={mobileRibbonRef}
+              className="flex items-center gap-3.5 overflow-x-auto pb-3 pt-1 px-1 scrollbar-none snap-x"
+            >
               {coursesList.map((course, idx) => {
                 const isActive = idx === activeIndex;
                 const theme = ribbonThemes[idx];
@@ -479,17 +509,18 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                 return (
                   <button
                     key={course.title}
-                    onClick={() => setActiveIndex(idx)}
-                    className={`snap-center shrink-0 px-4 py-3 rounded-2xl font-bold text-xs transition-all duration-300 flex items-center gap-2.5 cursor-pointer border ${
+                    onClick={() => handleMobileSelect(idx)}
+                    className={`snap-center shrink-0 px-4.5 py-3.5 rounded-2xl font-extrabold text-xs transition-all duration-300 flex items-center gap-3 cursor-pointer ${
                       isActive 
-                        ? `${theme.activeBg} ${theme.border} text-white shadow-xl scale-105 border-2` 
-                        : 'bg-[#051b23]/80 border-white/10 text-amber-100/70'
+                        ? `bg-[#084C63] border-2 border-[#FCD34D] text-white shadow-[0_0_22px_rgba(252,211,77,0.45)] scale-105 z-20` 
+                        : 'bg-[#051b23] border-2 border-[#757454]/60 text-amber-100/90 shadow-md hover:border-[#FCD34D]/60'
                     }`}
                   >
-                    <span className={`w-6 h-6 rounded-lg ${theme.bg} ${theme.text} flex items-center justify-center font-extrabold text-xs shadow`}>
+                    {/* High-Contrast Number Badge */}
+                    <span className={`w-7 h-7 rounded-xl ${isActive ? 'bg-[#FCD34D] text-[#03171e]' : `${theme.bg} ${theme.text}`} flex items-center justify-center font-black text-xs shadow-md border border-white/20`}>
                       {theme.num}
                     </span>
-                    <span className="whitespace-nowrap">{course.title}</span>
+                    <span className="whitespace-nowrap font-bold text-amber-50">{course.title}</span>
                   </button>
                 );
               })}
