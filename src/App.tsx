@@ -24,15 +24,12 @@ const TermsOfService    = lazy(() => import('./components/TermsOfService'));
 const CertificateOfAppraisal = lazy(() => import('./components/CertificateOfAppraisal'));
 const CourseDetailsPage = lazy(() => import('./components/CourseDetailsPage'));
 const ContactPage       = lazy(() => import('./components/ContactPage'));
+import LuxuryPreloader from './components/LuxuryPreloader';
 
 export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact';
 
-// Lightweight spinner for lazy boundaries
-const Spinner = () => (
-  <div className="min-h-[50vh] flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
-  </div>
-);
+// Luxury Preloader for Suspense boundaries
+const Spinner = () => <LuxuryPreloader />;
 
 export default function App() {
   const [view, setView] = useState<ViewState>('home');

@@ -28,7 +28,27 @@
     <meta name="twitter:description" content="Professional online Quran classes focusing on Tajweed, Memorization, and Arabic. 3-Day Free Trial available." />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Luxury Preloader rendered before React mounts -->
+      <div style="position: fixed; inset: 0; background-color: #030d12; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif; color: #fef3c7; z-index: 999999;">
+        <div style="width: 84px; height: 84px; border-radius: 50%; border: 2px solid #757454; box-shadow: 0 0 35px rgba(252,211,77,0.35); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: #051b23; position: relative;">
+          <span style="font-size: 28px;">📖</span>
+        </div>
+        <p style="font-family: serif; font-style: italic; font-size: 20px; color: #fde68a; margin: 0 0 10px 0; letter-spacing: 1px;">«بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ»</p>
+        <h2 style="font-size: 22px; font-weight: bold; letter-spacing: -0.5px; margin: 0 0 6px 0; color: #ffffff;">Beacon Quran Institute</h2>
+        <p style="font-size: 11px; opacity: 0.75; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 24px 0; color: #fcd34d;">Premier Global Quranic Academy</p>
+        <div style="width: 200px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1);">
+          <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: linear-gradient(90deg, #084c63, #fcd34d, #757454); animation: initialPreloader 1.6s ease-in-out infinite;"></div>
+        </div>
+        <style>
+          @keyframes initialPreloader {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+          }
+        </style>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
