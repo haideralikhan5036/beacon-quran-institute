@@ -17,8 +17,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'Chat on WhatsApp',
       link: 'https://wa.me/923461573771',
       icon: MessageCircle,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'Available 24/7 for instant admission & fee inquiries'
     },
     {
@@ -29,8 +29,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'Send Email',
       link: 'mailto:beaconquraninstitute@gmail.com',
       icon: Mail,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'Response time guaranteed within 1 hour'
     },
     {
@@ -41,8 +41,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'Visit Facebook Page',
       link: 'https://facebook.com/beaconquraninstitute',
       icon: Facebook,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'Daily Quranic benefits, videos & student milestones'
     },
     {
@@ -53,8 +53,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'Follow on Instagram',
       link: 'https://instagram.com/beaconquraninstitute',
       icon: Instagram,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'Beautiful Quranic reels, Tajweed tips & updates'
     },
     {
@@ -65,8 +65,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'Connect on LinkedIn',
       link: 'https://linkedin.com/company/beaconquraninstitute',
       icon: Linkedin,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'Institutional news, faculty network & pedagogical research'
     }
   ];
@@ -80,8 +80,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'محادثة الواتساب الفورية',
       link: 'https://wa.me/923461573771',
       icon: MessageCircle,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'متاح على مدار ٢٤ ساعة لجميع الاستفسارات والرسوم'
     },
     {
@@ -92,8 +92,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'إرسال بريد إلكتروني',
       link: 'mailto:beaconquraninstitute@gmail.com',
       icon: Mail,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'استجابة مضمونة خلال أقل من ساعة واحدة'
     },
     {
@@ -104,8 +104,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'زيارة صفحة فيسبوك',
       link: 'https://facebook.com/beaconquraninstitute',
       icon: Facebook,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'فوائد قرآنية يومية وفيديوهات ومحطات إنجاز الطلاب'
     },
     {
@@ -116,8 +116,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'متابعة على انستغرام',
       link: 'https://instagram.com/beaconquraninstitute',
       icon: Instagram,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'مقاطع تلاوة خاشعة ونصائح تجويدية متميزة'
     },
     {
@@ -128,8 +128,8 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
       actionText: 'التواصل عبر لينكد إن',
       link: 'https://linkedin.com/company/beaconquraninstitute',
       icon: Linkedin,
-      badgeColor: 'bg-[#084C63]/50 text-amber-300 border-[#949693]/40',
-      btnColor: 'bg-[#084C63] hover:bg-[#757454] text-white border border-amber-300/40',
+      badgeColor: 'bg-[#084C63]/60 text-amber-300 border-[#757454]/50',
+      btnColor: 'bg-[#949693] hover:bg-white text-[#03171e]',
       highlight: 'الأخبار المؤسسية وأبحاث المناهج والتعليم القرآني'
     }
   ];
@@ -182,7 +182,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.08 }}
                 whileHover={{ scale: 1.04, y: -4, zIndex: 30 }}
-                className={`card-shine border border-[#949693]/35 bg-[#051b23]/90 text-amber-50 rounded-[2.5rem] p-8 sm:p-9 shadow-2xl flex flex-col justify-between transition-all duration-300 ${isAr ? 'text-right' : 'text-left'} group hover:border-amber-300/60`}
+                className={`card-shine border-2 border-[#757454]/60 hover:border-[#757454] bg-[#051b23]/95 text-amber-50 rounded-[2.5rem] p-8 sm:p-9 shadow-2xl flex flex-col justify-between transition-all duration-300 ${isAr ? 'text-right' : 'text-left'} group shadow-[0_15px_40px_rgba(0,0,0,0.5)]`}
               >
                 <div>
                   {/* Top Badge & Icon */}
