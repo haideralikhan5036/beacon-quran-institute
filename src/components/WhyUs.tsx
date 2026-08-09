@@ -390,6 +390,137 @@ export default function WhyUs() {
             </div>
           </div>
         </div>
+
+        {/* 📌 PINNED STICKY NOTE CARDS SHOWCASE (Matching User Reference Image 100%) */}
+        <div className="mt-20 sm:mt-28">
+          <Reveal delay={0.1} width="100%">
+            <div className="card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-16 shadow-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/40 border border-[#949693]/40 mb-3">
+                <Sparkles className="w-4 h-4 text-amber-200" />
+                <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">
+                  {isAr ? "المحاور والأركان التعليمية" : "Pillars of Excellence"}
+                </h2>
+              </div>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-amber-50 mb-3 text-balance">
+                {isAr ? "منهاج تعليمي شامل ومبارك" : "Curriculum & Spiritual Tarbiyat"}
+              </h3>
+              <p className="text-amber-100/90 text-sm sm:text-base font-medium max-w-xl mx-auto">
+                {isAr ? "أربعة أركان أساسية تضمن التميز الأكاديمي والتربوي لك ولأبنائك" : "Four foundational pillars ensuring academic mastery and moral guidance"}
+              </p>
+            </div>
+          </Reveal>
+
+          {/* 4 Pinned Note Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4">
+            {(isAr ? [
+              {
+                num: '01',
+                title: 'حفظ القرآن الكريم',
+                desc: 'حفظ كتاب الله تعالى كاملاً مع إتقان أحكام التجويد والضبط على يد معلمين مجازين.',
+                bgColor: 'bg-[#eef9f2]',
+                borderColor: 'border-[#bbf7d0]',
+                numColor: 'text-[#16a34a]',
+                tilt: 'rotate-[-1.5deg]'
+              },
+              {
+                num: '02',
+                title: 'تلاوة ونظرة القرآن',
+                desc: 'قراءة سليمة وصحيحة لآيات الذكر الحكيم مع مخارج الحروف الدقيقة والأحكام.',
+                bgColor: 'bg-[#eaf8f8]',
+                borderColor: 'border-[#99f6e4]',
+                numColor: 'text-[#0d9488]',
+                tilt: 'rotate-[1deg]'
+              },
+              {
+                num: '03',
+                title: 'التربية الإسلامية والأخلاقية',
+                desc: 'بناء الشخصية الإسلامية المتكاملة وتربية النشء على الأخلاق والسنة النبوية.',
+                bgColor: 'bg-[#f4effc]',
+                borderColor: 'border-[#ddd6fe]',
+                numColor: 'text-[#7c3aed]',
+                tilt: 'rotate-[-1deg]'
+              },
+              {
+                num: '04',
+                title: 'حلقات أونلاين ومباشرة',
+                desc: 'خيارات دراسية مرنة ومتاحة للدارسين والدارسات محلياً ودولياً عبر العالم.',
+                bgColor: 'bg-[#fffbeb]',
+                borderColor: 'border-[#fde68a]',
+                numColor: 'text-[#d97706]',
+                tilt: 'rotate-[1.5deg]'
+              }
+            ] : [
+              {
+                num: '01',
+                title: 'Hifz-ul-Quran',
+                desc: 'Complete memorization of the Holy Quran with proper Tajweed and guidance.',
+                bgColor: 'bg-[#eef9f2]',
+                borderColor: 'border-[#bbf7d0]',
+                numColor: 'text-[#16a34a]',
+                tilt: 'rotate-[-1.5deg]'
+              },
+              {
+                num: '02',
+                title: 'Nazra Quran Kareem',
+                desc: 'Fluent Quran recitation with precise pronunciation and Tajweed rules.',
+                bgColor: 'bg-[#eaf8f8]',
+                borderColor: 'border-[#99f6e4]',
+                numColor: 'text-[#0d9488]',
+                tilt: 'rotate-[1deg]'
+              },
+              {
+                num: '03',
+                title: 'Islamic & Moral Tarbiyat',
+                desc: 'Holistic moral character building rooted in Islamic teachings and Sunnah.',
+                bgColor: 'bg-[#f4effc]',
+                borderColor: 'border-[#ddd6fe]',
+                numColor: 'text-[#7c3aed]',
+                tilt: 'rotate-[-1deg]'
+              },
+              {
+                num: '04',
+                title: 'Online & Offline Classes',
+                desc: 'Flexible learning options available for both local and international students.',
+                bgColor: 'bg-[#fffbeb]',
+                borderColor: 'border-[#fde68a]',
+                numColor: 'text-[#d97706]',
+                tilt: 'rotate-[1.5deg]'
+              }
+            ]).map((card, idx) => (
+              <Reveal key={card.num} delay={0.2 + idx * 0.1}>
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: 0, zIndex: 30 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  className={`relative ${card.bgColor} ${card.borderColor} border-2 rounded-2xl p-7 sm:p-8 shadow-[0_15px_35px_rgba(0,0,0,0.35)] transition-all duration-300 ${card.tilt} ${isAr ? 'text-right' : 'text-left'}`}
+                >
+                  {/* Realistic Red Pushpin Ornament */}
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none">
+                    <div className="w-5 h-5 bg-gradient-to-tr from-rose-600 via-red-500 to-rose-400 rounded-full shadow-lg border-2 border-white/80 relative flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 bg-white/70 rounded-full absolute top-0.5 left-1" />
+                    </div>
+                    <div className="w-1 h-2.5 bg-gradient-to-b from-gray-400 to-gray-600 -mt-0.5 shadow-md" />
+                    <div className="w-3 h-1 bg-black/30 blur-[1px] rounded-full -mt-0.5" />
+                  </div>
+
+                  {/* Number Badge */}
+                  <span className={`text-2xl font-black display block mb-3 ${card.numColor}`}>
+                    {card.num}
+                  </span>
+
+                  {/* Title */}
+                  <h4 className="text-xl font-bold display text-slate-900 mb-3 tracking-tight">
+                    {card.title}
+                  </h4>
+
+                  {/* Description */}
+                  <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                    {card.desc}
+                  </p>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
