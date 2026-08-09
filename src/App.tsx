@@ -23,8 +23,9 @@ const CustomerServices  = lazy(() => import('./components/CustomerServices'));
 const TermsOfService    = lazy(() => import('./components/TermsOfService'));
 const CertificateOfAppraisal = lazy(() => import('./components/CertificateOfAppraisal'));
 const CourseDetailsPage = lazy(() => import('./components/CourseDetailsPage'));
+const ContactPage       = lazy(() => import('./components/ContactPage'));
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact';
 
 // Lightweight spinner for lazy boundaries
 const Spinner = () => (
@@ -45,8 +46,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleRegisterFromDetails = (courseTitle: string) => {
-    setSelectedCourse(courseTitle);
+  const handleRegisterFromDetails = (courseTitle?: string) => {
+    if (courseTitle) setSelectedCourse(courseTitle);
     setView('home');
     setTimeout(() => {
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -77,6 +78,12 @@ export default function App() {
                 preSelectedPlan={selectedPlan}
               />
             </>
+          )}
+          {view === 'contact'     && (
+            <ContactPage 
+              onBack={() => setView('home')} 
+              onRegisterClick={() => handleRegisterFromDetails()}
+            />
           )}
           {view === 'courses'     && (
             <CourseDetailsPage 

@@ -44,7 +44,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
     { key: 'nav.services', name: 'Services', view: 'services', href: '#services' },
     { key: 'nav.blog', name: 'Blog', view: 'blog', href: '#blog' },
     { key: 'nav.testimonials', name: 'Testimonials', view: 'testimonials', href: '#reviews' },
-    { key: 'nav.contact', name: 'Contact', view: 'home', href: '#contact' },
+    { key: 'nav.contact', name: 'Contact', view: 'contact', href: '#contact' },
   ];
 
   return (
