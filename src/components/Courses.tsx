@@ -372,124 +372,6 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
   const coursesList = isAr ? coursesAr : courses;
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [touchActive, setTouchActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Soft auto-rotation interval
-  useEffect(() => {
-    if (isPaused || touchActive) return;
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % coursesList.length);
-    }, 3500); // 3.5 seconds rotation interval
-    return () => clearInterval(interval);
-  }, [isPaused, touchActive, coursesList.length]);
-
-    // Touch Gesture Detection for Mobile (Horizontal Swipe)
-    useEffect(() => {
-      const container = containerRef.current;
-      if (!container || !isMobile) return;
-  
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let lastX = 0;
-      let touchMoved = false;
-      let scrollDirectionLock: 'horizontal' | 'vertical' | null = null;
-  
-      const handleTouchStart = (e: TouchEvent) => {
-        if (e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          lastX = touchStartX;
-          touchMoved = true;
-          scrollDirectionLock = null;
-        }
-      };
-  
-      const handleTouchMove = (e: TouchEvent) => {
-        if (!touchMoved) return;
-  
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        lastX = currentX;
-  
-        const diffX = currentX - touchStartX;
-        const diffY = currentY - touchStartY;
-  
-        // Determine the locked gesture once user moves at least 8 pixels
-        if (!scrollDirectionLock) {
-          if (Math.abs(diffX) > 8 || Math.abs(diffY) > 8) {
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-              scrollDirectionLock = 'horizontal';
-              setTouchActive(true);
-            } else {
-              scrollDirectionLock = 'vertical';
-            }
-          }
-        }
-  
-        // If locked to vertical screen scrolling, let native scrolling function untouched
-        if (scrollDirectionLock === 'vertical') {
-          return;
-        }
-  
-        // If locked to horizontal course swiping, move cards and block page scrolling
-        if (scrollDirectionLock === 'horizontal') {
-          if (e.cancelable) {
-            e.preventDefault();
-          }
-  
-          // Live track horizontal swipe as percentage (-1 to +1) over viewport range
-          const maxSwipeWidth = window.innerWidth * 0.45 || 160;
-          const normalizedOffset = Math.min(Math.max(diffX / maxSwipeWidth, -1), 1);
-          setDragOffset(normalizedOffset);
-        }
-      };
-  
-      const handleTouchEnd = () => {
-        if (!touchMoved) return;
-        touchMoved = false;
-        setTouchActive(false);
-  
-        if (scrollDirectionLock === 'horizontal') {
-          const finalDiffX = lastX - touchStartX;
-          const maxSwipeWidth = window.innerWidth * 0.45 || 160;
-          const normalizedOffset = Math.min(Math.max(finalDiffX / maxSwipeWidth, -1), 1);
-  
-          const swipeThreshold = 0.22; // 22% displacement triggers card change
-          if (normalizedOffset > swipeThreshold) {
-            setActiveIndex(prev => Math.max(prev - 1, 0));
-          } else if (normalizedOffset < -swipeThreshold) {
-            setActiveIndex(prev => Math.min(prev + 1, coursesList.length - 1));
-          }
-        }
-  
-        setDragOffset(0);
-        scrollDirectionLock = null;
-      };
-  
-      container.addEventListener('touchstart', handleTouchStart, { passive: true });
-      container.addEventListener('touchmove', handleTouchMove, { passive: false });
-      container.addEventListener('touchend', handleTouchEnd, { passive: true });
-  
-      return () => {
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchmove', handleTouchMove);
-        container.removeEventListener('touchend', handleTouchEnd);
-      };
-    }, [activeIndex, isMobile, coursesList]);
-
   const activeCourse = coursesList[activeIndex];
 
   const handleEnrollNow = () => {
@@ -499,16 +381,67 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
     }, 100);
   };
 
+  // Brand Theme Styles for the 6 Slit-Peeled Ribbon Tabs (01 - 06)
+  const ribbonThemes = [
+    { 
+      bg: 'bg-[#084C63]', 
+      activeBg: 'bg-[#084C63]', 
+      border: 'border-[#757454]', 
+      text: 'text-amber-200', 
+      num: '01',
+      badge: 'bg-amber-300/20 text-amber-300'
+    },
+    { 
+      bg: 'bg-[#757454]', 
+      activeBg: 'bg-[#757454]', 
+      border: 'border-[#FCD34D]', 
+      text: 'text-amber-100', 
+      num: '02',
+      badge: 'bg-white/20 text-white'
+    },
+    { 
+      bg: 'bg-[#949693]', 
+      activeBg: 'bg-[#949693]', 
+      border: 'border-white', 
+      text: 'text-[#03171e]', 
+      num: '03',
+      badge: 'bg-[#03171e]/20 text-[#03171e]'
+    },
+    { 
+      bg: 'bg-[#055147]', 
+      activeBg: 'bg-[#055147]', 
+      border: 'border-[#FCD34D]', 
+      text: 'text-emerald-200', 
+      num: '04',
+      badge: 'bg-emerald-300/20 text-emerald-300'
+    },
+    { 
+      bg: 'bg-[#032530]', 
+      activeBg: 'bg-[#032530]', 
+      border: 'border-[#757454]', 
+      text: 'text-amber-300', 
+      num: '05',
+      badge: 'bg-amber-400/20 text-amber-300'
+    },
+    { 
+      bg: 'bg-[#D97706]', 
+      activeBg: 'bg-[#D97706]', 
+      border: 'border-amber-200', 
+      text: 'text-white', 
+      num: '06',
+      badge: 'bg-white/20 text-white'
+    },
+  ];
+
   const sectionSubtitle = isAr ? "مساراتنا الدراسية" : "Our Academic Paths";
   const sectionTitle = isAr ? "علوم التنزيل الشريفة لكل طالب علم" : "Sacred Knowledge for Every Learner";
 
   return (
     <section 
       id="courses" 
-      ref={containerRef}
       className="py-16 sm:py-24 bg-transparent relative overflow-hidden"
     >
-      {/* Cinematic Background Light */}
+      {/* Background Lighting Glow */}
       <div className="absolute inset-x-0 top-0 bottom-0 bg-gradient-to-br from-accent/[0.02] via-transparent to-primary/[0.02] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-gradient-to-tr from-accent/5 via-transparent to-primary/5 blur-3xl pointer-events-none rounded-full" />
       
@@ -527,133 +460,159 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
           </div>
         </Reveal>
 
-        {/* Sleek Course Stage Showcase (No heavy left-side text) */}
-        <div 
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="flex flex-col items-center justify-center overflow-visible py-4 min-h-[460px] max-w-4xl mx-auto"
-        >
-          <div className="relative w-full flex items-center justify-center overflow-visible" style={{ perspective: 1800, transformStyle: 'preserve-3d' }}>
-            
-            {/* Left Navigation Button */}
-            <button
-              onClick={() => setActiveIndex(prev => Math.max(prev - 1, 0))}
-              disabled={activeIndex === 0}
-              className="absolute left-1 sm:left-4 lg:-left-4 xl:-left-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
-              aria-label="Previous Course"
-            >
-              <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
-            </button>
+        {/* ── 3D SLIT-PEELED RIBBON TABS STAGE (Matching User Reference Screenshot Layout) ── */}
+        <div className="space-y-12">
+          
+          {/* 6 Interactive 3D Slit-Peeled Ribbon Tabs Strip (01 - 06) */}
+          <div className="card-shine border-2 border-[#757454]/60 bg-[#030d12]/90 backdrop-blur-2xl p-6 sm:p-10 rounded-[3rem] shadow-[0_30px_90px_rgba(0,0,0,0.85)] relative overflow-hidden">
+            <p className="text-center display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300/80 mb-8">
+              {isAr ? "اضغط على طية أي مسار (01 - 06) لاستكشاف التفاصيل" : "Press any ribbon tab (01 - 06) to reveal course details"}
+            </p>
 
-            {/* Right Navigation Button */}
-            <button
-              onClick={() => setActiveIndex(prev => Math.min(prev + 1, coursesList.length - 1))}
-              disabled={activeIndex === coursesList.length - 1}
-              className="absolute right-1 sm:right-4 lg:-right-4 xl:-right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
-              aria-label="Next Course"
-            >
-              <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-
-            {/* Elliptical Shadows Projection */}
-            <div className="absolute -bottom-6 w-[200px] h-[15px] bg-primary/10 rounded-full blur-md opacity-60 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
-            
-            {/* Carousel Viewport mapping */}
-            <div className="w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] relative flex items-center justify-center overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
-              {coursesList.map((course, index) => {
-                let diff = index - activeIndex;
-
-                // Continuous mathematical distance with dragOffset
-                const effectiveDiff = diff + dragOffset;
-
-                // Visual presence condition
-                const isVisible = Math.abs(diff) <= 1 || 
-                  (dragOffset < -0.05 && diff === 2) || 
-                  (dragOffset > 0.05 && diff === -2);
-
-                if (!isVisible && !isMobile) return null;
-
-                const stepWidth = isMobile ? (152 + Math.abs(dragOffset) * 20) : (260 + Math.abs(dragOffset) * 30);
-                const xTranslate = effectiveDiff * stepWidth;
-                const zTranslate = isMobile ? 0 : 80 - 240 * Math.min(Math.abs(effectiveDiff), 1.2);
-                const rotationY = isMobile ? 0 : effectiveDiff * -35; 
-                const cardScale = 1 - 0.16 * Math.min(Math.abs(effectiveDiff), 1.2);
-                const opacity = 1 - 0.65 * Math.min(Math.abs(effectiveDiff), 1.1);
-
-                const isActive = index === activeIndex;
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 relative items-center justify-center">
+              {coursesList.map((course, idx) => {
+                const isActive = idx === activeIndex;
+                const theme = ribbonThemes[idx];
 
                 return (
                   <motion.div
                     key={course.title}
-                    initial={false}
-                    animate={{
-                      x: xTranslate,
-                      z: zTranslate,
-                      rotateY: rotationY,
-                      scale: cardScale,
-                      opacity: opacity,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: touchActive ? 220 : 110,
-                      damping: touchActive ? 26 : 24,
-                      mass: touchActive ? 0.9 : 1.15
-                    }}
-                    style={{
-                      position: 'absolute',
-                      transformStyle: 'preserve-3d',
-                      zIndex: isActive ? 30 : Math.abs(effectiveDiff) < 1 ? 20 : 10,
-                      pointerEvents: 'auto',
-                    }}
-                    className="origin-center"
-                    onClick={() => {
-                      if (!isActive) {
-                        setActiveIndex(index);
-                      }
-                    }}
+                    whileHover={{ scale: 1.06, y: -6 }}
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`relative cursor-pointer transition-all duration-300 select-none group ${
+                      isActive ? 'z-30' : 'z-10'
+                    }`}
                   >
-                    <CourseCard3D 
-                      course={course}
-                      index={index}
-                      isActive={isActive}
-                      onViewDetails={onViewDetails}
-                    />
+                    {/* Vertical Slit Slot Background (Paper Slit Cutout Effect) */}
+                    <div className="w-full h-44 sm:h-52 bg-[#051b23]/90 rounded-2xl shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] border border-white/10 relative overflow-hidden flex flex-col justify-between p-3">
+                      
+                      {/* Inner Slit Line Shadow */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black/70 shadow-[2px_0_10px_rgba(0,0,0,0.9)]" />
+
+                      {/* 3D Curved Peeled Paper Ribbon Tab (Extending out from slit matching reference image!) */}
+                      <div 
+                        className={`absolute top-1/2 -translate-y-1/2 ${isAr ? 'right-0 rounded-l-3xl border-l-2 border-y-2' : 'left-0 rounded-r-3xl border-r-2 border-y-2'} ${theme.border} ${
+                          isActive ? `${theme.activeBg} shadow-[0_15px_35px_rgba(0,0,0,0.7)] scale-105` : `${theme.bg} opacity-85 group-hover:opacity-100`
+                        } w-[88%] h-[120px] transition-all duration-300 flex flex-col items-center justify-center p-2 shadow-2xl`}
+                        style={{
+                          clipPath: isAr 
+                            ? 'polygon(0 0, 100% 15%, 100% 85%, 0 100%)' 
+                            : 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)'
+                        }}
+                      >
+                        {/* Number Display (01, 02, 03, 04, 05, 06) */}
+                        <span className={`display text-3xl sm:text-4xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`}>
+                          {theme.num}
+                        </span>
+
+                        {/* Course Name Snippet */}
+                        <span className={`text-[10px] font-bold text-center uppercase tracking-wider line-clamp-1 mt-1 ${theme.text}`}>
+                          {course.title.split(' ')[0]}
+                        </span>
+                      </div>
+
+                      {/* Active Indicator Pulse Pin */}
+                      {isActive && (
+                        <div className="absolute top-2 right-2 flex items-center gap-1 z-30">
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-300 animate-ping" />
+                          <span className="w-2 h-2 rounded-full bg-amber-400" />
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 );
               })}
             </div>
-
           </div>
 
-          {/* Active Course Title & Dedicated Read Details Button Bar */}
-          <div className="mt-10 text-center max-w-xl mx-auto space-y-5">
-            <div>
-              <span className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300 block mb-1">
-                {isAr ? `المسار ${activeIndex + 1} من ${coursesList.length}` : `Course ${activeIndex + 1} of ${coursesList.length}`}
-              </span>
-              <h4 className="text-3xl sm:text-4xl font-bold display text-amber-50">
-                {activeCourse.title}
-              </h4>
-            </div>
+          {/* ── Active Swiped Course Details Card (Reveals upon pressing ribbon tab) ── */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCourse.title}
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className={`card-shine border-2 border-[#757454]/60 bg-[#051b23]/95 backdrop-blur-2xl p-8 sm:p-12 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] text-amber-50 relative overflow-hidden ${isAr ? 'text-right' : 'text-left'}`}
+            >
+              {/* Top Track Header */}
+              <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10 ${isAr ? 'sm:flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-4 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <div className="w-14 h-14 rounded-2xl bg-[#084C63]/60 border border-[#757454] flex items-center justify-center shrink-0 shadow-lg">
+                    <activeCourse.icon className="w-7 h-7 text-amber-200" />
+                  </div>
+                  <div>
+                    <span className="display text-[10px] font-extrabold uppercase tracking-[0.35em] text-amber-300">
+                      {isAr ? `المسار الأكاديمي 0${activeIndex + 1} من 06` : `Academic Track 0${activeIndex + 1} of 06`}
+                    </span>
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-amber-50 leading-tight">
+                      {activeCourse.title}
+                    </h3>
+                  </div>
+                </div>
 
-            {/* Action Buttons: Read Full Course Details & Quick Enroll */}
-            <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <button
-                onClick={() => onViewDetails?.(activeCourse.title)}
-                className="w-full sm:w-auto px-8 py-4.5 rounded-2xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-2xl flex items-center justify-center gap-3 group cursor-pointer"
-              >
-                <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
-                <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
-              </button>
+                <div className="px-4 py-2 rounded-full bg-[#084C63]/40 border border-[#757454]/50 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <span className="display text-[10px] font-extrabold uppercase tracking-widest text-amber-200">
+                    {isAr ? "برنامج معتمد" : "Certified Track"}
+                  </span>
+                </div>
+              </div>
 
-              <button
-                onClick={handleEnrollNow}
-                className="w-full sm:w-auto px-6 py-4.5 rounded-2xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl"
-              >
-                <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
-              </button>
-            </div>
-          </div>
+              {/* Course Intro Paragraph */}
+              <p className="text-base sm:text-lg text-amber-100/90 font-medium leading-relaxed mb-8">
+                {activeCourse.details.intro}
+              </p>
+
+              {/* Milestones & Benefits Grid */}
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-[#030d12]/80 border border-[#757454]/40 p-6 rounded-[2rem] space-y-3">
+                  <h4 className={`display text-[10.5px] font-extrabold uppercase tracking-[0.25em] text-amber-300 mb-3 ${isAr ? 'text-right' : ''}`}>
+                    {isAr ? "أهداف ومحاور البرنامج" : "Key Program Milestones"}
+                  </h4>
+                  {activeCourse.details.benefits.map((benefit, bIdx) => (
+                    <div key={bIdx} className={`flex items-start gap-3 text-amber-100/90 text-xs sm:text-sm font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                      <CheckCircle2 className="w-4.5 h-4.5 text-amber-300 shrink-0 mt-0.5" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-[#084C63]/20 border border-[#757454]/40 p-6 rounded-[2rem] flex flex-col justify-between">
+                  <div>
+                    <h4 className={`display text-[10.5px] font-extrabold uppercase tracking-[0.25em] text-amber-300 mb-3 ${isAr ? 'text-right' : ''}`}>
+                      {isAr ? "الحكمة والنص التوجيهي" : "Spiritual Insight & Hadith"}
+                    </h4>
+                    <p className="text-xs sm:text-sm italic text-amber-100/90 leading-relaxed font-serif">
+                      {isAr ? activeCourse.details.quote : `"${activeCourse.details.quote}"`}
+                    </p>
+                  </div>
+                  <p className="text-[10px] text-amber-100/60 font-medium mt-4">
+                    💡 {activeCourse.details.insight}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons: Read Full Course Details & Quick Enroll */}
+              <div className={`flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 pt-2 ${isAr ? 'sm:flex-row-reverse' : ''}`}>
+                <button
+                  onClick={() => onViewDetails?.(activeCourse.title)}
+                  className="w-full sm:w-auto px-8 py-4.5 rounded-2xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-2xl flex items-center justify-center gap-3 group cursor-pointer"
+                >
+                  <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                  <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+                </button>
+
+                <button
+                  onClick={handleEnrollNow}
+                  className="w-full sm:w-auto px-7 py-4.5 rounded-2xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl"
+                >
+                  <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Flexible Learning Packages Prompt */}
