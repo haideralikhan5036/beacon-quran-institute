@@ -521,218 +521,132 @@ export default function Courses({ onSelectCourse }: CoursesProps) {
           </div>
         </Reveal>
 
-        {/* 3D Immersive Grid Layout */}
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center min-h-[580px]">
-          
-          {/* Left Column: Dynamic Structured Course Content & Milestones */}
-          <div className={`lg:col-span-6 flex flex-col justify-center ${isAr ? 'text-right' : 'text-left'} order-2 lg:order-1`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, x: isAr ? 30 : -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: isAr ? -30 : 30 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="space-y-6 sm:space-y-8"
-              >
-                {/* Visual Progress Bar marker */}
-                <div className={`flex items-center gap-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <span className="display text-xs font-bold uppercase tracking-[0.25em] text-accent">
-                    {isAr 
-                      ? `البرنامج ${activeIndex + 1} من ${coursesList.length}` 
-                      : `Course ${activeIndex + 1} of ${coursesList.length}`
-                    }
-                  </span>
-                  <div className="h-[2px] w-24 bg-primary/10 rounded-full overflow-hidden relative">
-                    <motion.div 
-                      className="absolute left-0 top-0 bottom-0 bg-accent"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${((activeIndex + 1) / coursesList.length) * 100}%` }}
-                      transition={{ duration: 0.5 }}
+        {/* Sleek Course Stage Showcase (No heavy left-side text) */}
+        <div 
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="flex flex-col items-center justify-center overflow-visible py-4 min-h-[460px] max-w-4xl mx-auto"
+        >
+          <div className="relative w-full flex items-center justify-center overflow-visible" style={{ perspective: 1800, transformStyle: 'preserve-3d' }}>
+            
+            {/* Left Navigation Button */}
+            <button
+              onClick={() => setActiveIndex(prev => Math.max(prev - 1, 0))}
+              disabled={activeIndex === 0}
+              className="absolute left-1 sm:left-4 lg:-left-4 xl:-left-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
+              aria-label="Previous Course"
+            >
+              <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Right Navigation Button */}
+            <button
+              onClick={() => setActiveIndex(prev => Math.min(prev + 1, coursesList.length - 1))}
+              disabled={activeIndex === coursesList.length - 1}
+              className="absolute right-1 sm:right-4 lg:-right-4 xl:-right-8 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
+              aria-label="Next Course"
+            >
+              <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Elliptical Shadows Projection */}
+            <div className="absolute -bottom-6 w-[200px] h-[15px] bg-primary/10 rounded-full blur-md opacity-60 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
+            
+            {/* Carousel Viewport mapping */}
+            <div className="w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] relative flex items-center justify-center overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
+              {coursesList.map((course, index) => {
+                let diff = index - activeIndex;
+
+                // Continuous mathematical distance with dragOffset
+                const effectiveDiff = diff + dragOffset;
+
+                // Visual presence condition
+                const isVisible = Math.abs(diff) <= 1 || 
+                  (dragOffset < -0.05 && diff === 2) || 
+                  (dragOffset > 0.05 && diff === -2);
+
+                if (!isVisible && !isMobile) return null;
+
+                const stepWidth = isMobile ? (152 + Math.abs(dragOffset) * 20) : (260 + Math.abs(dragOffset) * 30);
+                const xTranslate = effectiveDiff * stepWidth;
+                const zTranslate = isMobile ? 0 : 80 - 240 * Math.min(Math.abs(effectiveDiff), 1.2);
+                const rotationY = isMobile ? 0 : effectiveDiff * -35; 
+                const cardScale = 1 - 0.16 * Math.min(Math.abs(effectiveDiff), 1.2);
+                const opacity = 1 - 0.65 * Math.min(Math.abs(effectiveDiff), 1.1);
+
+                const isActive = index === activeIndex;
+
+                return (
+                  <motion.div
+                    key={course.title}
+                    initial={false}
+                    animate={{
+                      x: xTranslate,
+                      z: zTranslate,
+                      rotateY: rotationY,
+                      scale: cardScale,
+                      opacity: opacity,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: touchActive ? 220 : 110,
+                      damping: touchActive ? 26 : 24,
+                      mass: touchActive ? 0.9 : 1.15
+                    }}
+                    style={{
+                      position: 'absolute',
+                      transformStyle: 'preserve-3d',
+                      zIndex: isActive ? 30 : Math.abs(effectiveDiff) < 1 ? 20 : 10,
+                      pointerEvents: 'auto',
+                    }}
+                    className="origin-center"
+                    onClick={() => {
+                      if (!isActive) {
+                        setActiveIndex(index);
+                      }
+                    }}
+                  >
+                    <CourseCard3D 
+                      course={course}
+                      index={index}
+                      isActive={isActive}
                     />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-3xl sm:text-4xl lg:text-5xl font-bold display text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                    {activeCourse.title}
-                  </h4>
-                  <p className="text-base sm:text-lg text-amber-100/90 leading-relaxed font-normal">
-                    {activeCourse.details.intro}
-                  </p>
-                </div>
-
-                {/* Milestones Card Box */}
-                <div className="bg-black/20 backdrop-blur-md border border-accent/20 p-6 sm:p-8 rounded-[2rem] shadow-xl text-amber-50">
-                  <h5 className={`display text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-4 ${isAr ? 'text-right' : ''}`}>
-                    {isAr ? "أهداف ومحاور البرنامج الدراسي" : "Program Milestones"}
-                  </h5>
-                  <div className="space-y-3.5">
-                    {activeCourse.details.benefits.map((benefit) => (
-                      <div key={benefit} className={`flex gap-4 text-amber-100/90 items-start ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                        <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                        <span className="text-sm font-medium leading-relaxed">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Hadith Block */}
-                <div className={`bg-accent/10 backdrop-blur-sm p-5 italic text-amber-100/90 text-xs sm:text-sm ${
-                  isAr 
-                    ? 'border-r-2 border-accent rounded-l-[1.5rem] tracking-wide text-right' 
-                    : 'border-l-2 border-accent rounded-r-[1.5rem] text-left'
-                }`}>
-                  {isAr ? activeCourse.details.quote : `"${activeCourse.details.quote}"`}
-                </div>
-
-                {/* Button Controls */}
-                <div className={`flex flex-col sm:flex-row gap-4 pt-2 ${isAr ? 'sm:justify-start flex-row-reverse' : ''}`}>
-                  <button
-                    onClick={() => onViewDetails?.(activeCourse.title)}
-                    className="px-6 py-4 rounded-2xl bg-[#084C63] text-white font-bold uppercase tracking-[0.15em] text-[10.5px] border border-amber-300/60 hover:bg-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
-                  >
-                    <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
-                    <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  <button
-                    onClick={handleEnrollNow}
-                    className="px-6 py-4 rounded-2xl bg-white/5 border border-white/20 text-amber-100 font-bold uppercase tracking-[0.15em] text-[10.5px] hover:bg-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
-                  </button>
-                </div>
-
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Right Column: Visual Interactive 3D Card Stage */}
-          <div 
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            className="lg:col-span-6 flex flex-col items-center justify-center order-1 lg:order-2 overflow-visible py-4 min-h-[460px]"
-          >
-            <div className="relative w-full flex items-center justify-center overflow-visible" style={{ perspective: 1800, transformStyle: 'preserve-3d' }}>
-              
-              {/* Left Navigation Button */}
-              <button
-                onClick={() => setActiveIndex(prev => Math.max(prev - 1, 0))}
-                disabled={activeIndex === 0}
-                className="absolute left-1 sm:left-4 lg:-left-4 xl:-left-8 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
-                aria-label="Previous Course"
-              >
-                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
-              </button>
-
-              {/* Right Navigation Button */}
-              <button
-                onClick={() => setActiveIndex(prev => Math.min(prev + 1, coursesList.length - 1))}
-                disabled={activeIndex === coursesList.length - 1}
-                className="absolute right-1 sm:right-4 lg:-right-4 xl:-right-8 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white text-primary border border-primary/10 shadow-[0_15px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-95 disabled:opacity-20 disabled:pointer-events-none z-40 group cursor-pointer"
-                aria-label="Next Course"
-              >
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-
-              {/* Elliptical Shadows Projection */}
-              <div className="absolute -bottom-6 w-[200px] h-[15px] bg-primary/10 rounded-full blur-md opacity-60 pointer-events-none z-0" style={{ transform: 'rotateX(75deg)' }} />
-              
-              {/* Carousel Viewport mapping */}
-              <div className="w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] relative flex items-center justify-center overflow-visible" style={{ transformStyle: 'preserve-3d' }}>
-                {coursesList.map((course, index) => {
-                  let diff = index - activeIndex;
-
-                  // Continuous mathematical distance with dragOffset (negative if dragging left, positive if dragging right)
-                  const effectiveDiff = diff + dragOffset;
-
-                  // Visual presence condition: Render active, adjacent, and incoming cards currently swiping in
-                  const isVisible = Math.abs(diff) <= 1 || 
-                    (dragOffset < -0.05 && diff === 2) || 
-                    (dragOffset > 0.05 && diff === -2);
-
-                  if (!isVisible && !isMobile) return null;
-
-                  // Compute continuous transformations with elastic/tactile drag mechanics
-                  const stepWidth = isMobile ? (152 + Math.abs(dragOffset) * 20) : (260 + Math.abs(dragOffset) * 30);
-                  const xTranslate = effectiveDiff * stepWidth;
-                  
-                  // Active card is positioned closer with depth, adjacent cards fall behind
-                  const zTranslate = isMobile ? 0 : 80 - 240 * Math.min(Math.abs(effectiveDiff), 1.2);
-                  const rotationY = isMobile ? 0 : effectiveDiff * -35; 
-                  const cardScale = 1 - 0.16 * Math.min(Math.abs(effectiveDiff), 1.2);
-                  const opacity = 1 - 0.65 * Math.min(Math.abs(effectiveDiff), 1.1);
-
-                  const isActive = index === activeIndex;
-
-                  return (
-                    <motion.div
-                      key={course.title}
-                      initial={false}
-                      animate={{
-                        x: xTranslate,
-                        z: zTranslate,
-                        rotateY: rotationY,
-                        scale: cardScale,
-                        opacity: opacity,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: touchActive ? 220 : 110, // tighter responsive feel during live drag tracking
-                        damping: touchActive ? 26 : 24,
-                        mass: touchActive ? 0.9 : 1.15
-                      }}
-                      style={{
-                        position: 'absolute',
-                        transformStyle: 'preserve-3d',
-                        zIndex: isActive ? 30 : Math.abs(effectiveDiff) < 1 ? 20 : 10,
-                        pointerEvents: 'auto',
-                      }}
-                      className="origin-center"
-                      onClick={() => {
-                        if (!isActive) {
-                          setActiveIndex(index);
-                        }
-                      }}
-                    >
-                      <CourseCard3D 
-                        course={course}
-                        index={index}
-                        isActive={isActive}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-            </div>
-
-            {/* Scrolling Indicator Hint (Desktop Only) */}
-            <div className={`hidden lg:flex items-center gap-3.5 mt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-100/70 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
-              <div className="flex flex-col gap-1 text-accent animate-bounce">
-                <MousePointer className="w-3.5 h-3.5" />
-              </div>
-              <span>
-                {isAr
-                  ? "انقر أو تصفح أو مرر بالماوس فوق البطاقات لاستكشاف التخصصات"
-                  : "Click, navigate, or hover cards to explore academic disciplines"
-                }
-              </span>
-            </div>
-
-            {/* Swiping Indicator Hint (Mobile Only) */}
-            <div className={`flex lg:hidden items-center gap-2 mt-6 text-[9px] font-bold uppercase tracking-[0.15em] text-amber-100/70 select-none ${isAr ? 'flex-row-reverse' : ''}`}>
-              <span>
-                {isAr 
-                  ? "اسحب لليمين أو اليسار للتنقل بين التخصصات الأكاديمية" 
-                  : "Swipe left or right to switch paths"
-                }
-              </span>
+                  </motion.div>
+                );
+              })}
             </div>
 
           </div>
 
+          {/* Active Course Title & Dedicated Read Details Button Bar */}
+          <div className="mt-10 text-center max-w-xl mx-auto space-y-5">
+            <div>
+              <span className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300 block mb-1">
+                {isAr ? `المسار ${activeIndex + 1} من ${coursesList.length}` : `Course ${activeIndex + 1} of ${coursesList.length}`}
+              </span>
+              <h4 className="text-3xl sm:text-4xl font-bold display text-amber-50">
+                {activeCourse.title}
+              </h4>
+            </div>
+
+            {/* Action Buttons: Read Full Course Details & Quick Enroll */}
+            <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+              <button
+                onClick={() => onViewDetails?.(activeCourse.title)}
+                className="w-full sm:w-auto px-8 py-4.5 rounded-2xl bg-[#084C63] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/70 hover:bg-[#757454] transition-all shadow-2xl flex items-center justify-center gap-3 group cursor-pointer"
+              >
+                <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+              </button>
+
+              <button
+                onClick={handleEnrollNow}
+                className="w-full sm:w-auto px-6 py-4.5 rounded-2xl bg-white/5 border border-white/20 text-amber-100 hover:text-white font-bold uppercase tracking-wider text-xs hover:bg-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Flexible Learning Packages Prompt */}
