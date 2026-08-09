@@ -230,112 +230,150 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* "Our Impact" Radial Arc Gauge Component (Matching User Annotated Screenshot Layout) */}
+            {/* "Our Impact" Radial Arc Gauge Component (Ultra-Professional Luxury Redesign) */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-6 z-20 card-shine border border-[#949693]/35 p-6 sm:p-7 rounded-[3rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] backdrop-blur-md bg-[#051b23]/90 text-amber-50 max-w-[320px] sm:max-w-[360px] w-full ${isAr ? 'text-right' : 'text-left'}`}
+              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-6 z-20 card-shine border-2 border-[#757454]/60 hover:border-[#757454] p-7 sm:p-8 rounded-[3rem] shadow-[0_30px_90px_rgba(0,0,0,0.85)] backdrop-blur-2xl bg-[#051b23]/95 text-amber-50 max-w-[330px] sm:max-w-[370px] w-full transition-all duration-300 ${isAr ? 'text-right' : 'text-left'}`}
             >
-              {/* 1. Top Title: Impact */}
+              {/* 1. Header: Brand Luxury Badge & Title */}
               <div className={`mb-3 ${isAr ? 'text-right' : 'text-left'}`}>
-                <h4 className="text-3xl sm:text-4xl font-bold serif italic text-[#008d75] tracking-tight">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#084C63]/60 border border-[#757454]/50 mb-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span className="display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200">
+                    {isAr ? "التميز والأثر الأكاديمي" : "Institutional Impact"}
+                  </span>
+                </div>
+                <h4 className="text-3xl sm:text-4xl font-bold serif italic text-amber-50 tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                   {isAr ? "أثرنا التعليمي" : "Impact"}
                 </h4>
               </div>
 
-              {/* 2. Middle SVG: Arc Gauge + Dotted Lines + Connected Curved Arrows */}
-              <div className="relative w-full h-[150px] flex items-center justify-start my-1 overflow-visible">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 260 150">
-                  {/* Top Arc Block (Dark Teal Green #044d41) */}
+              {/* 2. Middle SVG: Arc Gauge + Glowing SVG Gradients + Curved Connectors */}
+              <div className="relative w-full h-[155px] flex items-center justify-start my-2 overflow-visible">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 270 155">
+                  <defs>
+                    {/* Gradient 1: Amber to Emerald for Students */}
+                    <linearGradient id="arcGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#FCD34D" />
+                      <stop offset="100%" stopColor="#10B981" />
+                    </linearGradient>
+
+                    {/* Gradient 2: Fusion Gold for Faculty */}
+                    <linearGradient id="arcGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#757454" />
+                      <stop offset="100%" stopColor="#F59E0B" />
+                    </linearGradient>
+
+                    {/* Gradient 3: Cyan to Midnight Green for Nations */}
+                    <linearGradient id="arcGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#06B6D4" />
+                      <stop offset="100%" stopColor="#084C63" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Top Arc Block (1,400+ Students) */}
                   <path
-                    d="M 105 15 A 65 65 0 0 0 45 58 L 65 68 A 45 45 0 0 1 108 35 Z"
-                    fill="#044d41"
+                    d="M 110 15 A 65 65 0 0 0 50 58 L 70 68 A 45 45 0 0 1 113 35 Z"
+                    fill="url(#arcGrad1)"
+                    className="drop-shadow-[0_0_8px_rgba(252,211,77,0.4)]"
                   />
 
-                  {/* Middle Arc Block (Bright Teal Green #008d75) */}
+                  {/* Middle Arc Block (50+ Tutors) */}
                   <path
-                    d="M 40 66 A 65 65 0 0 0 40 108 L 60 100 A 45 45 0 0 1 60 74 Z"
-                    fill="#008d75"
+                    d="M 45 66 A 65 65 0 0 0 45 108 L 65 100 A 45 45 0 0 1 65 74 Z"
+                    fill="url(#arcGrad2)"
+                    className="drop-shadow-[0_0_8px_rgba(117,116,84,0.4)]"
                   />
 
-                  {/* Bottom Arc Block (Deep Midnight Green #02342c) */}
+                  {/* Bottom Arc Block (30+ Nations) */}
                   <path
-                    d="M 45 116 A 65 65 0 0 0 105 158 L 108 138 A 45 45 0 0 1 65 106 Z"
-                    fill="#02342c"
+                    d="M 50 116 A 65 65 0 0 0 110 158 L 113 138 A 45 45 0 0 1 70 106 Z"
+                    fill="url(#arcGrad3)"
+                    className="drop-shadow-[0_0_8px_rgba(6,182,212,0.4)]"
                   />
 
                   {/* Dotted Lines to Dots */}
-                  <path d="M 108 35 L 128 25 L 148 25" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
-                  <circle cx="148" cy="25" r="3.5" fill="#008d75" />
+                  <path d="M 113 35 L 133 25 L 153 25" fill="none" stroke="rgba(252,211,77,0.8)" strokeWidth="1.8" />
+                  <circle cx="153" cy="25" r="4" fill="#FCD34D" className="animate-pulse" />
 
-                  <line x1="60" y1="87" x2="148" y2="87" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
-                  <circle cx="148" cy="87" r="3.5" fill="#008d75" />
+                  <line x1="65" y1="87" x2="153" y2="87" stroke="rgba(245,158,11,0.8)" strokeWidth="1.8" />
+                  <circle cx="153" cy="87" r="4" fill="#F59E0B" className="animate-pulse" />
 
-                  <path d="M 108 138 L 128 148 L 148 148" fill="none" stroke="rgba(148,150,147,0.6)" strokeWidth="1.5" />
-                  <circle cx="148" cy="148" r="3.5" fill="#008d75" />
+                  <path d="M 113 138 L 133 148 L 153 148" fill="none" stroke="rgba(6,182,212,0.8)" strokeWidth="1.8" />
+                  <circle cx="153" cy="148" r="4" fill="#06B6D4" className="animate-pulse" />
 
-                  {/* Curved Connector Lines drawn from dots down to stat labels below (as shown in user drawing!) */}
-                  <path d="M 148 25 C 220 25, 230 145, 170 170" fill="none" stroke="rgba(148,150,147,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <path d="M 148 87 C 235 87, 245 220, 170 245" fill="none" stroke="rgba(148,150,147,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <path d="M 148 148 C 250 148, 260 295, 170 320" fill="none" stroke="rgba(148,150,147,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  {/* Curved Connector Lines drawn from dots down to stat labels */}
+                  <path d="M 153 25 C 230 25, 240 145, 175 170" fill="none" stroke="rgba(252,211,77,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <path d="M 153 87 C 245 87, 255 220, 175 245" fill="none" stroke="rgba(245,158,11,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <path d="M 153 148 C 260 148, 270 295, 175 320" fill="none" stroke="rgba(6,182,212,0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
                 </svg>
 
                 {/* Animated StatCounters Inside Arc Blocks */}
-                <div className="absolute top-[24px] left-[58px] text-white font-bold text-[10.5px] sm:text-[11.5px] pointer-events-none drop-shadow">
+                <div className="absolute top-[24px] left-[63px] text-white font-extrabold text-[11px] sm:text-[12px] pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   <StatCounter value={1400} suffix="+" />
                 </div>
-                <div className="absolute top-[76px] left-[35px] text-white font-bold text-[10.5px] sm:text-[11.5px] pointer-events-none drop-shadow">
+                <div className="absolute top-[76px] left-[40px] text-white font-extrabold text-[11px] sm:text-[12px] pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   <StatCounter value={50} suffix="+" />
                 </div>
-                <div className="absolute top-[124px] left-[58px] text-white font-bold text-[10.5px] sm:text-[11.5px] pointer-events-none drop-shadow">
+                <div className="absolute top-[124px] left-[63px] text-white font-extrabold text-[11px] sm:text-[12px] pointer-events-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   <StatCounter value={30} suffix="+" />
                 </div>
               </div>
 
-              {/* 3. Bottom Half: 3 Stat Cards Stacked Below */}
-              <div className="space-y-4 pt-3 border-t border-white/10 mt-1">
+              {/* 3. Bottom Half: 3 Interactive Luxury Stat Cards */}
+              <div className="space-y-3.5 pt-3 border-t border-[#757454]/40 mt-1">
                 {/* Item 1: 1,400+ Total Students */}
-                <div className={`flex flex-col ${isAr ? 'text-right' : 'text-left'}`}>
-                  <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <span className="text-xl sm:text-2xl font-bold display text-white tracking-tight leading-none">
-                      <StatCounter value={1400} suffix="+" />
-                    </span>
-                    <h5 className="text-sm font-bold text-[#008d75] tracking-tight">
-                      {isAr ? "طلاب نشطون" : "Total Students"}
-                    </h5>
+                <div className={`p-2.5 rounded-2xl bg-[#084C63]/30 border border-[#757454]/30 hover:border-[#FCD34D]/60 hover:bg-[#084C63]/60 transition-all ${isAr ? 'text-right' : 'text-left'}`}>
+                  <div className={`flex items-center justify-between ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-extrabold display text-[#FCD34D] tracking-tight leading-none drop-shadow">
+                        <StatCounter value={1400} suffix="+" />
+                      </span>
+                      <h5 className="text-sm font-bold text-white tracking-tight">
+                        {isAr ? "طلاب نشطون" : "Total Students"}
+                      </h5>
+                    </div>
+                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
                   </div>
-                  <p className="text-[9.5px] text-amber-100/80 font-medium mt-1 leading-tight">
+                  <p className="text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                     {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Active enrolled learners worldwide"}
                   </p>
                 </div>
 
                 {/* Item 2: 50+ Certified Teachers */}
-                <div className={`flex flex-col ${isAr ? 'text-right' : 'text-left'}`}>
-                  <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <span className="text-xl sm:text-2xl font-bold display text-amber-300 tracking-tight leading-none">
-                      <StatCounter value={50} suffix="+" />
-                    </span>
-                    <h5 className="text-sm font-bold text-[#008d75] tracking-tight">
-                      {isAr ? "كادر مجاز" : "Certified Teachers"}
-                    </h5>
+                <div className={`p-2.5 rounded-2xl bg-[#084C63]/30 border border-[#757454]/30 hover:border-[#F59E0B]/60 hover:bg-[#084C63]/60 transition-all ${isAr ? 'text-right' : 'text-left'}`}>
+                  <div className={`flex items-center justify-between ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-extrabold display text-amber-300 tracking-tight leading-none drop-shadow">
+                        <StatCounter value={50} suffix="+" />
+                      </span>
+                      <h5 className="text-sm font-bold text-white tracking-tight">
+                        {isAr ? "كادر مجاز" : "Certified Teachers"}
+                      </h5>
+                    </div>
+                    <span className="w-2 h-2 rounded-full bg-amber-400" />
                   </div>
-                  <p className="text-[9.5px] text-amber-100/80 font-medium mt-1 leading-tight">
+                  <p className="text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                     {isAr ? "كادر تعليمي بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
                   </p>
                 </div>
 
                 {/* Item 3: 30+ Global Nations */}
-                <div className={`flex flex-col ${isAr ? 'text-right' : 'text-left'}`}>
-                  <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <span className="text-xl sm:text-2xl font-bold display text-white/90 tracking-tight leading-none">
-                      <StatCounter value={30} suffix="+" />
-                    </span>
-                    <h5 className="text-sm font-bold text-[#008d75] tracking-tight">
-                      {isAr ? "دول التغطية" : "Global Nations"}
-                    </h5>
+                <div className={`p-2.5 rounded-2xl bg-[#084C63]/30 border border-[#757454]/30 hover:border-[#06B6D4]/60 hover:bg-[#084C63]/60 transition-all ${isAr ? 'text-right' : 'text-left'}`}>
+                  <div className={`flex items-center justify-between ${isAr ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-baseline gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xl sm:text-2xl font-extrabold display text-emerald-400 tracking-tight leading-none drop-shadow">
+                        <StatCounter value={30} suffix="+" />
+                      </span>
+                      <h5 className="text-sm font-bold text-white tracking-tight">
+                        {isAr ? "دول التغطية" : "Global Nations"}
+                      </h5>
+                    </div>
+                    <span className="w-2 h-2 rounded-full bg-cyan-400" />
                   </div>
-                  <p className="text-[9.5px] text-amber-100/80 font-medium mt-1 leading-tight">
+                  <p className="text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                     {isAr ? "تغطية عبر ٤ قارات" : "Active presence across 4 continents"}
                   </p>
                 </div>
