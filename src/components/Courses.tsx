@@ -488,19 +488,19 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
             
             {/* Header & Swipe Hint */}
             <div className={`flex items-center justify-between px-1 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <div className="flex items-center gap-1.5 text-[#FCD34D] font-extrabold text-[11px] uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-[#FCD34D] animate-pulse" />
-                <span>{isAr ? "اختر المسار (01 - 06):" : "Select Course Track (01 - 06):"}</span>
+              <div className="flex items-center gap-1.5 text-amber-200 font-extrabold text-xs uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+                <span>{isAr ? "المسارات الأكاديمية (01 - 06):" : "Academic Tracks (01 - 06):"}</span>
               </div>
-              <span className="text-[10px] font-bold text-amber-200/90 flex items-center gap-1 animate-pulse">
+              <span className="text-[10.5px] font-bold text-amber-200/90 flex items-center gap-1 animate-pulse">
                 {isAr ? "اسحب للمزيد ➔" : "Swipe for more ➔"}
               </span>
             </div>
 
-            {/* Horizontal Scrollable High-Contrast 3D Ribbon Pill Dock */}
+            {/* Horizontal Scrollable Larger Elegant Course Buttons */}
             <div 
               ref={mobileRibbonRef}
-              className="flex items-center gap-3.5 overflow-x-auto pb-3 pt-1 px-1 scrollbar-none snap-x"
+              className="flex items-center gap-3.5 overflow-x-auto pb-4 pt-1 px-1 scrollbar-none snap-x"
             >
               {coursesList.map((course, idx) => {
                 const isActive = idx === activeIndex;
@@ -510,14 +510,14 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                   <button
                     key={course.title}
                     onClick={() => handleMobileSelect(idx)}
-                    className={`snap-center shrink-0 px-4.5 py-3.5 rounded-2xl font-extrabold text-xs transition-all duration-300 flex items-center gap-3 cursor-pointer ${
+                    className={`snap-center shrink-0 px-5 py-4 rounded-2xl font-extrabold text-sm transition-all duration-300 flex items-center gap-3 cursor-pointer ${
                       isActive 
-                        ? `bg-[#084C63] border-2 border-[#FCD34D] text-white shadow-[0_0_22px_rgba(252,211,77,0.45)] scale-105 z-20` 
-                        : 'bg-[#051b23] border-2 border-[#757454]/60 text-amber-100/90 shadow-md hover:border-[#FCD34D]/60'
+                        ? `bg-[#084C63] border-2 border-[#757454] text-white shadow-2xl scale-105 z-20` 
+                        : 'bg-[#051b23] border border-[#757454]/40 text-amber-100/80 shadow-md hover:border-[#757454]'
                     }`}
                   >
-                    {/* High-Contrast Number Badge */}
-                    <span className={`w-7 h-7 rounded-xl ${isActive ? 'bg-[#FCD34D] text-[#03171e]' : `${theme.bg} ${theme.text}`} flex items-center justify-center font-black text-xs shadow-md border border-white/20`}>
+                    {/* Refined Brand Palette Number Badge */}
+                    <span className={`px-2.5 py-1 rounded-xl ${isActive ? 'bg-[#757454] text-white' : 'bg-[#084C63]/60 text-amber-200'} flex items-center justify-center font-extrabold text-xs shadow border border-white/10`}>
                       {theme.num}
                     </span>
                     <span className="whitespace-nowrap font-bold text-amber-50">{course.title}</span>
