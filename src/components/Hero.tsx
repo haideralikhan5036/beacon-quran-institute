@@ -7,22 +7,24 @@ import { useLanguage } from '../context/LanguageContext';
 import quranImage from '../assets/images/regenerated_image_1778882224032.jpg';
 
 function StatCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => Math.round(latest));
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: false, amount: 0.1 });
 
   useEffect(() => {
-    if (isInView) {
-      const controls = animate(count, value, { duration: 2, ease: [0.33, 1, 0.68, 1] });
-      return controls.stop;
-    }
-  }, [isInView, value, count]);
+    const controls = animate(0, value, {
+      duration: 2.2,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => {
+        setCount(Math.round(latest));
+      }
+    });
+    return () => controls.stop();
+  }, [value, isInView]);
 
   return (
-    <span ref={ref} className="tabular-nums">
-      <motion.span>{rounded}</motion.span>
-      <span>{suffix}</span>
+    <span ref={ref} className="tabular-nums font-bold">
+      {count.toLocaleString()}{suffix}
     </span>
   );
 }
@@ -293,12 +295,13 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* 3. Right Column: Headings & Subtitles Aligned to Dots */}
+                {/* 3. Right Column: Headings & Subtitles Aligned to Dots with Live Counters */}
                 <div className="h-[200px] flex flex-col justify-between py-1">
                   {/* Item 1 (aligned to top dot at y=32) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
-                      {isAr ? "طلاب نشطون" : "Total Students"}
+                    <h5 className={`text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none flex items-center gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-white font-extrabold"><StatCounter value={1400} suffix="+" /></span>
+                      <span>{isAr ? "طالب نشط" : "Total Students"}</span>
                     </h5>
                     <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "خريجون ودارسون حالياً عبر العالم" : "Active enrolled learners worldwide"}
@@ -307,8 +310,9 @@ export default function Hero() {
 
                   {/* Item 2 (aligned to middle dot at y=103) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
-                      {isAr ? "كادر مجاز" : "Certified Teachers"}
+                    <h5 className={`text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none flex items-center gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-amber-300 font-extrabold"><StatCounter value={50} suffix="+" /></span>
+                      <span>{isAr ? "كادر مجاز" : "Certified Teachers"}</span>
                     </h5>
                     <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "كادر تعليمي بأسانيد متصلة" : "Distinguished faculty with Ijazah"}
@@ -317,8 +321,9 @@ export default function Hero() {
 
                   {/* Item 3 (aligned to bottom dot at y=174) */}
                   <div className={`flex flex-col justify-center h-[52px] ${isAr ? 'text-right' : 'text-left'}`}>
-                    <h5 className="text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none">
-                      {isAr ? "دول التغطية" : "Global Nations"}
+                    <h5 className={`text-sm sm:text-base font-bold text-[#008d75] tracking-tight leading-none flex items-center gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-white/90 font-extrabold"><StatCounter value={30} suffix="+" /></span>
+                      <span>{isAr ? "دول التغطية" : "Global Nations"}</span>
                     </h5>
                     <p className="text-[9.5px] sm:text-[10.5px] text-amber-100/80 font-medium mt-1 leading-tight">
                       {isAr ? "تغطية عبر ٤ قارات" : "Active presence across 4 continents"}
