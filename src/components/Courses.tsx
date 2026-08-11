@@ -518,14 +518,15 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                         {/* Paper Slit Edge Shadow */}
                         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black/80 shadow-[2px_0_8px_rgba(0,0,0,0.9)]" />
 
-                        {/* 3D Peeled Ribbon Beak */}
+                        {/* Elegant Islamic Mihrab/Arch Medallion */}
                         <div 
-                          className={`w-16 h-20 rounded-b-2xl border-b-2 border-x-2 ${theme.border} ${theme.bg} shadow-xl flex items-center justify-center group-hover:scale-105 transition-transform`}
-                          style={{
-                            clipPath: 'polygon(15% 0, 85% 0, 100% 100%, 0 100%)'
-                          }}
+                          className={`w-14 h-20 rounded-t-full border-t-2 border-x-2 ${theme.border} ${theme.bg} shadow-xl flex flex-col items-center justify-start pt-3 group-hover:scale-105 transition-transform duration-300 relative`}
                         >
-                          <span className={`display text-2xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]`}>
+                          <div className="absolute inset-0.5 rounded-t-full bg-black/10" />
+                          <span className="display text-[8px] font-extrabold uppercase tracking-wider text-amber-200/85 mb-0.5 z-10">
+                            {isAr ? "مسار" : "Track"}
+                          </span>
+                          <span className={`display text-2xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)] z-10`}>
                             {theme.num}
                           </span>
                         </div>
@@ -554,8 +555,11 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                           onClick={() => setActiveIndex(idx === activeIndex ? idx : idx)}
                           className={`flex items-center gap-3 p-5 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}
                         >
-                          {/* Peeled Number Badge */}
-                          <div className={`w-12 h-12 rounded-xl ${theme.activeBg} border-2 ${theme.border} flex items-center justify-center shadow-lg shrink-0`}>
+                          {/* Elegant Islamic Mihrab/Arch Active Badge */}
+                          <div className={`w-12 h-16 rounded-t-full ${theme.activeBg} border-t-2 border-x-2 ${theme.border} flex flex-col items-center justify-center shadow-lg shrink-0 pt-1`}>
+                            <span className="display text-[8px] font-bold tracking-wider text-amber-200/80">
+                              {isAr ? "مسار" : "Track"}
+                            </span>
                             <span className={`display text-xl font-extrabold ${theme.text}`}>
                               {theme.num}
                             </span>
@@ -655,14 +659,15 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                       {/* Paper Slit Cutout Edge Shadow */}
                       <div className="absolute left-0 top-0 bottom-0 w-2 bg-black/80 shadow-[3px_0_12px_rgba(0,0,0,0.9)]" />
 
-                      {/* 3D Peeled Paper Ribbon Beak (Exactly matching reference screenshot) */}
+                      {/* Premium Islamic Mihrab/Arch-shaped Medallion */}
                       <div 
-                        className={`w-20 h-32 rounded-r-3xl border-r-2 border-y-2 ${theme.border} ${theme.bg} shadow-2xl flex flex-col items-center justify-center p-2 group-hover:scale-105 transition-transform`}
-                        style={{
-                          clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)'
-                        }}
+                        className={`w-16 h-28 rounded-t-full border-t-2 border-x-2 ${theme.border} ${theme.bg} shadow-2xl flex flex-col items-center justify-start pt-6 group-hover:scale-105 transition-transform duration-300 relative`}
                       >
-                        <span className={`display text-4xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`}>
+                        <div className="absolute inset-0.5 rounded-t-full bg-black/10" />
+                        <span className="display text-[9px] font-extrabold uppercase tracking-wider text-amber-200/85 mb-1 z-10">
+                          {isAr ? "مسار" : "Track"}
+                        </span>
+                        <span className={`display text-3xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] z-10`}>
                           {theme.num}
                         </span>
                       </div>
@@ -696,8 +701,11 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                         {/* Active Ribbon Header Badge */}
                         <div className={`flex items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
                           <div className={`flex items-center gap-3.5 ${isAr ? 'flex-row-reverse' : ''}`}>
-                            {/* Active Peeled Number Badge */}
-                            <div className={`w-14 h-14 rounded-2xl ${theme.activeBg} border-2 ${theme.border} flex items-center justify-center shadow-xl`}>
+                            {/* Active Islamic Mihrab/Arch Badge */}
+                            <div className={`w-14 h-20 rounded-t-full ${theme.activeBg} border-t-2 border-x-2 ${theme.border} flex flex-col items-center justify-center shadow-xl pt-2 shrink-0`}>
+                              <span className="display text-[8px] font-bold tracking-wider text-amber-200/80">
+                                {isAr ? "مسار" : "Track"}
+                              </span>
                               <span className={`display text-2xl font-extrabold ${theme.text}`}>
                                 {theme.num}
                               </span>
