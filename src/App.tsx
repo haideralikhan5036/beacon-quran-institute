@@ -24,9 +24,10 @@ const TermsOfService    = lazy(() => import('./components/TermsOfService'));
 const CertificateOfAppraisal = lazy(() => import('./components/CertificateOfAppraisal'));
 const CourseDetailsPage = lazy(() => import('./components/CourseDetailsPage'));
 const ContactPage       = lazy(() => import('./components/ContactPage'));
+const AboutPage         = lazy(() => import('./components/AboutPage'));
 import LuxuryPreloader from './components/LuxuryPreloader';
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about';
 
 // Luxury Preloader for Suspense boundaries
 const Spinner = () => <LuxuryPreloader />;
@@ -94,6 +95,7 @@ export default function App() {
           {view === 'services'    && <CustomerServices onBack={() => setView('home')} />}
           {view === 'terms'       && <TermsOfService onBack={() => setView('home')} />}
           {view === 'certificate' && <CertificateOfAppraisal onBack={() => setView('home')} />}
+          {view === 'about'       && <AboutPage onBack={() => setView('home')} />}
         </main>
         <Footer setView={setView} />
         <TestimonialPopup />
