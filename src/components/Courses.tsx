@@ -483,118 +483,153 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
             {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة" : "Tap any number tab (01 - 06) to expand its course card"}
           </p>
 
-          {/* ── 1. MOBILE ONLY VIEW (Ultra-Highlighted 3D Pill Dock + Auto-Scroll + Active Card) ── */}
-          <div className="flex flex-col gap-5 lg:hidden">
+          {/* ── 1. MOBILE ONLY VIEW (2×3 Grid of Slit-Peeled Strips with In-Place Expanding Cards) ── */}
+          <div className="flex flex-col gap-4 lg:hidden">
             
-            {/* Header & Swipe Hint */}
-            <div className={`flex items-center justify-between px-1 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <div className="flex items-center gap-1.5 text-amber-200 font-extrabold text-xs uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                <span>{isAr ? "المسارات الأكاديمية (01 - 06):" : "Academic Tracks (01 - 06):"}</span>
-              </div>
-              <span className="text-[10.5px] font-bold text-amber-200/90 flex items-center gap-1 animate-pulse">
-                {isAr ? "اسحب للمزيد ➔" : "Swipe for more ➔"}
+            {/* Header */}
+            <div className={`flex items-center gap-1.5 px-1 ${isAr ? 'flex-row-reverse' : ''}`}>
+              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+              <span className="text-amber-200 font-extrabold text-xs uppercase tracking-wider">
+                {isAr ? "المسارات الأكاديمية (01 - 06):" : "Academic Tracks (01 - 06):"}
               </span>
             </div>
 
-            {/* Horizontal Scrollable Larger Elegant Course Buttons */}
-            <div 
-              ref={mobileRibbonRef}
-              className="flex items-center gap-3.5 overflow-x-auto pb-4 pt-1 px-1 scrollbar-none snap-x"
-            >
+            {/* 2-Column × 3-Row Grid of Slit-Peeled Strips */}
+            <div className="grid grid-cols-2 gap-3">
               {coursesList.map((course, idx) => {
                 const isActive = idx === activeIndex;
                 const theme = ribbonThemes[idx];
 
                 return (
-                  <button
-                    key={course.title}
-                    onClick={() => handleMobileSelect(idx)}
-                    className={`snap-center shrink-0 px-5 py-4 rounded-2xl font-extrabold text-sm transition-all duration-300 flex items-center gap-3 cursor-pointer ${
-                      isActive 
-                        ? `bg-[#084C63] border-2 border-[#757454] text-white shadow-2xl scale-105 z-20` 
-                        : 'bg-[#051b23] border border-[#757454]/40 text-amber-100/80 shadow-md hover:border-[#757454]'
-                    }`}
-                  >
-                    {/* Refined Brand Palette Number Badge */}
-                    <span className={`px-2.5 py-1 rounded-xl ${isActive ? 'bg-[#757454] text-white' : 'bg-[#084C63]/60 text-amber-200'} flex items-center justify-center font-extrabold text-xs shadow border border-white/10`}>
-                      {theme.num}
-                    </span>
-                    <span className="whitespace-nowrap font-bold text-amber-50">{course.title}</span>
-                  </button>
+                  <div key={course.title} className="col-span-1">
+                    {/* Slit Strip Button */}
+                    <motion.button
+                      onClick={() => setActiveIndex(idx)}
+                      whileTap={{ scale: 0.97 }}
+                      className={`w-full h-24 rounded-2xl relative overflow-hidden flex items-center transition-all duration-300 cursor-pointer ${
+                        isActive 
+                          ? 'bg-[#051b23] border-2 border-[#757454] shadow-2xl z-20' 
+                          : 'bg-[#030d12]/90 border border-white/10 hover:border-[#757454]/60 shadow-md'
+                      }`}
+                    >
+                      {/* Paper Slit Edge Shadow */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black/80 shadow-[2px_0_8px_rgba(0,0,0,0.9)]" />
+
+                      {/* 3D Peeled Ribbon Beak */}
+                      <div 
+                        className={`w-16 h-16 shrink-0 ml-2 rounded-r-2xl border-r-2 border-y-2 ${theme.border} ${theme.bg} shadow-xl flex items-center justify-center transition-transform ${
+                          isActive ? 'scale-110' : 'group-hover:scale-105'
+                        }`}
+                        style={{
+                          clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)'
+                        }}
+                      >
+                        <span className={`display text-2xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)]`}>
+                          {theme.num}
+                        </span>
+                      </div>
+
+                      {/* Course Title */}
+                      <div className={`flex-1 px-3 ${isAr ? 'text-right' : 'text-left'}`}>
+                        <h4 className="text-sm font-bold display text-amber-50 leading-tight">
+                          {course.title}
+                        </h4>
+                        <div className="flex items-center gap-1 mt-1">
+                          <course.icon className="w-3 h-3 text-amber-300/70" />
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-300/70">
+                            0{idx + 1} / 06
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Active Indicator */}
+                      {isActive && (
+                        <div className="absolute top-2 right-2">
+                          <span className="w-2 h-2 rounded-full bg-amber-400 block animate-ping" />
+                        </div>
+                      )}
+                    </motion.button>
+
+                    {/* Expanded Card Content (Shows right below the tapped strip) */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className={`mt-3 p-5 rounded-2xl bg-[#051b23] border-2 border-[#757454] shadow-xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}>
+                            {/* Card Header */}
+                            <div className={`flex items-center gap-3 mb-4 pb-3 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
+                              <div className="w-10 h-10 rounded-xl bg-[#084C63]/60 border border-[#757454] flex items-center justify-center shrink-0">
+                                <course.icon className="w-5 h-5 text-amber-200" />
+                              </div>
+                              <div>
+                                <span className="display text-[9px] font-extrabold uppercase tracking-[0.2em] text-amber-300 block">
+                                  {isAr ? `المسار 0${idx + 1} من 06` : `Track 0${idx + 1} of 06`}
+                                </span>
+                                <h3 className="text-lg font-bold display text-amber-50">
+                                  {course.title}
+                                </h3>
+                              </div>
+                            </div>
+
+                            {/* Intro */}
+                            <p className="text-xs text-amber-100/90 font-medium leading-relaxed mb-4">
+                              {course.details.intro}
+                            </p>
+
+                            {/* Milestones */}
+                            <div className="bg-[#030d12]/80 border border-[#757454]/40 p-3.5 rounded-xl space-y-2 mb-4">
+                              <h4 className={`display text-[9px] font-extrabold uppercase tracking-[0.2em] text-amber-300 mb-1.5 ${isAr ? 'text-right' : ''}`}>
+                                {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
+                              </h4>
+                              {course.details.benefits.map((benefit, bIdx) => (
+                                <div key={bIdx} className={`flex items-start gap-2 text-amber-100/90 text-[11px] font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
+                                  <span>{benefit}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Hadith */}
+                            <div className={`p-3 rounded-xl bg-[#084C63]/20 border-l-4 border-amber-300 text-[11px] italic text-amber-100/90 mb-4 ${isAr ? 'border-l-0 border-r-4 text-right' : ''}`}>
+                              {isAr ? course.details.quote : `"${course.details.quote}"`}
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex flex-col gap-2.5">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onViewDetails?.(course.title);
+                                }}
+                                className="w-full py-3 px-4 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
+                              >
+                                <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                                <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEnrollNow();
+                                }}
+                                className="w-full py-3 px-4 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                              >
+                                <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 );
               })}
             </div>
-
-            {/* Mobile Active Card Display */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCourse.title}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className={`p-5 sm:p-7 rounded-[2.5rem] bg-[#051b23] border-2 border-[#757454] shadow-2xl text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}
-              >
-                {/* Header */}
-                <div className={`flex items-center justify-between gap-3 mb-5 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-12 h-12 rounded-xl bg-[#084C63]/60 border border-[#757454] flex items-center justify-center shrink-0">
-                      <activeCourse.icon className="w-6 h-6 text-amber-200" />
-                    </div>
-                    <div>
-                      <span className="display text-[9px] font-extrabold uppercase tracking-[0.25em] text-amber-300 block mb-0.5">
-                        {isAr ? `المسار 0${activeIndex + 1} من 06` : `Track 0${activeIndex + 1} of 06`}
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-bold display text-amber-50">
-                        {activeCourse.title}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Intro */}
-                <p className="text-xs sm:text-sm text-amber-100/90 font-medium leading-relaxed mb-5">
-                  {activeCourse.details.intro}
-                </p>
-
-                {/* Milestones */}
-                <div className="bg-[#030d12]/80 border border-[#757454]/40 p-4 rounded-2xl space-y-2 mb-5">
-                  <h4 className={`display text-[9.5px] font-extrabold uppercase tracking-[0.2em] text-amber-300 mb-2 ${isAr ? 'text-right' : ''}`}>
-                    {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
-                  </h4>
-                  {activeCourse.details.benefits.map((benefit, bIdx) => (
-                    <div key={bIdx} className={`flex items-start gap-2 text-amber-100/90 text-xs font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
-                      <span>{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Hadith */}
-                <div className={`p-3.5 rounded-xl bg-[#084C63]/20 border-l-4 border-amber-300 text-[11px] italic text-amber-100/90 mb-5 ${isAr ? 'border-l-0 border-r-4 text-right' : ''}`}>
-                  {isAr ? activeCourse.details.quote : `"${activeCourse.details.quote}"`}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col gap-3">
-                  <button
-                    onClick={() => onViewDetails?.(activeCourse.title)}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
-                  >
-                    <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
-                    <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  <button
-                    onClick={handleEnrollNow}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                  >
-                    <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
-                  </button>
-                </div>
-              </motion.div>
-            </AnimatePresence>
           </div>
 
           {/* ── 2. DESKTOP ONLY VIEW (100% UNTOUCHED Approved 1-Row In-Place Slit Cards) ── */}
