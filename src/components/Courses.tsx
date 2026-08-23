@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react';
-import { BookMarked, GraduationCap, Mic2, FileText, Languages, History, CheckCircle2, ArrowRight, Sparkles, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, MousePointer } from 'lucide-react';
+import { BookMarked, GraduationCap, Mic2, FileText, Languages, History, CheckCircle2, ArrowRight, Sparkles, ChevronLeft, ChevronRight, ShieldCheck, Clock, Users, Trophy } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import { Reveal } from './ui/Reveal';
 import { useLanguage } from '../context/LanguageContext';
@@ -219,6 +219,7 @@ interface CoursesProps {
   onViewDetails?: (courseId: string) => void;
 }
 
+// ── 3D Floating Showcase Card Component ──
 function CourseCard3D({ 
   course, 
   index,
@@ -235,8 +236,8 @@ function CourseCard3D({
   const y = useMotionValue(0);
 
   const springConfig = { damping: 25, stiffness: 150 };
-  const rX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), springConfig);
-  const rY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), springConfig);
+  const rX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), springConfig);
+  const rY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), springConfig);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -262,22 +263,10 @@ function CourseCard3D({
     y.set(0);
   }
 
-  // Cinematic interactive lighting & outer glows
-  const dynamicShadow = isActive
-    ? isHovered
-      ? '0 60px 110px -20px rgba(27,84,61,0.45), 0 0 45px rgba(184,142,67,0.32), 0 0 90px rgba(184,142,67,0.15)'
-      : '0 45px 90px -20px rgba(27,84,61,0.32)'
-    : isHovered
-      ? '0 30px 60px -15px rgba(27,84,61,0.15)'
-      : '0 20px 40px rgba(0,0,0,0.02)';
-
-  const dynamicBorderColor = isActive
-    ? isHovered
-      ? 'rgba(184,142,67,0.7)'
-      : 'rgba(184,142,67,0.2)'
-    : isHovered
-      ? 'rgba(27,84,61,0.25)'
-      : 'rgba(27,84,61,0.06)';
+  // Dynamic luxury lighting
+  const dynamicShadow = isHovered
+    ? '0 50px 100px -20px rgba(8,76,99,0.7), 0 0 45px rgba(252,211,77,0.35)'
+    : '0 35px 80px -15px rgba(0,0,0,0.85), 0 0 30px rgba(117,116,84,0.3)';
 
   return (
     <motion.div
@@ -290,78 +279,59 @@ function CourseCard3D({
         transformStyle: "preserve-3d",
         perspective: 1200,
         boxShadow: dynamicShadow,
-        borderColor: dynamicBorderColor,
       }}
-      className={`relative w-[240px] sm:w-[280px] h-[300px] sm:h-[350px] rounded-[3rem] transition-[border-color,color,opacity,box-shadow] duration-200 ease-out select-none cursor-pointer card-shine border ${
-        isActive 
-          ? 'text-amber-50 font-medium border-accent/60 shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
-          : 'text-amber-100/80 opacity-70 hover:opacity-100 border-accent/20'
-      } ${isAr ? 'text-right' : 'text-left'}`}
+      className={`relative w-[280px] sm:w-[320px] md:w-[350px] h-[380px] sm:h-[420px] rounded-[3rem] transition-[border-color,box-shadow] duration-300 ease-out select-none cursor-pointer bg-gradient-to-b from-[#084C63]/90 via-[#051b23] to-[#030d12] border-2 border-[#757454] backdrop-blur-2xl p-8 flex flex-col justify-between overflow-hidden group ${
+        isAr ? 'text-right' : 'text-left'
+      }`}
     >
-      {/* 3D Border Glow overlay light */}
+      {/* Background Ornament Texture */}
       <div 
-        className={`absolute inset-0 rounded-[3rem] border-2 transition-[border-color,opacity,box-shadow] duration-200 pointer-events-none ${
-          isActive
-            ? isHovered
-              ? 'border-accent opacity-100 shadow-[inset_0_0_25px_rgba(184,142,67,0.45)]'
-              : 'border-accent/20 opacity-60'
-            : isHovered
-              ? 'border-accent/40 opacity-100 shadow-[inset_0_0_15px_rgba(184,142,67,0.2)]'
-              : 'border-transparent opacity-0'
-        }`}
+        className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+        style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }} 
       />
 
+      {/* Atmospheric Top Glow */}
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48 bg-amber-400/15 blur-3xl rounded-full pointer-events-none" />
+
+      {/* Top Bar inside Card */}
       <div 
-        style={{ 
-          transform: isActive ? (isHovered ? "translateZ(35px)" : "translateZ(20px)") : (isHovered ? "translateZ(15px)" : "translateZ(0px)"), 
-          transformStyle: "preserve-3d", 
-          transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)" 
-        }}
-        className="h-full w-full p-8 sm:p-10 flex flex-col justify-between"
+        className={`flex justify-between items-center relative z-10 ${isAr ? 'flex-row-reverse' : ''}`}
+        style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}
       >
-        {/* Card Header Background Ornament */}
-        <div 
-          className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-          style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }} 
-        />
+        <div className="w-16 h-16 rounded-2xl bg-[#084C63]/80 border-2 border-[#757454] flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform">
+          <course.icon className="w-8 h-8 text-amber-200" />
+        </div>
         
-        <div className={`flex justify-between items-start relative z-10 ${isAr ? 'flex-row-reverse' : ''}`} style={{ transform: "translateZ(20px)" }}>
-          <div className={`w-14 h-14 ${isActive ? 'bg-accent/20 border border-accent/40' : 'bg-white/5 border border-white/10'} rounded-2xl flex items-center justify-center`}>
-            <course.icon className={`w-7 h-7 text-accent`} />
-          </div>
-          <span className={`display text-7xl font-semibold opacity-20 text-accent font-serif leading-none`}>
-            0{index + 1}
-          </span>
-        </div>
+        <span className="display text-6xl font-extrabold text-[#757454]/40 font-serif leading-none drop-shadow">
+          0{index + 1}
+        </span>
+      </div>
 
-        <div className={`relative z-10 flex flex-col gap-3 ${isAr ? 'items-end' : 'items-start'}`} style={{ transform: "translateZ(30px)" }}>
-          <div className="h-1 w-12 bg-accent/80 rounded-full" />
-          <h4 className="text-2xl sm:text-3.5xl font-bold display leading-tight mb-2 text-amber-50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-            {course.title}
-          </h4>
-          <p className={`text-xs sm:text-sm font-medium leading-relaxed ${isActive ? 'text-amber-100/90' : 'text-amber-100/80'}`}>
-            {course.desc}
-          </p>
-        </div>
+      {/* Middle Content inside Card */}
+      <div 
+        className={`relative z-10 flex flex-col gap-3 my-auto ${isAr ? 'items-end' : 'items-start'}`}
+        style={{ transform: "translateZ(45px)", transformStyle: "preserve-3d" }}
+      >
+        <div className="h-1.5 w-14 bg-gradient-to-r from-amber-300 to-[#757454] rounded-full" />
+        <h4 className="text-2xl sm:text-3xl font-bold display leading-tight text-amber-50 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          {course.title}
+        </h4>
+        <p className="text-xs sm:text-sm font-medium leading-relaxed text-amber-100/85 line-clamp-4">
+          {course.desc}
+        </p>
+      </div>
 
-        {/* Floating Accent Ring */}
-        {isActive && (
-          <div 
-            onClick={(e) => {
-              e.stopPropagation();
-              onViewDetails?.(course.title);
-            }}
-            className={`absolute bottom-10 flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-accent hover:text-amber-200 cursor-pointer ${isAr ? 'left-10 flex-row-reverse' : 'right-10'}`}
-            style={{ transform: "translateZ(45px)", transformStyle: "preserve-3d" }}
-          >
-            <span>{isAr ? "معرفة تفاصيل المسار" : "Academic Track"}</span>
-            {isAr ? (
-              <ArrowRight className="w-3.5 h-3.5 rotate-180" />
-            ) : (
-              <ArrowRight className="w-3.5 h-3.5" />
-            )}
-          </div>
-        )}
+      {/* Bottom Interactive Link inside Card */}
+      <div 
+        onClick={(e) => {
+          e.stopPropagation();
+          onViewDetails?.(course.title);
+        }}
+        className={`relative z-10 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-300 hover:text-white transition-colors cursor-pointer pt-4 border-t border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}
+        style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }}
+      >
+        <span>{isAr ? "معرفة تفاصيل المسار" : "Explore Curriculum"}</span>
+        <ArrowRight className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${isAr ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
       </div>
     </motion.div>
   );
@@ -372,7 +342,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
   const coursesList = isAr ? coursesAr : courses;
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const mobileRibbonRef = useRef<HTMLDivElement>(null);
+  const mobilePillsRef = useRef<HTMLDivElement>(null);
   const activeCourse = coursesList[activeIndex];
 
   const handleEnrollNow = () => {
@@ -382,72 +352,27 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
     }, 100);
   };
 
-  // Auto-scroll mobile ribbon when tapping a course pill so the next course peeks into view!
-  const handleMobileSelect = (idx: number) => {
-    setActiveIndex(idx);
-    if (mobileRibbonRef.current) {
-      const container = mobileRibbonRef.current;
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % coursesList.length);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + coursesList.length) % coursesList.length);
+  };
+
+  // Auto-scroll pill buttons on mobile when activeIndex changes
+  useEffect(() => {
+    if (mobilePillsRef.current) {
+      const container = mobilePillsRef.current;
       const buttons = container.querySelectorAll<HTMLButtonElement>('button');
-      if (buttons[idx]) {
-        const targetBtn = buttons[idx];
+      if (buttons[activeIndex]) {
+        const targetBtn = buttons[activeIndex];
         const containerWidth = container.offsetWidth;
         const scrollLeft = targetBtn.offsetLeft - (containerWidth / 2) + (targetBtn.offsetWidth / 2);
         container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       }
     }
-  };
-
-  // Brand Theme Palette for the 6 Slit-Peeled Cards (01 - 06)
-  const ribbonThemes = [
-    { 
-      bg: 'bg-[#084C63]', 
-      activeBg: 'bg-[#084C63]', 
-      border: 'border-[#757454]', 
-      text: 'text-amber-200', 
-      num: '01',
-      glow: 'shadow-[0_0_30px_rgba(8,76,99,0.7)]'
-    },
-    { 
-      bg: 'bg-[#757454]', 
-      activeBg: 'bg-[#757454]', 
-      border: 'border-[#FCD34D]', 
-      text: 'text-amber-100', 
-      num: '02',
-      glow: 'shadow-[0_0_30px_rgba(117,116,84,0.7)]'
-    },
-    { 
-      bg: 'bg-[#949693]', 
-      activeBg: 'bg-[#949693]', 
-      border: 'border-white', 
-      text: 'text-[#03171e]', 
-      num: '03',
-      glow: 'shadow-[0_0_30px_rgba(148,150,147,0.7)]'
-    },
-    { 
-      bg: 'bg-[#055147]', 
-      activeBg: 'bg-[#055147]', 
-      border: 'border-[#FCD34D]', 
-      text: 'text-emerald-200', 
-      num: '04',
-      glow: 'shadow-[0_0_30px_rgba(5,81,71,0.7)]'
-    },
-    { 
-      bg: 'bg-[#032530]', 
-      activeBg: 'bg-[#032530]', 
-      border: 'border-[#757454]', 
-      text: 'text-amber-300', 
-      num: '05',
-      glow: 'shadow-[0_0_30px_rgba(3,37,48,0.7)]'
-    },
-    { 
-      bg: 'bg-[#D97706]', 
-      activeBg: 'bg-[#D97706]', 
-      border: 'border-amber-200', 
-      text: 'text-white', 
-      num: '06',
-      glow: 'shadow-[0_0_30px_rgba(217,119,6,0.7)]'
-    },
-  ];
+  }, [activeIndex]);
 
   const sectionSubtitle = isAr ? "مساراتنا الدراسية" : "Our Academic Paths";
   const sectionTitle = isAr ? "علوم التنزيل الشريفة لكل طالب علم" : "Sacred Knowledge for Every Learner";
@@ -465,7 +390,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
         
         {/* Section Header */}
         <Reveal delay={0.1} width="100%">
-          <div className="card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-10 sm:mb-12 shadow-2xl">
+          <div className="card-shine border border-[#949693]/35 p-6 sm:p-8 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-10 sm:mb-14 shadow-2xl">
             <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
               <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
               <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">{sectionSubtitle}</h2>
@@ -476,333 +401,221 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
           </div>
         </Reveal>
 
-        {/* ── 3D SLIT-PEELED CARD SUITE WITH SCROLL-TRIGGERED ENTRANCE ── */}
+        {/* ── LUXURY MASTER SHOWCASE STAGE (Inspired by Pinterest 3D Product Stage) ── */}
         <motion.div 
-          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          initial={{ opacity: 0, y: 50, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="card-shine border-2 border-[#757454]/60 bg-[#030d12]/95 backdrop-blur-2xl p-4 sm:p-8 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] relative overflow-hidden"
+          className="card-shine border-2 border-[#757454]/60 bg-gradient-to-b from-[#051b23]/95 via-[#030d12]/95 to-[#051b23]/95 backdrop-blur-2xl p-6 sm:p-10 lg:p-14 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] relative overflow-hidden"
         >
           
-          <p className="text-center display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300/90 mb-6 sm:mb-8">
-            {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة" : "Tap any number tab (01 - 06) to expand its course card"}
-          </p>
-
-          {/* ── 1. MOBILE ONLY VIEW (2×3 Grid — Tall Vertical Strips that Expand Sideways to Full Width) ── */}
-          <div className="flex flex-col gap-4 lg:hidden">
-            
-            {/* Header */}
-            <div className={`flex items-center gap-1.5 px-1 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              <span className="text-amber-200 font-extrabold text-xs uppercase tracking-wider">
-                {isAr ? "اضغط على أي مسار لفتحه" : "Tap any track to expand"}
-              </span>
-            </div>
-
-            {/* 2-Column Grid — Strips expand to col-span-2 when active */}
-            <div className="grid grid-cols-2 gap-3 auto-rows-auto">
+          {/* ── 1. TOP CAPSULE PILL SWITCHER ── */}
+          <div className="flex justify-center mb-10 lg:mb-12">
+            <div 
+              ref={mobilePillsRef}
+              className="flex items-center gap-2 bg-[#030d12]/90 border border-[#757454]/40 p-2 rounded-full max-w-full overflow-x-auto scrollbar-none shadow-2xl"
+            >
               {coursesList.map((course, idx) => {
                 const isActive = idx === activeIndex;
-                const theme = ribbonThemes[idx];
-
                 return (
-                  <motion.div 
-                    key={course.title} 
-                    layout
-                    initial={{ opacity: 0, y: 35, scale: 0.94 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ once: true, margin: "-30px" }}
-                    transition={{ 
-                      layout: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-                      opacity: { duration: 0.5, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] },
-                      y: { duration: 0.6, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] },
-                      scale: { duration: 0.6, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] }
-                    }}
-                    className={isActive ? 'col-span-2' : 'col-span-1'}
+                  <button
+                    key={course.title}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`relative px-4 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 ${
+                      isActive 
+                        ? 'text-white' 
+                        : 'text-amber-100/70 hover:text-amber-50 hover:bg-white/5'
+                    }`}
                   >
-                    {/* ── COLLAPSED: Tall Vertical Slit Strip ── */}
-                    {!isActive && (
-                      <motion.button
-                        onClick={() => setActiveIndex(idx)}
-                        whileTap={{ scale: 0.96 }}
-                        layout
-                        className="w-full h-48 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center gap-3 bg-[#030d12]/90 border border-white/10 hover:border-[#757454]/60 shadow-md cursor-pointer transition-all duration-300 group"
-                      >
-                        {/* Paper Slit Edge Shadow */}
-                        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black/80 shadow-[2px_0_8px_rgba(0,0,0,0.9)]" />
-
-                        {/* Elegant Islamic Mihrab/Arch Medallion */}
-                        <div 
-                          className={`w-14 h-20 rounded-t-full border-t-2 border-x-2 ${theme.border} ${theme.bg} shadow-xl flex flex-col items-center justify-start pt-3 group-hover:scale-105 transition-transform duration-300 relative`}
-                        >
-                          <div className="absolute inset-0.5 rounded-t-full bg-black/10" />
-                          <span className="display text-[8px] font-extrabold uppercase tracking-wider text-amber-200/85 mb-0.5 z-10">
-                            {isAr ? "مسار" : "Track"}
-                          </span>
-                          <span className={`display text-2xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)] z-10`}>
-                            {theme.num}
-                          </span>
-                        </div>
-
-                        {/* Vertical Course Title */}
-                        <h4 className="text-sm font-bold display text-amber-50 leading-tight text-center px-2">
-                          {course.title}
-                        </h4>
-
-                        {/* Icon */}
-                        <course.icon className="w-4 h-4 text-amber-300/60" />
-                      </motion.button>
-                    )}
-
-                    {/* ── EXPANDED: Full-Width Course Card ── */}
                     {isActive && (
                       <motion.div
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.35 }}
-                        className={`rounded-2xl bg-[#051b23] border-2 border-[#757454] shadow-2xl text-amber-50 overflow-hidden ${isAr ? 'text-right' : 'text-left'}`}
-                      >
-                        {/* Card Header with close-back tap area */}
-                        <div 
-                          onClick={() => setActiveIndex(idx === activeIndex ? idx : idx)}
-                          className={`flex items-center gap-3 p-5 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}
-                        >
-                          {/* Elegant Islamic Mihrab/Arch Active Badge */}
-                          <div className={`w-12 h-16 rounded-t-full ${theme.activeBg} border-t-2 border-x-2 ${theme.border} flex flex-col items-center justify-center shadow-lg shrink-0 pt-1`}>
-                            <span className="display text-[8px] font-bold tracking-wider text-amber-200/80">
-                              {isAr ? "مسار" : "Track"}
-                            </span>
-                            <span className={`display text-xl font-extrabold ${theme.text}`}>
-                              {theme.num}
-                            </span>
-                          </div>
-                          <div className="flex-1">
-                            <span className="display text-[9px] font-extrabold uppercase tracking-[0.2em] text-amber-300 block">
-                              {isAr ? `المسار 0${idx + 1} من 06` : `Track 0${idx + 1} of 06`}
-                            </span>
-                            <h3 className="text-xl font-bold display text-amber-50">
-                              {course.title}
-                            </h3>
-                          </div>
-                          <div className="w-9 h-9 rounded-lg bg-[#084C63]/60 border border-[#757454] flex items-center justify-center shrink-0">
-                            <course.icon className="w-5 h-5 text-amber-200" />
-                          </div>
-                        </div>
-
-                        {/* Card Body */}
-                        <div className="p-5 pt-4 space-y-4">
-                          {/* Intro */}
-                          <p className="text-sm text-amber-100/90 font-medium leading-relaxed">
-                            {course.details.intro}
-                          </p>
-
-                          {/* Milestones */}
-                          <div className="bg-[#030d12]/80 border border-[#757454]/40 p-4 rounded-xl space-y-2">
-                            <h4 className={`display text-[10px] font-extrabold uppercase tracking-[0.2em] text-amber-300 mb-2 ${isAr ? 'text-right' : ''}`}>
-                              {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
-                            </h4>
-                            {course.details.benefits.map((benefit, bIdx) => (
-                              <div key={bIdx} className={`flex items-start gap-2 text-amber-100/90 text-xs font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                                <CheckCircle2 className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
-                                <span>{benefit}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Hadith */}
-                          <div className={`p-3.5 rounded-xl bg-[#084C63]/20 border-l-4 border-amber-300 text-xs italic text-amber-100/90 ${isAr ? 'border-l-0 border-r-4 text-right' : ''}`}>
-                            {isAr ? course.details.quote : `"${course.details.quote}"`}
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex flex-col gap-2.5 pt-1">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onViewDetails?.(course.title);
-                              }}
-                              className="w-full py-3.5 px-4 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
-                            >
-                              <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
-                              <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEnrollNow();
-                              }}
-                              className="w-full py-3.5 px-4 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                            >
-                              <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
-                            </button>
-                          </div>
-                        </div>
-                      </motion.div>
+                        layoutId="activeCoursePill"
+                        className="absolute inset-0 rounded-full bg-[#084C63] border border-amber-300/60 shadow-[0_0_20px_rgba(8,76,99,0.9)] z-0"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
                     )}
-                  </motion.div>
+                    <span className="relative z-10 font-mono text-xs opacity-75 font-extrabold">0{idx + 1}</span>
+                    <span className="relative z-10">{course.title}</span>
+                  </button>
                 );
               })}
             </div>
           </div>
 
-          {/* ── 2. DESKTOP ONLY VIEW (100% UNTOUCHED Approved 1-Row In-Place Slit Cards) ── */}
-          <div className="hidden lg:flex flex-row gap-5 min-h-[540px] items-stretch justify-center">
-            {coursesList.map((course, idx) => {
-              const isActive = idx === activeIndex;
-              const theme = ribbonThemes[idx];
+          {/* ── 2. THREE-COLUMN SHOWCASE STAGE ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            
+            {/* ── LEFT COLUMN: Course Intro & Action Buttons ── */}
+            <div className={`lg:col-span-5 flex flex-col justify-center space-y-6 ${isAr ? 'text-right' : 'text-left'}`}>
+              
+              {/* Previous / Next Controls Bar */}
+              <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handlePrev}
+                    className="w-11 h-11 rounded-full bg-[#084C63]/60 hover:bg-[#084C63] border border-[#757454] text-amber-200 hover:text-white flex items-center justify-center transition-all duration-200 shadow-lg cursor-pointer active:scale-95"
+                    aria-label="Previous Course"
+                  >
+                    <ChevronLeft className={`w-5 h-5 ${isAr ? 'rotate-180' : ''}`} />
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="w-11 h-11 rounded-full bg-[#084C63]/60 hover:bg-[#084C63] border border-[#757454] text-amber-200 hover:text-white flex items-center justify-center transition-all duration-200 shadow-lg cursor-pointer active:scale-95"
+                    aria-label="Next Course"
+                  >
+                    <ChevronRight className={`w-5 h-5 ${isAr ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
-              return (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#084C63]/30 border border-[#757454]/40 text-amber-300 font-extrabold text-[10px] uppercase tracking-widest">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+                  <span>{isAr ? `المسار 0${activeIndex + 1} من 06` : `Track 0${activeIndex + 1} of 06`}</span>
+                </div>
+              </div>
+
+              {/* Title & Description with AnimatePresence */}
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={course.title}
-                  layout
-                  initial={{ opacity: 0, y: 50, scale: 0.92 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  onClick={() => setActiveIndex(idx)}
-                  transition={{ 
-                    layout: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-                    opacity: { duration: 0.6, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] },
-                    y: { duration: 0.7, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] },
-                    scale: { duration: 0.7, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }
-                  }}
-                  className={`relative cursor-pointer rounded-[2.5rem] transition-all duration-500 overflow-hidden ${
-                    isActive 
-                      ? 'flex-[4.5] bg-[#051b23] border-2 border-[#757454] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-30' 
-                      : 'flex-[1.2] bg-[#030d12]/90 border border-white/10 hover:border-[#757454]/60 opacity-85 hover:opacity-100 z-10'
-                  }`}
+                  key={activeCourse.title}
+                  initial={{ opacity: 0, x: isAr ? 20 : -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: isAr ? -20 : 20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-4"
                 >
-                  {/* Collapsed Slit-Peeled State (Stands in place when inactive) */}
-                  {!isActive && (
-                    <div className="h-full min-h-[500px] w-full p-6 flex flex-col justify-between items-center relative overflow-hidden group">
-                      
-                      {/* Paper Slit Cutout Edge Shadow */}
-                      <div className="absolute left-0 top-0 bottom-0 w-2 bg-black/80 shadow-[3px_0_12px_rgba(0,0,0,0.9)]" />
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold display text-amber-50 leading-[1.15]">
+                    {activeCourse.title}
+                  </h3>
 
-                      {/* Premium Islamic Mihrab/Arch-shaped Medallion */}
-                      <div 
-                        className={`w-16 h-28 rounded-t-full border-t-2 border-x-2 ${theme.border} ${theme.bg} shadow-2xl flex flex-col items-center justify-start pt-6 group-hover:scale-105 transition-transform duration-300 relative`}
-                      >
-                        <div className="absolute inset-0.5 rounded-t-full bg-black/10" />
-                        <span className="display text-[9px] font-extrabold uppercase tracking-wider text-amber-200/85 mb-1 z-10">
-                          {isAr ? "مسار" : "Track"}
-                        </span>
-                        <span className={`display text-3xl font-extrabold tracking-tighter ${theme.text} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] z-10`}>
-                          {theme.num}
-                        </span>
-                      </div>
-
-                      {/* Course Title Label */}
-                      <div className={`flex flex-col items-center ${isAr ? 'text-right' : 'text-center'}`}>
-                        <span className="display text-[9px] font-extrabold uppercase tracking-widest text-amber-300/80 mb-1">
-                          0{idx + 1}
-                        </span>
-                        <h4 className="text-lg font-bold display text-amber-50 leading-tight [writing-mode:vertical-rl] rotate-180">
-                          {course.title}
-                        </h4>
-                      </div>
-
-                      {/* Bottom Track Icon */}
-                      <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-amber-200 shrink-0">
-                        <course.icon className="w-4 h-4" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Expanded Active Card Content (Opens right in place!) */}
-                  {isActive && (
-                    <motion.div
-                      initial={{ opacity: 0, x: isAr ? -20 : 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4 }}
-                      className={`p-9 h-full flex flex-col justify-between text-amber-50 ${isAr ? 'text-right' : 'text-left'}`}
-                    >
-                      <div>
-                        {/* Active Ribbon Header Badge */}
-                        <div className={`flex items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
-                          <div className={`flex items-center gap-3.5 ${isAr ? 'flex-row-reverse' : ''}`}>
-                            {/* Active Islamic Mihrab/Arch Badge */}
-                            <div className={`w-14 h-20 rounded-t-full ${theme.activeBg} border-t-2 border-x-2 ${theme.border} flex flex-col items-center justify-center shadow-xl pt-2 shrink-0`}>
-                              <span className="display text-[8px] font-bold tracking-wider text-amber-200/80">
-                                {isAr ? "مسار" : "Track"}
-                              </span>
-                              <span className={`display text-2xl font-extrabold ${theme.text}`}>
-                                {theme.num}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="display text-[9.5px] font-extrabold uppercase tracking-[0.3em] text-amber-300 block mb-0.5">
-                                {isAr ? `المسار الأكاديمي 0${idx + 1} من 06` : `Academic Track 0${idx + 1} of 06`}
-                              </span>
-                              <h3 className="text-3xl lg:text-4xl font-bold display text-amber-50 leading-tight">
-                                {course.title}
-                              </h3>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#084C63]/50 border border-[#757454]/60">
-                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                            <span className="display text-[9px] font-extrabold uppercase tracking-widest text-amber-200">
-                              {isAr ? "المسار المفتوح" : "Active Path"}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Course Overview */}
-                        <p className="text-base text-amber-100/90 font-medium leading-relaxed mb-6">
-                          {course.details.intro}
-                        </p>
-
-                        {/* Program Milestones Checklist */}
-                        <div className="bg-[#030d12]/80 border border-[#757454]/40 p-5 rounded-2xl space-y-2.5 mb-6">
-                          <h4 className={`display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-300 mb-2 ${isAr ? 'text-right' : ''}`}>
-                            {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
-                          </h4>
-                          {course.details.benefits.map((benefit, bIdx) => (
-                            <div key={bIdx} className={`flex items-start gap-2.5 text-amber-100/90 text-xs font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                              <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
-                              <span>{benefit}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Spiritual Hadith */}
-                        <div className={`p-4 rounded-xl bg-[#084C63]/20 border-l-4 border-amber-300 text-xs italic text-amber-100/90 mb-6 ${isAr ? 'border-l-0 border-r-4 text-right' : ''}`}>
-                          {isAr ? course.details.quote : `"${course.details.quote}"`}
-                        </div>
-                      </div>
-
-                      {/* Action Buttons inside the Active Card */}
-                      <div className={`flex items-center gap-3 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onViewDetails?.(course.title);
-                          }}
-                          className="px-7 py-3.5 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2.5 group cursor-pointer"
-                        >
-                          <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
-                          <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEnrollNow();
-                          }}
-                          className="px-6 py-3.5 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                        >
-                          <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
+                  <p className="text-sm sm:text-base text-amber-100/90 font-medium leading-relaxed">
+                    {activeCourse.details.intro}
+                  </p>
                 </motion.div>
-              );
-            })}
+              </AnimatePresence>
+
+              {/* Program Milestones Checklist */}
+              <div className="bg-[#030d12]/80 border border-[#757454]/40 p-4 sm:p-5 rounded-2xl space-y-2.5">
+                <h4 className={`display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-300 mb-2 ${isAr ? 'text-right' : ''}`}>
+                  {isAr ? "أهم مخرجات المسار:" : "Program Milestones:"}
+                </h4>
+                {activeCourse.details.benefits.map((benefit, bIdx) => (
+                  <div key={bIdx} className={`flex items-start gap-2.5 text-amber-100/90 text-xs sm:text-sm font-medium ${isAr ? 'flex-row-reverse text-right' : ''}`}>
+                    <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                    <span>{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Dedicated Action Buttons */}
+              <div className={`flex flex-col sm:flex-row items-center gap-3 pt-2 ${isAr ? 'flex-row-reverse' : ''}`}>
+                <button
+                  onClick={() => onViewDetails?.(activeCourse.title)}
+                  className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#949693] hover:bg-white text-[#03171e] font-extrabold uppercase tracking-wider text-xs border-2 border-[#757454] transition-all shadow-xl flex items-center justify-center gap-2.5 group cursor-pointer"
+                >
+                  <span>{isAr ? "معرفة تفاصيل المسار الكاشفة" : "Read Full Course Details"}</span>
+                  <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform ${isAr ? 'rotate-180' : ''}`} />
+                </button>
+
+                <button
+                  onClick={handleEnrollNow}
+                  className="w-full sm:w-auto px-6 py-4 rounded-xl bg-[#084C63] hover:bg-[#757454] text-white font-bold uppercase tracking-wider text-xs border border-amber-300/40 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                >
+                  <span>{isAr ? `تسجيل سريع` : `Quick Enroll`}</span>
+                </button>
+              </div>
+
+            </div>
+
+            {/* ── CENTER COLUMN: 3D Floating Featured Card ── */}
+            <div className="lg:col-span-4 flex flex-col items-center justify-center py-6 relative">
+              
+              {/* Dynamic 3D Card Transition with AnimatePresence */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCourse.title}
+                  initial={{ opacity: 0, scale: 0.88, rotateY: isAr ? -25 : 25 }}
+                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, scale: 0.88, rotateY: isAr ? 25 : -25 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative z-10"
+                >
+                  <CourseCard3D 
+                    course={activeCourse}
+                    index={activeIndex}
+                    isActive={true}
+                    onViewDetails={onViewDetails}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Realistic Elliptical Shadow beneath the floating 3D card */}
+              <motion.div 
+                animate={{
+                  scale: [1, 1.08, 1],
+                  opacity: [0.5, 0.7, 0.5]
+                }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                className="w-48 sm:w-56 h-6 bg-black/90 rounded-full blur-lg mt-4 pointer-events-none"
+              />
+            </div>
+
+            {/* ── RIGHT COLUMN: Quick Highlights & Spiritual Hadith ── */}
+            <div className={`lg:col-span-3 flex flex-col justify-between space-y-6 ${isAr ? 'text-right' : 'text-left'}`}>
+              
+              {/* Quick Jump Number Badges (01 to 06) */}
+              <div className="bg-[#030d12]/80 border border-[#757454]/40 p-5 rounded-2xl">
+                <span className="display text-[9px] font-extrabold uppercase tracking-[0.25em] text-amber-300 block mb-3">
+                  {isAr ? "اختر المسار بالأرقام:" : "Quick Track Selector:"}
+                </span>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {coursesList.map((c, idx) => {
+                    const isSelected = idx === activeIndex;
+                    return (
+                      <button
+                        key={c.title}
+                        onClick={() => setActiveIndex(idx)}
+                        className={`h-11 rounded-xl font-bold font-mono text-sm transition-all duration-200 flex items-center justify-center border cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#084C63] border-amber-300 text-white shadow-lg scale-105'
+                            : 'bg-black/30 border-white/10 text-amber-100/70 hover:border-[#757454] hover:text-white'
+                        }`}
+                      >
+                        0{idx + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Course Highlights Badges */}
+              <div className="space-y-2.5">
+                <div className={`flex items-center gap-3 p-3 rounded-xl bg-[#084C63]/30 border border-[#757454]/40 text-xs font-semibold text-amber-100/90 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <Users className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span>{isAr ? "حصص فردية مخصصة ١-على-١" : "1-on-1 Personalized Classes"}</span>
+                </div>
+                <div className={`flex items-center gap-3 p-3 rounded-xl bg-[#084C63]/30 border border-[#757454]/40 text-xs font-semibold text-amber-100/90 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <Trophy className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span>{isAr ? "مشايخ ومعلمات مجازون بالسند" : "Certified Ijazah Faculty"}</span>
+                </div>
+                <div className={`flex items-center gap-3 p-3 rounded-xl bg-[#084C63]/30 border border-[#757454]/40 text-xs font-semibold text-amber-100/90 ${isAr ? 'flex-row-reverse' : ''}`}>
+                  <Clock className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span>{isAr ? "مواعيد مرنة على مدار ٢٤/٧" : "24/7 Global Flexible Times"}</span>
+                </div>
+              </div>
+
+              {/* Spiritual Prophetic Hadith / Quote */}
+              <div className={`p-4 rounded-2xl bg-[#084C63]/20 border-l-4 border-amber-300 text-xs italic text-amber-100/90 leading-relaxed ${isAr ? 'border-l-0 border-r-4' : ''}`}>
+                <span className="block font-bold not-italic text-[10px] text-amber-300 uppercase tracking-widest mb-1">
+                  {isAr ? "حكمة نبوية شريفة:" : "Prophetic Wisdom:"}
+                </span>
+                {isAr ? activeCourse.details.quote : `"${activeCourse.details.quote}"`}
+              </div>
+
+            </div>
+
           </div>
+
         </motion.div>
 
         {/* Flexible Learning Packages Prompt */}
