@@ -476,8 +476,14 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
           </div>
         </Reveal>
 
-        {/* ── 3D SLIT-PEELED CARD SUITE ── */}
-        <div className="card-shine border-2 border-[#757454]/60 bg-[#030d12]/95 backdrop-blur-2xl p-4 sm:p-8 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] relative overflow-hidden">
+        {/* ── 3D SLIT-PEELED CARD SUITE WITH SCROLL-TRIGGERED ENTRANCE ── */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+          className="card-shine border-2 border-[#757454]/60 bg-[#030d12]/95 backdrop-blur-2xl p-4 sm:p-8 rounded-[3rem] shadow-[0_35px_100px_rgba(0,0,0,0.9)] relative overflow-hidden"
+        >
           
           <p className="text-center display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-300/90 mb-6 sm:mb-8">
             {isAr ? "انقر على أي رقم (01 - 06) لفتح طية المسار مباشرة" : "Tap any number tab (01 - 06) to expand its course card"}
@@ -504,7 +510,15 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                   <motion.div 
                     key={course.title} 
                     layout
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0, y: 35, scale: 0.94 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ 
+                      layout: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.5, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] },
+                      y: { duration: 0.6, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] },
+                      scale: { duration: 0.6, delay: (idx % 2) * 0.12 + Math.floor(idx / 2) * 0.08, ease: [0.21, 0.47, 0.32, 0.98] }
+                    }}
                     className={isActive ? 'col-span-2' : 'col-span-1'}
                   >
                     {/* ── COLLAPSED: Tall Vertical Slit Strip ── */}
@@ -644,8 +658,16 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
                 <motion.div
                   key={course.title}
                   layout
+                  initial={{ opacity: 0, y: 50, scale: 0.92 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-40px" }}
                   onClick={() => setActiveIndex(idx)}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ 
+                    layout: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                    opacity: { duration: 0.6, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] },
+                    y: { duration: 0.7, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] },
+                    scale: { duration: 0.7, delay: idx * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }
+                  }}
                   className={`relative cursor-pointer rounded-[2.5rem] transition-all duration-500 overflow-hidden ${
                     isActive 
                       ? 'flex-[4.5] bg-[#051b23] border-2 border-[#757454] shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-30' 
@@ -781,7 +803,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
         {/* Flexible Learning Packages Prompt */}
         <Reveal delay={0.5} direction="up" distance={20}>
