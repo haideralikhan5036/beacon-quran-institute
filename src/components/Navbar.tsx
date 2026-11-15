@@ -179,66 +179,55 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 lg:hidden bg-gradient-to-tr from-primary/60 via-black/80 to-black/95 backdrop-blur-xl z-[105] overflow-hidden"
-            >
-              {/* Subtle texture for the backdrop to make it more visually interesting */}
-              <div 
-                className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" 
-                style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}
-              />
-              <div className="absolute inset-0 bg-radial-at-tr from-accent/5 to-transparent pointer-events-none" />
-            </motion.div>
-            
+              className="fixed inset-0 lg:hidden bg-gradient-to-tr from-black/80 via-black/70 to-black/80 z-[105]"
+              style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+            />
+
             {/* Compact Mobile Menu - Floating Glass Sheet Drawer */}
             <motion.div
               initial={{ x: isAr ? '-100%' : '100%' }}
               animate={{ x: 0 }}
               exit={{ x: isAr ? '-100%' : '100%' }}
-              transition={{ type: "spring", damping: 28, stiffness: 240 }}
-              className={`fixed top-0 bottom-0 w-[78%] max-w-[285px] lg:hidden card-shine bg-[#051b23]/95 backdrop-blur-2xl z-[110] flex flex-col shadow-[-15px_0_60px_rgba(0,0,0,0.95)] border-y-0 border-[#949693]/35 overflow-hidden ${
-                isAr ? 'left-0 rounded-r-[2.5rem] border-r border-l-0' : 'right-0 rounded-l-[2.5rem] border-l border-r-0'
+              transition={{ type: "spring", damping: 25, stiffness: 250 }}
+              className={`fixed top-0 bottom-0 w-[85%] max-w-[320px] lg:hidden bg-[#051b23]/95 z-[110] flex flex-col shadow-[-15px_0_60px_rgba(0,0,0,0.95)] border-l border-[#949693]/20 overflow-hidden will-change-transform ${
+                isAr ? 'left-0 rounded-r-[2rem]' : 'right-0 rounded-l-[2rem]'
               }`}
             >
               {/* Subtle ambient brand glow */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#084C63]/30 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#757454]/20 rounded-full blur-3xl pointer-events-none" />
-              
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#084C63]/20 rounded-full blur-3xl pointer-events-none" />
+
               <div className="relative flex-1 flex flex-col z-10 p-6">
                 {/* Header: Logo & Compact Close */}
-                <div className={`flex justify-between items-center pb-5 border-b border-white/10 ${isAr ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex justify-between items-center pb-6 border-b border-white/5 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-10 h-10 bg-white/10 rounded-xl p-0.5 overflow-hidden border border-white/10">
+                    <div className="w-10 h-10 bg-white/5 rounded-xl p-1 overflow-hidden border border-white/5">
                       <img src={logo} alt="Logo" className="w-full h-full object-contain" decoding="async" />
                     </div>
                     <div className={`flex flex-col leading-none ${isAr ? 'text-right' : 'text-left'}`}>
-                      <span className="text-[9px] font-black uppercase tracking-wider text-amber-50">BEACON QURAN</span>
-                      <span className="text-[7.5px] font-extrabold uppercase tracking-widest text-amber-200/80">Institute</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-50">BEACON</span>
+                      <span className="text-[8px] uppercase tracking-widest text-amber-200/60">Institute</span>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setIsOpen(false)}
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-amber-100 hover:bg-white/20 transition-all active:scale-90"
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-amber-100 hover:bg-white/10 active:scale-90 transition-all"
                   >
-                    <motion.div className="relative w-4 h-4">
+                    <div className="relative w-4 h-4">
                       <div className="absolute top-2 left-0 w-4 h-0.5 bg-current rotate-45" />
                       <div className="absolute top-2 left-0 w-4 h-0.5 bg-current -rotate-45" />
-                    </motion.div>
+                    </div>
                   </button>
                 </div>
 
                 {/* Nav Links Section */}
-                <div className="flex-1 flex flex-col justify-center py-6 space-y-2">
-                  <span className={`text-[8.5px] font-black uppercase tracking-[0.3em] text-amber-200/70 block mb-2 ${isAr ? 'text-right' : 'text-left'}`}>
-                    {isAr ? 'القائمة الرئيسية' : 'Navigation'}
-                  </span>
-
+                <div className="flex-1 flex flex-col justify-center py-4 space-y-1">
                   {navLinks.map((link, idx) => (
                     <motion.button
                       key={link.key}
-                      initial={{ opacity: 0, x: isAr ? -30 : 30 }}
+                      initial={{ opacity: 0, x: isAr ? -20 : 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + idx * 0.05, duration: 0.4 }}
-                      whileTap={{ scale: 0.96 }}
+                      transition={{ delay: 0.05 + idx * 0.03, duration: 0.3 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         setView(link.view as ViewState);
                         if (link.href.startsWith('#')) {
@@ -254,43 +243,36 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                         }
                         setIsOpen(false);
                       }}
-                      className={`text-sm font-bold tracking-tight py-2.5 px-4 rounded-xl transition-all flex items-center gap-3 group w-full ${
+                      className={`text-[15px] font-semibold py-4 px-4 rounded-xl transition-all flex items-center gap-4 group w-full ${
                         isAr ? 'text-right flex-row-reverse' : 'text-left'
                       } ${
-                        currentView === link.view 
-                          ? 'bg-[#084C63]/60 text-amber-100 border border-[#949693]/35 shadow-lg' 
-                          : 'text-amber-100/80 hover:bg-white/5 hover:text-white'
+                        currentView === link.view
+                          ? 'bg-[#084C63]/40 text-amber-100'
+                          : 'text-amber-100/70 hover:bg-white/5 hover:text-white'
                       }`}
                     >
-                      <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                        currentView === link.view ? 'bg-amber-200 scale-125' : 'bg-white/30 group-hover:bg-amber-200'
+                      <div className={`w-1.5 h-1.5 rounded-full ${
+                        currentView === link.view ? 'bg-amber-400' : 'bg-white/20'
                       }`} />
                       <span className="flex-1">{t(link.key)}</span>
-                      <ArrowRight className={`w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-all ${isAr ? 'rotate-180' : ''}`} />
                     </motion.button>
                   ))}
                 </div>
-                
-                {/* Language Switcher Badge & CTA Button */}
-                <div className="pt-4 border-t border-white/10 space-y-3">
-                  <div className={`flex items-center justify-between px-2 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-amber-100/60">
-                      {isAr ? 'اللغة' : 'Language'}
-                    </span>
-                    <button
-                      onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-                      className="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full text-[10px] font-bold text-amber-200 transition-all"
-                    >
-                      {language === 'en' ? 'العربية' : 'English'}
-                    </button>
-                  </div>
 
-                  <button 
+                {/* Language Switcher & CTA */}
+                <div className="pt-6 border-t border-white/5 space-y-4">
+                  <button
+                    onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
+                    className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-[12px] font-bold text-amber-100 transition-all active:scale-95"
+                  >
+                    {language === 'en' ? 'Switch to Arabic (العربية)' : 'Switch to English'}
+                  </button>
+
+                  <button
                     onClick={() => { setView('home'); setIsOpen(false); setTimeout(() => { const el = document.getElementById('registration'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}
-                    className="w-full bg-[#084C63] text-white py-3.5 rounded-xl font-serif font-bold text-xs uppercase tracking-wider border border-[#949693]/40 shadow-xl hover:bg-[#757454] active:scale-95 transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#084C63] text-white py-4 rounded-xl font-bold text-[13px] uppercase tracking-wider shadow-lg hover:bg-[#757454] active:scale-95 transition-all"
                   >
                     {t('nav.startLearning')}
-                    <ArrowRight className={`w-3.5 h-3.5 ${isAr ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
               </div>

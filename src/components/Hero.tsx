@@ -9,9 +9,10 @@ import quranImage from '../assets/images/regenerated_image_1778882224032.jpg';
 function StatCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.1 });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   useEffect(() => {
+    if (!isInView) return;
     const controls = animate(0, value, {
       duration: 2.2,
       ease: [0.16, 1, 0.3, 1],
@@ -142,22 +143,22 @@ export default function Hero() {
             </Reveal>
 
             <Reveal delay={0.85} width="100%">
-              <div className={`flex flex-wrap gap-5 ${isAr ? 'flex-row-reverse' : ''}`}>
-                <MagneticButton 
+              <div className={`flex flex-col sm:flex-row gap-4 sm:gap-5 w-full ${isAr ? 'sm:flex-row-reverse' : ''}`}>
+                <MagneticButton
                   onClick={scrollToContact}
-                  className="group relative overflow-hidden bg-[#084C63] text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all shadow-xl shadow-[#084C63]/30 flex items-center gap-2 cursor-pointer border border-[#949693]/30"
+                  className="group relative overflow-hidden bg-[#084C63] text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all shadow-xl shadow-[#084C63]/30 flex items-center justify-center gap-2 cursor-pointer border border-[#949693]/30 w-full sm:w-auto"
                 >
                   <span className="relative z-10">{t('hero.startJourney')}</span>
                   <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10 ${isAr ? 'rotate-180' : ''}`} />
                   <div className="absolute inset-0 bg-[#757454] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                 </MagneticButton>
-                
-                <button 
+
+                <button
                   onClick={() => {
                     const el = document.getElementById('courses');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="group flex items-center gap-3 border border-accent/30 text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-primary hover:text-white transition-all shadow-lg active:scale-95 cursor-pointer"
+                  className="group flex items-center justify-center gap-3 border border-accent/30 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-primary hover:text-white transition-all shadow-lg active:scale-95 cursor-pointer w-full sm:w-auto"
                 >
                   <PlayCircle className="w-5 h-5 text-accent group-hover:text-white transition-colors" />
                   <span>{t('hero.methodology')}</span>
@@ -231,11 +232,11 @@ export default function Hero() {
             </div>
 
             {/* "Our Impact" Radial Arc Gauge Component (Ultra-Professional Luxury Redesign) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className={`absolute -right-2 sm:-right-6 lg:-right-10 bottom-2 sm:bottom-6 z-20 card-shine border-2 border-[#757454]/60 hover:border-[#757454] p-7 sm:p-8 rounded-[3rem] shadow-[0_30px_90px_rgba(0,0,0,0.85)] backdrop-blur-2xl bg-[#051b23]/95 text-amber-50 max-w-[330px] sm:max-w-[370px] w-full transition-all duration-300 ${isAr ? 'text-right' : 'text-left'}`}
+              className={`relative mt-6 sm:mt-0 sm:absolute sm:-right-6 lg:-right-10 sm:bottom-6 z-20 card-shine border-2 border-[#757454]/60 hover:border-[#757454] p-5 sm:p-8 rounded-[2.5rem] sm:rounded-[3rem] shadow-[0_30px_90px_rgba(0,0,0,0.85)] backdrop-blur-2xl bg-[#051b23]/95 text-amber-50 max-w-full sm:max-w-[370px] w-full transition-all duration-300 ${isAr ? 'text-right' : 'text-left'}`}
             >
               {/* 1. Header: Brand Luxury Badge & Title */}
               <div className={`mb-3 ${isAr ? 'text-right' : 'text-left'}`}>
