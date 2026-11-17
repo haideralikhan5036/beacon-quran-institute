@@ -103,15 +103,15 @@ export default function WhyUs() {
     if (isPaused) return;
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % reasons.length);
-    }, 2000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [isPaused, reasons.length]);
 
   const titleSub = isAr ? 'عن صرح ومنارة القرآن الكريْم' : 'About the Institute';
   const mainTitle = isAr ? (
-    <>إرث عريـــق مـن<br /><span className="text-accent italic font-semibold">التعليم الإلهي</span> المبارك</>
+    <>إرث عريـــق مـن<br /><span className="text-accent italic font-semibold">التعليم الإلهي</span>{' '}المبارك</>
   ) : (
-    <>A Legacy of <br /><span className="text-accent italic font-semibold">Divine</span> Education</>
+    <>A Legacy of <br /><span className="text-accent italic font-semibold">Divine</span>{' '}Education</>
   );
   const descriptionText = isAr 
     ? 'تأسس معهد منارة القرآن الكريم على ركائز الإتقان التام في التجويد ونشر النور والهدى الإلهي. نوفر واحة آمنة ومثالية لكل من يرجو الاتصال بآيات الذكر الحكيم وترتيلها وفهمها عبر توجيه فردي دقيق وممتاز.' 
@@ -215,6 +215,10 @@ export default function WhyUs() {
                 // Keep DOM efficient - prune far elements
                 if (!isNearVisible) return null;
 
+                // Only the active card is rendered at all — the side cards
+                // used to ghost through it with overlapping, unreadable text.
+                if (!isActive) return null;
+
                 const factor = isAr ? -1 : 1;
                 
                 // Arch Fan parameters
@@ -285,7 +289,7 @@ export default function WhyUs() {
                 return (
                   <motion.div
                     key={reason.title}
-                    initial={false}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{
                       x: xTranslate,
                       y: yTranslate,

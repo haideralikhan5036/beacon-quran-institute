@@ -3,22 +3,19 @@ import { ViewState } from '../App';
 import { Reveal } from './ui/Reveal';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToId } from '../utils/scrollToId';
 
 export default function Footer({ setView }: { setView: (view: ViewState) => void }) {
   const { isAr } = useLanguage();
 
   const handleEnrollClick = () => {
     setView('home');
-    setTimeout(() => {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    scrollToId('registration');
   };
 
   const handleFeesClick = () => {
     setView('home');
-    setTimeout(() => {
-      document.getElementById('fees')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    scrollToId('fees');
   };
 
   const ctaTitle = isAr 
@@ -72,7 +69,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
     : "© 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED • GLOBAL EDITION";
 
   return (
-    <footer id="contact" className="bg-[#030d12] text-white pt-20 pb-12 relative overflow-hidden border-t border-[#757454]/30">
+    <footer className="bg-[#030d12] text-white pt-20 pb-12 relative overflow-hidden border-t border-[#757454]/30">
       {/* Background Texture & Ambient Glows */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none grayscale invert" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-[300px] bg-gradient-to-b from-[#084C63]/30 via-transparent to-transparent blur-3xl pointer-events-none" />
@@ -241,9 +238,9 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                   <div className="w-10 h-10 rounded-xl bg-[#757454]/20 border border-[#757454]/40 flex items-center justify-center shrink-0">
                     <Mail className="w-4 h-4 text-amber-200" />
                   </div>
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden min-w-0">
                     <p className="display text-[8.5px] font-extrabold uppercase tracking-widest text-amber-200">{officialRegistryLabel}</p>
-                    <p className="text-xs sm:text-sm font-bold text-white break-all" dir="ltr">beaconquraninstitute@gmail.com</p>
+                    <p className="text-[11px] sm:text-xs font-bold text-white whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
                   </div>
                 </div>
               </Reveal>
@@ -281,8 +278,8 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               {legalItems.map(item => (
                 <button 
                   key={item.name} 
-                  onClick={item.action}
-                  className="display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-amber-200 transition-colors cursor-pointer"
+                  onClick={() => { item.action(); window.scrollTo({ top: 0, behavior: 'auto' }); }}
+                  className="display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-amber-200 transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {item.name}
                 </button>

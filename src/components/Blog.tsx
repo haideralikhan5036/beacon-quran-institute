@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { blogPosts, BlogPost } from '../data/blogData';
 import { Reveal } from './ui/Reveal';
+import { renderMarkdown } from '../utils/renderMarkdown';
 
 function BlogSkeleton() {
   return (
@@ -38,7 +39,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
+    const timer = setTimeout(() => setLoading(false), 350);
     return () => clearTimeout(timer);
   }, []);
 
@@ -92,9 +93,9 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-amber-50 leading-[1.1] tracking-tight">
                 {isAr ? (
-                  <>مدونة <span className="text-amber-200 italic font-semibold">المنارة</span> القرآنية</>
+                  <>مدونة{' '}<span className="text-amber-200 italic font-semibold">المنارة</span>{' '}القرآنية</>
                 ) : (
-                  <>The Beacon <span className="text-amber-200 italic font-semibold">Digest</span></>
+                  <>The Beacon{' '}<span className="text-amber-200 italic font-semibold">Digest</span></>
                 )}
               </h1>
             </div>
@@ -186,7 +187,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                           <span className="display text-[9px] font-extrabold uppercase tracking-[0.2em] text-amber-200/90">{isAr ? post.authorAr : post.authorEn}</span>
                         </div>
                         <button 
-                          className={`display text-[9px] font-extrabold uppercase tracking-[0.25em] text-accent flex items-center gap-2 group-hover:gap-4 transition-all ${isAr ? 'flex-row-reverse' : ''}`}
+                          className={`display text-[9px] font-extrabold uppercase tracking-[0.25em] text-amber-200 flex items-center gap-2 group-hover:gap-4 transition-all ${isAr ? 'flex-row-reverse' : ''}`}
                         >
                           <span>{isAr ? "اقرأ المقال بالكامل" : "Read Full Article"}</span>
                           {isAr ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
@@ -340,38 +341,10 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                   {isAr ? selectedPost.titleAr : selectedPost.titleEn}
                 </h2>
 
-                {/* Article Content */}
+                {/* Article Content — rendered from Markdown (bold, italics,
+                    headings, lists) instead of raw ** markers. */}
                 <div className={`text-base sm:text-lg text-amber-100/90 leading-relaxed space-y-6 ${isAr ? 'text-right' : 'text-left'}`}>
-                  {(isAr ? selectedPost.contentAr : selectedPost.contentEn)
-                    .split('\n\n')
-                    .map((paragraph, pIdx) => {
-                      if (paragraph.startsWith('###')) {
-                        return (
-                          <h4 key={pIdx} className="text-xl sm:text-2xl font-bold display text-amber-200 mt-8 mb-4">
-                            {paragraph.replace('###', '').trim()}
-                          </h4>
-                        );
-                      }
-                      if (paragraph.match(/^\d+\./) || paragraph.startsWith('-')) {
-                        // Render lists
-                        const items = paragraph.split('\n');
-                        return (
-                          <ul key={pIdx} className="list-disc pl-6 pr-6 space-y-3 my-4">
-                            {items.map((item, iIdx) => (
-                              <li key={iIdx} className="font-medium text-amber-100/95">
-                                {item.replace(/^(\d+\.|-)\s*\*\*(.*?)\*\*:/, (_, __, title) => `**${title}**:`)
-                                  .replace(/^(\d+\.|-)\s*/, '')}
-                              </li>
-                            ))}
-                          </ul>
-                        );
-                      }
-                      return (
-                        <p key={pIdx} className="font-medium">
-                          {paragraph}
-                        </p>
-                      );
-                    })}
+                  {renderMarkdown(isAr ? selectedPost.contentAr : selectedPost.contentEn)}
                 </div>
 
                 {/* Bottom Close Button */}

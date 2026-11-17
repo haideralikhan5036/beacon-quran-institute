@@ -135,7 +135,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
+    const timer = setTimeout(() => setLoading(false), 300);
     if (full) window.scrollTo(0, 0);
     return () => clearTimeout(timer);
   }, [full]);
@@ -168,27 +168,27 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
   const readAllButtonText = isAr ? `قراءة جميع الـ ${testimonialsList.length} قصص نجاح` : `Read All ${testimonialsList.length} Stories`;
 
   return (
-    <section id="reviews" className={`py-16 sm:py-20 relative overflow-hidden ${full ? 'bg-transparent min-h-screen' : 'bg-transparent'}`}>
+    <section id="reviews" className={`relative overflow-hidden ${full ? 'bg-transparent min-h-screen pt-32 sm:pt-36 pb-16 sm:pb-20' : 'bg-transparent py-16 sm:py-20'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {full && (
+           <button 
+             onClick={() => setView?.('home')}
+             className={`group flex items-center gap-3 text-amber-100/80 hover:text-accent display text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 ${isAr ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
+           >
+             {isAr ? (
+               <>
+                 {backText}
+                 <ArrowLeft className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+               </>
+             ) : (
+               <>
+                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                 {backText}
+               </>
+             )}
+           </button>
+        )}
         <div className="text-center mb-16 sm:mb-24 relative">
-          {full && (
-             <button 
-               onClick={() => setView?.('home')}
-               className={`group absolute -top-12 flex items-center gap-3 text-amber-100/80 hover:text-accent display text-[11px] font-bold uppercase tracking-[0.2em] transition-all ${isAr ? 'right-0' : 'left-0'}`}
-             >
-               {isAr ? (
-                 <>
-                   {backText}
-                   <ArrowLeft className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
-                 </>
-               ) : (
-                 <>
-                   <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                   {backText}
-                 </>
-               )}
-             </button>
-          )}
           <Reveal delay={0.1} width="100%">
             <div className="card-shine border border-[#949693]/35 p-6 sm:p-9 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-16 shadow-2xl">
               <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
@@ -257,6 +257,10 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                 // Performance Optimization: Unmount far away cards to prevent DOM bloat
                 if (!isNearVisible) return null;
 
+                // Only the active card is rendered at all — the stacked cards
+                // used to ghost through it with overlapping, unreadable text.
+                if (!isActive) return null;
+
                 // Adjust stepHeight based on view size and length of testimonial
                 const stepHeight = isMobile ? 120 : 180;
 
@@ -270,7 +274,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                 return (
                   <motion.div
                     key={item.name + index}
-                    initial={false}
+                    initial={{ opacity: 0 }}
                     animate={{
                       y: yTranslate,
                       z: zTranslate,

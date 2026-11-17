@@ -16,7 +16,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
         <div className="bg-black/30 backdrop-blur-md p-10 md:p-16 rounded-[3rem] border border-accent/20 shadow-2xl text-amber-50">
           <div className="mb-12">
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-accent mb-4">Legal Framework</h2>
-            <h1 className="text-4xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-6">Terms of <span className="text-accent italic font-semibold">Service</span></h1>
+            <h1 className="text-4xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-6">Terms of{' '}<span className="text-accent italic font-semibold">Service</span></h1>
             <p className="text-amber-100/85">Last Updated: May 2024</p>
           </div>
 

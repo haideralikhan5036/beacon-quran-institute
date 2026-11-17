@@ -3,6 +3,7 @@ import { BookMarked, GraduationCap, Mic2, FileText, Languages, History, CheckCir
 import React, { useState, useEffect, useRef } from 'react';
 import { Reveal } from './ui/Reveal';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToId } from '../utils/scrollToId';
 
 const courses = [
   {
@@ -347,9 +348,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
 
   const handleEnrollNow = () => {
     onSelectCourse?.(activeCourse.title);
-    setTimeout(() => {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    scrollToId('registration');
   };
 
   const handleNext = () => {

@@ -15,7 +15,7 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
               Back to Home
             </button>
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-accent mb-4">Academic Recognition</h2>
-            <h1 className="text-4xl md:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8">Certificate of <span className="text-accent italic font-semibold">Appraisal</span></h1>
+            <h1 className="text-4xl md:text-6xl font-bold serif text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-8">Certificate of{' '}<span className="text-accent italic font-semibold">Appraisal</span></h1>
             
             <p className="text-amber-100/95 text-lg leading-relaxed mb-12 font-medium">
               At Beacon Quran Institute, we believe in celebrating the milestones of our students. Upon successful completion of a course, we issue a formal Certificate of Appraisal to recognize your dedication and achievement.
@@ -74,7 +74,7 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
                   <p className="text-3xl font-bold serif text-amber-50 mb-8 border-b border-accent/30 inline-block px-12">Ahmed Abdullah</p>
                   
                   <p className="text-amber-100/95 leading-relaxed mb-12 max-w-md mx-auto">
-                     has successfully completed the <span className="font-bold text-accent">Advanced Tajweed & Recitation</span> course with grade <span className="text-accent font-bold">A+</span> on this day of 25th May 2024.
+                     has successfully completed the{' '}<span className="font-bold text-accent">Advanced Tajweed &amp; Recitation</span>{' '}course with grade{' '}<span className="text-accent font-bold">A+</span>{' '}on this day of 25th May 2024.
                   </p>
 
                   <div className="flex justify-between items-end px-6">

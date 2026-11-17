@@ -29,6 +29,14 @@ html {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* No page-wide horizontal scroll: several decorative blurred blobs use
+   negative margins and would otherwise create a sideways scrollbar on phones. */
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: transparent;
@@ -175,18 +183,6 @@ html.dark {
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
-}
-
-@keyframes shimmerProgress {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
 }
 
 @keyframes shimmer {

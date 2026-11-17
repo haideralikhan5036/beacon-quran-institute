@@ -2,26 +2,35 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, animate, useInView, useSpring } from 'motion/react';
 import { PlayCircle, ShieldCheck, Star, ArrowRight, MousePointer2, Sparkles } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import logo from '../assets/images/regenerated_image_1778881551298.jpg';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToId } from '../utils/scrollToId';
 import quranImage from '../assets/images/regenerated_image_1778882224032.jpg';
 
+// Counters animate once per session: remounting the Hero (e.g. returning to
+// the homepage) must not replay them from zero.
+const seenCounters = new Set<string>();
+
 function StatCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  const key = `${value}${suffix}`;
+  const [count, setCount] = useState(() => (seenCounters.has(key) ? value : 0));
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || seenCounters.has(key)) return;
+    // Mark as seen when the animation STARTS, not only when it finishes:
+    // a visitor who glances at the homepage and navigates away mid-count
+    // must still see the final value on return, never a replay from zero.
+    seenCounters.add(key);
     const controls = animate(0, value, {
-      duration: 2.2,
+      duration: 1.4,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (latest) => {
         setCount(Math.round(latest));
-      }
+      },
     });
     return () => controls.stop();
-  }, [value, isInView]);
+  }, [value, isInView, key]);
 
   return (
     <span ref={ref} className="tabular-nums font-bold">
@@ -69,14 +78,15 @@ export default function Hero() {
   const { t, isAr } = useLanguage();
 
   const scrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToId('registration');
   };
 
   return (
     <section 
       className="relative min-h-[95vh] flex items-center pt-16 overflow-hidden bg-transparent"
     >
+      {/* Scrim over the busy library photo so the headline stays readable */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#030d12]/85 via-[#030d12]/55 to-[#030d12]/10 pointer-events-none" />
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-accent/5 rounded-full blur-[120px] animate-pulse"></div>
@@ -107,7 +117,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.45 }}
-                className="text-accent block leading-none italic serif font-semibold my-1"
+                className="text-gold block leading-none italic serif font-semibold my-1 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
               >
                 {t('hero.title2')}
               </motion.span>
