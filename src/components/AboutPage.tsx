@@ -1,4 +1,4 @@
-import { cloneElement } from 'react';
+import { cloneElement, type ReactElement } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './ui/Reveal';
 import { 
@@ -65,7 +65,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
         {/* Back Button */}
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 text-[#949693] hover:text-[#FCD34D] transition-colors mb-12 group"
+          className="flex items-center gap-2 text-amber-100/85 hover:text-[#FCD34D] transition-colors mb-12 group"
         >
           {isAr ? <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> : <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />}
           <span>{isAr ? 'العودة للصفحة الرئيسية' : 'Back to Home'}</span>
@@ -142,7 +142,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
                   <h3 className="text-xl font-bold text-white mb-3">
                     {isAr ? val.titleAr : val.titleEn}
                   </h3>
-                  <p className="text-[#949693]">
+                  <p className="text-amber-100/75">
                     {isAr ? val.descAr : val.descEn}
                   </p>
                 </div>
@@ -168,12 +168,12 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
               <Reveal key={idx} delay={idx * 0.1}>
                 <div className="text-center">
                   <div className="flex justify-center text-[#FCD34D] mb-4 opacity-80">
-                    {cloneElement(stat.icon as React.ReactElement, { className: 'w-8 h-8' })}
+                    {cloneElement(stat.icon as ReactElement, { className: 'w-8 h-8' })}
                   </div>
                   <div className="text-3xl md:text-4xl font-bold text-white mb-2">
                     {isAr ? stat.numAr : stat.numEn}
                   </div>
-                  <div className="text-[#949693] font-medium">
+                  <div className="text-amber-100/70 font-medium">
                     {isAr ? stat.labelAr : stat.labelEn}
                   </div>
                 </div>

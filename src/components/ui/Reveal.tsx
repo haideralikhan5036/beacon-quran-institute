@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 
 interface RevealProps {
@@ -15,12 +15,27 @@ interface RevealProps {
 export const Reveal = ({ 
   children, 
   width = "fit-content", 
-  delay = 0.2, 
+  delay = 0.12, 
   direction = "up",
   distance = 30,
   containerStyle,
   innerStyle
 }: RevealProps) => {
+  // Fail-visible: if IntersectionObserver is unavailable the motion element
+  // would stay at opacity 0 forever — render the content plainly instead.
+  const [noObserver, setNoObserver] = useState(false);
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') setNoObserver(true);
+  }, []);
+
+  if (noObserver) {
+    return (
+      <div style={{ position: "relative", width, overflow: "hidden", ...containerStyle }}>
+        <div style={{ ...innerStyle }}>{children}</div>
+      </div>
+    );
+  }
+
   const variants = {
     hidden: { 
       opacity: 0, 
@@ -40,9 +55,9 @@ export const Reveal = ({
         variants={variants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "0px" }}
         transition={{ 
-          duration: 0.8, 
+          duration: 0.6, 
           delay, 
           ease: [0.21, 0.47, 0.32, 0.98] // Professional "OutExpo" ease
         }}

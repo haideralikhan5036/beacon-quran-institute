@@ -150,7 +150,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
     : ["Starter Plan", "Popular Plan", "Premium Plan"];
 
   return (
-    <section id="contact" className="py-12 sm:py-20 bg-transparent relative overflow-hidden">
+    <section id="registration" className="py-12 sm:py-20 bg-transparent relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -173,12 +173,12 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                  {isAr ? (
                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold display mb-6 leading-tight text-balance">
                      {titleText1} <br />
-                     <span className="text-accent italic">{titleText2}</span> {titleText3}
+                     <span className="text-accent italic">{titleText2}</span>{' '}{titleText3}
                    </h3>
                  ) : (
                    <h3 className="text-3xl sm:text-4xl lg:text-6xl font-bold display mb-6 leading-tight text-balance">
                      {titleText1} <br />
-                     <span className="text-accent italic">{titleText2}</span> {titleText3}
+                     <span className="text-accent italic">{titleText2}</span>{' '}{titleText3}
                    </h3>
                  )}
                </Reveal>
@@ -206,21 +206,31 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                      <div className="w-14 h-14 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-accent transition-all duration-500 transform group-hover:-rotate-12 shadow-inner shrink-0">
                        <Mail className="w-5 h-5 text-accent group-hover:text-primary transition-colors" />
                      </div>
-                     <div className={`${isAr ? 'text-right' : 'text-left'}`}>
+                     <div className={`${isAr ? 'text-right' : 'text-left'} min-w-0`}>
                        <p className="display text-[8.5px] font-bold uppercase tracking-widest text-accent mb-1 opacity-80">{registryLabel}</p>
-                       <p className="text-xs sm:text-sm font-bold display group-hover:text-accent transition-colors break-all" dir="ltr">beaconquraninstitute@gmail.com</p>
+                       <p className="text-[11px] sm:text-sm font-bold display group-hover:text-accent transition-colors whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
                      </div>
                    </div>
                  </Reveal>
                </div>
              </div>
 
+             {/* Trust checklist — each tick is labelled (labels are the site's own
+                 promises, previously the five ticks stood alone with no labels). */}
              <Reveal delay={0.6} direction="up" distance={20}>
-               <div className="mt-10 pt-8 border-t border-white/10 relative z-10 text-center">
-                 <div className="flex gap-2 justify-center">
-                   {[...Array(5)].map((_, i) => <CheckCircle2 key={i} className="w-4 h-4 text-accent" />)}
-                 </div>
-                 <p className="display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/60 mt-4 leading-relaxed">
+               <div className="mt-10 pt-8 border-t border-white/10 relative z-10">
+                 <ul className={`space-y-2.5 ${isAr ? 'text-right' : 'text-left'}`}>
+                   {(isAr
+                     ? ['تجربة مجانية لمدة ٣ أيام', 'حلقات فردية مخصصة', 'معلمون مجازون', 'جدولة مرنة على مدار الساعة', 'تقارير تقدم دورية']
+                     : ['3-Day Free Trial', '1-on-1 Personalized Classes', 'Certified Teachers', 'Flexible Scheduling (24/7)', 'Regular Progress Reports']
+                   ).map((label) => (
+                     <li key={label} className={`flex items-center gap-2.5 ${isAr ? 'flex-row-reverse' : ''}`}>
+                       <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                       <span className="text-[11px] font-bold uppercase tracking-wider text-amber-100/85">{label}</span>
+                     </li>
+                   ))}
+                 </ul>
+                 <p className="display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/60 mt-5 leading-relaxed text-center">
                    {subFooterLabel}
                  </p>
                </div>

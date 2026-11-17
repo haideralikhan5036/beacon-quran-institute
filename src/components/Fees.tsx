@@ -3,6 +3,7 @@ import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToId } from '../utils/scrollToId';
 
 const plansEn = [
   {
@@ -164,9 +165,11 @@ export default function Fees({ onSelectPlan }: FeesProps) {
   }, []);
 
   const handlePlanSelect = (planName: string) => {
-    const displayPlanName = planName === 'Standard' || planName === 'الباقة المتميزة' ? 'Popular Plan' : `${planName} Plan`;
+    const displayPlanName = planName === 'Standard' || planName === 'الباقة المتميزة'
+      ? 'Popular Plan'
+      : planName.endsWith(' Plan') ? planName : `${planName} Plan`;
     onSelectPlan?.(displayPlanName);
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    scrollToId('registration');
   };
 
   const nextPlan = () => {
@@ -256,6 +259,11 @@ export default function Fees({ onSelectPlan }: FeesProps) {
 
               const isActive = diff === 0;
 
+              // Only the active plan is rendered at all — side cards used to
+              // ghost through the active card and cover its SELECT PLAN
+              // button, so they are not in the DOM (not just faded out).
+              if (!isActive) return null;
+
               // Responsive translation scale mapping
               const xTranslate = diff === 0 
                 ? 0 
@@ -274,6 +282,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
               return (
                 <motion.div
                   key={plan.name}
+                  initial={{ opacity: 0 }}
                   animate={{
                     x: xTranslate,
                     z: zTranslate,
@@ -346,11 +355,7 @@ export default function Fees({ onSelectPlan }: FeesProps) {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (isActive) {
-                            handlePlanSelect(plan.name);
-                          } else {
-                            setActiveIndex(index);
-                          }
+                          handlePlanSelect(plan.name);
                         }}
                         className={`group relative overflow-hidden w-full py-3.5 rounded-2xl serif font-bold uppercase tracking-[0.25em] text-[10px] transition-all shadow-xl hover:shadow-2xl cursor-pointer ${
                           plan.highlight

@@ -133,18 +133,13 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* 📌 PINNED STICKY NOTE CARDS GRID (Brand Midnight Green Dark Glass Theme) */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <motion.div
-                key={service.num}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08 }}
-                whileHover={{ scale: 1.04, rotate: 0, zIndex: 30 }}
-                className={`relative card-shine border border-[#949693]/35 backdrop-blur-xl bg-[#051b23]/90 text-amber-50 rounded-[2.5rem] p-8 sm:p-9 shadow-2xl transition-all duration-300 ${service.tilt} ${isAr ? 'text-right' : 'text-left'} group hover:border-amber-300/60`}
-              >
+              // The pin lives on this wrapper, NOT inside the card: .card-shine
+              // sets overflow:hidden, which used to clip the pin in half.
+              <div key={service.num} className="relative">
                 {/* Metallic Red Pushpin Ornament */}
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none">
                   <div className="w-5 h-5 bg-gradient-to-tr from-rose-600 via-red-500 to-rose-400 rounded-full shadow-lg border-2 border-white/80 relative flex items-center justify-center">
@@ -153,7 +148,13 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
                   <div className="w-1 h-2.5 bg-gradient-to-b from-gray-400 to-gray-600 -mt-0.5 shadow-md" />
                   <div className="w-3 h-1 bg-black/40 blur-[1px] rounded-full -mt-0.5" />
                 </div>
-
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+                whileHover={{ scale: 1.04, rotate: 0, zIndex: 30 }}
+                className={`relative card-shine border border-[#949693]/35 backdrop-blur-xl bg-[#051b23]/90 text-amber-50 rounded-[2.5rem] p-8 sm:p-9 shadow-2xl transition-all duration-300 ${service.tilt} ${isAr ? 'text-right' : 'text-left'} group hover:border-amber-300/60`}
+              >
                 {/* Card Number Badge & Icon */}
                 <div className={`flex items-center justify-between mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <span className="text-3xl font-black display text-amber-300 tracking-wider">
@@ -182,6 +183,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
                   <div className="h-px flex-grow bg-[#949693]/20"></div>
                 </div>
               </motion.div>
+              </div>
             );
           })}
         </div>

@@ -3,6 +3,7 @@ import { BookOpen, User, Phone, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
+import { scrollToId } from '../utils/scrollToId';
 
 import { ViewState } from '../App';
 
@@ -63,7 +64,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
             onClick={() => { setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
           >
             <div className={`relative transition-all duration-700 ${scrolled || isOpen ? 'scale-90' : 'scale-100'}`}>
-              <div className="w-14 h-14 flex items-center justify-center relative p-0 overflow-hidden group-hover:bg-accent/10 rounded-2xl transition-all duration-700 transform group-hover:scale-110">
+              <div className="w-14 h-14 flex items-center justify-center relative p-1 overflow-hidden bg-[#051b23] border border-[#757454]/50 group-hover:bg-[#084C63] rounded-2xl transition-all duration-700 transform group-hover:scale-110">
                 <img src={logo} alt="Beacon Quran Institute Logo" className="w-full h-full object-contain" decoding="async" />
               </div>
             </div>
@@ -110,7 +111,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
 
 
             <motion.button 
-              onClick={() => { setView('home'); setTimeout(() => { const el = document.getElementById('registration'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}
+              onClick={() => { setView('home'); scrollToId('registration'); }}
               whileHover="hover"
               whileTap="tap"
               initial="initial"
@@ -200,7 +201,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                 {/* Header: Logo & Compact Close */}
                 <div className={`flex justify-between items-center pb-6 border-b border-white/5 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-10 h-10 bg-white/5 rounded-xl p-1 overflow-hidden border border-white/5">
+                    <div className="w-10 h-10 bg-[#051b23] rounded-xl p-1 overflow-hidden border border-[#757454]/50">
                       <img src={logo} alt="Logo" className="w-full h-full object-contain" decoding="async" />
                     </div>
                     <div className={`flex flex-col leading-none ${isAr ? 'text-right' : 'text-left'}`}>
@@ -269,7 +270,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                   </button>
 
                   <button
-                    onClick={() => { setView('home'); setIsOpen(false); setTimeout(() => { const el = document.getElementById('registration'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}
+                    onClick={() => { setView('home'); setIsOpen(false); scrollToId('registration'); }}
                     className="w-full bg-[#084C63] text-white py-4 rounded-xl font-bold text-[13px] uppercase tracking-wider shadow-lg hover:bg-[#757454] active:scale-95 transition-all"
                   >
                     {t('nav.startLearning')}
