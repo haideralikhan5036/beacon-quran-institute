@@ -107,7 +107,7 @@ export default function WhyUs() {
     return () => clearInterval(interval);
   }, [isPaused, reasons.length]);
 
-  const titleSub = isAr ? 'عن صرح ومنارة القرآن الكريْم' : 'About the Institute';
+  const titleSub = isAr ? 'عن صرح ومنارة القرآن الكريْم' : 'Online Quran Academy';
   const mainTitle = isAr ? (
     <>إرث عريـــق مـن<br /><span className="text-accent italic font-semibold">التعليم الإلهي</span>{' '}المبارك</>
   ) : (
@@ -115,7 +115,7 @@ export default function WhyUs() {
   );
   const descriptionText = isAr 
     ? 'تأسس معهد منارة القرآن الكريم على ركائز الإتقان التام في التجويد ونشر النور والهدى الإلهي. نوفر واحة آمنة ومثالية لكل من يرجو الاتصال بآيات الذكر الحكيم وترتيلها وفهمها عبر توجيه فردي دقيق وممتاز.' 
-    : 'Beacon Quran Institute founded on the principles of Tajweed excellence and spiritual purity. We provide a sanctuary for those seeking to connect deeply with the Word of Allah through personalized, expert guidance.';
+    : 'Beacon Quran Institute is an online Quran academy founded on Tajweed excellence and spiritual purity. We offer one-on-one online Quran classes for kids and adults — with certified male and female teachers — so every learner can connect deeply with the Word of Allah through personalized, expert guidance.';
 
   const bullets = isAr ? [
     'عقد كامل من التميز والريادة التعليمية والأكاديمية',
@@ -124,7 +124,7 @@ export default function WhyUs() {
     'طاقم معلمات فاضلات قديرات مجازات لخدمة الأخوات بخصوصية'
   ] : [
     'A decade of pedagogical excellence',
-    'Global presence in 30+ nations',
+    'One-on-one online Quran classes for students in 30+ nations',
     'Specialized curriculum for young hearts',
     'Dedicated female faculty for sisters'
   ];

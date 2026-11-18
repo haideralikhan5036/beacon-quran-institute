@@ -25,11 +25,11 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero
     'hero.badge': 'House of Wisdom • Ancient Islamic Sanctuary',
-    'hero.title1': 'Step Into the Light',
-    'hero.title2': 'of Knowledge',
+    'hero.title1': 'Online Quran Classes',
+    'hero.title2': 'for Kids & Adults',
     'hero.title3': 'BEACON QURAN INSTITUTE',
-    'hero.subtitle': 'World-Class Online Quranic & Islamic Education',
-    'hero.description': 'Walk through our ancient sanctuary of sacred wisdom. Join a global community of dedicated scholars and learners guided by authentic traditional principles.',
+    'hero.subtitle': 'Learn Quran Online with Tajweed',
+    'hero.description': 'Learn Quran online in live one-on-one classes with certified male and female teachers — from Noorani Qaida and Tajweed to Hifz memorization, for kids and adults in the USA, UK and Canada.',
     'hero.methodology': 'Explore Corridor',
     'hero.startJourney': 'Begin Your Journey',
     'hero.trustedBy': 'Trusted by students in 30+ countries worldwide',

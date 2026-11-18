@@ -180,11 +180,11 @@ export default function Fees({ onSelectPlan }: FeesProps) {
     setActiveIndex((prev) => (prev - 1 + plansList.length) % plansList.length);
   };
 
-  const subtitleText = isAr ? "الاستثمار الأبقى لمستقبلهم" : "Investment in Future";
-  const titleText = isAr ? "باقات اشتراك ميسرة ومرنة" : "Simplified Fee Structure";
+  const subtitleText = isAr ? "الاستثمار الأبقى لمستقبلهم" : "Online Quran Classes — Fee Plans";
+  const titleText = isAr ? "باقات اشتراك ميسرة ومرنة" : "Simple, Affordable Fee Plans";
   const descText = isAr 
     ? "التعليم القرآني المتقن حق متاح لجميع الدارسين. اختر الباقة الملائمة لجدولك اليومي ومسار عائلتك الدراسي." 
-    : "High-quality Quranic education should be accessible to everyone. Choose a plan that fits your family's pace.";
+    : "High-quality online Quran classes should be accessible to everyone. Choose a plan that fits your family's pace — plans from $35/month.";
 
   return (
     <section id="fees" className="py-12 sm:py-16 bg-transparent relative overflow-hidden">

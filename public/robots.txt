@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://beacon-quran-institute.vercel.app/sitemap.xml

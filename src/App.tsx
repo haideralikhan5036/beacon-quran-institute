@@ -24,13 +24,37 @@ const CertificateOfAppraisal = lazy(() => import('./components/CertificateOfAppr
 const CourseDetailsPage = lazy(() => import('./components/CourseDetailsPage'));
 const ContactPage       = lazy(() => import('./components/ContactPage'));
 const AboutPage         = lazy(() => import('./components/AboutPage'));
+const CountryPage       = lazy(() => import('./components/CountryPage'));
+const CountryLinks      = lazy(() => import('./components/CountryLinks'));
+import type { CountryKey } from './components/CountryPage';
 import { scrollToId } from './utils/scrollToId';
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada';
+
+const HOME_TITLE = 'Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute';
+const HOME_DESCRIPTION = 'Beacon Quran Institute is an online Quran academy offering 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida — book a free trial class today.';
+
+// Per-view document title + meta description (SEO Batch 2). Country pages
+// get their own geo-targeted title/description; other views get a
+// keyword-flavoured variant of the homepage meta.
+const VIEW_META: Record<ViewState, { title: string; description: string }> = {
+  home: { title: HOME_TITLE, description: HOME_DESCRIPTION },
+  about: { title: 'About Beacon Quran Institute — Online Quran Academy', description: 'Beacon Quran Institute is an online Quran academy teaching students in 30+ countries since 2015. Learn Quran online with certified male and female teachers.' },
+  courses: { title: 'Online Quran Courses | Noorani Qaida, Tajweed, Hifz & Tafseer — Beacon Quran Institute', description: 'Online Quran courses: Noorani Qaida, Quran Reading, Hifz memorization, Tajweed, Tafseer and Arabic — 1-on-1 online Quran classes for kids and adults.' },
+  services: { title: 'Online Quran Services | 1-on-1 Quran Classes & Free Trial — Beacon Quran Institute', description: 'Online Quran services: 1-on-1 Quran classes for kids and adults, Tajweed, Hifz and Noorani Qaida with certified teachers. Book a free trial class.' },
+  blog: { title: 'Quran Learning Blog | Online Quran Classes & Tajweed — Beacon Quran Institute', description: 'Read the Beacon Quran Institute blog: online Quran classes, Tajweed, Hifz memorization and Noorani Qaida for kids and adults.' },
+  testimonials: { title: 'Student Reviews | Online Quran Classes — Beacon Quran Institute', description: 'What families say about Beacon Quran Institute: 1-on-1 online Quran classes for kids and adults in the USA, UK and Canada.' },
+  contact: { title: 'Contact Beacon Quran Institute | Online Quran Classes — Beacon Quran Institute', description: 'Contact Beacon Quran Institute about online Quran classes for kids and adults in the USA, UK and Canada. Book a free trial class today.' },
+  terms: { title: 'Terms of Service | Beacon Quran Institute', description: 'Terms of Service for Beacon Quran Institute online Quran classes.' },
+  certificate: { title: 'Certificate Verification | Beacon Quran Institute', description: 'Verify a Beacon Quran Institute certificate of appraisal for online Quran classes.' },
+  usa: { title: 'Online Quran Classes in the USA | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in the USA with certified teachers. 1-on-1 online Quran classes for kids and adults — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  uk: { title: 'Online Quran Classes UK | One-to-One Quran Tutor — Beacon Quran Institute', description: 'Online Quran classes UK with DBS-checked Quran tutors. One-to-one Quran lessons for kids and adults — Tajweed, Hifz memorisation and Noorani Qaida. Book a free trial.' },
+  canada: { title: 'Online Quran Classes in Canada | 1-on-1 Quran Classes — Beacon Quran Institute', description: 'Online Quran classes in Canada with certified teachers. 1-on-1 online Quran lessons for kids and adults in Toronto, Mississauga, Brampton and across Canada. Book a free trial.' },
+};
 
 // Hash routing: each view maps to a URL hash (#home, #courses, …) so pages are
 // shareable and the browser back/forward buttons work. Unknown hash → home.
-const VIEW_HASHES: Record<ViewState, string> = {
+const VIEW_HASHES: Record<Exclude<ViewState, CountryKey>, string> = {
   home: 'home',
   about: 'about',
   courses: 'courses',
@@ -45,39 +69,72 @@ const HASH_VIEWS: Record<string, ViewState> = Object.fromEntries(
   Object.entries(VIEW_HASHES).map(([view, hash]) => [hash, view as ViewState]),
 );
 
-function viewFromHash(): ViewState {
+// Country pages live at REAL paths (/usa, /uk, /canada) so search engines can
+// index them as separate pages — hash fragments are never indexed. Hash
+// routing still covers the classic views (#home, #courses, …).
+const COUNTRY_PATHS: Record<CountryKey, string> = { usa: 'usa', uk: 'uk', canada: 'canada' };
+const PATH_COUNTRIES: Record<string, CountryKey> = { usa: 'usa', uk: 'uk', canada: 'canada' };
+const isCountryView = (view: ViewState): view is CountryKey => view === 'usa' || view === 'uk' || view === 'canada';
+
+function viewFromLocation(): ViewState {
   if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  if (PATH_COUNTRIES[path]) return PATH_COUNTRIES[path];
   return HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home';
 }
 
+function applyViewMeta(view: ViewState): void {
+  const meta = VIEW_META[view];
+  if (!meta) return;
+  document.title = meta.title;
+  const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+  if (desc) desc.setAttribute('content', meta.description);
+}
+
 export default function App() {
-  const [view, setView] = useState<ViewState>(viewFromHash);
+  const [view, setView] = useState<ViewState>(viewFromLocation);
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const viewRef = useRef(view);
   viewRef.current = view;
 
-  // Keep the URL hash in sync with the view, and always start a new view at
+  // Keep the URL in sync with the view, and always start a new view at
   // the top of the page (previously the old scroll position was kept, so
-  // Services/Contact first landed at the footer).
+  // Services/Contact first landed at the footer). Country views live at
+  // real paths (/usa …) with no hash; classic views live at /#view so a
+  // switch away from a country page resets the path to the root.
+  // Also updates the document title + meta description per view (SEO).
   useEffect(() => {
-    const hash = `#${VIEW_HASHES[view]}`;
-    if (window.location.hash !== hash) {
-      window.history.replaceState(null, '', hash);
+    const url = isCountryView(view)
+      ? `/${COUNTRY_PATHS[view]}`
+      : `/#${VIEW_HASHES[view]}`;
+    if (window.location.pathname + window.location.hash !== url) {
+      window.history.replaceState(null, '', url);
     }
+    applyViewMeta(view);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [view]);
 
-  // Back/forward buttons and pasted deep links (#courses, #blog, …) switch views.
+  // Back/forward buttons and pasted deep links (#courses, #blog, /usa, …)
+  // switch views. Both popstate (path changes) and hashchange fire.
   useEffect(() => {
-    const onHashChange = () => {
-      const next = viewFromHash();
+    const onLocationChange = () => {
+      const next = viewFromLocation();
       if (next !== viewRef.current) setView(next);
     };
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    window.addEventListener('popstate', onLocationChange);
+    window.addEventListener('hashchange', onLocationChange);
+    return () => {
+      window.removeEventListener('popstate', onLocationChange);
+      window.removeEventListener('hashchange', onLocationChange);
+    };
   }, []);
+
+  const handleViewFees = () => {
+    setView('home');
+    scrollToId('fees');
+  };
 
   const handleViewCourseDetails = (courseId: string) => {
     setSelectedCourseId(courseId);
@@ -112,6 +169,7 @@ export default function App() {
               <WhyUs />
               <Testimonials setView={setView} />
               <Fees onSelectPlan={setSelectedPlan} />
+              <CountryLinks setView={setView} />
               <Registration 
                 preSelectedCourse={selectedCourse} 
                 preSelectedPlan={selectedPlan}
@@ -137,6 +195,15 @@ export default function App() {
           {view === 'terms'       && <TermsOfService onBack={() => setView('home')} />}
           {view === 'certificate' && <CertificateOfAppraisal onBack={() => setView('home')} />}
           {view === 'about'       && <AboutPage onBack={() => setView('home')} />}
+          {isCountryView(view)    && (
+            <CountryPage
+              country={view}
+              onBack={() => setView('home')}
+              onRegister={() => handleRegisterFromDetails()}
+              onViewFees={handleViewFees}
+              onViewCourses={() => setView('courses')}
+            />
+          )}
         </main>
         <Footer setView={setView} />
         <TestimonialPopup />

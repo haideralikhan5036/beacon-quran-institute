@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, User, Phone, ArrowRight } from 'lucide-react';
+import { BookOpen, User, Phone, ArrowRight, ChevronDown, MapPin } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
@@ -11,6 +11,21 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
   const { language, setLanguage, t, isAr } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [countriesOpen, setCountriesOpen] = useState(false);
+
+  // Country landing pages (real paths /usa, /uk, /canada — SEO Batch 2).
+  const countryLinks = [
+    { name: 'USA', sub: 'Online Quran Classes', view: 'usa' as const },
+    { name: 'UK', sub: 'Online Quran Classes', view: 'uk' as const },
+    { name: 'Canada', sub: 'Online Quran Classes', view: 'canada' as const },
+  ];
+
+  const goToCountry = (view: 'usa' | 'uk' | 'canada') => {
+    setView(view);
+    setCountriesOpen(false);
+    setIsOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -70,9 +85,9 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
             </div>
             <div className="hidden sm:block">
               <div className="flex flex-col leading-tight">
-                 <h1 className={`font-bold display tracking-tight uppercase transition-all duration-700 text-lg text-amber-100`}>
+                 <div className={`font-bold display tracking-tight uppercase transition-all duration-700 text-lg text-amber-100`}>
                    BEACON <span className="text-accent font-semibold">QURAN</span> INSTITUTE
-                 </h1>
+                 </div>
               </div>
             </div>
           </div>
@@ -108,7 +123,52 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
               ))}
             </div>
 
-
+            {/* Countries dropdown — USA / UK / Canada landing pages */}
+            <div className="relative">
+              <button
+                onClick={() => setCountriesOpen((o) => !o)}
+                className={`relative px-3 py-2 font-bold transition-all duration-500 hover:text-accent flex items-center gap-1.5 ${
+                  isAr ? 'text-[12.5px] tracking-normal font-semibold' : 'text-[10px] uppercase tracking-[0.2em]'
+                } ${
+                  scrolled || isOpen ? 'text-amber-100' : 'text-amber-100/80'
+                }`}
+              >
+                {isAr ? 'الدول' : 'Countries'}
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {countriesOpen && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setCountriesOpen(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 top-full mt-2 w-72 z-20 bg-[#051b23]/95 backdrop-blur-md border border-[#757454]/40 rounded-2xl shadow-2xl overflow-hidden"
+                    >
+                      <p className="px-5 pt-4 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
+                        {isAr ? 'ادرس في بلدك' : 'Study in Your Country'}
+                      </p>
+                      {countryLinks.map((c) => (
+                        <button
+                          key={c.view}
+                          onClick={() => goToCountry(c.view)}
+                          className="w-full text-left px-5 py-3 hover:bg-[#084C63]/60 transition-colors flex items-center gap-3 group"
+                        >
+                          <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                          <span className="flex flex-col leading-tight">
+                            <span className="text-sm font-bold text-amber-50 group-hover:text-white">{c.name}</span>
+                            <span className="text-[11px] text-amber-100/70">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
+                          </span>
+                        </button>
+                      ))}
+                      <div className="h-2" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
 
             <motion.button 
               onClick={() => { setView('home'); scrollToId('registration'); }}
@@ -202,7 +262,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                 <div className={`flex justify-between items-center pb-6 border-b border-white/5 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
                     <div className="w-10 h-10 bg-[#051b23] rounded-xl p-1 overflow-hidden border border-[#757454]/50">
-                      <img src={logo} alt="Logo" className="w-full h-full object-contain" decoding="async" />
+                      <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-contain" decoding="async" />
                     </div>
                     <div className={`flex flex-col leading-none ${isAr ? 'text-right' : 'text-left'}`}>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-amber-50">BEACON</span>
@@ -257,6 +317,23 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                       }`} />
                       <span className="flex-1">{t(link.key)}</span>
                     </motion.button>
+                  ))}
+                </div>
+
+                {/* Study in Your Country — USA / UK / Canada */}
+                <div className="pt-4 mt-2 border-t border-white/5">
+                  <p className="px-4 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
+                    {isAr ? 'ادرس في بلدك' : 'Study in Your Country'}
+                  </p>
+                  {countryLinks.map((c) => (
+                    <button
+                      key={c.view}
+                      onClick={() => goToCountry(c.view)}
+                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-all flex items-center gap-4 group w-full text-left text-amber-100/70 hover:bg-white/5 hover:text-white"
+                    >
+                      <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                      <span className="flex-1">{c.name} — {c.sub}</span>
+                    </button>
                   ))}
                 </div>
 

@@ -105,7 +105,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
   const titleText3 = isAr ? "في حفظ القرآن" : "Journey";
   const descText = isAr 
     ? "عِش دقة تجويد وعظمة تلاوة القرآن الكريم مع تجربة تقييم وتوجيه مجانية مخصصة لجميع المستويات. لا التزام مطلق."
-    : "Experience the precision of Tajweed and the beauty of recitation with a professional evaluation session. No commitment required.";
+    : "Book a free trial class and experience the precision of Tajweed and the beauty of recitation with a professional evaluation session. No commitment required.";
 
   const whatsappLabel = isAr ? "التسجيل السريع بالواتساب" : "WhatsApp Registrar";
   const registryLabel = isAr ? "المكتب والبريد الإلكتروني" : "Official Registry";
