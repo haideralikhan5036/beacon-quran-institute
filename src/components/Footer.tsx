@@ -27,7 +27,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
     : "\"The best of you is the one who learns the Quran and teaches it.\" — Join 1-on-1 personalized live classes with certified Ijazah tutors today.";
 
   const ctaPrimaryBtn = isAr ? "احجز حصتك التجريبية مجاناً" : "Start Free Trial Session";
-  const ctaSecondaryBtn = isAr ? "استكشف باقات الرسوم" : "Explore Fee Plans";
+  const ctaSecondaryBtn = isAr ? "استكشف الرسوم" : "Explore Fees";
 
   const brandDesc = isAr 
     ? "صرح قرآني عالمي يجمع بين أصالة المنهج التربوي والتحفيظ بالسند المتصل، وبين مرونة التعليم الرقمي الحديث ليضيء القلوب بنور كتاب الله."

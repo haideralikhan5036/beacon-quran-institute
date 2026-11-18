@@ -1,6 +1,9 @@
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, GraduationCap, MapPin, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { useLanguage } from '../context/LanguageContext';
+import Fees from './Fees';
+import { scrollToId } from '../utils/scrollToId';
+import type { CurrencyCode } from '../data/feeTable';
 
 export type CountryKey = 'usa' | 'uk' | 'canada';
 
@@ -21,10 +24,9 @@ type CountryCopy = {
 };
 
 // Country copy is written from the keyword research (report §3): local
-// phrasing per country, local time zones and city names, and the typical
-// market price range for online Quran classes in each country. Beacon's own
-// plans are the same worldwide (from $35/month) — no city-specific prices
-// are invented here.
+// phrasing per country, local time zones and city names. The cost line states
+// Beacon's REAL monthly fee range in the local currency, taken from the
+// owner's fee sheet — no market-typical ranges, no old plan prices.
 const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
   usa: {
     badge: 'Online Quran Classes — USA',
@@ -44,7 +46,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
     cities: ['New York', 'Chicago', 'Houston', 'Dallas', 'Los Angeles'],
     costTitle: 'How much do online Quran classes cost in the USA?',
     costText:
-      'Online Quran classes in the USA typically cost $30–$70 a month. At Beacon, plans start at $35/month — see our fee plans for the full breakdown.',
+      'At Beacon, monthly fees run from $35 to $80 depending on the course and schedule — see the full fee table below for every course, schedule and currency.',
     coursesTitle: 'Quran courses for learners in the USA',
     ctaTitle: 'Start learning Quran online in the USA',
     ctaText: 'Book your free trial class today — no commitment required.',
@@ -67,7 +69,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
     cities: ['London', 'Birmingham', 'Manchester', 'Bradford', 'Leeds', 'Leicester', 'Glasgow'],
     costTitle: 'How much do online Quran classes cost in the UK?',
     costText:
-      'Online Quran classes in the UK typically cost £20–£45 a month. At Beacon, plans start at $35/month — see our fee plans for the full breakdown.',
+      'At Beacon, monthly fees run from £30 to £60 depending on the course and schedule — see the full fee table below for every course, schedule and currency.',
     coursesTitle: 'Quran courses for learners in the UK',
     ctaTitle: 'Start learning Quran online in the UK',
     ctaText: 'Book your free trial class today — no commitment required.',
@@ -90,7 +92,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
     cities: ['Toronto', 'Mississauga', 'Brampton', 'Ottawa', 'Montreal', 'Calgary', 'Edmonton', 'Vancouver', 'Winnipeg'],
     costTitle: 'How much do online Quran classes cost in Canada?',
     costText:
-      'Online Quran classes in Canada typically cost C$40–C$95 a month. At Beacon, plans start at $35/month — see our fee plans for the full breakdown.',
+      'At Beacon, monthly fees run from C$45 to C$100 depending on the course and schedule — see the full fee table below for every course, schedule and currency.',
     coursesTitle: 'Quran courses for learners in Canada',
     ctaTitle: 'Start learning Quran online in Canada',
     ctaText: 'Book your free trial class today — no commitment required.',
@@ -112,14 +114,20 @@ export default function CountryPage({
   country,
   onBack,
   onRegister,
-  onViewFees,
+  onSelectFee,
   onViewCourses,
+  currency,
+  onCurrencyChange,
 }: {
   country: CountryKey;
   onBack: () => void;
   onRegister: () => void;
-  onViewFees: () => void;
+  onSelectFee: (course: string, schedule: string) => void;
   onViewCourses: () => void;
+  /** Fee-table currency, controlled by App (geo auto-detect / header
+      switcher / country-page default). */
+  currency: CurrencyCode;
+  onCurrencyChange: (currency: CurrencyCode) => void;
 }) {
   const { isAr } = useLanguage();
   const copy = COUNTRY_COPY[country];
@@ -159,10 +167,10 @@ export default function CountryPage({
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={onViewFees}
+                onClick={() => scrollToId('fees')}
                 className="border border-accent/30 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-primary transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Explore Fee Plans</span>
+                <span>See the Fee Table</span>
               </button>
             </div>
           </div>
@@ -217,10 +225,10 @@ export default function CountryPage({
               <h2 className="text-xl sm:text-2xl font-bold display text-amber-50 mb-3 text-balance">{copy.costTitle}</h2>
               <p className="text-amber-100/90 text-base leading-relaxed mb-5">{copy.costText}</p>
               <button
-                onClick={onViewFees}
+                onClick={() => scrollToId('fees')}
                 className="text-amber-300 hover:text-white font-bold uppercase tracking-widest text-[11px] flex items-center gap-2 cursor-pointer transition-colors"
               >
-                <span>See our fee plans</span>
+                <span>See the fee table below</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -245,6 +253,21 @@ export default function CountryPage({
               </button>
             </div>
           </Reveal>
+        </div>
+
+        {/* Fee table — the same real fee table as the homepage, with this
+            country's currency preselected (USA→USD, UK→GBP, Canada→CAD).
+            NOTE: no Reveal wrapper here on purpose — Reveal starts its
+            content translated 30px down, so scrolling to this section while
+            it is still hidden lands 30px too far (measured top=-30). The
+            Fees section animates its own inner blocks already. */}
+        <div className="mb-12 sm:mb-16">
+          <Fees
+            currency={currency}
+            onCurrencyChange={onCurrencyChange}
+            onSelectFee={onSelectFee}
+            onContactRegistrar={onRegister}
+          />
         </div>
 
         {/* CTA */}

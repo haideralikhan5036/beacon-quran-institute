@@ -9,7 +9,7 @@ interface FormData {
   phone: string;
   email: string;
   course: string;
-  plan: string;
+  schedule: string;
   message: string;
 }
 
@@ -21,10 +21,10 @@ interface FormErrors {
 
 interface RegistrationProps {
   preSelectedCourse?: string | null;
-  preSelectedPlan?: string | null;
+  preSelectedSchedule?: string | null;
 }
 
-export default function Registration({ preSelectedCourse, preSelectedPlan }: RegistrationProps) {
+export default function Registration({ preSelectedCourse, preSelectedSchedule }: RegistrationProps) {
   const { isAr } = useLanguage();
 
   const [formData, setFormData] = useState<FormData>({
@@ -32,7 +32,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
     phone: '',
     email: '',
     course: isAr ? 'القاعدة النورانية' : 'Noorani Qaida',
-    plan: isAr ? 'الباقة المتميزة' : 'Popular Plan',
+    schedule: '3 Days per Week',
     message: ''
   });
 
@@ -43,10 +43,10 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
   }, [preSelectedCourse]);
 
   React.useEffect(() => {
-    if (preSelectedPlan) {
-      setFormData(prev => ({ ...prev, plan: preSelectedPlan }));
+    if (preSelectedSchedule) {
+      setFormData(prev => ({ ...prev, schedule: preSelectedSchedule }));
     }
-  }, [preSelectedPlan]);
+  }, [preSelectedSchedule]);
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,7 +73,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
     setIsSubmitting(true);
     
     // Construct WhatsApp message
-    const message = `*New Registration Request*\n---\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email}\n*Course:* ${formData.course}\n*Plan:* ${formData.plan}\n*Message:* ${formData.message || 'N/A'}`;
+    const message = `*New Registration Request*\n---\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email}\n*Course:* ${formData.course}\n*Schedule:* ${formData.schedule}\n*Message:* ${formData.message || 'N/A'}`;
     const waUrl = `https://wa.me/923461573771?text=${encodeURIComponent(message)}`;
     
     setTimeout(() => {
@@ -85,7 +85,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
         phone: '',
         email: '',
         course: isAr ? 'القاعدة النورانية' : 'Noorani Qaida',
-        plan: isAr ? 'الباقة المتميزة' : 'Popular Plan',
+        schedule: '3 Days per Week',
         message: ''
       });
       setTimeout(() => setIsSuccess(false), 5000);
@@ -129,7 +129,7 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
   const placeholderEmail = isAr ? "you@domain.com" : "you@domain.com";
 
   const labelCourse = isAr ? "المسار أو البرنامج الدراسي" : "Learning Track";
-  const labelPlan = isAr ? "باقة الاشتراك وتكرار الجلسات" : "Session Frequency";
+  const labelPlan = isAr ? "تكرار الجلسات" : "Session Frequency";
 
   const labelNotes = isAr ? "التطلعات، مستوى الحفظ، أو المواعيد" : "Aspirations & Notes";
   const placeholderNotes = isAr 
@@ -141,13 +141,16 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
   
   const bottomSecurityLabel = isAr ? "تأمين وحماية البيانات بخصوص جلسات التعارف" : "Encrypted Session Initialization";
 
-  const coursesList = isAr 
-    ? ["القاعدة النورانية", "تلاوة القرآن وإتقانه", "حفظ وتثبيت القرآن", "إقرأ وارتقِ (تجويد مكثف)", "تفسير وتدبر القرآن", "علوم لغة القرآن الكريم"]
-    : ["Noorani Qaida", "Quran Reading", "Hifz (Memorization)", "Tajweed Mastery", "Quranic Tafsir", "Arabic Language"];
+  // Course list: the site's six learning tracks, plus the three courses as
+  // named in the owner's fee sheet — the fee table preselects those exact
+  // names, so they must exist as options (proper nouns stay in English).
+  const coursesList = isAr
+    ? ["القاعدة النورانية", "تلاوة القرآن وإتقانه", "حفظ وتثبيت القرآن", "إقرأ وارتقِ (تجويد مكثف)", "تفسير وتدبر القرآن", "علوم لغة القرآن الكريم", "Qaida, Quran Recitation & Islamic Studies", "Hifz e Quran", "Quran Tafseer"]
+    : ["Noorani Qaida", "Quran Reading", "Hifz (Memorization)", "Tajweed Mastery", "Quranic Tafsir", "Arabic Language", "Qaida, Quran Recitation & Islamic Studies", "Hifz e Quran", "Quran Tafseer"];
 
-  const plansList = isAr
-    ? ["الباقة التمهيدية (حصتان)", "الباقة المتميزة (٣ حصص)", "الباقة الأكاديمية الشاملة (٥ حصص)"]
-    : ["Starter Plan", "Popular Plan", "Premium Plan"];
+  // Schedules from the owner's fee sheet — the old Starter/Popular/Premium
+  // plan options contradicted the sheet and are gone.
+  const schedulesList = ['Weekend / 2 Days per Week', '3 Days per Week', '5 Days per Week'];
 
   return (
     <section id="registration" className="py-12 sm:py-20 bg-transparent relative overflow-hidden">
@@ -358,12 +361,12 @@ export default function Registration({ preSelectedCourse, preSelectedPlan }: Reg
                     </label>
                     <div className="relative group">
                        <select 
-                         name="plan"
-                         value={formData.plan}
+                         name="schedule"
+                         value={formData.schedule}
                          onChange={handleChange}
                          className={`w-full py-4 bg-[#051b23]/80 border border-[#949693]/30 rounded-2xl focus:border-[#757454] focus:bg-[#084C63]/60 outline-none transition-all cursor-pointer font-bold appearance-none text-amber-50 text-sm ${isAr ? 'pr-6 pl-10 text-right' : 'pl-6 pr-10 text-left'}`}
                        >
-                         {plansList.map(p => <option key={p} value={p} className="bg-[#051b23] text-amber-50 py-2">{p}</option>)}
+                         {schedulesList.map(p => <option key={p} value={p} className="bg-[#051b23] text-amber-50 py-2">{p}</option>)}
                        </select>
                        <div className={`absolute ${isAr ? 'left-5' : 'right-5'} top-1/2 -translate-y-1/2 pointer-events-none text-accent`}>
                          <ArrowRight className="w-4 h-4 rotate-90" />

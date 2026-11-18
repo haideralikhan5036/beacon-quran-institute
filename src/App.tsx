@@ -12,6 +12,7 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 const Hero              = lazy(() => import('./components/Hero'));
 const Courses           = lazy(() => import('./components/Courses'));
 const WhyUs             = lazy(() => import('./components/WhyUs'));
+const NearYou           = lazy(() => import('./components/NearYou'));
 const Fees              = lazy(() => import('./components/Fees'));
 const Testimonials      = lazy(() => import('./components/Testimonials'));
 const TestimonialPopup  = lazy(() => import('./components/TestimonialPopup'));
@@ -28,11 +29,20 @@ const CountryPage       = lazy(() => import('./components/CountryPage'));
 const CountryLinks      = lazy(() => import('./components/CountryLinks'));
 import type { CountryKey } from './components/CountryPage';
 import { scrollToId } from './utils/scrollToId';
+import type { CurrencyCode } from './data/feeTable';
+import {
+  REGION_CURRENCY,
+  detectRegion,
+  isPageRegion,
+  loadStoredRegion,
+  saveRegion,
+  type RegionKey,
+} from './utils/geo';
 
 export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada';
 
 const HOME_TITLE = 'Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute';
-const HOME_DESCRIPTION = 'Beacon Quran Institute is an online Quran academy offering 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida — book a free trial class today.';
+const HOME_DESCRIPTION = 'Online Quran academy — Quran classes near you: 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada, taught live online from home. Tajweed, Hifz, Noorani Qaida. Book a free trial class today.';
 
 // Per-view document title + meta description (SEO Batch 2). Country pages
 // get their own geo-targeted title/description; other views get a
@@ -95,7 +105,14 @@ export default function App() {
   const [view, setView] = useState<ViewState>(viewFromLocation);
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
+  // Visitor region + fee-table currency (geo auto-detect, Batch 3).
+  // Default is USA/USD — the page always renders with this first; the
+  // lookup only switches it afterwards, so a slow/failed lookup can never
+  // delay or break the page. A manual header choice (stored) always wins
+  // over auto-detect.
+  const [region, setRegion] = useState<RegionKey>('usa');
+  const [currency, setCurrency] = useState<CurrencyCode>('USD');
   const viewRef = useRef(view);
   viewRef.current = view;
 
@@ -105,6 +122,8 @@ export default function App() {
   // real paths (/usa …) with no hash; classic views live at /#view so a
   // switch away from a country page resets the path to the root.
   // Also updates the document title + meta description per view (SEO).
+  // Entering a country page also resets the fee-table currency to that
+  // country's currency (the table's tabs still let the visitor switch).
   useEffect(() => {
     const url = isCountryView(view)
       ? `/${COUNTRY_PATHS[view]}`
@@ -114,7 +133,56 @@ export default function App() {
     }
     applyViewMeta(view);
     window.scrollTo({ top: 0, behavior: 'auto' });
+    // Entering a country page resets the fee-table currency to that
+    // country's currency; returning home restores the visitor's own
+    // region currency. (The table's tabs still let the visitor switch
+    // currency freely within a view — that choice is per-view, while the
+    // region is the durable preference.)
+    if (isCountryView(view)) setCurrency(REGION_CURRENCY[view]);
+    else setCurrency(REGION_CURRENCY[region]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
+
+  // Apply a region: set the region + fee currency, and — for USA/UK/Canada —
+  // open that country's page when the visitor is on the homepage. Runs only
+  // on mount (first visit / stored choice), never on in-app navigation, so
+  // clicking Home later stays on Home.
+  const applyRegion = (next: RegionKey, navigateFromHome: boolean) => {
+    setRegion(next);
+    setCurrency(REGION_CURRENCY[next]);
+    if (navigateFromHome && isPageRegion(next) && viewRef.current === 'home') {
+      setView(next);
+    }
+  };
+
+  // Geo auto-detect (first visit only). A stored manual choice wins and is
+  // applied directly; otherwise the IP lookup runs in the background and the
+  // page switches once it returns (or stays USA/USD if it fails/times out).
+  useEffect(() => {
+    const stored = loadStoredRegion();
+    if (stored) {
+      applyRegion(stored, true);
+      return;
+    }
+    let cancelled = false;
+    detectRegion().then((detected) => {
+      if (!cancelled && detected) applyRegion(detected, true);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Manual region choice from the header switcher: remembered, and it always
+  // beats auto-detect. Page regions navigate to their country page; other
+  // regions keep the current page and only switch the fee currency.
+  const handleRegionChange = (next: RegionKey) => {
+    saveRegion(next);
+    setRegion(next);
+    setCurrency(REGION_CURRENCY[next]);
+    if (isPageRegion(next) && viewRef.current !== next) setView(next);
+  };
 
   // Back/forward buttons and pasted deep links (#courses, #blog, /usa, …)
   // switch views. Both popstate (path changes) and hashchange fire.
@@ -131,9 +199,13 @@ export default function App() {
     };
   }, []);
 
-  const handleViewFees = () => {
+  // A fee-table row (or a country page's fee table) preselects a course +
+  // schedule in the enrolment form, then scrolls to it.
+  const handleSelectFee = (course: string, schedule: string) => {
+    setSelectedCourse(course);
+    setSelectedSchedule(schedule);
     setView('home');
-    scrollToId('fees');
+    scrollToId('registration');
   };
 
   const handleViewCourseDetails = (courseId: string) => {
@@ -152,7 +224,7 @@ export default function App() {
     <div className="min-h-screen font-sans text-amber-50 relative">
       {/* Background loads instantly — no lazy needed */}
       <DepthOfFieldBackground />
-      <Navbar setView={setView} currentView={view} />
+      <Navbar setView={setView} currentView={view} region={region} onRegionChange={handleRegionChange} />
 
       {/* All page content is lazy — only loads what's needed.
           No loading screen: Suspense fallback is null by design
@@ -167,12 +239,13 @@ export default function App() {
                 onViewDetails={handleViewCourseDetails}
               />
               <WhyUs />
+              <NearYou />
               <Testimonials setView={setView} />
-              <Fees onSelectPlan={setSelectedPlan} />
+              <Fees currency={currency} onCurrencyChange={setCurrency} onSelectFee={handleSelectFee} onContactRegistrar={() => scrollToId('registration')} />
               <CountryLinks setView={setView} />
               <Registration 
                 preSelectedCourse={selectedCourse} 
-                preSelectedPlan={selectedPlan}
+                preSelectedSchedule={selectedSchedule}
               />
             </>
           )}
@@ -200,8 +273,10 @@ export default function App() {
               country={view}
               onBack={() => setView('home')}
               onRegister={() => handleRegisterFromDetails()}
-              onViewFees={handleViewFees}
+              onSelectFee={handleSelectFee}
               onViewCourses={() => setView('courses')}
+              currency={currency}
+              onCurrencyChange={setCurrency}
             />
           )}
         </main>
