@@ -1,13 +1,20 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, User, Phone, ArrowRight, ChevronDown, MapPin } from 'lucide-react';
+import { BookOpen, User, Phone, ArrowRight, ChevronDown, MapPin, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
+import { REGION_LABELS, type RegionKey } from '../utils/geo';
 
 import { ViewState } from '../App';
 
-export default function Navbar({ setView, currentView }: { setView: (view: ViewState) => void, currentView: ViewState }) {
+export default function Navbar({ setView, currentView, region, onRegionChange }: {
+  setView: (view: ViewState) => void;
+  currentView: ViewState;
+  /** Visitor's active region (geo auto-detect / manual choice). */
+  region: RegionKey;
+  onRegionChange: (region: RegionKey) => void;
+}) {
   const { language, setLanguage, t, isAr } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -20,11 +27,27 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
     { name: 'Canada', sub: 'Online Quran Classes', view: 'canada' as const },
   ];
 
-  const goToCountry = (view: 'usa' | 'uk' | 'canada') => {
-    setView(view);
+  // Regions without their own landing page: picking one keeps the current
+  // page and switches the fee table to that region's currency.
+  const regionLinks: { key: RegionKey; name: string; sub: string }[] = [
+    { key: 'australia', name: 'Australia', sub: 'Fees in AUD' },
+    { key: 'uae', name: 'UAE', sub: 'Fees in AED' },
+    { key: 'saudi', name: 'Saudi Arabia', sub: 'Fees in SAR' },
+    { key: 'qatar', name: 'Qatar', sub: 'Fees in QAR' },
+    { key: 'europe', name: 'Europe', sub: 'Fees in EUR' },
+  ];
+
+  const goToRegion = (next: RegionKey) => {
+    // Page regions navigate (App scrolls to top on the view change);
+    // currency-only regions keep the visitor where they are so they can
+    // see the fee table switch — no scroll here either way.
+    onRegionChange(next);
     setCountriesOpen(false);
     setIsOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToCountry = (view: 'usa' | 'uk' | 'canada') => {
+    goToRegion(view);
   };
 
   useEffect(() => {
@@ -123,10 +146,14 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
               ))}
             </div>
 
-            {/* Countries dropdown — USA / UK / Canada landing pages */}
+            {/* Countries dropdown — region switcher (geo auto-detect, Batch 3).
+                USA / UK / Canada open their landing page; the other regions
+                keep the current page and switch the fee-table currency.
+                The trigger shows the visitor's current region. */}
             <div className="relative">
               <button
                 onClick={() => setCountriesOpen((o) => !o)}
+                aria-label={`Choose your country or region, currently ${REGION_LABELS[region]}`}
                 className={`relative px-3 py-2 font-bold transition-all duration-500 hover:text-accent flex items-center gap-1.5 ${
                   isAr ? 'text-[12.5px] tracking-normal font-semibold' : 'text-[10px] uppercase tracking-[0.2em]'
                 } ${
@@ -134,6 +161,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                 }`}
               >
                 {isAr ? 'الدول' : 'Countries'}
+                <span className="text-accent normal-case tracking-normal">· {REGION_LABELS[region]}</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
@@ -157,10 +185,28 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                           className="w-full text-left px-5 py-3 hover:bg-[#084C63]/60 transition-colors flex items-center gap-3 group"
                         >
                           <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
-                          <span className="flex flex-col leading-tight">
+                          <span className="flex flex-col leading-tight flex-1">
                             <span className="text-sm font-bold text-amber-50 group-hover:text-white">{c.name}</span>
                             <span className="text-[11px] text-amber-100/70">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
                           </span>
+                          {region === c.view && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                        </button>
+                      ))}
+                      <p className="px-5 pt-3 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70 border-t border-white/5">
+                        {isAr ? 'مناطق أخرى' : 'More Regions'}
+                      </p>
+                      {regionLinks.map((r) => (
+                        <button
+                          key={r.key}
+                          onClick={() => goToRegion(r.key)}
+                          className="w-full text-left px-5 py-3 hover:bg-[#084C63]/60 transition-colors flex items-center gap-3 group"
+                        >
+                          <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                          <span className="flex flex-col leading-tight flex-1">
+                            <span className="text-sm font-bold text-amber-50 group-hover:text-white">{r.name}</span>
+                            <span className="text-[11px] text-amber-100/70">{r.sub}</span>
+                          </span>
+                          {region === r.key && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
                         </button>
                       ))}
                       <div className="h-2" />
@@ -257,7 +303,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
               {/* Subtle ambient brand glow */}
               <div className="absolute top-0 right-0 w-48 h-48 bg-[#084C63]/20 rounded-full blur-3xl pointer-events-none" />
 
-              <div className="relative flex-1 flex flex-col z-10 p-6">
+              <div className="relative flex-1 flex flex-col z-10 p-6 overflow-y-auto">
                 {/* Header: Logo & Compact Close */}
                 <div className={`flex justify-between items-center pb-6 border-b border-white/5 ${isAr ? 'flex-row-reverse' : ''}`}>
                   <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
@@ -320,7 +366,7 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                   ))}
                 </div>
 
-                {/* Study in Your Country — USA / UK / Canada */}
+                {/* Study in Your Country — USA / UK / Canada + more regions */}
                 <div className="pt-4 mt-2 border-t border-white/5">
                   <p className="px-4 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
                     {isAr ? 'ادرس في بلدك' : 'Study in Your Country'}
@@ -333,6 +379,21 @@ export default function Navbar({ setView, currentView }: { setView: (view: ViewS
                     >
                       <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
                       <span className="flex-1">{c.name} — {c.sub}</span>
+                      {region === c.view && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                    </button>
+                  ))}
+                  <p className="px-4 pt-3 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
+                    {isAr ? 'مناطق أخرى' : 'More Regions'}
+                  </p>
+                  {regionLinks.map((r) => (
+                    <button
+                      key={r.key}
+                      onClick={() => goToRegion(r.key)}
+                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-all flex items-center gap-4 group w-full text-left text-amber-100/70 hover:bg-white/5 hover:text-white"
+                    >
+                      <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                      <span className="flex-1">{r.name} — {r.sub}</span>
+                      {region === r.key && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
                     </button>
                   ))}
                 </div>
