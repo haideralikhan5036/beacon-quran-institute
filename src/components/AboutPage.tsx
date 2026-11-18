@@ -75,7 +75,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
         <Reveal>
           <div className="text-center mb-20">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#FCD34D] mb-6 display">
-              {isAr ? 'عن معهد منارة القرآن الكريم' : 'About Beacon Quran Institute'}
+              {isAr ? 'عن معهد منارة القرآن الكريم' : 'About Beacon Quran Institute — Online Quran Academy'}
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
               {isAr ? 'إرث عريق من التعليم الإلهي منذ عام ٢٠١٥' : 'A Legacy of Divine Education Since 2015'}

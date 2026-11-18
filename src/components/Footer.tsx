@@ -31,7 +31,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
 
   const brandDesc = isAr 
     ? "صرح قرآني عالمي يجمع بين أصالة المنهج التربوي والتحفيظ بالسند المتصل، وبين مرونة التعليم الرقمي الحديث ليضيء القلوب بنور كتاب الله."
-    : "Beacon Quran Institute is a premier global educational sanctuary bridging classical scholarly methods with modern flexible learning to help students live the Quran beautifully.";
+    : "Beacon Quran Institute is an online Quran academy offering live one-on-one Quran classes for kids and adults in the USA, UK and Canada — bridging classical scholarly methods with modern flexible learning to help students live the Quran beautifully.";
 
   const navTitle = isAr ? "التنقل السريع" : "Quick Navigation";
   const navLinks = [
@@ -40,6 +40,9 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
     { name: isAr ? "بوابة التحقق والشهادات" : "Appraisal Portal", action: () => setView('certificate') },
     { name: isAr ? "مدونة الآفاق" : "Insights Blog", action: () => setView('blog') },
     { name: isAr ? "تفاصيل وباقات الرسوم" : "Fee Structure", action: () => handleFeesClick() },
+    { name: isAr ? "دروس القرآن في الولايات المتحدة" : "Online Quran Classes in the USA", action: () => setView('usa') },
+    { name: isAr ? "دروس القرآن في بريطانيا" : "Online Quran Classes UK", action: () => setView('uk') },
+    { name: isAr ? "دروس القرآن في كندا" : "Online Quran Classes in Canada", action: () => setView('canada') },
   ];
 
   const curriculumTitle = isAr ? "المناهج الدراسية" : "Curriculum Tracks";
@@ -51,7 +54,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
   const directLineLabel = isAr ? "الهاتف المباشر / واتساب" : "Direct Line & WhatsApp";
   const officialRegistryLabel = isAr ? "البريد الإلكتروني الرسمي" : "Official Registry Email";
   const globalPresenceLabel = isAr ? "التواجد الجغرافي" : "Global Reach";
-  const globalPresenceDesc = isAr ? "نخدم الطلاب بفاعلية عبر ٤ قارات حول العالم" : "Active students across 30+ nations";
+  const globalPresenceDesc = isAr ? "نخدم الطلاب بفاعلية عبر ٤ قارات حول العالم" : "Online Quran classes for students across 30+ nations, including the USA, UK & Canada";
 
   const finePrintText = isAr 
     ? "معهد ريادي مرخص ومصرح للتعليم الرقمي • حماية معلومات مشفرة موافقة لمعايير ISO 27001"
@@ -132,7 +135,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                 onClick={() => setView('home')}
               >
                 <div className="w-16 h-16 rounded-2xl p-1 bg-[#051b23] border border-[#757454]/50 shadow-xl group-hover:border-amber-400 transition-all duration-500 overflow-hidden shrink-0">
-                  <img src={logo} alt="Logo" className="w-full h-full object-contain" loading="lazy" decoding="async" />
+                  <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-contain" loading="lazy" decoding="async" />
                 </div>
                 <div className={`flex flex-col ${isAr ? 'items-end' : 'items-start'}`}>
                    <h2 className="text-2xl sm:text-3xl font-bold display leading-none tracking-tight text-white group-hover:text-amber-300 transition-colors">

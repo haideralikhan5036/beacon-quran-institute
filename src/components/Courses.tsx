@@ -8,7 +8,7 @@ import { scrollToId } from '../utils/scrollToId';
 const courses = [
   {
     title: 'Noorani Qaida',
-    desc: 'The essential foundation for beginners. Master Arabic letters, phonetics, and basic Tajweed rules effectively.',
+    desc: 'Learn Noorani Qaida online — the essential foundation for beginners and kids. Master Arabic letters, phonetics, and basic Tajweed rules effectively.',
     icon: BookMarked,
     color: 'bg-emerald-500/10',
     iconColor: 'text-accent',
@@ -25,7 +25,7 @@ const courses = [
   },
   {
     title: 'Quran Reading',
-    desc: 'Perfect your fluency in reading Holy Quran with proper pronunciation and observance of Tajweed rules.',
+    desc: 'Perfect your fluency in reading the Holy Quran online with proper pronunciation and observance of Tajweed rules.',
     icon: GraduationCap,
     color: 'bg-blue-500/10',
     iconColor: 'text-blue-400',
@@ -42,7 +42,7 @@ const courses = [
   },
   {
     title: 'Hifz (Memorization)',
-    desc: 'Specialized 1-on-1 memorization plans with expert tutors to help you preserve the Quran in your heart.',
+    desc: 'Specialized 1-on-1 online Hifz classes and Quran memorization plans with expert tutors to help you preserve the Quran in your heart.',
     icon: History,
     color: 'bg-amber-500/10',
     iconColor: 'text-amber-400',
@@ -59,7 +59,7 @@ const courses = [
   },
   {
     title: 'Tajweed Mastery',
-    desc: 'Advanced course focusing on the deep science of Tajweed to recite Quran exactly as it was revealed.',
+    desc: 'Advanced Tajweed classes online focusing on the deep science of Tajweed to recite the Quran exactly as it was revealed.',
     icon: Mic2,
     color: 'bg-purple-500/10',
     iconColor: 'text-purple-400',
@@ -76,7 +76,7 @@ const courses = [
   },
   {
     title: 'Quranic Tafsir',
-    desc: 'Understand the meanings, context, and lessons behind the verses for profound spiritual growth.',
+    desc: 'Understand the meanings, context, and lessons behind the verses in our online Tafseer classes, for profound spiritual growth.',
     icon: FileText,
     color: 'bg-orange-500/10',
     iconColor: 'text-orange-400',
@@ -373,8 +373,8 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
     }
   }, [activeIndex]);
 
-  const sectionSubtitle = isAr ? "مساراتنا الدراسية" : "Our Academic Paths";
-  const sectionTitle = isAr ? "علوم التنزيل الشريفة لكل طالب علم" : "Sacred Knowledge for Every Learner";
+  const sectionSubtitle = isAr ? "مساراتنا الدراسية" : "Online Quran Classes";
+  const sectionTitle = isAr ? "علوم التنزيل الشريفة لكل طالب علم" : "Online Quran Classes for Kids & Adults";
 
   return (
     <section 
