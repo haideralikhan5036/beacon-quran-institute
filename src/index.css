@@ -79,6 +79,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky header is 77px tall: anchored sections (scrollIntoView / hash
+     links) must land below it, not half-hidden under it. */
+  scroll-padding-top: 96px;
   background-color: #FFFFFF;
 }
 
@@ -114,18 +117,32 @@ body {
   text-wrap: balance;
 }
 
-/* ── Footer texture: subtle geometric grid (used by the footer) ────────── */
+/* ── Footer texture: fine geometric grid, gold-tinted like the mockup ────
+   (mockup footer: gold rgba(168,168,132,.07) lines, 44px grid — visible
+   on the dark teal, but still subtle). */
 .footer-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(rgba(168, 168, 132, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 168, 132, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
-/* ── Halftone grey dots, for section corners ───────────────────────────── */
+/* ── Halftone dots, mockup values: soft grey-teal dots in corners ────────
+   (mockup .dots: rgba(100,116,139,.30), 13px grid). Gold + white variants
+   for the hero corner and dark-teal bands. */
 .dots-texture {
-  background-image: radial-gradient(rgba(11, 46, 58, 0.14) 1px, transparent 1.4px);
-  background-size: 12px 12px;
+  background-image: radial-gradient(circle, rgba(100, 116, 139, 0.30) 1.6px, transparent 1.8px);
+  background-size: 13px 13px;
+}
+
+.dots-texture-gold {
+  background-image: radial-gradient(circle, rgba(122, 122, 80, 0.35) 1.6px, transparent 1.8px);
+  background-size: 13px 13px;
+}
+
+.dots-texture-white {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.35) 1.6px, transparent 1.8px);
+  background-size: 13px 13px;
 }
 
 /* Custom scrollbar (light) */

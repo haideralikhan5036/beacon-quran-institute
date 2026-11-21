@@ -116,7 +116,6 @@ export default function CountryPage({
   onSelectFee,
   onViewCourses,
   currency,
-  onCurrencyChange,
 }: {
   country: CountryKey;
   onBack: () => void;
@@ -126,7 +125,6 @@ export default function CountryPage({
   /** Fee-table currency, controlled by App (geo auto-detect / header
       switcher / country-page default). */
   currency: CurrencyCode;
-  onCurrencyChange: (currency: CurrencyCode) => void;
 }) {
   const copy = COUNTRY_COPY[country];
 
@@ -262,7 +260,6 @@ export default function CountryPage({
         <div className="mb-12 sm:mb-16">
           <Fees
             currency={currency}
-            onCurrencyChange={onCurrencyChange}
             onSelectFee={onSelectFee}
             onContactRegistrar={onRegister}
           />
@@ -270,7 +267,12 @@ export default function CountryPage({
 
         {/* CTA */}
         <Reveal delay={0.1} width="100%">
-          <div className="bg-[#1E4E79] rounded-3xl p-8 sm:p-12 text-center shadow-[0_16px_40px_rgba(30,78,121,0.25)]">
+          <div className="bg-[#004050] rounded-3xl p-8 sm:p-12 text-center shadow-[0_16px_40px_rgba(0,64,80,0.25)] relative overflow-hidden">
+            {/* Halftone dots, mockup CTA-band placement: white, bottom-left */}
+            <div
+              aria-hidden="true"
+              className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
+            />
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/25 mb-5">
               <GraduationCap className="w-4 h-4 text-white" />
               <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">Begin Your Path Today</span>

@@ -76,6 +76,22 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
     onViewCourse(courseId);
   };
 
+  // Mobile drawer capsules — desktop nav-pill style: the active view is a
+  // filled deep-teal capsule with white text; the rest are white capsules
+  // with teal text and the thin blue lining (#C9D9E8).
+  const drawerCapsule = (active: boolean) =>
+    `w-full rounded-full py-3.5 px-5 text-[15px] font-semibold transition-all cursor-pointer ${
+      active
+        ? 'bg-[#004050] text-white shadow-md'
+        : 'bg-white text-[#004050] border border-[#C9D9E8] hover:border-[#004050]/50 hover:bg-[#F4F8FB]'
+    }`;
+  const drawerCapsuleSm = (active: boolean) =>
+    `w-full rounded-full py-2.5 px-4 text-sm font-semibold transition-all cursor-pointer ${
+      active
+        ? 'bg-[#004050] text-white shadow-md'
+        : 'bg-white text-[#004050] border border-[#C9D9E8] hover:border-[#004050]/50 hover:bg-[#F4F8FB]'
+    }`;
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -359,12 +375,10 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                   </button>
                 </div>
 
-                <nav aria-label="Mobile navigation" className="flex flex-col py-4 space-y-1">
+                <nav aria-label="Mobile navigation" className="flex flex-col py-4 space-y-2">
                   <button
                     onClick={goHome}
-                    className={`text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer ${
-                      currentView === 'home' ? 'bg-[#F2F6F9] text-[#004050]' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                    }`}
+                    className={`${drawerCapsule(currentView === 'home')} text-left`}
                   >
                     Home
                   </button>
@@ -376,7 +390,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                     <button
                       key={course.id}
                       onClick={() => openCourse(course.id)}
-                      className="text-left text-[15px] font-semibold py-3 px-4 pl-8 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer flex items-center gap-3"
+                      className={`${drawerCapsuleSm(false)} flex items-center gap-3 text-left`}
                     >
                       <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0" />
                       {course.title}
@@ -391,26 +405,26 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                       setView('courses');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="text-left text-[15px] font-semibold py-3 px-4 pl-8 rounded-xl text-[#004050] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                    className={`${drawerCapsuleSm(currentView === 'courses')} text-left`}
                   >
                     View all courses →
                   </button>
 
                   <button
                     onClick={() => goHomeSection('how-it-works')}
-                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                    className={`${drawerCapsule(false)} text-left`}
                   >
                     How It Works
                   </button>
                   <button
                     onClick={() => goHomeSection('fees')}
-                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                    className={`${drawerCapsule(false)} text-left`}
                   >
                     Fees
                   </button>
                   <button
                     onClick={() => goHomeSection('registration')}
-                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                    className={`${drawerCapsule(false)} text-left`}
                   >
                     Enrol
                   </button>
@@ -419,9 +433,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                       setIsOpen(false);
                       setView('contact');
                     }}
-                    className={`text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer ${
-                      currentView === 'contact' ? 'bg-[#F2F6F9] text-[#004050]' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                    }`}
+                    className={`${drawerCapsule(currentView === 'contact')} text-left`}
                   >
                     Contact
                   </button>
@@ -432,31 +444,35 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                   <p className="px-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     Study in Your Country
                   </p>
-                  {countryLinks.map((c) => (
-                    <button
-                      key={c.view}
-                      onClick={() => goToCountry(c.view)}
-                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-colors flex items-center gap-3 w-full text-left text-[#0B2E3A] hover:bg-[#F2F6F9] cursor-pointer"
-                    >
-                      <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
-                      <span className="flex-1">{c.name} — {c.sub}</span>
-                      {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
-                    </button>
-                  ))}
+                  <div className="space-y-2">
+                    {countryLinks.map((c) => (
+                      <button
+                        key={c.view}
+                        onClick={() => goToCountry(c.view)}
+                        className={`${drawerCapsule(region === c.view)} flex items-center gap-3 text-left`}
+                      >
+                        <MapPin className={`w-4 h-4 shrink-0 ${region === c.view ? 'text-white' : 'text-[#7A7A50]'}`} />
+                        <span className="flex-1">{c.name} — {c.sub}</span>
+                        {region === c.view && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
+                      </button>
+                    ))}
+                  </div>
                   <p className="px-4 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     More Regions
                   </p>
-                  {regionLinks.map((r) => (
-                    <button
-                      key={r.key}
-                      onClick={() => goToRegion(r.key)}
-                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-colors flex items-center gap-3 w-full text-left text-[#0B2E3A] hover:bg-[#F2F6F9] cursor-pointer"
-                    >
-                      <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
-                      <span className="flex-1">{r.name} — {r.sub}</span>
-                      {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
-                    </button>
-                  ))}
+                  <div className="space-y-2">
+                    {regionLinks.map((r) => (
+                      <button
+                        key={r.key}
+                        onClick={() => goToRegion(r.key)}
+                        className={`${drawerCapsule(region === r.key)} flex items-center gap-3 text-left`}
+                      >
+                        <MapPin className={`w-4 h-4 shrink-0 ${region === r.key ? 'text-white' : 'text-[#7A7A50]'}`} />
+                        <span className="flex-1">{r.name} — {r.sub}</span>
+                        {region === r.key && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="pt-6 mt-auto">

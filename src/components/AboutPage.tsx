@@ -135,10 +135,15 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Statistics */}
-        <div className="mb-24 bg-[#1E4E79] p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-[0_16px_40px_rgba(30,78,121,0.25)]">
+        <div className="mb-24 bg-[#004050] p-8 md:p-12 rounded-3xl relative overflow-hidden shadow-[0_16px_40px_rgba(0,64,80,0.25)]">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Sparkles className="w-64 h-64 text-white" />
           </div>
+          {/* Halftone dots, mockup CTA-band placement: white, bottom-left */}
+          <div
+            aria-hidden="true"
+            className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
+          />
           <Reveal>
             <div className="text-center mb-12 relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-display">

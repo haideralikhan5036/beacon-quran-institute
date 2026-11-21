@@ -9,10 +9,14 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
 
   return (
     <section className="relative bg-white overflow-hidden">
-      {/* Halftone dots texture, top-right corner */}
+      {/* Halftone dots, mockup placements: grey top-left + gold bottom-right */}
       <div
         aria-hidden="true"
-        className="dots-texture pointer-events-none absolute top-0 right-0 w-56 h-56 opacity-60 [mask-image:radial-gradient(closest-side,black,transparent)]"
+        className="dots-texture pointer-events-none absolute left-[-14px] top-[26px] w-[150px] h-[110px] opacity-[0.55]"
+      />
+      <div
+        aria-hidden="true"
+        className="dots-texture-gold pointer-events-none absolute right-[6%] bottom-[-6px] w-[170px] h-[90px] opacity-50"
       />
       <div className="max-w-[1280px] mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-14 sm:py-20">

@@ -5,13 +5,12 @@ import { Reveal } from './ui/Reveal';
 import logo from '../assets/images/brand_logo.jpg';
 import { scrollToId } from '../utils/scrollToId';
 
-// Geometric grid texture, inline: the .footer-grid class from the shared
-// design contract was not in index.css yet, so the grid lines are drawn
-// here with a CSS background instead.
+// Geometric grid texture, mockup values: gold-tinted lines, 44px grid —
+// visible on the dark teal, but still subtle.
 const GRID_TEXTURE: CSSProperties = {
   backgroundImage:
-    'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-  backgroundSize: '32px 32px',
+    'linear-gradient(rgba(168,168,132,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(168,168,132,0.07) 1px, transparent 1px)',
+  backgroundSize: '44px 44px',
 };
 
 const FIVE_COURSES = [
@@ -61,55 +60,69 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
   ];
 
   return (
-    <footer className="bg-[#004050] text-white pt-16 sm:pt-20 pb-12 relative overflow-hidden">
-      {/* Geometric grid texture */}
-      <div className="absolute inset-0 pointer-events-none" style={GRID_TEXTURE} />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#004050]/40 via-transparent to-[#003040]/60" />
-
-      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
-
-        {/* ── 1. Pre-footer CTA banner — deep blue card ─────────────── */}
-        <Reveal delay={0.1}>
-          <div className="mb-16 sm:mb-20 bg-[#1E4E79] rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
-            <div className="absolute inset-0 pointer-events-none opacity-40" style={GRID_TEXTURE} />
-            <div className="grid lg:grid-cols-[1.3fr,1fr] gap-8 items-center relative z-10">
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
-                  <Sparkles className="w-4 h-4 text-white" />
-                  <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">
-                    Begin Your Path Today
-                  </span>
+    <>
+      {/* ── Pre-footer CTA — standalone deep-teal band on white (mockup) ─── */}
+      <section className="bg-[#FFFFFF] pt-14 sm:pt-16 pb-14 sm:pb-16 relative overflow-hidden">
+        <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+          <Reveal delay={0.1}>
+            <div className="bg-[#004050] rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_50px_rgba(0,64,80,0.25)]">
+              <div className="absolute inset-0 pointer-events-none opacity-40" style={GRID_TEXTURE} />
+              {/* Halftone dots, mockup CTA-band placement: white, bottom-left */}
+              <div
+                aria-hidden="true"
+                className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
+              />
+              <div className="grid lg:grid-cols-[1.3fr,1fr] gap-8 items-center relative z-10">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
+                    <Sparkles className="w-4 h-4 text-white" />
+                    <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">
+                      Begin Your Path Today
+                    </span>
+                  </div>
+                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-white leading-tight mb-4">
+                    {ctaTitle}
+                  </h3>
+                  <p className="text-white/85 text-base sm:text-lg leading-relaxed italic max-w-2xl">
+                    {ctaDesc}
+                  </p>
                 </div>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-white leading-tight mb-4">
-                  {ctaTitle}
-                </h3>
-                <p className="text-white/85 text-base sm:text-lg leading-relaxed italic max-w-2xl">
-                  {ctaDesc}
-                </p>
-              </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
-                <button
-                  onClick={handleEnrollClick}
-                  className="group bg-[#7A7A50] hover:bg-[#6b6b45] text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-xl flex items-center justify-center gap-3 cursor-pointer"
-                >
-                  <span>{ctaPrimaryBtn}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button
-                  onClick={handleFeesClick}
-                  className="bg-transparent hover:bg-white/10 text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all border border-white/40 flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                >
-                  <span>{ctaSecondaryBtn}</span>
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
+                  <button
+                    onClick={handleEnrollClick}
+                    className="group bg-[#7A7A50] hover:bg-[#6b6b45] text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-xl flex items-center justify-center gap-3 cursor-pointer"
+                  >
+                    <span>{ctaPrimaryBtn}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <button
+                    onClick={handleFeesClick}
+                    className="bg-transparent hover:bg-white/10 text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all border border-white/40 flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  >
+                    <span>{ctaSecondaryBtn}</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
+      </section>
+
+      <footer className="bg-[#004050] text-white pt-14 sm:pt-16 pb-10 relative overflow-hidden">
+        {/* Geometric grid texture */}
+        <div className="absolute inset-0 pointer-events-none" style={GRID_TEXTURE} />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#004050]/40 via-transparent to-[#003040]/60" />
+        {/* Halftone dots, mockup footer placement: white, top-right */}
+        <div
+          aria-hidden="true"
+          className="dots-texture-white pointer-events-none absolute right-[4%] top-[22px] w-[170px] h-[100px] opacity-45"
+        />
+
+        <div className="max-w-[1280px] mx-auto px-6 relative z-10">
 
         {/* ── 2. Main footer columns ─────────────────────────────────── */}
         <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-14 pb-14 border-b border-white/15">
-
           {/* Brand & Identity Column */}
           <div className="lg:col-span-4 space-y-6">
             <Reveal delay={0.1}>
@@ -163,13 +176,13 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
             </Reveal>
             <ul className="space-y-4">
               {navLinks.map((link, i) => (
-                <Reveal key={link.name} delay={0.3 + i * 0.08} direction="up" distance={10}>
+                <Reveal key={link.name} delay={0.3 + i * 0.08} direction="up" distance={10} width="100%">
                   <li>
                     <button
                       onClick={() => { link.action(); window.scrollTo(0, 0); }}
-                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-center gap-2.5 group cursor-pointer"
+                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all shrink-0 mt-[7px]"></span>
                       {link.name}
                     </button>
                   </li>
@@ -185,13 +198,13 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
             </Reveal>
             <ul className="space-y-3.5">
               {FIVE_COURSES.map((course, i) => (
-                <Reveal key={course} delay={0.5 + i * 0.08} direction="up" distance={10}>
+                <Reveal key={course} delay={0.5 + i * 0.08} direction="up" distance={10} width="100%">
                   <li>
                     <button
                       onClick={() => { setView('courses'); window.scrollTo(0, 0); }}
-                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-center gap-2.5 group cursor-pointer"
+                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
                     >
-                      <span className="text-white/60 group-hover:text-white text-xs transition-colors">→</span>
+                      <span className="text-white/60 group-hover:text-white text-xs transition-colors shrink-0 mt-[2px]">→</span>
                       {course}
                     </button>
                   </li>
@@ -246,19 +259,30 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           </div>
         </div>
 
-        {/* ── 3. Bottom legal bar ────────────────────────────────────── */}
-        <div className="pt-10 flex flex-col lg:flex-row justify-between items-center gap-6">
-          <Reveal delay={1.0}>
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="w-4 h-4 text-white shrink-0" />
-              <p className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
-                Secure &amp; private online classes
+        {/* ── 3. Bottom legal bar: secure + copyright on one row, legal
+               links on their own centred row — the old 3-across row never
+               gave the middle group enough width, so REFUND GUARANTEE
+               wrapped to a second line. ─────────────────────────────── */}
+        <div className="pt-8 flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+            <Reveal delay={1.0}>
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-4 h-4 text-white shrink-0" />
+                <p className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
+                  Secure &amp; private online classes
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={1.2}>
+              <p className="font-display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
+                © 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED
               </p>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
 
           <Reveal delay={1.1}>
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               {legalItems.map((item) => (
                 <button
                   key={item.name}
@@ -270,15 +294,10 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               ))}
             </div>
           </Reveal>
-
-          <Reveal delay={1.2}>
-            <p className="font-display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
-              © 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED
-            </p>
-          </Reveal>
         </div>
 
       </div>
     </footer>
+    </>
   );
 }

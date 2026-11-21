@@ -24,7 +24,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-white py-16 sm:py-24 scroll-mt-24">
+    <section id="how-it-works" className="bg-white py-14 sm:py-20 scroll-mt-24">
       <div className="max-w-[1280px] mx-auto px-6">
         <Reveal direction="up" width="100%">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -43,7 +43,12 @@ export default function HowItWorks() {
             const direction = idx === 0 ? 'left' : idx === 2 ? 'right' : 'up';
             return (
               <Reveal key={step.n} direction={direction} delay={0.1 + idx * 0.08} width="100%">
-                <div className="h-full bg-white border border-[#C9D9E8] rounded-3xl p-7 sm:p-8 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+                <div className="h-full bg-white border border-[#C9D9E8] rounded-3xl p-7 sm:p-8 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+                  {/* Halftone dots, mockup step-card placement: top-right */}
+                  <div
+                    aria-hidden="true"
+                    className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[100px] h-[64px] opacity-45"
+                  />
                   <div className="flex items-center justify-between mb-5">
                     <span className="w-12 h-12 rounded-2xl bg-[#004050] text-white flex items-center justify-center">
                       <Icon className="w-6 h-6" />

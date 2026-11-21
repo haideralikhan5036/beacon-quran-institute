@@ -144,7 +144,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
              {backText}
            </button>
         )}
-        <div className="text-center mb-16 sm:mb-24 relative">
+        <div className="text-center mb-12 sm:mb-16 relative">
           <Reveal delay={0.1} width="100%">
             <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
               <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">

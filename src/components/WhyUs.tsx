@@ -107,7 +107,7 @@ export default function WhyUs() {
         </Reveal>
 
         <Reveal width="100%">
-          <div className="max-w-3xl mx-auto bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-9 shadow-[0_10px_30px_rgba(11,46,58,0.06)] mb-16 sm:mb-20">
+          <div className="max-w-3xl mx-auto bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-9 shadow-[0_10px_30px_rgba(11,46,58,0.06)] mb-12 sm:mb-16">
             <div className="space-y-6">
               {STRENGTH_BARS.map((bar) => (
                 <div key={bar.label}>
@@ -146,7 +146,7 @@ export default function WhyUs() {
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16 sm:mb-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12 sm:mb-16">
           {SERVICES.map((service, i) => (
             <Reveal
               key={service.num}
@@ -180,7 +180,7 @@ export default function WhyUs() {
           </div>
         </Reveal>
 
-        <div className="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto mb-16 sm:mb-20">
+        <div className="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto mb-12 sm:mb-16">
           {EFFORT_ITEMS.map((item, i) => (
             <Reveal key={item.title} width="100%" delay={0.05 + i * 0.08}>
               <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 text-center shadow-[0_10px_30px_rgba(11,46,58,0.05)] h-full">
@@ -194,9 +194,9 @@ export default function WhyUs() {
           ))}
         </div>
 
-        {/* ── d. Stat strip ──────────────────────────────────────────── */}
+        {/* ── d. Stat strip — mockup deep teal, not navy ──────────────────── */}
         <Reveal width="100%">
-          <div className="bg-[#1E4E79] rounded-3xl px-6 sm:px-10 py-10 sm:py-12 shadow-[0_16px_40px_rgba(30,78,121,0.25)]">
+          <div className="bg-[#004050] rounded-3xl px-6 sm:px-10 py-10 sm:py-12 shadow-[0_16px_40px_rgba(0,64,80,0.25)]">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 text-center">
               {STATS.map((stat) => (
                 <div key={stat.label}>
