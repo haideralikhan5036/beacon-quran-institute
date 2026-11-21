@@ -3,6 +3,7 @@ import {
   MessageCircle, Mail, Facebook, Instagram, Linkedin,
   ArrowLeft, ArrowRight, Sparkles, Clock, Globe, ShieldCheck, Phone
 } from 'lucide-react';
+import Breadcrumbs from './Breadcrumbs';
 
 export default function ContactPage({ onBack, onRegisterClick }: { onBack: () => void; onRegisterClick?: () => void }) {
   const contactChannels = [
@@ -71,6 +72,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
   return (
     <div className="bg-[#FFFFFF] min-h-screen pt-28 pb-24 text-[#0B2E3A]">
       <div className="max-w-[1280px] mx-auto px-6">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Contact' }]} />
 
         {/* Back Button Navigation */}
         <div className="mb-10">

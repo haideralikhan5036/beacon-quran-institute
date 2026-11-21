@@ -6,27 +6,29 @@
     <title>Online Quran Classes for Kids &amp; Adults | Learn Quran Online with Tajweed — Beacon Quran Institute</title>
     <meta name="description" content="Online Quran academy — Quran classes near you: 1-on-1 online Quran classes for kids and adults in the USA, UK &amp; Canada, taught live online from home. Tajweed, Hifz, Noorani Qaida. Book a free trial class today." />
     <meta name="author" content="Beacon Quran Institute" />
-    <link rel="canonical" href="https://beacon-quran-institute.vercel.app/" />
-    <link rel="alternate" hreflang="en-us" href="https://beacon-quran-institute.vercel.app/usa" />
-    <link rel="alternate" hreflang="en-gb" href="https://beacon-quran-institute.vercel.app/uk" />
-    <link rel="alternate" hreflang="en-ca" href="https://beacon-quran-institute.vercel.app/canada" />
-    <link rel="alternate" hreflang="x-default" href="https://beacon-quran-institute.vercel.app/" />
+    <link rel="canonical" href="https://beacon-quran-institute.pages.dev/" />
+    <link rel="alternate" hreflang="en-us" href="https://beacon-quran-institute.pages.dev/usa" />
+    <link rel="alternate" hreflang="en-gb" href="https://beacon-quran-institute.pages.dev/uk" />
+    <link rel="alternate" hreflang="en-ca" href="https://beacon-quran-institute.pages.dev/canada" />
+    <link rel="alternate" hreflang="x-default" href="https://beacon-quran-institute.pages.dev/" />
 
-    <!-- Structured data: Organization + Courses. Prices are the real monthly
-         fees from the owner's fee sheet (USD $35–$100); Course offers use an
-         AggregateOffer over that site-wide USD range. -->
+    <!-- Structured data: EducationalOrganization + Course List + FAQ.
+         Prices are the real monthly fees from the owner's fee sheet
+         (USD $35–$100); Course offers use an AggregateOffer over the
+         per-course USD range. No address / geo / LocalBusiness anywhere —
+         Beacon is online-only. Per-route JSON-LD is baked in at build
+         time by scripts/prerender.mjs; this block is the homepage graph. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "Organization",
-          "@id": "https://beacon-quran-institute.vercel.app/#organization",
+          "@type": "EducationalOrganization",
+          "@id": "https://beacon-quran-institute.pages.dev/#organization",
           "name": "Beacon Quran Institute",
-          "url": "https://beacon-quran-institute.vercel.app/",
+          "url": "https://beacon-quran-institute.pages.dev/",
           "description": "Beacon Quran Institute is an online Quran academy offering 1-on-1 online Quran classes for kids and adults in the USA, UK and Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida.",
           "sameAs": [
-            "https://beacon-quran-institute.vercel.app/",
             "https://www.instagram.com/beacon_quran_institute"
           ],
           "contactPoint": {
@@ -35,42 +37,96 @@
             "email": "beaconquraninstitute@gmail.com",
             "contactType": "customer service",
             "availableLanguage": ["English", "Arabic"]
-          }
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" },
+            { "@type": "Country", "name": "Canada" },
+            { "@type": "Country", "name": "Australia" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "Country", "name": "Saudi Arabia" },
+            { "@type": "Country", "name": "Qatar" },
+            { "@type": "Place", "name": "Europe" }
+          ],
+          "availableLanguage": ["English", "Arabic"]
         },
         {
-          "@type": "Course",
-          "name": "Noorani Qaida",
-          "description": "Learn Noorani Qaida online — the essential foundation for beginners and kids. Master Arabic letters, phonetics, and basic Tajweed rules.",
-          "provider": { "@id": "https://beacon-quran-institute.vercel.app/#organization" },
-          "offers": { "@type": "AggregateOffer", "lowPrice": "35", "highPrice": "100", "priceCurrency": "USD" }
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Course",
+                "@id": "https://beacon-quran-institute.pages.dev/courses/noorani-qaida",
+                "name": "Noorani Qaida",
+                "description": "Arabic letters and basic Tajweed for beginners and kids",
+                "url": "https://beacon-quran-institute.pages.dev/courses/noorani-qaida",
+                "provider": { "@id": "https://beacon-quran-institute.pages.dev/#organization" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Course",
+                "@id": "https://beacon-quran-institute.pages.dev/courses/recitation-tajweed",
+                "name": "Recitation & Tajweed",
+                "description": "Fluent recitation and Tajweed, from letters to Ijazah",
+                "url": "https://beacon-quran-institute.pages.dev/courses/recitation-tajweed",
+                "provider": { "@id": "https://beacon-quran-institute.pages.dev/#organization" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Course",
+                "@id": "https://beacon-quran-institute.pages.dev/courses/hifz-program",
+                "name": "Hifz Program",
+                "description": "Memorise the Quran 1-on-1 with a personal revision plan",
+                "url": "https://beacon-quran-institute.pages.dev/courses/hifz-program",
+                "provider": { "@id": "https://beacon-quran-institute.pages.dev/#organization" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "Course",
+                "@id": "https://beacon-quran-institute.pages.dev/courses/tafseer-ul-quran",
+                "name": "Tafseer-ul-Quran",
+                "description": "Word-by-word meaning and guidance you can live by",
+                "url": "https://beacon-quran-institute.pages.dev/courses/tafseer-ul-quran",
+                "provider": { "@id": "https://beacon-quran-institute.pages.dev/#organization" }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "Course",
+                "@id": "https://beacon-quran-institute.pages.dev/courses/islamic-studies",
+                "name": "Islamic Studies",
+                "description": "Aqeedah, Fiqh, Seerah and manners for kids and adults",
+                "url": "https://beacon-quran-institute.pages.dev/courses/islamic-studies",
+                "provider": { "@id": "https://beacon-quran-institute.pages.dev/#organization" }
+              }
+            }
+          ]
         },
         {
-          "@type": "Course",
-          "name": "Recitation & Tajweed",
-          "description": "Learn to recite the Quran beautifully and correctly with Tajweed — 1-on-1 online classes for kids and adults.",
-          "provider": { "@id": "https://beacon-quran-institute.vercel.app/#organization" },
-          "offers": { "@type": "AggregateOffer", "lowPrice": "35", "highPrice": "100", "priceCurrency": "USD" }
-        },
-        {
-          "@type": "Course",
-          "name": "Hifz Program",
-          "description": "Specialized 1-on-1 online Hifz classes and Quran memorization plans with expert tutors.",
-          "provider": { "@id": "https://beacon-quran-institute.vercel.app/#organization" },
-          "offers": { "@type": "AggregateOffer", "lowPrice": "35", "highPrice": "100", "priceCurrency": "USD" }
-        },
-        {
-          "@type": "Course",
-          "name": "Tafseer-ul-Quran",
-          "description": "Understand the meanings, context, and lessons behind the verses in our online Tafseer classes.",
-          "provider": { "@id": "https://beacon-quran-institute.vercel.app/#organization" },
-          "offers": { "@type": "AggregateOffer", "lowPrice": "35", "highPrice": "100", "priceCurrency": "USD" }
-        },
-        {
-          "@type": "Course",
-          "name": "Islamic Studies",
-          "description": "Online Islamic Studies classes for kids and adults — aqeedah, fiqh, seerah and daily duas, taught 1-on-1.",
-          "provider": { "@id": "https://beacon-quran-institute.vercel.app/#organization" },
-          "offers": { "@type": "AggregateOffer", "lowPrice": "35", "highPrice": "100", "priceCurrency": "USD" }
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "I searched for Quran classes near me — can I learn online instead?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — that's exactly how Beacon works. We're an online-only academy with no physical campus, so there's nothing to travel to. You learn one-to-one from home with a certified teacher, at times that fit your family, in any city or country. Book a free trial class and see if online learning suits you before you enrol."
+              }
+            }
+          ]
         }
       ]
     }
@@ -81,8 +137,8 @@
     <meta property="og:title" content="Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute" />
     <meta property="og:description" content="1-on-1 online Quran classes for kids and adults in the USA, UK & Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida — book a free trial class today." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://beacon-quran-institute.vercel.app/" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content="https://beacon-quran-institute.pages.dev/" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Online Quran Classes for Kids & Adults | Beacon Quran Institute" />
     <meta name="twitter:description" content="1-on-1 online Quran classes for kids and adults in the USA, UK & Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida — book a free trial class today." />
   </head>

@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode, isSsrBuild }) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
@@ -28,12 +28,18 @@ export default defineConfig(({mode}) => {
       assetsInlineLimit: 4096,
       rollupOptions: {
         output: {
-          // Manual chunk splitting — separates heavy libs from core app
-          manualChunks: {
-            'vendor-react':   ['react', 'react-dom'],
-            'vendor-motion':  ['motion/react'],
-            'vendor-lucide':  ['lucide-react'],
-          },
+          // Manual chunk splitting — separates heavy libs from core app.
+          // Client build only: during the SSR build React is external and
+          // Rollup rejects manualChunks entries for external modules.
+          ...(isSsrBuild
+            ? {}
+            : {
+                manualChunks: {
+                  'vendor-react': ['react', 'react-dom'],
+                  'vendor-motion': ['motion/react'],
+                  'vendor-lucide': ['lucide-react'],
+                },
+              }),
         },
       },
     },

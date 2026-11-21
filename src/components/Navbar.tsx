@@ -3,7 +3,6 @@ import { ArrowRight, BookOpen, Check, ChevronDown, MapPin, Menu, X } from 'lucid
 import { useEffect, useState } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
-import { scrollToId } from '../utils/scrollToId';
 import { REGION_LABELS, type RegionKey } from '../utils/geo';
 import { COURSES } from '../data/courses';
 
@@ -33,13 +32,15 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
   ];
 
   // Regions without their own landing page: picking one keeps the current
-  // page and switches the fee table to that region's currency.
-  const regionLinks: { key: RegionKey; name: string; sub: string }[] = [
-    { key: 'australia', name: 'Australia', sub: 'Fees in AUD' },
-    { key: 'uae', name: 'UAE', sub: 'Fees in AED' },
-    { key: 'saudi', name: 'Saudi Arabia', sub: 'Fees in SAR' },
-    { key: 'qatar', name: 'Qatar', sub: 'Fees in QAR' },
-    { key: 'europe', name: 'Europe', sub: 'Fees in EUR' },
+  // page and switches the fee table to that region's currency. (Batch 12:
+  // the old "Fees in AUD / AED / …" sub-labels are gone from the menu —
+  // the fee table itself stays on the home and country pages.)
+  const regionLinks: { key: RegionKey; name: string }[] = [
+    { key: 'australia', name: 'Australia' },
+    { key: 'uae', name: 'UAE' },
+    { key: 'saudi', name: 'Saudi Arabia' },
+    { key: 'qatar', name: 'Qatar' },
+    { key: 'europe', name: 'Europe' },
   ];
 
   const goToRegion = (next: RegionKey) => {
@@ -61,10 +62,10 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
     setIsOpen(false);
   };
 
-  /** Go home (if needed) and scroll to a homepage section. */
-  const goHomeSection = (id: string) => {
-    if (currentView !== 'home') setView('home');
-    scrollToId(id);
+  /** Open a standalone page (every menu option has its own page). */
+  const goPage = (view: ViewState) => {
+    setView(view);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setCoursesOpen(false);
     setCountriesOpen(false);
     setIsOpen(false);
@@ -110,11 +111,12 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
 
   return (
     <header className="sticky top-0 z-[100] bg-white border-b border-[#C9D9E8]">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex items-center justify-between gap-4 h-[76px]">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between gap-3 h-[76px]">
           {/* Logo */}
-          <button
-            onClick={goHome}
+          <a
+            href="/"
+            onClick={(e) => { e.preventDefault(); goHome(); }}
             className="flex items-center gap-3 shrink-0 cursor-pointer text-left"
             aria-label="Beacon Quran Institute — home"
           >
@@ -122,29 +124,32 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
               <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
             </span>
             <span className="flex flex-col leading-none min-w-0">
-              <span className="font-display text-[21px] font-bold text-[#0B2E3A] whitespace-nowrap">
+              <span className="font-display text-[19px] sm:text-[21px] font-bold text-[#0B2E3A] whitespace-nowrap">
                 Beacon Quran Institute
               </span>
               <span className="text-[9px] font-bold uppercase tracking-[0.32em] text-[#7A7A50] mt-1">
                 Online Quran Academy
               </span>
             </span>
-          </button>
+          </a>
 
-          {/* Desktop nav pill + region switcher + CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop nav pill + region switcher + CTA.
+              Shown from xl (1280px) up: the 9-item pill + region + CTA need
+              ~1230px, so below xl the hamburger + drawer take over. */}
+          <div className="hidden xl:flex items-center gap-2">
             <nav
               aria-label="Main navigation"
-              className="flex items-center gap-1 h-12 rounded-full border border-[#C9D9E8] bg-white px-2 shadow-[0_2px_10px_rgba(11,46,58,0.04)]"
+              className="flex items-center gap-0.5 h-12 rounded-full border border-[#C9D9E8] bg-white px-1.5 shadow-[0_2px_10px_rgba(11,46,58,0.04)]"
             >
-              <button
-                onClick={goHome}
-                className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+              <a
+                href="/"
+                onClick={(e) => { e.preventDefault(); goHome(); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
                   currentView === 'home' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
                 }`}
               >
                 Home
-              </button>
+              </a>
 
               {/* Courses dropdown */}
               <div className="relative">
@@ -155,7 +160,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                   }}
                   aria-expanded={coursesOpen}
                   aria-haspopup="true"
-                  className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     currentView === 'courses' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
                   }`}
                 >
@@ -177,9 +182,13 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                           Our Courses
                         </p>
                         {COURSES.map((course) => (
-                          <button
+                          <a
                             key={course.id}
-                            onClick={() => openCourse(course.id)}
+                            href={`/courses/${course.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              openCourse(course.id);
+                            }}
                             className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-start gap-3 group cursor-pointer"
                           >
                             <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0 mt-0.5" />
@@ -191,57 +200,87 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                                 <span className="text-xs text-[#3D5563] mt-0.5 leading-snug">{course.short}</span>
                               )}
                             </span>
-                          </button>
+                          </a>
                         ))}
-                        <button
+                        <a
+                          href="/courses"
                           onClick={() => {
                             setCoursesOpen(false);
-                            if (window.location.pathname.startsWith('/courses')) {
-                              window.history.replaceState(null, '', '/#courses');
-                            }
-                            setView('courses');
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           className="w-full text-left px-5 py-3.5 border-t border-[#D7E3EE] hover:bg-[#F2F6F9] transition-colors text-sm font-semibold text-[#004050] flex items-center gap-2 cursor-pointer"
                         >
                           View all courses
                           <ArrowRight className="w-4 h-4" />
-                        </button>
+                        </a>
                       </motion.div>
                     </>
                   )}
                 </AnimatePresence>
               </div>
 
-              <button
-                onClick={() => goHomeSection('how-it-works')}
-                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer whitespace-nowrap"
+              <a
+                href="/how-it-works"
+                onClick={(e) => { e.preventDefault(); goPage('how-it-works'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'how-it-works' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
               >
                 How It Works
-              </button>
-              <button
-                onClick={() => goHomeSection('fees')}
-                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+              </a>
+              <a
+                href="/about"
+                onClick={(e) => { e.preventDefault(); goPage('about'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'about' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
               >
-                Fees
-              </button>
-              <button
-                onClick={() => goHomeSection('registration')}
-                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                About
+              </a>
+              <a
+                href="/services"
+                onClick={(e) => { e.preventDefault(); goPage('services'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'services' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
               >
-                Enrol
-              </button>
-              <button
-                onClick={() => {
-                  closeDropdowns();
-                  setView('contact');
-                }}
-                className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+                Services
+              </a>
+              <a
+                href="/blog"
+                onClick={(e) => { e.preventDefault(); goPage('blog'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'blog' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
+              >
+                Blog
+              </a>
+              <a
+                href="/testimonials"
+                onClick={(e) => { e.preventDefault(); goPage('testimonials'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'testimonials' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
+              >
+                Testimonials
+              </a>
+              <a
+                href="/contact"
+                onClick={(e) => { e.preventDefault(); goPage('contact'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
                   currentView === 'contact' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
                 }`}
               >
                 Contact
-              </button>
+              </a>
+              <a
+                href="/enrol"
+                onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                  currentView === 'enrol' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
+              >
+                Enrol
+              </a>
             </nav>
 
             {/* Region switcher — USA/UK/Canada open their landing page; the
@@ -256,7 +295,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                 aria-expanded={countriesOpen}
                 aria-haspopup="true"
                 aria-label={`Choose your country or region, currently ${REGION_LABELS[region]}`}
-                className="flex items-center gap-1.5 px-3 h-12 rounded-full border border-[#C9D9E8] bg-white text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 h-12 rounded-full border border-[#C9D9E8] bg-white text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
               >
                 <MapPin className="w-4 h-4 text-[#7A7A50]" />
                 {REGION_LABELS[region]}
@@ -277,9 +316,10 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                         Study in Your Country
                       </p>
                       {countryLinks.map((c) => (
-                        <button
+                        <a
                           key={c.view}
-                          onClick={() => goToCountry(c.view)}
+                          href={`/${c.view}`}
+                          onClick={(e) => { e.preventDefault(); goToCountry(c.view); }}
                           className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
                         >
                           <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
@@ -288,7 +328,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                             <span className="text-xs text-[#3D5563]">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
                           </span>
                           {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
-                        </button>
+                        </a>
                       ))}
                       <p className="px-5 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
                         More Regions
@@ -302,7 +342,6 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                           <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
                           <span className="flex flex-col leading-tight flex-1">
                             <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{r.name}</span>
-                            <span className="text-xs text-[#3D5563]">{r.sub}</span>
                           </span>
                           {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                         </button>
@@ -314,17 +353,18 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
               </AnimatePresence>
             </div>
 
-            <button
-              onClick={() => goHomeSection('registration')}
-              className="h-12 px-6 rounded-full bg-[#7A7A50] hover:bg-[#686844] text-white text-sm font-semibold shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 whitespace-nowrap"
+            <a
+              href="/enrol"
+              onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+              className="h-12 px-5 rounded-full bg-[#7A7A50] hover:bg-[#686844] text-white text-sm font-semibold shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 whitespace-nowrap"
             >
               {t('nav.startLearning')}
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
           </div>
 
-          {/* Mobile hamburger */}
-          <div className="flex items-center lg:hidden">
+          {/* Mobile hamburger (below xl — the 9-item pill needs 1280px) */}
+          <div className="flex items-center xl:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -346,14 +386,14 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 lg:hidden bg-[#0B2E3A]/40 z-[105]"
+              className="fixed inset-0 xl:hidden bg-[#0B2E3A]/40 z-[105]"
             />
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="fixed top-0 bottom-0 right-0 w-[85%] max-w-[340px] lg:hidden bg-white z-[110] flex flex-col shadow-[-15px_0_60px_rgba(11,46,58,0.25)] border-l border-[#C9D9E8] overflow-hidden"
+              className="fixed top-0 bottom-0 right-0 w-[85%] max-w-[340px] xl:hidden bg-white z-[110] flex flex-col shadow-[-15px_0_60px_rgba(11,46,58,0.25)] border-l border-[#C9D9E8] overflow-hidden"
             >
               <div className="flex-1 flex flex-col p-6 overflow-y-auto">
                 <div className="flex justify-between items-center pb-5 border-b border-[#D7E3EE]">
@@ -376,67 +416,88 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                 </div>
 
                 <nav aria-label="Mobile navigation" className="flex flex-col py-4 space-y-2">
-                  <button
-                    onClick={goHome}
+                  <a
+                    href="/"
+                    onClick={(e) => { e.preventDefault(); goHome(); }}
                     className={`${drawerCapsule(currentView === 'home')} text-left`}
                   >
                     Home
-                  </button>
+                  </a>
 
                   <p className="px-4 pt-3 pb-1 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     Courses
                   </p>
                   {COURSES.map((course) => (
-                    <button
+                    <a
                       key={course.id}
-                      onClick={() => openCourse(course.id)}
+                      href={`/courses/${course.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openCourse(course.id);
+                      }}
                       className={`${drawerCapsuleSm(false)} flex items-center gap-3 text-left`}
                     >
                       <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0" />
                       {course.title}
-                    </button>
+                    </a>
                   ))}
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      if (window.location.pathname.startsWith('/courses')) {
-                        window.history.replaceState(null, '', '/#courses');
-                      }
-                      setView('courses');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                  <a
+                    href="/courses"
+                    onClick={() => setIsOpen(false)}
                     className={`${drawerCapsuleSm(currentView === 'courses')} text-left`}
                   >
                     View all courses →
-                  </button>
+                  </a>
 
-                  <button
-                    onClick={() => goHomeSection('how-it-works')}
-                    className={`${drawerCapsule(false)} text-left`}
+                  <a
+                    href="/how-it-works"
+                    onClick={(e) => { e.preventDefault(); goPage('how-it-works'); }}
+                    className={`${drawerCapsule(currentView === 'how-it-works')} text-left`}
                   >
                     How It Works
-                  </button>
-                  <button
-                    onClick={() => goHomeSection('fees')}
-                    className={`${drawerCapsule(false)} text-left`}
+                  </a>
+                  <a
+                    href="/about"
+                    onClick={(e) => { e.preventDefault(); goPage('about'); }}
+                    className={`${drawerCapsule(currentView === 'about')} text-left`}
                   >
-                    Fees
-                  </button>
-                  <button
-                    onClick={() => goHomeSection('registration')}
-                    className={`${drawerCapsule(false)} text-left`}
+                    About
+                  </a>
+                  <a
+                    href="/services"
+                    onClick={(e) => { e.preventDefault(); goPage('services'); }}
+                    className={`${drawerCapsule(currentView === 'services')} text-left`}
                   >
-                    Enrol
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      setView('contact');
-                    }}
+                    Services
+                  </a>
+                  <a
+                    href="/blog"
+                    onClick={(e) => { e.preventDefault(); goPage('blog'); }}
+                    className={`${drawerCapsule(currentView === 'blog')} text-left`}
+                  >
+                    Blog
+                  </a>
+                  <a
+                    href="/testimonials"
+                    onClick={(e) => { e.preventDefault(); goPage('testimonials'); }}
+                    className={`${drawerCapsule(currentView === 'testimonials')} text-left`}
+                  >
+                    Testimonials
+                  </a>
+                  <a
+                    href="/contact"
+                    onClick={(e) => { e.preventDefault(); goPage('contact'); }}
                     className={`${drawerCapsule(currentView === 'contact')} text-left`}
                   >
                     Contact
-                  </button>
+                  </a>
+                  <a
+                    href="/enrol"
+                    onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+                    className={`${drawerCapsule(currentView === 'enrol')} text-left`}
+                  >
+                    Enrol
+                  </a>
                 </nav>
 
                 {/* Region switcher */}
@@ -446,15 +507,16 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                   </p>
                   <div className="space-y-2">
                     {countryLinks.map((c) => (
-                      <button
+                      <a
                         key={c.view}
-                        onClick={() => goToCountry(c.view)}
+                        href={`/${c.view}`}
+                        onClick={(e) => { e.preventDefault(); goToCountry(c.view); }}
                         className={`${drawerCapsule(region === c.view)} flex items-center gap-3 text-left`}
                       >
                         <MapPin className={`w-4 h-4 shrink-0 ${region === c.view ? 'text-white' : 'text-[#7A7A50]'}`} />
                         <span className="flex-1">{c.name} — {c.sub}</span>
                         {region === c.view && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
-                      </button>
+                      </a>
                     ))}
                   </div>
                   <p className="px-4 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
@@ -468,7 +530,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                         className={`${drawerCapsule(region === r.key)} flex items-center gap-3 text-left`}
                       >
                         <MapPin className={`w-4 h-4 shrink-0 ${region === r.key ? 'text-white' : 'text-[#7A7A50]'}`} />
-                        <span className="flex-1">{r.name} — {r.sub}</span>
+                        <span className="flex-1">{r.name}</span>
                         {region === r.key && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
                       </button>
                     ))}
@@ -476,12 +538,13 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                 </div>
 
                 <div className="pt-6 mt-auto">
-                  <button
-                    onClick={() => goHomeSection('registration')}
-                    className="w-full bg-[#7A7A50] hover:bg-[#686844] text-white h-12 rounded-full font-semibold text-sm shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer"
+                  <a
+                    href="/enrol"
+                    onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+                    className="w-full bg-[#7A7A50] hover:bg-[#686844] text-white h-12 rounded-full font-semibold text-sm shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center"
                   >
                     {t('nav.startLearning')}
-                  </button>
+                  </a>
                 </div>
               </div>
             </motion.div>

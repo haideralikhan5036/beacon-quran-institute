@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Star, Quote, ArrowRight, ArrowLeft, Sparkles, ChevronUp, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Reveal } from './ui/Reveal';
+import Breadcrumbs from './Breadcrumbs';
 
 const allTestimonials = [
   { name: "Sarah Ahmed", location: "United Kingdom", text: "The Noorani Qaida course has been a blessing for my 6-year-old. The teacher is incredibly patient and uses engaging methods that keep my daughter excited for every session." },
@@ -136,6 +137,9 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
     <section id="reviews" className={`relative overflow-hidden bg-[#FFFFFF] ${full ? 'min-h-screen pt-32 sm:pt-36 pb-16 sm:pb-20' : 'py-16 sm:py-20'}`}>
       <div className="max-w-[1280px] mx-auto px-6">
         {full && (
+           <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Testimonials' }]} />
+        )}
+        {full && (
            <button
              onClick={() => setView?.('home')}
              className="group flex items-center gap-3 text-[#3D5563] hover:text-[#004050] font-display text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 mr-auto cursor-pointer"
@@ -151,9 +155,15 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                 <Sparkles className="w-4 h-4 text-[#7A7A50]" />
                 <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{sectionSub}</h2>
               </div>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">
-                {sectionTitle}
-              </h3>
+              {full ? (
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">
+                  {sectionTitle}
+                </h1>
+              ) : (
+                <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">
+                  {sectionTitle}
+                </h3>
+              )}
               <p className="text-[#3D5563] max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
                 {sectionDesc}
               </p>

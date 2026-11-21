@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Award, CheckCircle, GraduationCap, FileBadge, ArrowLeft, Download } from 'lucide-react';
+import Breadcrumbs from './Breadcrumbs';
 
 export default function CertificateOfAppraisal({ onBack }: { onBack: () => void }) {
   return (
@@ -7,6 +8,10 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
+            <Breadcrumbs
+              tone="dark"
+              items={[{ name: 'Home', href: '/' }, { name: 'Certificate Verification' }]}
+            />
             <button 
               onClick={onBack}
               className="flex items-center gap-2 text-amber-100/85 hover:text-accent mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"

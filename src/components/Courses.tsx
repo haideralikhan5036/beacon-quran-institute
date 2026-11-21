@@ -10,13 +10,13 @@ import {
 } from 'lucide-react';
 import { COURSES, type CourseDetail } from '../data/courses';
 import { Reveal } from './ui/Reveal';
-import { scrollToId } from '../utils/scrollToId';
 
 /** Left/right scroll-in on desktop, from below on mobile. */
 function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
-  );
+  // Always start false (desktop) so the first client render matches the
+  // prerendered server HTML exactly; the effect below corrects it on
+  // mount. It only steers Reveal animation directions, never content.
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
     const onChange = () => setIsMobile(mq.matches);
@@ -61,8 +61,8 @@ function CourseCard({
 
   const handleEnrol = (e: MouseEvent) => {
     e.stopPropagation();
+    // App navigates to the dedicated Enrol page with this course preselected.
     onSelectCourse?.(course.title);
-    scrollToId('registration');
   };
 
   return (
@@ -72,8 +72,12 @@ function CourseCard({
       direction={isMobile ? 'up' : index % 2 === 0 ? 'left' : 'right'}
       distance={24}
     >
-      <article
-        onClick={() => onViewDetails?.(course.id)}
+      <a
+        href={`/courses/${course.slug}`}
+        onClick={(e) => {
+          e.preventDefault();
+          onViewDetails?.(course.id);
+        }}
         className="group flex h-full cursor-pointer flex-col rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1E4E79]/50 hover:shadow-[0_12px_32px_rgba(0,64,80,0.12)] relative overflow-hidden"
       >
         {/* Halftone dots, mockup service-card placement: bottom-right */}
@@ -113,7 +117,7 @@ function CourseCard({
             Enrol
           </button>
         </div>
-      </article>
+      </a>
     </Reveal>
   );
 }

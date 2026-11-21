@@ -124,11 +124,19 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
             className="relative"
           >
             <div className="relative rounded-[2rem] overflow-hidden border border-[#C9D9E8] shadow-[0_30px_60px_-20px_rgba(11,46,58,0.25)] bg-white">
+              {/* LCP image: explicit width/height + aspect class reserve the
+                  space (CLS). NOTE: the WebP variant (105KB) could not be
+                  pushed — the GitHub connector carries text files only, and
+                  the 140KB base64 argument exceeds the tool limit — so the
+                  hero stays on the JPG (791KB) until the WebP is uploaded
+                  another way. */}
               <img
                 src={childReading}
                 alt="A child reading the Quran on a wooden rehal in a mosque"
                 fetchPriority="high"
                 decoding="async"
+                width={1376}
+                height={768}
                 className="w-full aspect-[4/3.4] object-cover"
               />
 

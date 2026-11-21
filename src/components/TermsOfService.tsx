@@ -1,9 +1,11 @@
 import { CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
+import Breadcrumbs from './Breadcrumbs';
 
 export default function TermsOfService({ onBack }: { onBack: () => void }) {
   return (
     <div className="bg-[#FFFFFF] min-h-screen pt-32 pb-24 text-[#0B2E3A]">
       <div className="max-w-4xl mx-auto px-6">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Terms of Service' }]} />
         <button
           onClick={onBack}
           className="flex items-center gap-2 text-[#3D5563] hover:text-[#004050] mb-8 font-bold uppercase tracking-widest text-xs transition-colors cursor-pointer"

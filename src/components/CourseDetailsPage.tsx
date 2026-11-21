@@ -17,12 +17,14 @@ import {
 import { COURSES, FEE_GROUP_COURSE, findCourse, type CourseDetail } from '../data/courses';
 import { FEE_ROWS } from '../data/feeTable';
 import { Reveal } from './ui/Reveal';
+import Breadcrumbs from './Breadcrumbs';
 
 /** Left/right scroll-in on desktop, from below on mobile. */
 function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches,
-  );
+  // Always start false (desktop) so the first client render matches the
+  // prerendered server HTML exactly; the effect below corrects it on
+  // mount. It only steers Reveal animation directions, never content.
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
     const onChange = () => setIsMobile(mq.matches);
@@ -78,7 +80,7 @@ export default function CourseDetailsPage({
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   // Each course has a shareable URL (/courses/<slug>). Applied after a tick
-  // so it runs after App's view effect, which resets the URL to /#courses.
+  // so it runs after App's view effect, which resets the URL to /courses.
   useEffect(() => {
     const timer = window.setTimeout(() => {
       window.history.replaceState(null, '', `/courses/${activeCourse.slug}`);
@@ -104,6 +106,13 @@ export default function CourseDetailsPage({
   return (
     <div className="bg-white pb-20 text-[#3D5563]">
       <div className="mx-auto max-w-[1280px] px-6 pt-24 sm:pt-28">
+        <Breadcrumbs
+          items={[
+            { name: 'Home', href: '/' },
+            { name: 'Courses', href: '/courses' },
+            { name: activeCourse.title },
+          ]}
+        />
         {/* Back link */}
         <button
           type="button"
@@ -122,10 +131,13 @@ export default function CourseDetailsPage({
             {COURSES.map((course) => {
               const isActive = course.id === activeCourse.id;
               return (
-                <button
+                <a
                   key={course.id}
-                  type="button"
-                  onClick={() => switchCourse(course)}
+                  href={`/courses/${course.slug}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    switchCourse(course);
+                  }}
                   className={`cursor-pointer rounded-full border px-4 py-2.5 text-xs font-bold transition-all sm:text-sm ${
                     isActive
                       ? 'border-[#004050] bg-[#004050] text-white shadow-[0_4px_16px_rgba(0,64,80,0.25)]'
@@ -133,7 +145,7 @@ export default function CourseDetailsPage({
                   }`}
                 >
                   {course.title}
-                </button>
+                </a>
               );
             })}
           </div>

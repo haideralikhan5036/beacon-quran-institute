@@ -1,15 +1,29 @@
-// "Near me" section (SEO Batch 3): for visitors who searched for a Quran
-// teacher "near me". Honest copy only — Beacon is an online-only academy
-// with no physical campus, so the answer is that "near" means "from home":
-// a certified one-to-one teacher, no travel, any city or country, with a
-// free trial class first. No invented address, office, or local-business
-// schema anywhere.
+// "Near me" section (SEO Batch 3, Batch 12 accordion): for visitors who
+// searched for a Quran teacher "near me". Honest copy only — Beacon is an
+// online-only academy with no physical campus, so the answer is that "near"
+// means "from home": a certified one-to-one teacher, no travel, any city
+// or country, with a free trial class first. No invented address, office,
+// or local-business schema anywhere.
+//
+// Batch 12: the full section is replaced by a light link row in the same
+// spot ("Looking for Quran classes near you?" + chevron). Clicking it
+// expands an accordion with the SAME text — the content stays in the DOM
+// at all times (collapsed with CSS, never unmounted) so Google still
+// indexes it, and "near me" searchers in the US/UK/Canada still land here.
 import React from 'react';
 import { MapPin, Home, Globe2, GraduationCap, ChevronDown } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { scrollToId } from '../utils/scrollToId';
 
+// The near-me FAQ, exported so the prerender entry can emit the same
+// question + answer word-for-word in FAQPage JSON-LD (Batch 12).
+export const NEAR_ME_FAQ = {
+  q: 'I searched for Quran classes near me — can I learn online instead?',
+  a: 'Yes — that\'s exactly how Beacon works. We\'re an online-only academy with no physical campus, so there\'s nothing to travel to. You learn one-to-one from home with a certified teacher, at times that fit your family, in any city or country. Book a free trial class and see if online learning suits you before you enrol.',
+} as const;
+
 export default function NearYou() {
+  const [open, setOpen] = React.useState(false);
   const [faqOpen, setFaqOpen] = React.useState(false);
 
   const eyebrow = 'Near You, Wherever You Are';
@@ -18,8 +32,8 @@ export default function NearYou() {
   const body1 = 'When you look for "online Quran classes near me", what you really want is a teacher you can trust, at a time that fits your family. Instead of hoping a "Quran teacher near me" has a free slot, you choose your own certified male or female teacher — and you book a free trial class first.';
   const body2 = 'Think of Beacon as the "Quran academy near me" for every family — online, so "near" means wherever you are. And parents searching for "Quran classes for kids near me" get the same one-to-one attention for their children, from home, with a free trial class first.';
   const faqHeading = 'Frequently asked';
-  const faqQ = 'I searched for Quran classes near me — can I learn online instead?';
-  const faqA = 'Yes — that\'s exactly how Beacon works. We\'re an online-only academy with no physical campus, so there\'s nothing to travel to. You learn one-to-one from home with a certified teacher, at times that fit your family, in any city or country. Book a free trial class and see if online learning suits you before you enrol.';
+  const faqQ = NEAR_ME_FAQ.q;
+  const faqA = NEAR_ME_FAQ.a;
   const ctaText = 'Book a Free Trial Class';
 
   const points = [
@@ -41,8 +55,32 @@ export default function NearYou() {
   ];
 
   return (
-    <section id="near-you" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+    <section id="near-you" className="py-8 sm:py-10 bg-[#FFFFFF] relative overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+        <div className="max-w-3xl mx-auto">
+          {/* Light link row — the only thing visible until the visitor asks. */}
+          <button
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="near-you-content"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-[#C9D9E8] bg-white hover:bg-[#F4F8FB] transition-colors cursor-pointer"
+          >
+            <MapPin className="w-4 h-4 text-[#004050] shrink-0" />
+            <span className="text-sm sm:text-base font-semibold text-[#004050]">
+              Looking for Quran classes near you?
+            </span>
+            <ChevronDown className={`w-5 h-5 text-[#004050] shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* The full near-me text. Always rendered (Google indexes it);
+              collapsed with CSS grid rows when closed, never unmounted. */}
+          <div
+            id="near-you-content"
+            className={`grid transition-all duration-500 ease-in-out ${
+              open ? 'grid-rows-[1fr] opacity-100 mt-8 sm:mt-10' : 'grid-rows-[0fr] opacity-0'
+            }`}
+          >
+            <div className="overflow-hidden">
         <Reveal delay={0.1} width="100%">
           <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-8 sm:mb-10 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
             <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
@@ -109,6 +147,9 @@ export default function NearYou() {
             </div>
           </div>
         </Reveal>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

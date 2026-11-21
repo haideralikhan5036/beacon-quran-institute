@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, GraduationCap, MapPin, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
+import Breadcrumbs from './Breadcrumbs';
 import Fees from './Fees';
 import { scrollToId } from '../utils/scrollToId';
 import type { CurrencyCode } from '../data/feeTable';
@@ -131,6 +132,7 @@ export default function CountryPage({
   return (
     <div className="pt-28 sm:pt-32 pb-20 relative bg-[#FFFFFF]">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: copy.h1 }]} />
         <Reveal>
           <button
             onClick={onBack}
