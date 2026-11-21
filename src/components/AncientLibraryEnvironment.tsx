@@ -182,8 +182,8 @@ export default function AncientLibraryEnvironment() {
         <img
           src={libraryBg}
           alt=""
-          fetchPriority="high"
-          decoding="sync"
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full"
           style={{
             objectFit: 'cover',

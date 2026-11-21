@@ -178,7 +178,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                         transition={{ duration: 0.2 }}
                         className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-80 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
                       >
-                        <p className="px-5 pt-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                        <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                           Our Courses
                         </p>
                         {COURSES.map((course) => (
@@ -312,7 +312,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                       transition={{ duration: 0.2 }}
                       className="absolute right-0 top-full mt-2 w-72 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
                     >
-                      <p className="px-5 pt-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                      <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                         Study in Your Country
                       </p>
                       {countryLinks.map((c) => (
@@ -330,7 +330,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                           {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                         </a>
                       ))}
-                      <p className="px-5 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
+                      <p className="px-5 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
                         More Regions
                       </p>
                       {regionLinks.map((r) => (
@@ -402,7 +402,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                       <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
                     </span>
                     <span className="flex flex-col leading-none">
-                      <span className="font-display text-base font-bold text-[#0B2E3A]">Beacon Quran Institute</span>
+                      <span className="text-base font-bold text-[#0B2E3A]">Beacon Quran Institute</span>
                       <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mt-1">Online Quran Academy</span>
                     </span>
                   </div>
@@ -424,7 +424,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                     Home
                   </a>
 
-                  <p className="px-4 pt-3 pb-1 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                  <p className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     Courses
                   </p>
                   {COURSES.map((course) => (
@@ -502,7 +502,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
 
                 {/* Region switcher */}
                 <div className="pt-4 mt-2 border-t border-[#D7E3EE]">
-                  <p className="px-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                  <p className="px-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     Study in Your Country
                   </p>
                   <div className="space-y-2">
@@ -519,7 +519,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                       </a>
                     ))}
                   </div>
-                  <p className="px-4 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                  <p className="px-4 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
                     More Regions
                   </p>
                   <div className="space-y-2">

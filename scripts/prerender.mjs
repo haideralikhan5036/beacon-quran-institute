@@ -21,7 +21,7 @@
 //   (pages.dev — the Vercel domain is deleted and 404s).
 // - No fake local schema anywhere: EducationalOrganization carries
 //   areaServed (countries served), never an invented address/geo.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -210,6 +210,16 @@ if (!template.includes('<div id="root"></div>')) {
   throw new Error('prerender: dist/index.html has no empty #root div to inject into');
 }
 
+// Hero LCP image (Batch 13): preload it on the home route so the browser
+// starts the 791KB JPG with the CSS instead of discovering it in the body.
+// The file name is hashed per build — resolve it from dist/assets here
+// (the <img> itself cannot carry the preload; index.html is written
+// before the hash exists).
+const heroFile = readdirSync(join(DIST, 'assets')).find(
+  (f) => f.startsWith('child_quran_reading-') && f.endsWith('.jpg'),
+);
+if (!heroFile) throw new Error('prerender: hero image not found in dist/assets');
+
 let rendered = 0;
 for (const route of PRERENDER_ROUTES) {
   const meta = ROUTE_SEO[route];
@@ -284,6 +294,17 @@ for (const route of PRERENDER_ROUTES) {
       /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
       `<script type="application/ld+json">\n    ${JSON.stringify(jsonLd, null, 2)}\n    </script>`,
       'JSON-LD',
+      route,
+    );
+  }
+
+  // Hero preload (home only — the only route that renders the hero image).
+  if (route === '/') {
+    html = replaceOrThrow(
+      html,
+      /<\/head>/,
+      `    <link rel="preload" as="image" href="/assets/${heroFile}" fetchpriority="high" />\n  </head>`,
+      'hero preload',
       route,
     );
   }

@@ -163,7 +163,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                <Reveal delay={0.1}>
                  <div className="flex items-center gap-2 mb-6">
                    <Sparkles className="w-4 h-4 text-[#7A7A50]" />
-                   <h2 className="font-display text-[11px] font-bold uppercase tracking-[0.4em] text-[#7A7A50]">{badgeText}</h2>
+                   <h2 className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#7A7A50]">{badgeText}</h2>
                  </div>
                </Reveal>
                <Reveal delay={0.2}>
@@ -185,8 +185,8 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                        <Phone className="w-5 h-5 text-[#004050] group-hover:text-white transition-colors" />
                      </div>
                      <div className="text-left">
-                       <p className="font-display text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50] mb-1">{whatsappLabel}</p>
-                       <p className="text-xl font-bold font-display text-[#0B2E3A] group-hover:text-[#004050] transition-colors tracking-tight" dir="ltr">+92 346 1573771</p>
+                       <p className="text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50] mb-1">{whatsappLabel}</p>
+                       <p className="text-xl font-bold text-[#0B2E3A] group-hover:text-[#004050] transition-colors tracking-tight" dir="ltr">+92 346 1573771</p>
                      </div>
                    </div>
                  </Reveal>
@@ -197,8 +197,8 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                        <Mail className="w-5 h-5 text-[#004050] group-hover:text-white transition-colors" />
                      </div>
                      <div className="text-left min-w-0">
-                       <p className="font-display text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50] mb-1">{registryLabel}</p>
-                       <p className="text-[11px] sm:text-sm font-bold font-display text-[#0B2E3A] group-hover:text-[#004050] transition-colors whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
+                       <p className="text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50] mb-1">{registryLabel}</p>
+                       <p className="text-[11px] sm:text-sm font-bold text-[#0B2E3A] group-hover:text-[#004050] transition-colors whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
                      </div>
                    </div>
                  </Reveal>
@@ -217,7 +217,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                      </li>
                    ))}
                  </ul>
-                 <p className="font-display text-[9.5px] font-bold uppercase tracking-[0.25em] text-[#3D5563]/70 mt-5 leading-relaxed text-center">
+                 <p className="text-[9.5px] font-bold uppercase tracking-[0.25em] text-[#3D5563]/70 mt-5 leading-relaxed text-center">
                    {subFooterLabel}
                  </p>
                </div>
@@ -255,7 +255,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
               <div className="grid md:grid-cols-2 gap-6">
                 <Reveal delay={0.1} direction="up" distance={20}>
                   <div className="space-y-2.5">
-                    <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                    <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                       {labelName}
                     </label>
                     <div className="relative group">
@@ -276,7 +276,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                 </Reveal>
                 <Reveal delay={0.2} direction="up" distance={20}>
                   <div className="space-y-2.5">
-                    <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                    <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                       {labelPhone}
                     </label>
                     <div className="relative group">
@@ -298,7 +298,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
 
               <Reveal delay={0.3} direction="up" distance={20}>
                 <div className="space-y-2.5">
-                  <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                  <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                     {labelEmail}
                   </label>
                   <div className="relative group">
@@ -320,7 +320,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
               <div className="grid md:grid-cols-2 gap-6">
                 <Reveal delay={0.4} direction="up" distance={20}>
                   <div className="space-y-2.5">
-                    <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                    <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                       {labelCourse}
                     </label>
                     <div className="relative group">
@@ -340,7 +340,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                 </Reveal>
                 <Reveal delay={0.5} direction="up" distance={20}>
                   <div className="space-y-2.5">
-                    <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                    <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                       {labelPlan}
                     </label>
                     <div className="relative group">
@@ -362,7 +362,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
 
               <Reveal delay={0.6} direction="up" distance={20}>
                 <div className="space-y-2.5">
-                  <label className="font-display text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
+                  <label className="text-[10.5px] font-bold uppercase tracking-[0.3em] text-[#004050] block ml-1">
                     {labelNotes}
                   </label>
                   <div className="relative group">
@@ -394,7 +394,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
               <Reveal delay={0.8}>
                 <div className="flex items-center justify-center gap-3 opacity-60">
                    <div className="h-px flex-grow bg-[#C9D9E8]"></div>
-                   <p className="font-display text-[8px] font-bold uppercase tracking-[0.4em] text-center text-[#3D5563]">
+                   <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-center text-[#3D5563]">
                      {bottomSecurityLabel}
                    </p>
                    <div className="h-px flex-grow bg-[#C9D9E8]"></div>

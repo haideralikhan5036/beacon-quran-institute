@@ -148,7 +148,7 @@ export default function CountryPage({
           <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-10 rounded-3xl max-w-4xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-5">
               <MapPin className="w-4 h-4 text-[#004050]" />
-              <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{copy.badge}</span>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{copy.badge}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] leading-tight mb-5 text-balance">
               {copy.h1}
@@ -189,7 +189,7 @@ export default function CountryPage({
                   <div className="w-11 h-11 rounded-2xl bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center mb-4">
                     <Icon className="w-5 h-5 text-[#004050]" />
                   </div>
-                  <h3 className="text-lg font-bold font-display text-[#0B2E3A] mb-2">{point.title}</h3>
+                  <h3 className="text-lg font-bold text-[#0B2E3A] mb-2">{point.title}</h3>
                   <p className="text-sm text-[#3D5563] leading-relaxed">{point.text}</p>
                 </div>
               </Reveal>
@@ -277,7 +277,7 @@ export default function CountryPage({
             />
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/25 mb-5">
               <GraduationCap className="w-4 h-4 text-white" />
-              <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">Begin Your Path Today</span>
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">Begin Your Path Today</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold font-display text-white leading-tight mb-4">{copy.ctaTitle}</h2>
             <p className="text-white/85 text-base sm:text-lg leading-relaxed mb-8">{copy.ctaText}</p>

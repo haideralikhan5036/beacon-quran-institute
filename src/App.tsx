@@ -168,6 +168,16 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
   const viewRef = useRef(view);
   viewRef.current = view;
+  // History (Batch 13): the view effect below must know WHY the view
+  // changed, so Back/Forward can work.
+  // - fromPopRef: set by the popstate/hashchange listener, and only when
+  //   the view actually changes — the browser already moved the URL there,
+  //   so the effect must not push a second entry; it only normalises a
+  //   legacy hash URL to its real path, in place.
+  // - mountedRef: the very first effect run is the initial load — a deep
+  //   link or legacy hash is normalised in place, never pushed.
+  const fromPopRef = useRef(false);
+  const mountedRef = useRef(false);
 
   // Keep the URL in sync with the view, and always start a new view at
   // the top of the page (previously the old scroll position was kept, so
@@ -202,9 +212,22 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
           : view === 'home'
             ? '/'
             : `/${VIEW_PATHS[view]}`;
-    if (window.location.pathname + window.location.hash !== url) {
-      window.history.replaceState(null, '', url);
+    // History (Batch 13): every real navigation adds an entry, so the
+    // phone Back button walks back through pages instead of closing the
+    // site (the old code called replaceState on every view change, so the
+    // session had only ONE entry and Back left the site). Only the
+    // initial load and a Back/Forward step replace in place — the browser
+    // already moved the URL there.
+    const current = window.location.pathname + window.location.hash;
+    if (current !== url) {
+      if (fromPopRef.current || !mountedRef.current) {
+        window.history.replaceState(null, '', url);
+      } else {
+        window.history.pushState(null, '', url);
+      }
     }
+    fromPopRef.current = false;
+    mountedRef.current = true;
     applyViewMeta(view);
     window.scrollTo({ top: 0, behavior: 'auto' });
     // Entering a country page resets the fee-table currency to that
@@ -266,8 +289,18 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
   useEffect(() => {
     const onLocationChange = () => {
       const next = locationState();
-      if (next.view !== viewRef.current) setView(next.view);
-      if (next.courseSlug) setSelectedCourseId(next.courseSlug);
+      if (next.view !== viewRef.current) {
+        // A popstate that only changes the course slug (Back/Forward
+        // between two course pages) leaves the view alone — the flag
+        // must not be set then, or it would survive to the next
+        // programmatic navigation and turn its push into a replace.
+        fromPopRef.current = true;
+        setView(next.view);
+      }
+      // Always sync the course slug for the courses view — including
+      // null, so Back from a course detail to the /courses hub clears
+      // the selection instead of keeping the old detail on screen.
+      if (next.view === 'courses') setSelectedCourseId(next.courseSlug);
     };
     window.addEventListener('popstate', onLocationChange);
     window.addEventListener('hashchange', onLocationChange);

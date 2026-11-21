@@ -72,7 +72,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
             />
             <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
               <Sparkles className="w-4 h-4 text-[#7A7A50]" />
-              <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{subtitleText}</h2>
+              <h2 className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{subtitleText}</h2>
             </div>
             <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">{titleText}</h3>
             <p className="text-[#3D5563] max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
@@ -91,10 +91,10 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
             <table className="w-full min-w-[680px] border-collapse text-left" dir="ltr">
               <thead>
                 <tr className="bg-[#004050]">
-                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colCourse}</th>
-                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colSchedule}</th>
-                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colDuration}</th>
-                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4 whitespace-nowrap">{colFee} ({CURRENCY_LABEL[currency]})</th>
+                  <th scope="col" className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colCourse}</th>
+                  <th scope="col" className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colSchedule}</th>
+                  <th scope="col" className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colDuration}</th>
+                  <th scope="col" className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4 whitespace-nowrap">{colFee} ({CURRENCY_LABEL[currency]})</th>
                   <th scope="col" className="px-5 sm:px-6 py-4"><span className="sr-only">{selectText}</span></th>
                 </tr>
               </thead>
@@ -110,13 +110,13 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
                       className="border-b border-[#D7E3EE] last:border-b-0 hover:bg-[#F4F8FB] transition-colors cursor-pointer"
                     >
                       {i === 0 && (
-                        <td rowSpan={group.rows} className="px-5 sm:px-6 py-4 align-top font-bold font-display text-[#0B2E3A] text-sm sm:text-base leading-snug border-r border-[#D7E3EE]">
+                        <td rowSpan={group.rows} className="px-5 sm:px-6 py-4 align-top font-bold text-[#0B2E3A] text-sm sm:text-base leading-snug border-r border-[#D7E3EE]">
                           {row.course}
                         </td>
                       )}
                       <td className="px-5 sm:px-6 py-4 text-[#3D5563] text-sm font-medium">{row.schedule}</td>
                       <td className="px-5 sm:px-6 py-4 text-[#3D5563] text-sm whitespace-nowrap">{row.duration}</td>
-                      <td className="px-5 sm:px-6 py-4 font-bold font-display text-[#004050] text-lg sm:text-xl whitespace-nowrap" data-fee={row.prices[currency]}>
+                      <td className="px-5 sm:px-6 py-4 font-bold text-[#004050] text-lg sm:text-xl whitespace-nowrap" data-fee={row.prices[currency]}>
                         {row.prices[currency]}
                       </td>
                       <td className="px-5 sm:px-6 py-4 text-right">
@@ -147,7 +147,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
                className="dots-texture pointer-events-none absolute left-[-12px] bottom-[-8px] w-[150px] h-[100px] opacity-50"
              />
              <div className="inline-block bg-[#EAF1F7] border border-[#C9D9E8] px-4 py-1.5 rounded-full mb-4">
-               <p className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#004050]">
+               <p className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#004050]">
                  Flexible Learning Packages
                </p>
              </div>

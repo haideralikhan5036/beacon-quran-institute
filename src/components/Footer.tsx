@@ -80,7 +80,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                 <div>
                   <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
                     <Sparkles className="w-4 h-4 text-white" />
-                    <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">
+                    <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">
                       Begin Your Path Today
                     </span>
                   </div>
@@ -138,7 +138,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                    <h2 className="text-2xl sm:text-3xl font-bold font-display leading-none tracking-tight text-white">
                      BEACON
                    </h2>
-                   <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.35em] text-white/80 mt-1">
+                   <span className="text-[10px] font-extrabold uppercase tracking-[0.35em] text-white/80 mt-1">
                      Quran Institute
                    </span>
                 </div>
@@ -176,7 +176,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           {/* Quick Navigation Column */}
           <div className="lg:col-span-2 space-y-6">
             <Reveal delay={0.2} direction="up" distance={20}>
-              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Quick Navigation</h3>
+              <h3 className="text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Quick Navigation</h3>
             </Reveal>
             <ul className="space-y-4">
               {navLinks.map((link, i) => (
@@ -208,7 +208,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           {/* Curriculum Tracks Column — the five courses */}
           <div className="lg:col-span-3 space-y-6">
             <Reveal delay={0.4} direction="up" distance={20}>
-              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Curriculum Tracks</h3>
+              <h3 className="text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Curriculum Tracks</h3>
             </Reveal>
             <ul className="space-y-3.5">
               {FIVE_COURSES.map((course, i) => (
@@ -230,7 +230,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           {/* Registry & Support Column */}
           <div className="lg:col-span-3 space-y-6">
             <Reveal delay={0.6} direction="up" distance={20}>
-              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Registry &amp; Support</h3>
+              <h3 className="text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Registry &amp; Support</h3>
             </Reveal>
 
             <div className="space-y-4">
@@ -240,7 +240,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                     <Phone className="w-4 h-4 text-white" />
                   </div>
                   <div className="overflow-hidden">
-                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Direct Line &amp; WhatsApp</p>
+                    <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Direct Line &amp; WhatsApp</p>
                     <p className="text-sm font-bold text-white tracking-wide" dir="ltr">+92 346 1573771</p>
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                     <Mail className="w-4 h-4 text-white" />
                   </div>
                   <div className="overflow-hidden min-w-0">
-                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Official Registry Email</p>
+                    <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Official Registry Email</p>
                     <p className="text-[11px] sm:text-xs font-bold text-white whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                     <MapPin className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Global Reach</p>
+                    <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Global Reach</p>
                     <p className="text-xs sm:text-sm font-bold text-white">{globalPresenceDesc}</p>
                   </div>
                 </div>
@@ -282,14 +282,14 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
             <Reveal delay={1.0}>
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-4 h-4 text-white shrink-0" />
-                <p className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
                   Secure &amp; private online classes
                 </p>
               </div>
             </Reveal>
 
             <Reveal delay={1.2}>
-              <p className="font-display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
+              <p className="text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
                 © 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED
               </p>
             </Reveal>
@@ -301,7 +301,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                 <a
                   key={item.name}
                   href={item.href}
-                  className="font-display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
+                  className="text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {item.name}
                 </a>

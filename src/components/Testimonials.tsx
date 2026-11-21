@@ -142,7 +142,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
         {full && (
            <button
              onClick={() => setView?.('home')}
-             className="group flex items-center gap-3 text-[#3D5563] hover:text-[#004050] font-display text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 mr-auto cursor-pointer"
+             className="group flex items-center gap-3 text-[#3D5563] hover:text-[#004050] text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 mr-auto cursor-pointer"
            >
              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
              {backText}
@@ -153,7 +153,7 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
             <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
               <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
                 <Sparkles className="w-4 h-4 text-[#7A7A50]" />
-                <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{sectionSub}</h2>
+                <h2 className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{sectionSub}</h2>
               </div>
               {full ? (
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">
@@ -274,13 +274,13 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
 
                       <div className="flex-grow relative z-10 w-full text-center md:text-left">
                         <Quote className="w-8 h-8 text-[#7A7A50]/60 mb-4 group-hover:text-[#7A7A50] transition-colors ml-0 mr-auto" />
-                        <p className="text-base sm:text-lg font-display text-[#3D5563] leading-relaxed italic mb-8 text-left">
+                        <p className="text-base sm:text-lg text-[#3D5563] leading-relaxed italic mb-8 text-left">
                           "{item.text}"
                         </p>
                         <div className="pt-6 border-t border-[#D7E3EE] flex items-center justify-between">
                           <div className="text-left">
-                            <h4 className="font-bold font-display text-[11px] uppercase tracking-widest text-[#0B2E3A]">{item.name}</h4>
-                            <p className="font-display text-[9px] uppercase tracking-[0.2em] text-[#7A7A50] font-black mt-1.5">{item.location}</p>
+                            <h4 className="font-bold text-[11px] uppercase tracking-widest text-[#0B2E3A]">{item.name}</h4>
+                            <p className="text-[9px] uppercase tracking-[0.2em] text-[#7A7A50] font-black mt-1.5">{item.location}</p>
                           </div>
                           <div className="w-10 h-10 bg-[#EAF1F7] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
                              <div className="w-2.5 h-2.5 bg-[#7A7A50] rounded-full animate-ping"></div>
