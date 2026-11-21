@@ -46,7 +46,9 @@ function orgNode() {
     '@id': ORG_ID,
     name: 'Beacon Quran Institute',
     url: `${SITE}/`,
-    logo: `${SITE}/og-image.jpg`,
+    // NOTE: no `logo` here — the og-image.jpg file could not be pushed
+    // (the GitHub connector carries text files only), so a logo URL
+    // would 404. Re-add it once the image is in the repo.
     description:
       'Beacon Quran Institute is an online Quran academy offering 1-on-1 online Quran classes for kids and adults in the USA, UK and Canada. Learn Quran online with Tajweed, Hifz and Noorani Qaida.',
     sameAs: ['https://www.instagram.com/beacon_quran_institute'],
