@@ -1,7 +1,6 @@
 import React from 'react';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 import { CURRENCIES, FEE_ROWS, type CurrencyCode } from '../data/feeTable';
 
@@ -24,8 +23,6 @@ const COURSE_ROW_SPANS: { course: string; rows: number }[] = [
 ];
 
 export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurrencyChange }: FeesProps) {
-  const { isAr } = useLanguage();
-
   const handleSelect = (course: string, schedule: string) => {
     onSelectFee?.(course, schedule);
     scrollToId('registration');
@@ -39,35 +36,28 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
     }
   };
 
-  const subtitleText = isAr ? 'الرسوم الدراسية' : 'Online Quran Classes — Fee Structure';
-  const titleText = isAr ? 'رسوم شهرية واضحة ومناسبة' : 'Simple, Affordable Monthly Fees';
-  const descText = isAr
-    ? 'كل دورة وكل جدول برسوم شهرية واضحة. اختر عملتك لعرض السعر المناسب لبلدك.'
-    : 'Every course, every schedule, one clear monthly fee. Choose your currency to see your price.';
-
-  const colCourse = isAr ? 'الدورة' : 'Course';
-  const colSchedule = isAr ? 'الجدول' : 'Schedule';
-  const colDuration = isAr ? 'المدة' : 'Duration';
-  const colFee = isAr ? 'الرسوم الشهرية' : 'Monthly Fee';
-  const selectText = isAr ? 'اختر' : 'Select';
-  const noteText = isAr
-    ? 'رسوم شهرية. مدة الحصة كما هو موضّح.'
-    : 'Monthly fees. Class duration as shown.';
-  const currencyLabel = isAr ? 'اختر العملة' : 'Choose your currency';
+  const subtitleText = 'Online Quran Classes — Fee Structure';
+  const titleText = 'Simple, Affordable Monthly Fees';
+  const descText = 'Every course, every schedule, one clear monthly fee. Choose your currency to see your price.';
+  const colCourse = 'Course';
+  const colSchedule = 'Schedule';
+  const colDuration = 'Duration';
+  const colFee = 'Monthly Fee';
+  const selectText = 'Select';
+  const noteText = 'Monthly fees. Class duration as shown.';
+  const currencyLabel = 'Choose your currency';
 
   return (
-    <section id="fees" className="py-12 sm:py-16 bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="fees" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         <Reveal delay={0.1} width="100%">
-          <div className="card-shine border border-[#949693]/35 p-6 sm:p-9 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-2xl">
-            <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
-              <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">{subtitleText}</h2>
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
+              <Sparkles className="w-4 h-4 text-[#7A7A50]" />
+              <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{subtitleText}</h2>
             </div>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold serif text-amber-50 mb-4 text-balance">{titleText}</h3>
-            <p className="text-amber-100/95 max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">{titleText}</h3>
+            <p className="text-[#3D5563] max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
               {descText}
             </p>
           </div>
@@ -75,7 +65,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
 
         {/* Currency selector — one tab per currency from the fee sheet */}
         <Reveal delay={0.15} width="100%">
-          <p className="text-center display text-[10px] font-bold uppercase tracking-[0.3em] text-amber-200/80 mb-3">
+          <p className="text-center font-display text-[10px] font-bold uppercase tracking-[0.3em] text-[#004050] mb-3">
             {currencyLabel}
           </p>
           <div className="flex justify-center flex-wrap gap-2 mb-8 sm:mb-10" role="tablist" aria-label={currencyLabel}>
@@ -86,10 +76,10 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
                 aria-selected={currency === code}
                 data-currency={code}
                 onClick={() => onCurrencyChange(code)}
-                className={`px-4 sm:px-5 py-2.5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all duration-300 cursor-pointer ${
+                className={`px-4 sm:px-5 py-2.5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all duration-300 cursor-pointer border ${
                   currency === code
-                    ? 'bg-accent text-primary border border-accent/40 shadow-lg scale-105'
-                    : 'bg-black/30 backdrop-blur-md hover:bg-black/50 text-amber-100/95 hover:text-white border border-accent/20 hover:scale-102'
+                    ? 'bg-[#004050] text-white border-[#004050] shadow-md scale-105'
+                    : 'bg-[#FFFFFF] hover:bg-[#EAF1F7] text-[#004050] border-[#C9D9E8] hover:scale-[1.02]'
                 }`}
               >
                 {code}
@@ -102,14 +92,14 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
             On small screens the table scrolls inside its container so the page
             itself never overflows horizontally. */}
         <Reveal delay={0.2} width="100%">
-          <div className="card-shine border border-[#949693]/35 rounded-[2rem] shadow-2xl overflow-x-auto max-w-5xl mx-auto">
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] overflow-x-auto max-w-5xl mx-auto">
             <table className="w-full min-w-[680px] border-collapse text-left" dir="ltr">
               <thead>
-                <tr className="border-b border-[#949693]/30">
-                  <th scope="col" className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200 px-5 sm:px-6 py-4">{colCourse}</th>
-                  <th scope="col" className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200 px-5 sm:px-6 py-4">{colSchedule}</th>
-                  <th scope="col" className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200 px-5 sm:px-6 py-4">{colDuration}</th>
-                  <th scope="col" className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200 px-5 sm:px-6 py-4">{colFee} ({currency})</th>
+                <tr className="bg-[#004050]">
+                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colCourse}</th>
+                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colSchedule}</th>
+                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colDuration}</th>
+                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colFee} ({currency})</th>
                   <th scope="col" className="px-5 sm:px-6 py-4"><span className="sr-only">{selectText}</span></th>
                 </tr>
               </thead>
@@ -122,16 +112,16 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
                       data-course={row.course}
                       data-schedule={row.schedule}
                       onClick={() => handleSelect(row.course, row.schedule)}
-                      className="border-b border-[#949693]/15 last:border-b-0 hover:bg-white/[0.04] transition-colors cursor-pointer"
+                      className="border-b border-[#D7E3EE] last:border-b-0 hover:bg-[#F4F8FB] transition-colors cursor-pointer"
                     >
                       {i === 0 && (
-                        <td rowSpan={group.rows} className="px-5 sm:px-6 py-4 align-top font-bold display text-amber-50 text-sm sm:text-base leading-snug border-r border-[#949693]/15">
+                        <td rowSpan={group.rows} className="px-5 sm:px-6 py-4 align-top font-bold font-display text-[#0B2E3A] text-sm sm:text-base leading-snug border-r border-[#D7E3EE]">
                           {row.course}
                         </td>
                       )}
-                      <td className="px-5 sm:px-6 py-4 text-amber-100/90 text-sm font-medium">{row.schedule}</td>
-                      <td className="px-5 sm:px-6 py-4 text-amber-100/85 text-sm whitespace-nowrap">{row.duration}</td>
-                      <td className="px-5 sm:px-6 py-4 font-bold serif text-amber-200 text-lg sm:text-xl whitespace-nowrap" data-fee={row.prices[currency]}>
+                      <td className="px-5 sm:px-6 py-4 text-[#3D5563] text-sm font-medium">{row.schedule}</td>
+                      <td className="px-5 sm:px-6 py-4 text-[#3D5563] text-sm whitespace-nowrap">{row.duration}</td>
+                      <td className="px-5 sm:px-6 py-4 font-bold font-display text-[#004050] text-lg sm:text-xl whitespace-nowrap" data-fee={row.prices[currency]}>
                         {row.prices[currency]}
                       </td>
                       <td className="px-5 sm:px-6 py-4 text-right">
@@ -140,7 +130,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
                             e.stopPropagation();
                             handleSelect(row.course, row.schedule);
                           }}
-                          className="px-4 py-2 rounded-full bg-[#084C63] hover:bg-[#757454] text-white border border-[#949693]/30 font-bold uppercase tracking-widest text-[10px] transition-all shadow-lg cursor-pointer whitespace-nowrap"
+                          className="px-4 py-2 rounded-full bg-[#7A7A50] hover:bg-[#004050] text-white font-bold uppercase tracking-widest text-[10px] transition-all shadow-md cursor-pointer whitespace-nowrap"
                         >
                           {selectText}
                         </button>
@@ -151,22 +141,19 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
               </tbody>
             </table>
           </div>
-          <p className="text-center text-amber-100/70 text-sm mt-5 font-medium">{noteText}</p>
+          <p className="text-center text-[#3D5563] text-sm mt-5 font-medium">{noteText}</p>
         </Reveal>
 
         <Reveal delay={0.5} direction="up" distance={20}>
-          <div className="mt-16 text-center card-shine border border-[#949693]/40 p-8 sm:p-10 rounded-[2.5rem] max-w-3xl mx-auto text-amber-50 shadow-2xl">
-             <div className="inline-block bg-[#084C63]/30 border border-[#949693]/40 px-4 py-1.5 rounded-full mb-4">
-               <p className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200">
-                 {isAr ? 'باقات مخصصة لمجموعات العوائل' : 'Flexible Learning Packages'}
+          <div className="mt-16 text-center bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-10 rounded-3xl max-w-3xl mx-auto text-[#0B2E3A] shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+             <div className="inline-block bg-[#EAF1F7] border border-[#C9D9E8] px-4 py-1.5 rounded-full mb-4">
+               <p className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#004050]">
+                 Flexible Learning Packages
                </p>
              </div>
-             <p className="text-amber-50 font-medium text-base sm:text-lg leading-relaxed">
-               {isAr ? (
-                 <>هل تحتاج إلى خطة مرنة تناسب الإخوة والأخوات أو حلقات دراسية مكثفة؟ <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#949693] hover:text-white transition-colors cursor-pointer" onClick={handleRegistrar}>تواصل مع مكتب التسجيل والقبول</span></>
-               ) : (
-                 <>Need a custom plan for family siblings or specialized intensive courses? <span className="text-amber-200 font-bold underline underline-offset-4 decoration-[#949693] hover:text-white transition-colors cursor-pointer" onClick={handleRegistrar}>Contact our registrar</span></>
-               )}
+             <p className="text-[#3D5563] font-medium text-base sm:text-lg leading-relaxed">
+               Need a custom plan for family siblings or specialized intensive courses?{' '}
+               <span className="text-[#004050] font-bold underline underline-offset-4 decoration-[#7A7A50] hover:text-[#7A7A50] transition-colors cursor-pointer" onClick={handleRegistrar}>Contact our registrar</span>
              </p>
           </div>
         </Reveal>

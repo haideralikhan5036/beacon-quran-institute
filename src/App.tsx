@@ -5,12 +5,11 @@
 
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
-import DepthOfFieldBackground from './components/DepthOfFieldBackground';
-import FloatingWhatsApp from './components/FloatingWhatsApp';
 
 // ── Lazy load ALL below-fold sections for fast initial paint ─────────────────
 const Hero              = lazy(() => import('./components/Hero'));
 const Courses           = lazy(() => import('./components/Courses'));
+const HowItWorks        = lazy(() => import('./components/HowItWorks'));
 const WhyUs             = lazy(() => import('./components/WhyUs'));
 const NearYou           = lazy(() => import('./components/NearYou'));
 const Fees              = lazy(() => import('./components/Fees'));
@@ -30,6 +29,7 @@ const CountryLinks      = lazy(() => import('./components/CountryLinks'));
 import type { CountryKey } from './components/CountryPage';
 import { scrollToId } from './utils/scrollToId';
 import type { CurrencyCode } from './data/feeTable';
+import { COURSES } from './data/courses';
 import {
   REGION_CURRENCY,
   detectRegion,
@@ -86,11 +86,22 @@ const COUNTRY_PATHS: Record<CountryKey, string> = { usa: 'usa', uk: 'uk', canada
 const PATH_COUNTRIES: Record<string, CountryKey> = { usa: 'usa', uk: 'uk', canada: 'canada' };
 const isCountryView = (view: ViewState): view is CountryKey => view === 'usa' || view === 'uk' || view === 'canada';
 
-function viewFromLocation(): ViewState {
-  if (typeof window === 'undefined') return 'home';
+function locationState(): { view: ViewState; courseSlug: string | null } {
+  if (typeof window === 'undefined') return { view: 'home', courseSlug: null };
   const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-  if (PATH_COUNTRIES[path]) return PATH_COUNTRIES[path];
-  return HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home';
+  if (PATH_COUNTRIES[path]) return { view: PATH_COUNTRIES[path], courseSlug: null };
+  // Real course paths: /courses opens the courses view; /courses/<slug>
+  // opens it with that course selected.
+  if (path === 'courses') return { view: 'courses', courseSlug: null };
+  if (path.startsWith('courses/')) {
+    const slug = decodeURIComponent(path.slice('courses/'.length).split('/')[0]);
+    return { view: 'courses', courseSlug: slug || null };
+  }
+  return { view: HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home', courseSlug: null };
+}
+
+function viewFromLocation(): ViewState {
+  return locationState().view;
 }
 
 function applyViewMeta(view: ViewState): void {
@@ -104,7 +115,7 @@ function applyViewMeta(view: ViewState): void {
 export default function App() {
   const [view, setView] = useState<ViewState>(viewFromLocation);
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(() => locationState().courseSlug);
   const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
   // Visitor region + fee-table currency (geo auto-detect, Batch 3).
   // Default is USA/USD — the page always renders with this first; the
@@ -121,13 +132,30 @@ export default function App() {
   // Services/Contact first landed at the footer). Country views live at
   // real paths (/usa …) with no hash; classic views live at /#view so a
   // switch away from a country page resets the path to the root.
+  // Courses view: when a course is selected the URL is /courses/<slug>
+  // (set here, so it never depends on the details page's own timer — both
+  // write the same slug, so the two effects cannot fight each other);
+  // with no course selected it is /#courses.
   // Also updates the document title + meta description per view (SEO).
   // Entering a country page also resets the fee-table currency to that
   // country's currency (the table's tabs still let the visitor switch).
   useEffect(() => {
+    // Resolve the selected course (an id from the nav dropdown, or a slug
+    // from a /courses/<slug> deep link) to its canonical slug. Unknown
+    // values resolve to null so a bad id can never invent a URL.
+    const selectedSlug =
+      view === 'courses' && selectedCourseId
+        ? COURSES.find((c) => c.id === selectedCourseId || c.slug === selectedCourseId)?.slug ?? null
+        : null;
+    const onCoursesSlugPath =
+      view === 'courses' && window.location.pathname.startsWith('/courses/');
     const url = isCountryView(view)
       ? `/${COUNTRY_PATHS[view]}`
-      : `/#${VIEW_HASHES[view]}`;
+      : view === 'courses' && selectedSlug
+        ? `/courses/${selectedSlug}`
+        : onCoursesSlugPath
+          ? window.location.pathname
+          : `/#${VIEW_HASHES[view]}`;
     if (window.location.pathname + window.location.hash !== url) {
       window.history.replaceState(null, '', url);
     }
@@ -184,12 +212,14 @@ export default function App() {
     if (isPageRegion(next) && viewRef.current !== next) setView(next);
   };
 
-  // Back/forward buttons and pasted deep links (#courses, #blog, /usa, …)
-  // switch views. Both popstate (path changes) and hashchange fire.
+  // Back/forward buttons and pasted deep links (#courses, #blog, /usa,
+  // /courses/<slug>, …) switch views. Both popstate (path changes) and
+  // hashchange fire.
   useEffect(() => {
     const onLocationChange = () => {
-      const next = viewFromLocation();
-      if (next !== viewRef.current) setView(next);
+      const next = locationState();
+      if (next.view !== viewRef.current) setView(next.view);
+      if (next.courseSlug) setSelectedCourseId(next.courseSlug);
     };
     window.addEventListener('popstate', onLocationChange);
     window.addEventListener('hashchange', onLocationChange);
@@ -210,6 +240,11 @@ export default function App() {
 
   const handleViewCourseDetails = (courseId: string) => {
     setSelectedCourseId(courseId);
+    // A dropdown pick is not a slug deep link: drop any /courses/<slug>
+    // path so the URL does not keep pointing at a different course.
+    if (window.location.pathname.startsWith('/courses')) {
+      window.history.replaceState(null, '', '/#courses');
+    }
     setView('courses');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -221,10 +256,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans text-amber-50 relative">
-      {/* Background loads instantly — no lazy needed */}
-      <DepthOfFieldBackground />
-      <Navbar setView={setView} currentView={view} region={region} onRegionChange={handleRegionChange} />
+    <div className="min-h-screen bg-white font-sans text-[#0B2E3A]">
+      <Navbar setView={setView} currentView={view} region={region} onRegionChange={handleRegionChange} onViewCourse={handleViewCourseDetails} />
 
       {/* All page content is lazy — only loads what's needed.
           No loading screen: Suspense fallback is null by design
@@ -233,11 +266,12 @@ export default function App() {
         <main>
           {view === 'home' && (
             <>
-              <Hero />
+              <Hero onViewCourses={() => setView('courses')} />
               <Courses 
                 onSelectCourse={setSelectedCourse} 
                 onViewDetails={handleViewCourseDetails}
               />
+              <HowItWorks />
               <WhyUs />
               <NearYou />
               <Testimonials setView={setView} />
@@ -257,6 +291,7 @@ export default function App() {
           )}
           {view === 'courses'     && (
             <CourseDetailsPage 
+              key={selectedCourseId ?? 'courses'}
               onBack={() => setView('home')} 
               selectedCourseId={selectedCourseId}
               onRegisterCourse={handleRegisterFromDetails}
@@ -283,9 +318,6 @@ export default function App() {
         <Footer setView={setView} />
         <TestimonialPopup />
       </Suspense>
-
-      {/* WhatsApp button loads immediately */}
-      <FloatingWhatsApp />
     </div>
   );
 }

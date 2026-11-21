@@ -1,23 +1,28 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, User, Phone, ArrowRight, ChevronDown, MapPin, Check } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { ArrowRight, BookOpen, Check, ChevronDown, MapPin, Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 import { REGION_LABELS, type RegionKey } from '../utils/geo';
+import { COURSES } from '../data/courses';
 
-import { ViewState } from '../App';
+import type { ViewState } from '../App';
 
-export default function Navbar({ setView, currentView, region, onRegionChange }: {
+interface NavbarProps {
   setView: (view: ViewState) => void;
   currentView: ViewState;
   /** Visitor's active region (geo auto-detect / manual choice). */
   region: RegionKey;
   onRegionChange: (region: RegionKey) => void;
-}) {
-  const { language, setLanguage, t, isAr } = useLanguage();
+  /** Open the courses view with one course selected. */
+  onViewCourse: (courseId: string) => void;
+}
+
+export default function Navbar({ setView, currentView, region, onRegionChange, onViewCourse }: NavbarProps) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [coursesOpen, setCoursesOpen] = useState(false);
   const [countriesOpen, setCountriesOpen] = useState(false);
 
   // Country landing pages (real paths /usa, /uk, /canada — SEO Batch 2).
@@ -50,12 +55,26 @@ export default function Navbar({ setView, currentView, region, onRegionChange }:
     goToRegion(view);
   };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      document.documentElement.classList.remove('dark');
-      localStorage.removeItem('theme');
-    }
-  }, []);
+  const goHome = () => {
+    setView('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsOpen(false);
+  };
+
+  /** Go home (if needed) and scroll to a homepage section. */
+  const goHomeSection = (id: string) => {
+    if (currentView !== 'home') setView('home');
+    scrollToId(id);
+    setCoursesOpen(false);
+    setCountriesOpen(false);
+    setIsOpen(false);
+  };
+
+  const openCourse = (courseId: string) => {
+    setCoursesOpen(false);
+    setIsOpen(false);
+    onViewCourse(courseId);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -68,145 +87,197 @@ export default function Navbar({ setView, currentView, region, onRegionChange }:
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { key: 'nav.home', name: 'Home', view: 'home', href: '#' },
-    { key: 'nav.about', name: 'About', view: 'about', href: '#' },
-    { key: 'nav.courses', name: 'Courses', view: 'courses', href: '#courses' },
-    { key: 'nav.services', name: 'Services', view: 'services', href: '#services' },
-    { key: 'nav.blog', name: 'Blog', view: 'blog', href: '#blog' },
-    { key: 'nav.testimonials', name: 'Testimonials', view: 'testimonials', href: '#reviews' },
-    { key: 'nav.contact', name: 'Contact', view: 'contact', href: '#contact' },
-  ];
+  const closeDropdowns = () => {
+    setCoursesOpen(false);
+    setCountriesOpen(false);
+  };
 
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-700 ease-out ${
-      isOpen 
-        ? 'py-4 bg-[#0a1a0f]/95 backdrop-blur-md border-b border-accent/30' 
-        : scrolled 
-          ? 'py-4 bg-black/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-b border-accent/20' 
-          : 'py-6 bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center px-4">
-          {/* Logo area */}
-          <div 
-            className="flex items-center gap-4 cursor-pointer group" 
-            onClick={() => { setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
+    <header className="sticky top-0 z-[100] bg-white border-b border-[#C9D9E8]">
+      <div className="max-w-[1280px] mx-auto px-6">
+        <div className="flex items-center justify-between gap-4 h-[76px]">
+          {/* Logo */}
+          <button
+            onClick={goHome}
+            className="flex items-center gap-3 shrink-0 cursor-pointer text-left"
+            aria-label="Beacon Quran Institute — home"
           >
-            <div className={`relative transition-all duration-700 ${scrolled || isOpen ? 'scale-90' : 'scale-100'}`}>
-              <div className="w-14 h-14 flex items-center justify-center relative p-1 overflow-hidden bg-[#051b23] border border-[#757454]/50 group-hover:bg-[#084C63] rounded-2xl transition-all duration-700 transform group-hover:scale-110">
-                <img src={logo} alt="Beacon Quran Institute Logo" className="w-full h-full object-contain" decoding="async" />
-              </div>
-            </div>
-            <div className="hidden sm:block">
-              <div className="flex flex-col leading-tight">
-                 <div className={`font-bold display tracking-tight uppercase transition-all duration-700 text-lg text-amber-100`}>
-                   BEACON <span className="text-accent font-semibold">QURAN</span> INSTITUTE
-                 </div>
-              </div>
-            </div>
-          </div>
+            <span className="w-10 h-10 rounded-xl overflow-hidden border border-[#C9D9E8] bg-white flex items-center justify-center shrink-0">
+              <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
+            </span>
+            <span className="flex flex-col leading-none min-w-0">
+              <span className="font-display text-[21px] font-bold text-[#0B2E3A] whitespace-nowrap">
+                Beacon Quran Institute
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.32em] text-[#7A7A50] mt-1">
+                Online Quran Academy
+              </span>
+            </span>
+          </button>
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="flex gap-1">
-              {navLinks.map((link) => (
+          {/* Desktop nav pill + region switcher + CTA */}
+          <div className="hidden lg:flex items-center gap-3">
+            <nav
+              aria-label="Main navigation"
+              className="flex items-center gap-1 h-12 rounded-full border border-[#C9D9E8] bg-white px-2 shadow-[0_2px_10px_rgba(11,46,58,0.04)]"
+            >
+              <button
+                onClick={goHome}
+                className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+                  currentView === 'home' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
+              >
+                Home
+              </button>
+
+              {/* Courses dropdown */}
+              <div className="relative">
                 <button
-                  key={link.key}
                   onClick={() => {
-                    setView(link.view as ViewState);
-                    if (link.href.startsWith('#')) {
-                      const id = link.href.substring(1);
-                      if (id) {
-                         setTimeout(() => {
-                           const el = document.getElementById(id);
-                           if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                         }, 100);
-                      }
-                    } else {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
+                    setCountriesOpen(false);
+                    setCoursesOpen((o) => !o);
                   }}
-                  className={`relative px-3 py-2 font-bold transition-all duration-500 hover:text-accent ${
-                    isAr ? 'text-[12.5px] tracking-normal font-semibold' : 'text-[10px] uppercase tracking-[0.2em]'
-                  } ${
-                    scrolled || isOpen ? 'text-amber-100' : 'text-amber-100/80'
+                  aria-expanded={coursesOpen}
+                  aria-haspopup="true"
+                  className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                    currentView === 'courses' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
                   }`}
                 >
-                  {t(link.key)}
+                  Courses
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${coursesOpen ? 'rotate-180' : ''}`} />
                 </button>
-              ))}
-            </div>
+                <AnimatePresence>
+                  {coursesOpen && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-80 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
+                      >
+                        <p className="px-5 pt-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                          Our Courses
+                        </p>
+                        {COURSES.map((course) => (
+                          <button
+                            key={course.id}
+                            onClick={() => openCourse(course.id)}
+                            className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-start gap-3 group cursor-pointer"
+                          >
+                            <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0 mt-0.5" />
+                            <span className="flex flex-col leading-tight flex-1">
+                              <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">
+                                {course.title}
+                              </span>
+                              {course.short && (
+                                <span className="text-xs text-[#3D5563] mt-0.5 leading-snug">{course.short}</span>
+                              )}
+                            </span>
+                          </button>
+                        ))}
+                        <button
+                          onClick={() => {
+                            setCoursesOpen(false);
+                            if (window.location.pathname.startsWith('/courses')) {
+                              window.history.replaceState(null, '', '/#courses');
+                            }
+                            setView('courses');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                          className="w-full text-left px-5 py-3.5 border-t border-[#D7E3EE] hover:bg-[#F2F6F9] transition-colors text-sm font-semibold text-[#004050] flex items-center gap-2 cursor-pointer"
+                        >
+                          View all courses
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
+              </div>
 
-            {/* Countries dropdown — region switcher (geo auto-detect, Batch 3).
-                USA / UK / Canada open their landing page; the other regions
-                keep the current page and switch the fee-table currency.
+              <button
+                onClick={() => goHomeSection('how-it-works')}
+                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer whitespace-nowrap"
+              >
+                How It Works
+              </button>
+              <button
+                onClick={() => goHomeSection('fees')}
+                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+              >
+                Fees
+              </button>
+              <button
+                onClick={() => goHomeSection('registration')}
+                className="px-4 h-9 rounded-full text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+              >
+                Enrol
+              </button>
+            </nav>
+
+            {/* Region switcher — USA/UK/Canada open their landing page; the
+                other regions keep the current page and switch fee currency.
                 The trigger shows the visitor's current region. */}
             <div className="relative">
               <button
-                onClick={() => setCountriesOpen((o) => !o)}
+                onClick={() => {
+                  setCoursesOpen(false);
+                  setCountriesOpen((o) => !o);
+                }}
+                aria-expanded={countriesOpen}
+                aria-haspopup="true"
                 aria-label={`Choose your country or region, currently ${REGION_LABELS[region]}`}
-                className={`relative px-3 py-2 font-bold transition-all duration-500 hover:text-accent flex items-center gap-1.5 ${
-                  isAr ? 'text-[12.5px] tracking-normal font-semibold' : 'text-[10px] uppercase tracking-[0.2em]'
-                } ${
-                  scrolled || isOpen ? 'text-amber-100' : 'text-amber-100/80'
-                }`}
+                className="flex items-center gap-1.5 px-3 h-12 rounded-full border border-[#C9D9E8] bg-white text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
               >
-                {isAr ? 'الدول' : 'Countries'}
-                <span className="text-accent normal-case tracking-normal">· {REGION_LABELS[region]}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
+                <MapPin className="w-4 h-4 text-[#7A7A50]" />
+                {REGION_LABELS[region]}
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
                 {countriesOpen && (
                   <>
-                    <div className="fixed inset-0 z-10" onClick={() => setCountriesOpen(false)} />
+                    <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-2 w-72 z-20 bg-[#051b23]/95 backdrop-blur-md border border-[#757454]/40 rounded-2xl shadow-2xl overflow-hidden"
+                      className="absolute right-0 top-full mt-2 w-72 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
                     >
-                      <p className="px-5 pt-4 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
-                        {isAr ? 'ادرس في بلدك' : 'Study in Your Country'}
+                      <p className="px-5 pt-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                        Study in Your Country
                       </p>
                       {countryLinks.map((c) => (
                         <button
                           key={c.view}
                           onClick={() => goToCountry(c.view)}
-                          className="w-full text-left px-5 py-3 hover:bg-[#084C63]/60 transition-colors flex items-center gap-3 group"
+                          className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
                         >
-                          <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                          <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
                           <span className="flex flex-col leading-tight flex-1">
-                            <span className="text-sm font-bold text-amber-50 group-hover:text-white">{c.name}</span>
-                            <span className="text-[11px] text-amber-100/70">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
+                            <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{c.name}</span>
+                            <span className="text-xs text-[#3D5563]">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
                           </span>
-                          {region === c.view && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                          {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                         </button>
                       ))}
-                      <p className="px-5 pt-3 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70 border-t border-white/5">
-                        {isAr ? 'مناطق أخرى' : 'More Regions'}
+                      <p className="px-5 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
+                        More Regions
                       </p>
                       {regionLinks.map((r) => (
                         <button
                           key={r.key}
                           onClick={() => goToRegion(r.key)}
-                          className="w-full text-left px-5 py-3 hover:bg-[#084C63]/60 transition-colors flex items-center gap-3 group"
+                          className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
                         >
-                          <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                          <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
                           <span className="flex flex-col leading-tight flex-1">
-                            <span className="text-sm font-bold text-amber-50 group-hover:text-white">{r.name}</span>
-                            <span className="text-[11px] text-amber-100/70">{r.sub}</span>
+                            <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{r.name}</span>
+                            <span className="text-xs text-[#3D5563]">{r.sub}</span>
                           </span>
-                          {region === r.key && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                          {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                         </button>
                       ))}
                       <div className="h-2" />
@@ -216,200 +287,160 @@ export default function Navbar({ setView, currentView, region, onRegionChange }:
               </AnimatePresence>
             </div>
 
-            <motion.button 
-              onClick={() => { setView('home'); scrollToId('registration'); }}
-              whileHover="hover"
-              whileTap="tap"
-              initial="initial"
-              variants={{
-                initial: { scale: 1, y: 0 },
-                hover: { 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: scrolled 
-                    ? '0 20px 25px -5px rgba(27,84,61,0.25), 0 8px 10px -6px rgba(27,84,61,0.25)' 
-                    : '0 20px 25px -5px rgba(27,84,61,0.15), 0 8px 10px -6px rgba(27,84,61,0.15)'
-                },
-                tap: { scale: 0.95, y: 0 }
-              }}
-              transition={{ type: "spring", stiffness: 450, damping: 20 }}
-              className={`relative group overflow-hidden font-bold rounded-full transition-colors duration-500 ${
-                isAr ? 'text-[11.5px] px-6 py-2.5 font-semibold' : 'text-[10px] uppercase tracking-[0.2em] px-7 py-3'
-              } ${
-                scrolled 
-                  ? 'bg-primary text-white' 
-                  : 'bg-primary text-white shadow-xl shadow-primary/10'
-              }`}
+            <button
+              onClick={() => goHomeSection('registration')}
+              className="h-12 px-6 rounded-full bg-[#7A7A50] hover:bg-[#686844] text-white text-sm font-semibold shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 whitespace-nowrap"
             >
-              <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] bg-white" />
-              
-              {/* Premium shining shimmer effect */}
-              <div className="absolute inset-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none z-20" style={{ animationDuration: '1.2s' }} />
-
-              <span className={`relative z-10 flex items-center gap-2 group-hover:text-primary transition-colors duration-500 ${isAr ? 'flex-row-reverse' : ''}`}>
-                {t('nav.startLearning')}
-                <motion.span
-                  variants={{
-                    initial: { x: 0 },
-                    hover: { x: isAr ? -4 : 4 }
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="inline-block"
-                >
-                  <ArrowRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />
-                </motion.span>
-              </span>
-            </motion.button>
+              {t('nav.startLearning')}
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
 
-          {/* Mobile menu buttons */}
-          <div className="flex items-center gap-3 lg:hidden z-[110]">
-            <button 
-              onClick={() => setIsOpen(!isOpen)} 
-              className="w-12 h-12 flex flex-col items-center justify-center gap-1.5 relative group"
+          {/* Mobile hamburger */}
+          <div className="flex items-center lg:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+              className="w-11 h-11 flex items-center justify-center rounded-full border border-[#C9D9E8] text-[#004050] cursor-pointer"
             >
-              <div className={`h-0.5 bg-accent transition-all duration-300 rounded-full ${isOpen ? 'w-8 rotate-45 translate-y-2' : 'w-6'}`} />
-              <div className={`h-0.5 bg-accent transition-all duration-300 rounded-full ${isOpen ? 'opacity-0' : 'w-8'}`} />
-              <div className={`h-0.5 bg-accent transition-all duration-300 rounded-full ${isOpen ? 'w-8 -rotate-45 -translate-y-2' : 'w-4'}`} />
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu - Side Drawer with Backdrop */}
-      <AnimatePresence mode="wait">
+      {/* Mobile drawer */}
+      <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 lg:hidden bg-gradient-to-tr from-black/80 via-black/70 to-black/80 z-[105]"
-              style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+              className="fixed inset-0 lg:hidden bg-[#0B2E3A]/40 z-[105]"
             />
-
-            {/* Compact Mobile Menu - Floating Glass Sheet Drawer */}
             <motion.div
-              initial={{ x: isAr ? '-100%' : '100%' }}
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: isAr ? '-100%' : '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className={`fixed top-0 bottom-0 w-[85%] max-w-[320px] lg:hidden bg-[#051b23]/95 z-[110] flex flex-col shadow-[-15px_0_60px_rgba(0,0,0,0.95)] border-l border-[#949693]/20 overflow-hidden will-change-transform ${
-                isAr ? 'left-0 rounded-r-[2rem]' : 'right-0 rounded-l-[2rem]'
-              }`}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+              className="fixed top-0 bottom-0 right-0 w-[85%] max-w-[340px] lg:hidden bg-white z-[110] flex flex-col shadow-[-15px_0_60px_rgba(11,46,58,0.25)] border-l border-[#C9D9E8] overflow-hidden"
             >
-              {/* Subtle ambient brand glow */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#084C63]/20 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="relative flex-1 flex flex-col z-10 p-6 overflow-y-auto">
-                {/* Header: Logo & Compact Close */}
-                <div className={`flex justify-between items-center pb-6 border-b border-white/5 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-                    <div className="w-10 h-10 bg-[#051b23] rounded-xl p-1 overflow-hidden border border-[#757454]/50">
-                      <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-contain" decoding="async" />
-                    </div>
-                    <div className={`flex flex-col leading-none ${isAr ? 'text-right' : 'text-left'}`}>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-50">BEACON</span>
-                      <span className="text-[8px] uppercase tracking-widest text-amber-200/60">Institute</span>
-                    </div>
+              <div className="flex-1 flex flex-col p-6 overflow-y-auto">
+                <div className="flex justify-between items-center pb-5 border-b border-[#D7E3EE]">
+                  <div className="flex items-center gap-3">
+                    <span className="w-10 h-10 rounded-xl overflow-hidden border border-[#C9D9E8] bg-white flex items-center justify-center">
+                      <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
+                    </span>
+                    <span className="flex flex-col leading-none">
+                      <span className="font-display text-base font-bold text-[#0B2E3A]">Beacon Quran Institute</span>
+                      <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mt-1">Online Quran Academy</span>
+                    </span>
                   </div>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-amber-100 hover:bg-white/10 active:scale-90 transition-all"
+                    aria-label="Close menu"
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F2F6F9] text-[#004050] hover:bg-[#D7E3EE] transition-colors cursor-pointer"
                   >
-                    <div className="relative w-4 h-4">
-                      <div className="absolute top-2 left-0 w-4 h-0.5 bg-current rotate-45" />
-                      <div className="absolute top-2 left-0 w-4 h-0.5 bg-current -rotate-45" />
-                    </div>
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                {/* Nav Links Section */}
-                <div className="flex-1 flex flex-col justify-center py-4 space-y-1">
-                  {navLinks.map((link, idx) => (
-                    <motion.button
-                      key={link.key}
-                      initial={{ opacity: 0, x: isAr ? -20 : 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + idx * 0.03, duration: 0.3 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setView(link.view as ViewState);
-                        if (link.href.startsWith('#')) {
-                          const id = link.href.substring(1);
-                          if (id) {
-                            setTimeout(() => {
-                              const el = document.getElementById(id);
-                              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }, 100);
-                          }
-                        } else {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                        setIsOpen(false);
-                      }}
-                      className={`text-[15px] font-semibold py-4 px-4 rounded-xl transition-all flex items-center gap-4 group w-full ${
-                        isAr ? 'text-right flex-row-reverse' : 'text-left'
-                      } ${
-                        currentView === link.view
-                          ? 'bg-[#084C63]/40 text-amber-100'
-                          : 'text-amber-100/70 hover:bg-white/5 hover:text-white'
-                      }`}
-                    >
-                      <div className={`w-1.5 h-1.5 rounded-full ${
-                        currentView === link.view ? 'bg-amber-400' : 'bg-white/20'
-                      }`} />
-                      <span className="flex-1">{t(link.key)}</span>
-                    </motion.button>
-                  ))}
-                </div>
+                <nav aria-label="Mobile navigation" className="flex flex-col py-4 space-y-1">
+                  <button
+                    onClick={goHome}
+                    className={`text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer ${
+                      currentView === 'home' ? 'bg-[#F2F6F9] text-[#004050]' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Home
+                  </button>
 
-                {/* Study in Your Country — USA / UK / Canada + more regions */}
-                <div className="pt-4 mt-2 border-t border-white/5">
-                  <p className="px-4 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
-                    {isAr ? 'ادرس في بلدك' : 'Study in Your Country'}
+                  <p className="px-4 pt-3 pb-1 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                    Courses
+                  </p>
+                  {COURSES.map((course) => (
+                    <button
+                      key={course.id}
+                      onClick={() => openCourse(course.id)}
+                      className="text-left text-[15px] font-semibold py-3 px-4 pl-8 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer flex items-center gap-3"
+                    >
+                      <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0" />
+                      {course.title}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      if (window.location.pathname.startsWith('/courses')) {
+                        window.history.replaceState(null, '', '/#courses');
+                      }
+                      setView('courses');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="text-left text-[15px] font-semibold py-3 px-4 pl-8 rounded-xl text-[#004050] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                  >
+                    View all courses →
+                  </button>
+
+                  <button
+                    onClick={() => goHomeSection('how-it-works')}
+                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                  >
+                    How It Works
+                  </button>
+                  <button
+                    onClick={() => goHomeSection('fees')}
+                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                  >
+                    Fees
+                  </button>
+                  <button
+                    onClick={() => goHomeSection('registration')}
+                    className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                  >
+                    Enrol
+                  </button>
+                </nav>
+
+                {/* Region switcher */}
+                <div className="pt-4 mt-2 border-t border-[#D7E3EE]">
+                  <p className="px-4 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                    Study in Your Country
                   </p>
                   {countryLinks.map((c) => (
                     <button
                       key={c.view}
                       onClick={() => goToCountry(c.view)}
-                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-all flex items-center gap-4 group w-full text-left text-amber-100/70 hover:bg-white/5 hover:text-white"
+                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-colors flex items-center gap-3 w-full text-left text-[#0B2E3A] hover:bg-[#F2F6F9] cursor-pointer"
                     >
-                      <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                      <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
                       <span className="flex-1">{c.name} — {c.sub}</span>
-                      {region === c.view && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                      {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                     </button>
                   ))}
-                  <p className="px-4 pt-3 pb-2 display text-[9px] font-extrabold uppercase tracking-[0.3em] text-amber-200/70">
-                    {isAr ? 'مناطق أخرى' : 'More Regions'}
+                  <p className="px-4 pt-3 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                    More Regions
                   </p>
                   {regionLinks.map((r) => (
                     <button
                       key={r.key}
                       onClick={() => goToRegion(r.key)}
-                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-all flex items-center gap-4 group w-full text-left text-amber-100/70 hover:bg-white/5 hover:text-white"
+                      className="text-[15px] font-semibold py-3 px-4 rounded-xl transition-colors flex items-center gap-3 w-full text-left text-[#0B2E3A] hover:bg-[#F2F6F9] cursor-pointer"
                     >
-                      <MapPin className="w-4 h-4 text-amber-200 shrink-0" />
+                      <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
                       <span className="flex-1">{r.name} — {r.sub}</span>
-                      {region === r.key && <Check className="w-4 h-4 text-accent shrink-0" aria-label="Current region" />}
+                      {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
                     </button>
                   ))}
                 </div>
 
-                {/* Language Switcher & CTA */}
-                <div className="pt-6 border-t border-white/5 space-y-4">
+                <div className="pt-6 mt-auto">
                   <button
-                    onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-                    className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-[12px] font-bold text-amber-100 transition-all active:scale-95"
-                  >
-                    {language === 'en' ? 'Switch to Arabic (العربية)' : 'Switch to English'}
-                  </button>
-
-                  <button
-                    onClick={() => { setView('home'); setIsOpen(false); scrollToId('registration'); }}
-                    className="w-full bg-[#084C63] text-white py-4 rounded-xl font-bold text-[13px] uppercase tracking-wider shadow-lg hover:bg-[#757454] active:scale-95 transition-all"
+                    onClick={() => goHomeSection('registration')}
+                    className="w-full bg-[#7A7A50] hover:bg-[#686844] text-white h-12 rounded-full font-semibold text-sm shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer"
                   >
                     {t('nav.startLearning')}
                   </button>
@@ -419,7 +450,6 @@ export default function Navbar({ setView, currentView, region, onRegionChange }:
           </>
         )}
       </AnimatePresence>
-
-    </nav>
+    </header>
   );
 }
