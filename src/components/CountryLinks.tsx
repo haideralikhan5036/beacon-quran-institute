@@ -1,17 +1,18 @@
 import { ArrowRight, MapPin } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import type { ViewState } from '../App';
 
 // Homepage internal links to the three country landing pages (SEO Batch 2):
 // one short card per country so Google — and visitors — can reach /usa,
-// /uk and /canada from the homepage.
+// /uk and /canada from the homepage. Plain <a href> links (Batch 12):
+// the delegated handler in App.tsx routes them client-side, crawlers and
+// no-JS visitors follow the href to the prerendered page.
 const COUNTRIES: { view: 'usa' | 'uk' | 'canada'; name: string; line: string }[] = [
   { view: 'usa', name: 'USA', line: 'Online Quran classes in the USA — 1-on-1 lessons on US time zones' },
   { view: 'uk', name: 'UK', line: 'Online Quran classes UK — one-to-one lessons with DBS-checked tutors' },
   { view: 'canada', name: 'Canada', line: 'Online Quran classes in Canada — 1-on-1 lessons across Canadian time zones' },
 ];
 
-export default function CountryLinks({ setView }: { setView: (view: ViewState) => void }) {
+export default function CountryLinks() {
   return (
     <section className="py-8 sm:py-12 bg-[#FFFFFF] relative overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
@@ -28,8 +29,8 @@ export default function CountryLinks({ setView }: { setView: (view: ViewState) =
         <div className="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto items-stretch">
           {COUNTRIES.map((c, i) => (
             <Reveal key={c.view} delay={0.15 + i * 0.08} width="100%" containerStyle={{ height: '100%' }} innerStyle={{ height: '100%' }}>
-              <button
-                onClick={() => { setView(c.view); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              <a
+                href={`/${c.view}`}
                 className="bg-[#FFFFFF] border border-[#C9D9E8] hover:border-[#004050]/40 p-6 rounded-3xl w-full h-full text-left shadow-[0_10px_30px_rgba(11,46,58,0.05)] transition-all hover:scale-[1.01] cursor-pointer group flex flex-col"
               >
                 <span className="flex items-center gap-2 mb-3">
@@ -41,7 +42,7 @@ export default function CountryLinks({ setView }: { setView: (view: ViewState) =
                   <span>Explore {c.name} classes</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
-              </button>
+              </a>
             </Reveal>
           ))}
         </div>

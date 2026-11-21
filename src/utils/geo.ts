@@ -115,3 +115,17 @@ export function saveRegion(region: RegionKey): void {
     // Storage blocked — the choice just won't stick; nothing else breaks.
   }
 }
+
+/**
+ * True when the visitor is a search/AI crawler (Googlebot, Bingbot, GPTBot,
+ * ClaudeBot, PerplexityBot, link-preview bots, …). Crawlers must be served
+ * exactly the URL they asked for — the geo auto-redirect is skipped for
+ * them, or the homepage would barely be crawled as itself. Humans are
+ * never affected.
+ */
+export function isSearchCrawler(userAgent?: string): boolean {
+  const ua =
+    userAgent ??
+    (typeof navigator !== 'undefined' ? navigator.userAgent : '');
+  return /bot|crawl|spider|slurp|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot|applebot|gptbot|claudebot|perplexitybot|ccbot|duckduckbot|yandex|baidu|semrush|ahrefs/i.test(ua);
+}

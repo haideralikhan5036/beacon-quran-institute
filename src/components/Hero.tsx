@@ -3,6 +3,7 @@ import { ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 import childReading from '../assets/images/child_quran_reading.jpg';
+import childReadingWebp from '../assets/images/child_quran_reading.webp';
 
 export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) {
   const { t } = useLanguage();
@@ -124,13 +125,20 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
             className="relative"
           >
             <div className="relative rounded-[2rem] overflow-hidden border border-[#C9D9E8] shadow-[0_30px_60px_-20px_rgba(11,46,58,0.25)] bg-white">
-              <img
-                src={childReading}
-                alt="A child reading the Quran on a wooden rehal in a mosque"
-                fetchPriority="high"
-                decoding="async"
-                className="w-full aspect-[4/3.4] object-cover"
-              />
+              {/* LCP image: WebP (87% smaller than the JPG) with JPG fallback;
+                  explicit width/height + aspect class reserve the space (CLS). */}
+              <picture>
+                <source srcSet={childReadingWebp} type="image/webp" />
+                <img
+                  src={childReading}
+                  alt="A child reading the Quran on a wooden rehal in a mosque"
+                  fetchPriority="high"
+                  decoding="async"
+                  width={1376}
+                  height={768}
+                  className="w-full aspect-[4/3.4] object-cover"
+                />
+              </picture>
 
               {/* PROGRESS REPORT chip — fully inside the card, top-right */}
               <div className="absolute top-4 right-4 bg-white/95 border border-[#C9D9E8] rounded-2xl px-4 py-3 shadow-lg max-w-[200px]">

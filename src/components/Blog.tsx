@@ -3,6 +3,7 @@ import { Calendar, User, ArrowLeft, ArrowRight, Search, X, BookOpen, Clock, File
 import { useState, useEffect } from 'react';
 import { blogPosts, BlogPost } from '../data/blogData';
 import { Reveal } from './ui/Reveal';
+import Breadcrumbs from './Breadcrumbs';
 import { renderMarkdown } from '../utils/renderMarkdown';
 
 function BlogSkeleton() {
@@ -65,6 +66,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
   return (
     <div className="bg-[#FFFFFF] min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 text-[#0B2E3A]" dir="ltr">
       <div className="max-w-[1280px] mx-auto px-6">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Blog' }]} />
 
         {/* Navigation & Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">

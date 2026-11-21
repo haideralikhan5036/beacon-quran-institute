@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://beacon-quran-institute.vercel.app/sitemap.xml
+Sitemap: https://beacon-quran-institute.pages.dev/sitemap.xml

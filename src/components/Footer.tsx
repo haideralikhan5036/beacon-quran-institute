@@ -4,6 +4,7 @@ import { ViewState } from '../App';
 import { Reveal } from './ui/Reveal';
 import logo from '../assets/images/brand_logo.jpg';
 import { scrollToId } from '../utils/scrollToId';
+import { COURSES } from '../data/courses';
 
 // Geometric grid texture, mockup values: gold-tinted lines, 44px grid —
 // visible on the dark teal, but still subtle.
@@ -23,8 +24,7 @@ const FIVE_COURSES = [
 
 export default function Footer({ setView }: { setView: (view: ViewState) => void }) {
   const handleEnrollClick = () => {
-    setView('home');
-    scrollToId('registration');
+    setView('enrol');
   };
 
   const handleFeesClick = () => {
@@ -39,24 +39,28 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
 
   const brandDesc = 'Beacon Quran Institute is an online Quran academy offering live one-on-one Quran classes for kids and adults in the USA, UK and Canada — bridging classical scholarly methods with modern flexible learning to help students live the Quran beautifully.';
 
-  const navLinks = [
-    { name: 'Institute Home', action: () => setView('home') },
-    { name: 'Core Services', action: () => setView('services') },
-    { name: 'Appraisal Portal', action: () => setView('certificate') },
-    { name: 'Insights Blog', action: () => setView('blog') },
+  // Footer links are real <a href> links (Batch 12): the delegated
+  // handler in App.tsx routes them client-side, crawlers and no-JS
+  // visitors follow the href to the prerendered page. 'Fee Structure'
+  // has no page of its own — it scrolls to the fee table on the homepage.
+  const navLinks: { name: string; href?: string; action?: () => void }[] = [
+    { name: 'Institute Home', href: '/' },
+    { name: 'Core Services', href: '/services' },
+    { name: 'Appraisal Portal', href: '/certificate' },
+    { name: 'Insights Blog', href: '/blog' },
     { name: 'Fee Structure', action: () => handleFeesClick() },
-    { name: 'Online Quran Classes in the USA', action: () => setView('usa') },
-    { name: 'Online Quran Classes UK', action: () => setView('uk') },
-    { name: 'Online Quran Classes in Canada', action: () => setView('canada') },
+    { name: 'Online Quran Classes in the USA', href: '/usa' },
+    { name: 'Online Quran Classes UK', href: '/uk' },
+    { name: 'Online Quran Classes in Canada', href: '/canada' },
   ];
 
   const globalPresenceDesc = 'Online Quran classes for students across 30+ nations, including the USA, UK & Canada';
 
   const legalItems = [
-    { name: 'Terms of Service', action: () => setView('terms') },
-    { name: 'Privacy Policy', action: () => setView('terms') },
-    { name: 'Security & Quality', action: () => setView('terms') },
-    { name: 'Refund Guarantee', action: () => setView('terms') },
+    { name: 'Terms of Service', href: '/terms' },
+    { name: 'Privacy Policy', href: '/terms' },
+    { name: 'Security & Quality', href: '/terms' },
+    { name: 'Refund Guarantee', href: '/terms' },
   ];
 
   return (
@@ -178,13 +182,23 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               {navLinks.map((link, i) => (
                 <Reveal key={link.name} delay={0.3 + i * 0.08} direction="up" distance={10} width="100%">
                   <li>
-                    <button
-                      onClick={() => { link.action(); window.scrollTo(0, 0); }}
-                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all shrink-0 mt-[7px]"></span>
-                      {link.name}
-                    </button>
+                    {link.href ? (
+                      <a
+                        href={link.href}
+                        className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all shrink-0 mt-[7px]"></span>
+                        {link.name}
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => { link.action?.(); window.scrollTo(0, 0); }}
+                        className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all shrink-0 mt-[7px]"></span>
+                        {link.name}
+                      </button>
+                    )}
                   </li>
                 </Reveal>
               ))}
@@ -200,13 +214,13 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
               {FIVE_COURSES.map((course, i) => (
                 <Reveal key={course} delay={0.5 + i * 0.08} direction="up" distance={10} width="100%">
                   <li>
-                    <button
-                      onClick={() => { setView('courses'); window.scrollTo(0, 0); }}
+                    <a
+                      href={`/courses/${COURSES.find((c) => c.title === course)?.slug ?? ''}`}
                       className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
                     >
                       <span className="text-white/60 group-hover:text-white text-xs transition-colors shrink-0 mt-[2px]">→</span>
                       {course}
-                    </button>
+                    </a>
                   </li>
                 </Reveal>
               ))}
@@ -284,13 +298,13 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           <Reveal delay={1.1}>
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               {legalItems.map((item) => (
-                <button
+                <a
                   key={item.name}
-                  onClick={() => { item.action(); window.scrollTo({ top: 0, behavior: 'auto' }); }}
+                  href={item.href}
                   className="font-display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {item.name}
-                </button>
+                </a>
               ))}
             </div>
           </Reveal>

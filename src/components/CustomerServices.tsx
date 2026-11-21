@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { ShieldCheck, Calendar, Clock, RefreshCw, Star, ArrowLeft, User, Sparkles, Phone, Mail } from 'lucide-react';
+import Breadcrumbs from './Breadcrumbs';
 
 export default function CustomerServices({ onBack }: { onBack: () => void }) {
   const services = [
@@ -44,6 +45,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
   return (
     <div className="bg-[#FFFFFF] min-h-screen pt-28 pb-24 text-[#0B2E3A]">
       <div className="max-w-[1280px] mx-auto px-6">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Services' }]} />
 
         {/* Back Button & Header Box */}
         <div className="mb-16">

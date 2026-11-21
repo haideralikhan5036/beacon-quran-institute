@@ -1,2 +1,5 @@
-# Cloudflare Pages: SPA fallback — har route index.html serve kare (Vercel rewrites ka replacement)
-/* /index.html 200
+# Cloudflare Pages — Batch 12: every public route is prerendered at build
+# time (scripts/prerender.mjs), so there is NO `/* /index.html 200` SPA
+# fallback anymore. A catch-all would turn unknown paths into soft-404
+# SPA shells; unknown paths now get a real 404, which is what Google
+# wants. Add only genuine 301s above this comment if an old slug moves.

@@ -25,6 +25,9 @@ const ContactPage       = lazy(() => import('./components/ContactPage'));
 const AboutPage         = lazy(() => import('./components/AboutPage'));
 const CountryPage       = lazy(() => import('./components/CountryPage'));
 const CountryLinks      = lazy(() => import('./components/CountryLinks'));
+const HowItWorksPage    = lazy(() => import('./components/HowItWorksPage'));
+const EnrolPage         = lazy(() => import('./components/EnrolPage'));
+const CoursesHubPage    = lazy(() => import('./components/CoursesHubPage'));
 import type { CountryKey } from './components/CountryPage';
 import { scrollToId } from './utils/scrollToId';
 import type { CurrencyCode } from './data/feeTable';
@@ -33,20 +36,22 @@ import {
   REGION_CURRENCY,
   detectRegion,
   isPageRegion,
+  isSearchCrawler,
   loadStoredRegion,
   saveRegion,
   type RegionKey,
 } from './utils/geo';
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada' | 'how-it-works' | 'enrol';
 
 const HOME_TITLE = 'Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute';
 const HOME_DESCRIPTION = 'Online Quran academy — Quran classes near you: 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada, taught live online from home. Tajweed, Hifz, Noorani Qaida. Book a free trial class today.';
 
 // Per-view document title + meta description (SEO Batch 2). Country pages
 // get their own geo-targeted title/description; other views get a
-// keyword-flavoured variant of the homepage meta.
-const VIEW_META: Record<ViewState, { title: string; description: string }> = {
+// keyword-flavoured variant of the homepage meta. Exported for the
+// prerender entry (entry-server.tsx) so served HTML carries the same meta.
+export const VIEW_META: Record<ViewState, { title: string; description: string }> = {
   home: { title: HOME_TITLE, description: HOME_DESCRIPTION },
   about: { title: 'About Beacon Quran Institute — Online Quran Academy', description: 'Beacon Quran Institute is an online Quran academy teaching students in 30+ countries since 2015. Learn Quran online with certified male and female teachers.' },
   courses: { title: 'Online Quran Courses | Noorani Qaida, Tajweed, Hifz & Tafseer — Beacon Quran Institute', description: 'Online Quran courses: Noorani Qaida, Quran Reading, Hifz memorization, Tajweed, Tafseer and Arabic — 1-on-1 online Quran classes for kids and adults.' },
@@ -54,6 +59,8 @@ const VIEW_META: Record<ViewState, { title: string; description: string }> = {
   blog: { title: 'Quran Learning Blog | Online Quran Classes & Tajweed — Beacon Quran Institute', description: 'Read the Beacon Quran Institute blog: online Quran classes, Tajweed, Hifz memorization and Noorani Qaida for kids and adults.' },
   testimonials: { title: 'Student Reviews | Online Quran Classes — Beacon Quran Institute', description: 'What families say about Beacon Quran Institute: 1-on-1 online Quran classes for kids and adults in the USA, UK and Canada.' },
   contact: { title: 'Contact Beacon Quran Institute | Online Quran Classes — Beacon Quran Institute', description: 'Contact Beacon Quran Institute about online Quran classes for kids and adults in the USA, UK and Canada. Book a free trial class today.' },
+  'how-it-works': { title: 'How Online Quran Classes Work | Free Trial to Weekly Lessons — Beacon Quran Institute', description: 'How Beacon Quran Institute works: book a free trial class, meet your certified Quran teacher, then learn weekly 1-on-1 online with a monthly progress report.' },
+  enrol: { title: 'Enrol — Book a Free Trial Quran Class | Beacon Quran Institute', description: 'Enrol at Beacon Quran Institute: book a free trial Quran class for kids or adults. Choose your course and schedule — Noorani Qaida, Tajweed, Hifz, Tafseer or Islamic Studies.' },
   terms: { title: 'Terms of Service | Beacon Quran Institute', description: 'Terms of Service for Beacon Quran Institute online Quran classes.' },
   certificate: { title: 'Certificate Verification | Beacon Quran Institute', description: 'Verify a Beacon Quran Institute certificate of appraisal for online Quran classes.' },
   usa: { title: 'Online Quran Classes in the USA | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in the USA with certified teachers. 1-on-1 online Quran classes for kids and adults — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
@@ -61,10 +68,12 @@ const VIEW_META: Record<ViewState, { title: string; description: string }> = {
   canada: { title: 'Online Quran Classes in Canada | 1-on-1 Quran Classes — Beacon Quran Institute', description: 'Online Quran classes in Canada with certified teachers. 1-on-1 online Quran lessons for kids and adults in Toronto, Mississauga, Brampton and across Canada. Book a free trial.' },
 };
 
-// Hash routing: each view maps to a URL hash (#home, #courses, …) so pages are
-// shareable and the browser back/forward buttons work. Unknown hash → home.
-const VIEW_HASHES: Record<Exclude<ViewState, CountryKey>, string> = {
-  home: 'home',
+// Real-path routing (Batch 12): every view lives at a real path (/about,
+// /how-it-works, /enrol, …) so search engines can index each page
+// separately — hash fragments are never indexed. Old #view links still
+// work: locationState() falls back to the hash when the path is the root.
+const VIEW_PATHS: Record<Exclude<ViewState, CountryKey>, string> = {
+  home: '',
   about: 'about',
   courses: 'courses',
   services: 'services',
@@ -73,10 +82,15 @@ const VIEW_HASHES: Record<Exclude<ViewState, CountryKey>, string> = {
   contact: 'contact',
   terms: 'terms',
   certificate: 'certificate',
+  'how-it-works': 'how-it-works',
+  enrol: 'enrol',
 };
-const HASH_VIEWS: Record<string, ViewState> = Object.fromEntries(
-  Object.entries(VIEW_HASHES).map(([view, hash]) => [hash, view as ViewState]),
+// Exported for the prerender entry (entry-server.tsx).
+export { VIEW_PATHS };
+const PATH_VIEWS: Record<string, ViewState> = Object.fromEntries(
+  Object.entries(VIEW_PATHS).filter(([, path]) => path !== '').map(([view, path]) => [path, view as ViewState]),
 );
+const HASH_VIEWS: Record<string, ViewState> = { ...PATH_VIEWS };
 
 // Country pages live at REAL paths (/usa, /uk, /canada) so search engines can
 // index them as separate pages — hash fragments are never indexed. Hash
@@ -85,9 +99,10 @@ const COUNTRY_PATHS: Record<CountryKey, string> = { usa: 'usa', uk: 'uk', canada
 const PATH_COUNTRIES: Record<string, CountryKey> = { usa: 'usa', uk: 'uk', canada: 'canada' };
 const isCountryView = (view: ViewState): view is CountryKey => view === 'usa' || view === 'uk' || view === 'canada';
 
-function locationState(): { view: ViewState; courseSlug: string | null } {
-  if (typeof window === 'undefined') return { view: 'home', courseSlug: null };
-  const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+// Resolve a URL path to a view. Pure function of the path string so the
+// prerender entry can render any route without a browser.
+export function parsePath(pathname: string): { view: ViewState; courseSlug: string | null } {
+  const path = pathname.replace(/^\/+|\/+$/g, '');
   if (PATH_COUNTRIES[path]) return { view: PATH_COUNTRIES[path], courseSlug: null };
   // Real course paths: /courses opens the courses view; /courses/<slug>
   // opens it with that course selected.
@@ -96,11 +111,35 @@ function locationState(): { view: ViewState; courseSlug: string | null } {
     const slug = decodeURIComponent(path.slice('courses/'.length).split('/')[0]);
     return { view: 'courses', courseSlug: slug || null };
   }
-  return { view: HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home', courseSlug: null };
+  // Every other view lives at its own real path (/about, /enrol, …).
+  if (PATH_VIEWS[path]) return { view: PATH_VIEWS[path], courseSlug: null };
+  return { view: 'home', courseSlug: null };
+}
+
+function locationState(): { view: ViewState; courseSlug: string | null } {
+  if (typeof window === 'undefined') return { view: 'home', courseSlug: null };
+  const fromPath = parsePath(window.location.pathname);
+  // Root path: legacy fallback — old #view links still resolve.
+  if (window.location.pathname.replace(/^\/+|\/+$/g, '') === '') {
+    return { view: HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home', courseSlug: null };
+  }
+  return fromPath;
 }
 
 function viewFromLocation(): ViewState {
   return locationState().view;
+}
+
+/** True for every path the app can render (used by the link interceptor). */
+function isKnownPath(pathname: string): boolean {
+  const path = pathname.replace(/^\/+|\/+$/g, '');
+  if (path === '') return true;
+  if (PATH_COUNTRIES[path] || PATH_VIEWS[path]) return true;
+  if (path.startsWith('courses/')) {
+    const slug = decodeURIComponent(path.slice('courses/'.length).split('/')[0]);
+    return COURSES.some((c) => c.slug === slug);
+  }
+  return false;
 }
 
 function applyViewMeta(view: ViewState): void {
@@ -111,10 +150,14 @@ function applyViewMeta(view: ViewState): void {
   if (desc) desc.setAttribute('content', meta.description);
 }
 
-export default function App() {
-  const [view, setView] = useState<ViewState>(viewFromLocation);
+export default function App({ initialPath }: { initialPath?: string } = {}) {
+  const [view, setView] = useState<ViewState>(() =>
+    initialPath !== undefined ? parsePath(initialPath).view : viewFromLocation(),
+  );
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(() => locationState().courseSlug);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(() =>
+    initialPath !== undefined ? parsePath(initialPath).courseSlug : locationState().courseSlug,
+  );
   const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
   // Visitor region + fee-table currency (geo auto-detect, Batch 3).
   // Default is USA/USD — the page always renders with this first; the
@@ -129,12 +172,13 @@ export default function App() {
   // Keep the URL in sync with the view, and always start a new view at
   // the top of the page (previously the old scroll position was kept, so
   // Services/Contact first landed at the footer). Country views live at
-  // real paths (/usa …) with no hash; classic views live at /#view so a
-  // switch away from a country page resets the path to the root.
+  // real paths (/usa …); every other view also lives at a real path
+  // (/about, /how-it-works, /enrol, …) so a switch away from a country
+  // page resets the path to that view's own path, never a hash.
   // Courses view: when a course is selected the URL is /courses/<slug>
   // (set here, so it never depends on the details page's own timer — both
   // write the same slug, so the two effects cannot fight each other);
-  // with no course selected it is /#courses.
+  // with no course selected it is /courses.
   // Also updates the document title + meta description per view (SEO).
   // Entering a country page also resets the fee-table currency to that
   // country's currency. (The currency changes only here and via the header
@@ -155,7 +199,9 @@ export default function App() {
         ? `/courses/${selectedSlug}`
         : onCoursesSlugPath
           ? window.location.pathname
-          : `/#${VIEW_HASHES[view]}`;
+          : view === 'home'
+            ? '/'
+            : `/${VIEW_PATHS[view]}`;
     if (window.location.pathname + window.location.hash !== url) {
       window.history.replaceState(null, '', url);
     }
@@ -184,7 +230,11 @@ export default function App() {
   // Geo auto-detect (first visit only). A stored manual choice wins and is
   // applied directly; otherwise the IP lookup runs in the background and the
   // page switches once it returns (or stays USA/USD if it fails/times out).
+  // Search/AI crawlers are never redirected: they must see exactly the URL
+  // they asked for (a bot that lands on / is shown /, not /usa) — otherwise
+  // the homepage would barely be crawled as itself.
   useEffect(() => {
+    if (isSearchCrawler()) return;
     const stored = loadStoredRegion();
     if (stored) {
       applyRegion(stored, true);
@@ -227,13 +277,45 @@ export default function App() {
     };
   }, []);
 
+  // Client-side routing for real <a href> links (Batch 12, SEO research
+  // §1.2: Google can only discover links that are <a> elements with an
+  // href). A delegated click handler turns internal links (breadcrumbs,
+  // course cards, footer, country cards, …) into SPA navigation — no full
+  // reload — while the href still works as plain navigation without JS
+  // (prerendered page) and for crawlers. Links whose own onClick calls
+  // preventDefault() (nav dropdown, course tabs) are left alone.
+  // Unknown paths are NOT intercepted: the browser loads them and the
+  // server answers a real 404 instead of a soft-404 SPA shell.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const anchor = (e.target as HTMLElement).closest?.('a[href]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const href = anchor.getAttribute('href') ?? '';
+      if (!href.startsWith('/') || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
+      let url: URL;
+      try {
+        url = new URL(href, window.location.origin);
+      } catch {
+        return;
+      }
+      if (url.origin !== window.location.origin) return;
+      const parsed = parsePath(url.pathname);
+      if (!isKnownPath(url.pathname)) return;
+      e.preventDefault();
+      if (parsed.view === 'courses') setSelectedCourseId(parsed.courseSlug);
+      setView(parsed.view);
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+
   // A fee-table row (or a country page's fee table) preselects a course +
-  // schedule in the enrolment form, then scrolls to it.
+  // schedule in the enrolment form, then opens the dedicated Enrol page.
   const handleSelectFee = (course: string, schedule: string) => {
     setSelectedCourse(course);
     setSelectedSchedule(schedule);
-    setView('home');
-    scrollToId('registration');
+    setView('enrol');
   };
 
   const handleViewCourseDetails = (courseId: string) => {
@@ -241,7 +323,7 @@ export default function App() {
     // A dropdown pick is not a slug deep link: drop any /courses/<slug>
     // path so the URL does not keep pointing at a different course.
     if (window.location.pathname.startsWith('/courses')) {
-      window.history.replaceState(null, '', '/#courses');
+      window.history.replaceState(null, '', '/courses');
     }
     setView('courses');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -249,8 +331,21 @@ export default function App() {
 
   const handleRegisterFromDetails = (courseTitle?: string) => {
     if (courseTitle) setSelectedCourse(courseTitle);
-    setView('home');
-    scrollToId('registration');
+    setView('enrol');
+  };
+
+  // A course card's Enrol button preselects the course and opens the
+  // dedicated Enrol page (the homepage keeps its form section too).
+  const handleEnrolCourse = (courseTitle: string) => {
+    setSelectedCourse(courseTitle);
+    setView('enrol');
+  };
+
+  // "View all courses" opens the /courses hub (listing), not the last
+  // course detail visited — the selection must be cleared.
+  const handleViewCoursesHub = () => {
+    setSelectedCourseId(null);
+    setView('courses');
   };
 
   return (
@@ -264,9 +359,9 @@ export default function App() {
         <main>
           {view === 'home' && (
             <>
-              <Hero onViewCourses={() => setView('courses')} />
-              <Courses 
-                onSelectCourse={setSelectedCourse} 
+              <Hero onViewCourses={handleViewCoursesHub} />
+              <Courses
+                onSelectCourse={handleEnrolCourse}
                 onViewDetails={handleViewCourseDetails}
               />
               <HowItWorks />
@@ -274,7 +369,7 @@ export default function App() {
               <NearYou />
               <Testimonials setView={setView} />
               <Fees currency={currency} onSelectFee={handleSelectFee} onContactRegistrar={() => scrollToId('registration')} />
-              <CountryLinks setView={setView} />
+              <CountryLinks />
               <Registration 
                 preSelectedCourse={selectedCourse} 
                 preSelectedSchedule={selectedSchedule}
@@ -287,12 +382,19 @@ export default function App() {
               onRegisterClick={() => handleRegisterFromDetails()}
             />
           )}
-          {view === 'courses'     && (
-            <CourseDetailsPage 
+          {view === 'courses' && selectedCourseId && (
+            <CourseDetailsPage
               key={selectedCourseId ?? 'courses'}
-              onBack={() => setView('home')} 
+              onBack={() => setView('home')}
               selectedCourseId={selectedCourseId}
               onRegisterCourse={handleRegisterFromDetails}
+            />
+          )}
+          {view === 'courses' && !selectedCourseId && (
+            <CoursesHubPage
+              onBack={() => setView('home')}
+              onSelectCourse={handleEnrolCourse}
+              onViewDetails={handleViewCourseDetails}
             />
           )}
           {view === 'testimonials' && <Testimonials full setView={setView} />}
@@ -301,13 +403,23 @@ export default function App() {
           {view === 'terms'       && <TermsOfService onBack={() => setView('home')} />}
           {view === 'certificate' && <CertificateOfAppraisal onBack={() => setView('home')} />}
           {view === 'about'       && <AboutPage onBack={() => setView('home')} />}
+          {view === 'how-it-works' && (
+            <HowItWorksPage onBack={() => setView('home')} onEnrol={() => setView('enrol')} />
+          )}
+          {view === 'enrol' && (
+            <EnrolPage
+              onBack={() => setView('home')}
+              preSelectedCourse={selectedCourse}
+              preSelectedSchedule={selectedSchedule}
+            />
+          )}
           {isCountryView(view)    && (
             <CountryPage
               country={view}
               onBack={() => setView('home')}
               onRegister={() => handleRegisterFromDetails()}
               onSelectFee={handleSelectFee}
-              onViewCourses={() => setView('courses')}
+              onViewCourses={handleViewCoursesHub}
               currency={currency}
             />
           )}

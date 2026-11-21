@@ -1,5 +1,6 @@
 import { cloneElement, type ReactElement } from 'react';
 import { Reveal } from './ui/Reveal';
+import Breadcrumbs from './Breadcrumbs';
 import {
   ArrowLeft, ArrowRight, Sparkles, Heart, Star, Shield,
   Users, Globe, BookOpen, Award, CheckCircle2,
@@ -49,6 +50,7 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0B2E3A] pt-24 pb-20 px-6" dir="ltr">
       <div className="max-w-[1280px] mx-auto">
+        <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'About' }]} />
         {/* Back Button */}
         <button
           onClick={onBack}
