@@ -25,7 +25,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero
     'hero.badge': 'Online Quran Academy',
-    'hero.title1': 'Learn the Quran properly —',
+    'hero.title1': 'Online Quran Classes — learn properly,',
     'hero.title2': 'one-to-one, live,',
     'hero.title3': 'from anywhere in the world.',
     'hero.subtitle': 'Learn Quran Online with Tajweed',
