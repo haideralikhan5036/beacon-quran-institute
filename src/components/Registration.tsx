@@ -149,9 +149,14 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
   const schedulesList = ['Weekend / 2 Days per Week', '3 Days per Week', '5 Days per Week'];
 
   return (
-    <section id="registration" className="py-12 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+    <section id="registration" className="py-10 sm:py-16 bg-[#FFFFFF] relative overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
-        <div className="bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden grid lg:grid-cols-12 text-[#0B2E3A]">
+        <div className="bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden grid lg:grid-cols-12 text-[#0B2E3A] relative">
+          {/* Halftone dots, mockup form-card placement: top-right */}
+          <div
+            aria-hidden="true"
+            className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[120px] h-[76px] opacity-50 z-0"
+          />
           {/* Information Sidebar */}
           <div className="lg:col-span-5 p-8 sm:p-12 bg-[#F4F8FB] border-b lg:border-b-0 lg:border-r border-[#C9D9E8] flex flex-col justify-between relative overflow-hidden">
              <div className="relative z-10 text-left">
@@ -164,7 +169,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                <Reveal delay={0.2}>
                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-display mb-6 leading-tight text-balance text-[#0B2E3A]">
                    {titleText1} <br />
-                   <span className="text-[#7A7A50] italic">{titleText2}</span>{' '}{titleText3}
+                   <span className="text-[#7A7A50] italic mr-[0.2em]">{titleText2}</span>{' '}{titleText3}
                  </h3>
                </Reveal>
                <Reveal delay={0.3}>

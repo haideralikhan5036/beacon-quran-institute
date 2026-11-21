@@ -2,17 +2,31 @@ import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { scrollToId } from '../utils/scrollToId';
-import { CURRENCIES, FEE_ROWS, type CurrencyCode } from '../data/feeTable';
+import { FEE_ROWS, type CurrencyCode } from '../data/feeTable';
 
 interface FeesProps {
   onSelectFee?: (course: string, schedule: string) => void;
   onContactRegistrar?: () => void;
   /** Controlled currency — owned by App so the geo auto-detect and the
-      header region switcher can change the table. The tabs below call
-      onCurrencyChange; they never own the value themselves. */
+      header region switcher can change the table. The table never owns
+      the value itself; there is no currency picker here (removed — the
+      header region switcher is the way to change it). */
   currency: CurrencyCode;
-  onCurrencyChange: (currency: CurrencyCode) => void;
 }
+
+// Header label per currency — the price strings themselves use '$' for
+// USD/AUD/CAD alike, so the header disambiguates (USA→USD, UK→£,
+// Canada→C$, Australia→A$).
+const CURRENCY_LABEL: Record<CurrencyCode, string> = {
+  USD: 'USD',
+  AUD: 'A$',
+  CAD: 'C$',
+  GBP: '£',
+  EUR: '€',
+  AED: 'AED',
+  SAR: 'SAR',
+  QAR: 'QAR',
+};
 
 // Course groups for rowSpan: the fee table lists 8 rows — 3 for Qaida /
 // Recitation / Islamic Studies, 3 for Hifz, 2 for Tafseer.
@@ -22,7 +36,7 @@ const COURSE_ROW_SPANS: { course: string; rows: number }[] = [
   { course: 'Quran Tafseer', rows: 2 },
 ];
 
-export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurrencyChange }: FeesProps) {
+export default function Fees({ onSelectFee, onContactRegistrar, currency }: FeesProps) {
   const handleSelect = (course: string, schedule: string) => {
     onSelectFee?.(course, schedule);
     scrollToId('registration');
@@ -38,20 +52,24 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
 
   const subtitleText = 'Online Quran Classes — Fee Structure';
   const titleText = 'Simple, Affordable Monthly Fees';
-  const descText = 'Every course, every schedule, one clear monthly fee. Choose your currency to see your price.';
+  const descText = 'Every course, every schedule, one clear monthly fee — shown in your region’s currency.';
   const colCourse = 'Course';
   const colSchedule = 'Schedule';
   const colDuration = 'Duration';
   const colFee = 'Monthly Fee';
   const selectText = 'Select';
   const noteText = 'Monthly fees. Class duration as shown.';
-  const currencyLabel = 'Choose your currency';
 
   return (
     <section id="fees" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         <Reveal delay={0.1} width="100%">
-          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+            {/* Halftone dots, mockup shell placement: top-right */}
+            <div
+              aria-hidden="true"
+              className="dots-texture pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[100px] opacity-50"
+            />
             <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
               <Sparkles className="w-4 h-4 text-[#7A7A50]" />
               <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{subtitleText}</h2>
@@ -63,32 +81,9 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
           </div>
         </Reveal>
 
-        {/* Currency selector — one tab per currency from the fee sheet */}
-        <Reveal delay={0.15} width="100%">
-          <p className="text-center font-display text-[10px] font-bold uppercase tracking-[0.3em] text-[#004050] mb-3">
-            {currencyLabel}
-          </p>
-          <div className="flex justify-center flex-wrap gap-2 mb-8 sm:mb-10" role="tablist" aria-label={currencyLabel}>
-            {CURRENCIES.map((code) => (
-              <button
-                key={code}
-                role="tab"
-                aria-selected={currency === code}
-                data-currency={code}
-                onClick={() => onCurrencyChange(code)}
-                className={`px-4 sm:px-5 py-2.5 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all duration-300 cursor-pointer border ${
-                  currency === code
-                    ? 'bg-[#004050] text-white border-[#004050] shadow-md scale-105'
-                    : 'bg-[#FFFFFF] hover:bg-[#EAF1F7] text-[#004050] border-[#C9D9E8] hover:scale-[1.02]'
-                }`}
-              >
-                {code}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-
         {/* Fee table — all 8 rows from the owner's fee sheet, grouped by course.
+            Prices show in the active currency (geo auto-detect / header
+            region switcher); there is no currency picker here.
             On small screens the table scrolls inside its container so the page
             itself never overflows horizontally. */}
         <Reveal delay={0.2} width="100%">
@@ -99,7 +94,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
                   <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colCourse}</th>
                   <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colSchedule}</th>
                   <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colDuration}</th>
-                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4">{colFee} ({currency})</th>
+                  <th scope="col" className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white px-5 sm:px-6 py-4 whitespace-nowrap">{colFee} ({CURRENCY_LABEL[currency]})</th>
                   <th scope="col" className="px-5 sm:px-6 py-4"><span className="sr-only">{selectText}</span></th>
                 </tr>
               </thead>
@@ -144,8 +139,13 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency, onCurr
           <p className="text-center text-[#3D5563] text-sm mt-5 font-medium">{noteText}</p>
         </Reveal>
 
-        <Reveal delay={0.5} direction="up" distance={20}>
-          <div className="mt-16 text-center bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-10 rounded-3xl max-w-3xl mx-auto text-[#0B2E3A] shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+        <Reveal delay={0.5} direction="up" distance={20} width="100%">
+          <div className="mt-12 text-center bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-10 rounded-3xl w-full text-[#0B2E3A] shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+             {/* Halftone dots, mockup shell placement: bottom-left */}
+             <div
+               aria-hidden="true"
+               className="dots-texture pointer-events-none absolute left-[-12px] bottom-[-8px] w-[150px] h-[100px] opacity-50"
+             />
              <div className="inline-block bg-[#EAF1F7] border border-[#C9D9E8] px-4 py-1.5 rounded-full mb-4">
                <p className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#004050]">
                  Flexible Learning Packages

@@ -14,7 +14,6 @@ const WhyUs             = lazy(() => import('./components/WhyUs'));
 const NearYou           = lazy(() => import('./components/NearYou'));
 const Fees              = lazy(() => import('./components/Fees'));
 const Testimonials      = lazy(() => import('./components/Testimonials'));
-const TestimonialPopup  = lazy(() => import('./components/TestimonialPopup'));
 const Registration      = lazy(() => import('./components/Registration'));
 const Footer            = lazy(() => import('./components/Footer'));
 const Blog              = lazy(() => import('./components/Blog'));
@@ -138,7 +137,8 @@ export default function App() {
   // with no course selected it is /#courses.
   // Also updates the document title + meta description per view (SEO).
   // Entering a country page also resets the fee-table currency to that
-  // country's currency (the table's tabs still let the visitor switch).
+  // country's currency. (The currency changes only here and via the header
+  // region switcher — the fee table has no currency picker.)
   useEffect(() => {
     // Resolve the selected course (an id from the nav dropdown, or a slug
     // from a /courses/<slug> deep link) to its canonical slug. Unknown
@@ -163,9 +163,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
     // Entering a country page resets the fee-table currency to that
     // country's currency; returning home restores the visitor's own
-    // region currency. (The table's tabs still let the visitor switch
-    // currency freely within a view — that choice is per-view, while the
-    // region is the durable preference.)
+    // region currency.
     if (isCountryView(view)) setCurrency(REGION_CURRENCY[view]);
     else setCurrency(REGION_CURRENCY[region]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,7 +273,7 @@ export default function App() {
               <WhyUs />
               <NearYou />
               <Testimonials setView={setView} />
-              <Fees currency={currency} onCurrencyChange={setCurrency} onSelectFee={handleSelectFee} onContactRegistrar={() => scrollToId('registration')} />
+              <Fees currency={currency} onSelectFee={handleSelectFee} onContactRegistrar={() => scrollToId('registration')} />
               <CountryLinks setView={setView} />
               <Registration 
                 preSelectedCourse={selectedCourse} 
@@ -311,12 +309,10 @@ export default function App() {
               onSelectFee={handleSelectFee}
               onViewCourses={() => setView('courses')}
               currency={currency}
-              onCurrencyChange={setCurrency}
             />
           )}
         </main>
         <Footer setView={setView} />
-        <TestimonialPopup />
       </Suspense>
     </div>
   );

@@ -74,8 +74,13 @@ function CourseCard({
     >
       <article
         onClick={() => onViewDetails?.(course.id)}
-        className="group flex h-full cursor-pointer flex-col rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1E4E79]/50 hover:shadow-[0_12px_32px_rgba(0,64,80,0.12)]"
+        className="group flex h-full cursor-pointer flex-col rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1E4E79]/50 hover:shadow-[0_12px_32px_rgba(0,64,80,0.12)] relative overflow-hidden"
       >
+        {/* Halftone dots, mockup service-card placement: bottom-right */}
+        <div
+          aria-hidden="true"
+          className="dots-texture pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45"
+        />
         <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#004050]/5 text-[#004050] transition-colors group-hover:bg-[#004050] group-hover:text-white">
           <Icon className="h-6 w-6" />
         </div>
@@ -117,7 +122,7 @@ export default function Courses({ onSelectCourse, onViewDetails }: CoursesProps)
   const isMobile = useIsMobile();
 
   return (
-    <section id="courses" className="bg-white py-16 sm:py-24">
+    <section id="courses" className="bg-white py-14 sm:py-20">
       <div className="mx-auto max-w-[1280px] px-6">
         <Reveal width="100%" delay={0.05} direction={isMobile ? 'up' : 'left'} distance={24}>
           <div className="mx-auto max-w-2xl text-center">

@@ -141,7 +141,12 @@ export default function CourseDetailsPage({
 
         {/* Header */}
         <Reveal width="100%" delay={0.05} direction={isMobile ? 'up' : 'right'} distance={24}>
-          <header className="rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-10">
+          <header className="rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-10 relative overflow-hidden">
+            {/* Halftone dots, mockup shell placement: top-right */}
+            <div
+              aria-hidden="true"
+              className="dots-texture pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[100px] opacity-50"
+            />
             <p className="text-xs font-bold tracking-[0.25em] text-[#1E4E79] uppercase">
               Course Details
             </p>
