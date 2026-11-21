@@ -215,6 +215,17 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
               >
                 Enrol
               </button>
+              <button
+                onClick={() => {
+                  closeDropdowns();
+                  setView('contact');
+                }}
+                className={`px-4 h-9 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+                  currentView === 'contact' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                }`}
+              >
+                Contact
+              </button>
             </nav>
 
             {/* Region switcher — USA/UK/Canada open their landing page; the
@@ -402,6 +413,17 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
                     className="text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
                   >
                     Enrol
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      setView('contact');
+                    }}
+                    className={`text-left text-[15px] font-semibold py-3.5 px-4 rounded-xl transition-colors cursor-pointer ${
+                      currentView === 'contact' ? 'bg-[#F2F6F9] text-[#004050]' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Contact
                   </button>
                 </nav>
 
