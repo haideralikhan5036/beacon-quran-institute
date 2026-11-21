@@ -63,7 +63,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
           <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
               <Sparkles className="w-4 h-4 text-[#7A7A50]" />
-              <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
+              <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
                 Student Concierge &amp; Support
               </h2>
             </div>
@@ -111,7 +111,7 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
 
                 {/* Card Footer Line Ornament */}
                 <div className="mt-6 pt-4 border-t border-[#D7E3EE] flex items-center gap-3">
-                  <span className="font-display text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50]">
+                  <span className="text-[8.5px] font-bold uppercase tracking-widest text-[#7A7A50]">
                     Verified Standard
                   </span>
                   <div className="h-px flex-grow bg-[#D7E3EE]"></div>

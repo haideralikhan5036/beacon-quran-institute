@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
@@ -22,61 +21,53 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-14 sm:py-20">
           {/* Left — copy */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#C9D9E8] text-[#004050] mb-7 shadow-sm"
+            {/* Hero entrance uses pure-CSS keyframes (Batch 13, .hero-anim
+                in index.css) instead of motion/react: the old motion spans
+                rendered opacity:0 into the prerendered HTML, so the hero
+                stayed invisible until JS hydrated. CSS animates as soon as
+                the stylesheet loads — same stagger, no JS needed. */}
+            <div
+              className="hero-anim inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#C9D9E8] text-[#004050] mb-7 shadow-sm"
             >
               <span className="w-2 h-2 rounded-full bg-[#7A7A50]" />
-              <span className="font-display text-[11px] font-bold uppercase tracking-[0.2em]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">
                 {t('hero.badge')}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className="font-display text-[40px] leading-[1.08] sm:text-6xl lg:text-[64px] font-semibold tracking-tight text-[#0B2E3A] text-balance">
-              <motion.span
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="block"
+              <span
+                className="hero-anim block"
+                style={{ animationDelay: '0.1s' }}
               >
                 {t('hero.title1')}
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.22 }}
-                className="block italic text-[#7A7A50]"
+              </span>
+              <span
+                className="hero-anim block italic text-[#7A7A50]"
+                style={{ animationDelay: '0.22s' }}
               >
                 {t('hero.title2')}
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.34 }}
-                className="block"
+              </span>
+              <span
+                className="hero-anim block"
+                style={{ animationDelay: '0.34s' }}
               >
                 {t('hero.title3')}
-              </motion.span>
+              </span>
             </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.45 }}
-              className="mt-6 text-lg leading-relaxed text-[#3D5563] max-w-xl"
+            <p
+              className="hero-anim mt-6 text-lg leading-relaxed text-[#3D5563] max-w-xl"
+              style={{ animationDelay: '0.45s' }}
             >
               Structured online classes for children and adults, taught by qualified
               teachers with a clear plan for every student — Qaida to Hifz, with
               progress you can actually see.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-              className="mt-8 flex flex-col sm:flex-row gap-4"
+            <div
+              className="hero-anim mt-8 flex flex-col sm:flex-row gap-4"
+              style={{ animationDelay: '0.55s' }}
             >
               <button
                 onClick={() => scrollToId('registration')}
@@ -97,13 +88,11 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
               >
                 {t('hero.methodology')}
               </button>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-10 flex items-center gap-3 border-t border-[#D7E3EE] pt-6"
+            <div
+              className="hero-fade mt-10 flex items-center gap-3 border-t border-[#D7E3EE] pt-6"
+              style={{ animationDelay: '0.7s' }}
             >
               <span className="flex gap-0.5" aria-label="5 out of 5 stars">
                 {[1, 2, 3, 4, 5].map((i) => (
@@ -113,15 +102,13 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
               <p className="text-sm font-medium text-[#3D5563]">
                 Trusted by students in 30+ countries
               </p>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right — photo card */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-            className="relative"
+          <div
+            className="hero-anim-lg relative"
+            style={{ animationDelay: '0.2s' }}
           >
             <div className="relative rounded-[2rem] overflow-hidden border border-[#C9D9E8] shadow-[0_30px_60px_-20px_rgba(11,46,58,0.25)] bg-white">
               {/* LCP image: explicit width/height + aspect class reserve the
@@ -174,7 +161,7 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
                 Live one-to-one class · 30 / 45 / 60 min
               </span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -91,7 +91,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
         <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
             <Sparkles className="w-4 h-4 text-[#7A7A50]" />
-            <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
+            <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
               Official Contact &amp; Support Channels
             </h2>
           </div>
@@ -122,7 +122,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border shadow-sm ${channel.badgeColor}`}>
                       <IconComponent className="w-7 h-7" />
                     </div>
-                    <span className="font-display text-[9px] font-extrabold uppercase tracking-widest text-[#7A7A50] bg-[#F4F8FB] px-3 py-1 rounded-full border border-[#C9D9E8]">
+                    <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#7A7A50] bg-[#F4F8FB] px-3 py-1 rounded-full border border-[#C9D9E8]">
                       Official
                     </span>
                   </div>
@@ -172,7 +172,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
                 <div className="w-14 h-14 rounded-2xl bg-[#F4F8FB] text-[#004050] border border-[#C9D9E8] flex items-center justify-center shadow-sm">
                   <Clock className="w-7 h-7" />
                 </div>
-                <span className="font-display text-[9px] font-extrabold uppercase tracking-widest text-[#7A7A50] bg-[#F4F8FB] px-3 py-1 rounded-full border border-[#C9D9E8]">
+                <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#7A7A50] bg-[#F4F8FB] px-3 py-1 rounded-full border border-[#C9D9E8]">
                   Global Hours
                 </span>
               </div>

@@ -89,7 +89,7 @@ function CourseCard({
           <Icon className="h-6 w-6" />
         </div>
 
-        <h3 className="font-display text-xl font-semibold text-[#0B2E3A]">{course.title}</h3>
+        <h3 className="text-xl font-semibold text-[#0B2E3A]">{course.title}</h3>
 
         <p className="mt-2 flex-1 text-sm leading-relaxed text-[#3D5563]">{course.short}</p>
 

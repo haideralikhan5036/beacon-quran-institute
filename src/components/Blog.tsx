@@ -83,7 +83,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
 
             <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-8 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-3">
-                <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
+                <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
                   Knowledge Hub
                 </h2>
               </div>
@@ -176,10 +176,10 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                           <div className="w-8 h-8 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center text-[#004050] shrink-0">
                             <User className="w-4 h-4" />
                           </div>
-                          <span className="font-display text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#004050]">{post.authorEn}</span>
+                          <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#004050]">{post.authorEn}</span>
                         </div>
                         <button
-                          className="font-display text-[9px] font-extrabold uppercase tracking-[0.25em] text-[#7A7A50] flex items-center gap-2 group-hover:gap-4 transition-all"
+                          className="text-[9px] font-extrabold uppercase tracking-[0.25em] text-[#7A7A50] flex items-center gap-2 group-hover:gap-4 transition-all"
                         >
                           <span>Read Full Article</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -213,7 +213,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
 
             {/* Category Filter Widget */}
             <div className="bg-[#FFFFFF] p-8 sm:p-10 rounded-3xl border border-[#C9D9E8] text-[#0B2E3A] shadow-[0_10px_30px_rgba(11,46,58,0.05)]">
-               <h4 className="text-lg font-bold font-display mb-6 text-[#004050]">
+               <h4 className="text-lg font-bold mb-6 text-[#004050]">
                  Popular Categories
                </h4>
                <div className="flex flex-wrap gap-2.5">
@@ -247,7 +247,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
 
             {/* Newsletter widget */}
             <div className="bg-[#FFFFFF] text-[#0B2E3A] p-8 sm:p-10 rounded-3xl border border-[#C9D9E8] shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
-               <h4 className="text-lg font-bold font-display mb-4 text-[#004050]">
+               <h4 className="text-lg font-bold mb-4 text-[#004050]">
                  Newsletter
                </h4>
                <p className="text-[#3D5563] text-sm mb-6 leading-relaxed">
@@ -292,6 +292,8 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                 <img
                   src={selectedPost.image}
                   alt={selectedPost.titleEn}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-black/30" />

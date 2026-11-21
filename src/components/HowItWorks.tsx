@@ -57,7 +57,7 @@ export default function HowItWorks() {
                       {step.n}
                     </span>
                   </div>
-                  <h3 className="font-display text-xl font-semibold text-[#0B2E3A] mb-2">
+                  <h3 className="text-xl font-semibold text-[#0B2E3A] mb-2">
                     {step.title}
                   </h3>
                   <p className="text-[15px] leading-relaxed text-[#3D5563]">{step.text}</p>

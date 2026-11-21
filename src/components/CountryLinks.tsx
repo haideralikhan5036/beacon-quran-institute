@@ -35,7 +35,7 @@ export default function CountryLinks() {
               >
                 <span className="flex items-center gap-2 mb-3">
                   <MapPin className="w-5 h-5 text-[#004050]" />
-                  <span className="text-xl font-bold font-display text-[#0B2E3A]">{c.name}</span>
+                  <span className="text-xl font-bold text-[#0B2E3A]">{c.name}</span>
                 </span>
                 <span className="block text-sm text-[#3D5563] leading-relaxed mb-4">{c.line}</span>
                 <span className="flex items-center gap-2 text-[#7A7A50] group-hover:text-[#004050] font-bold uppercase tracking-widest text-[10px] transition-colors mt-auto">

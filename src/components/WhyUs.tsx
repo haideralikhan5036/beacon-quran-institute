@@ -93,7 +93,7 @@ export default function WhyUs() {
         {/* ── a. Our Strengths ─────────────────────────────────────────── */}
         <Reveal width="100%">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
               Why Beacon
             </p>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight mb-4 text-balance">
@@ -113,7 +113,7 @@ export default function WhyUs() {
                 <div key={bar.label}>
                   <div className="flex items-center gap-3 mb-2">
                     <bar.icon className="w-4 h-4 text-[#004050] shrink-0" />
-                    <span className="font-display text-sm font-bold text-[#0B2E3A]">{bar.label}</span>
+                    <span className="text-sm font-bold text-[#0B2E3A]">{bar.label}</span>
                   </div>
                   <div className="h-3 rounded-full bg-[#EAF1F7] overflow-hidden">
                     <motion.div
@@ -133,7 +133,7 @@ export default function WhyUs() {
         {/* ── b. Educational Services ──────────────────────────────────── */}
         <Reveal width="100%">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
               What We Offer
             </p>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight mb-4 text-balance">
@@ -161,7 +161,7 @@ export default function WhyUs() {
                     <service.icon className="w-5 h-5 text-[#004050]" />
                   </div>
                 </div>
-                <h3 className="font-display text-xl font-bold text-[#0B2E3A] mb-2">{service.title}</h3>
+                <h3 className="text-xl font-bold text-[#0B2E3A] mb-2">{service.title}</h3>
                 <p className="text-[#3D5563] text-sm sm:text-base leading-relaxed">{service.desc}</p>
               </div>
             </Reveal>
@@ -171,7 +171,7 @@ export default function WhyUs() {
         {/* ── c. Where Beacon puts its effort ─────────────────────────── */}
         <Reveal width="100%">
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
               Our Focus
             </p>
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight text-balance">
@@ -187,7 +187,7 @@ export default function WhyUs() {
                 <div className="w-11 h-11 rounded-2xl bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center mx-auto mb-4">
                   <item.icon className="w-5 h-5 text-[#004050]" />
                 </div>
-                <h3 className="font-display text-lg font-bold text-[#0B2E3A] mb-1.5">{item.title}</h3>
+                <h3 className="text-lg font-bold text-[#0B2E3A] mb-1.5">{item.title}</h3>
                 <p className="text-[#3D5563] text-sm leading-relaxed">{item.desc}</p>
               </div>
             </Reveal>

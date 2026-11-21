@@ -85,7 +85,7 @@ export default function NearYou() {
           <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-8 sm:mb-10 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
             <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
               <MapPin className="w-4 h-4 text-[#004050]" />
-              <p className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{eyebrow}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{eyebrow}</p>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">{title}</h2>
             <p className="text-[#3D5563] max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
@@ -106,7 +106,7 @@ export default function NearYou() {
             {points.map((p) => (
               <div key={p.title} className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-5 text-center shadow-[0_10px_30px_rgba(11,46,58,0.05)]">
                 <p.icon className="w-6 h-6 text-[#004050] mx-auto mb-2" />
-                <p className="font-bold font-display text-[#0B2E3A] text-sm mb-1">{p.title}</p>
+                <p className="font-bold text-[#0B2E3A] text-sm mb-1">{p.title}</p>
                 <p className="text-[#3D5563] text-sm">{p.text}</p>
               </div>
             ))}
@@ -127,7 +127,7 @@ export default function NearYou() {
         {/* One-question FAQ: the "near me" question, answered honestly. */}
         <Reveal delay={0.3} width="100%">
           <div className="max-w-3xl mx-auto">
-            <p className="text-center font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050] mb-4">
+            <p className="text-center text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050] mb-4">
               {faqHeading}
             </p>
             <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.05)] overflow-hidden">
