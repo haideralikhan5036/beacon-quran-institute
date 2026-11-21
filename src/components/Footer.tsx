@@ -1,13 +1,28 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { ViewState } from '../App';
 import { Reveal } from './ui/Reveal';
 import logo from '../assets/images/brand_logo.jpg';
-import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 
-export default function Footer({ setView }: { setView: (view: ViewState) => void }) {
-  const { isAr } = useLanguage();
+// Geometric grid texture, inline: the .footer-grid class from the shared
+// design contract was not in index.css yet, so the grid lines are drawn
+// here with a CSS background instead.
+const GRID_TEXTURE: CSSProperties = {
+  backgroundImage:
+    'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+  backgroundSize: '32px 32px',
+};
 
+const FIVE_COURSES = [
+  'Noorani Qaida',
+  'Recitation & Tajweed',
+  'Hifz Program',
+  'Tafseer-ul-Quran',
+  'Islamic Studies',
+];
+
+export default function Footer({ setView }: { setView: (view: ViewState) => void }) {
   const handleEnrollClick = () => {
     setView('home');
     scrollToId('registration');
@@ -18,102 +33,72 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
     scrollToId('fees');
   };
 
-  const ctaTitle = isAr 
-    ? "هل أنت مستعد لبدء رحلتك القرآنية الشريفة؟" 
-    : "Ready to Begin Your Sacred Quranic Journey?";
+  const ctaTitle = 'Ready to Begin Your Sacred Quranic Journey?';
+  const ctaDesc = '"The best of you is the one who learns the Quran and teaches it." — Join 1-on-1 personalized live classes with certified Ijazah tutors today.';
+  const ctaPrimaryBtn = 'Start Free Trial Session';
+  const ctaSecondaryBtn = 'Explore Fees';
 
-  const ctaDesc = isAr 
-    ? "«خَيرُكُم مَن تَعَلَّمَ القُرآنَ وعَلَّمَهُ» — انضم اليوم لحلقات التحفيظ والتلاوة الفردية المباشرة مع نخبة المعلمين المجازين." 
-    : "\"The best of you is the one who learns the Quran and teaches it.\" — Join 1-on-1 personalized live classes with certified Ijazah tutors today.";
+  const brandDesc = 'Beacon Quran Institute is an online Quran academy offering live one-on-one Quran classes for kids and adults in the USA, UK and Canada — bridging classical scholarly methods with modern flexible learning to help students live the Quran beautifully.';
 
-  const ctaPrimaryBtn = isAr ? "احجز حصتك التجريبية مجاناً" : "Start Free Trial Session";
-  const ctaSecondaryBtn = isAr ? "استكشف الرسوم" : "Explore Fees";
-
-  const brandDesc = isAr 
-    ? "صرح قرآني عالمي يجمع بين أصالة المنهج التربوي والتحفيظ بالسند المتصل، وبين مرونة التعليم الرقمي الحديث ليضيء القلوب بنور كتاب الله."
-    : "Beacon Quran Institute is an online Quran academy offering live one-on-one Quran classes for kids and adults in the USA, UK and Canada — bridging classical scholarly methods with modern flexible learning to help students live the Quran beautifully.";
-
-  const navTitle = isAr ? "التنقل السريع" : "Quick Navigation";
   const navLinks = [
-    { name: isAr ? "الرئيسية" : "Institute Home", action: () => setView('home') },
-    { name: isAr ? "خدماتنا الأكاديمية" : "Core Services", action: () => setView('services') },
-    { name: isAr ? "بوابة التحقق والشهادات" : "Appraisal Portal", action: () => setView('certificate') },
-    { name: isAr ? "مدونة الآفاق" : "Insights Blog", action: () => setView('blog') },
-    { name: isAr ? "تفاصيل وباقات الرسوم" : "Fee Structure", action: () => handleFeesClick() },
-    { name: isAr ? "دروس القرآن في الولايات المتحدة" : "Online Quran Classes in the USA", action: () => setView('usa') },
-    { name: isAr ? "دروس القرآن في بريطانيا" : "Online Quran Classes UK", action: () => setView('uk') },
-    { name: isAr ? "دروس القرآن في كندا" : "Online Quran Classes in Canada", action: () => setView('canada') },
+    { name: 'Institute Home', action: () => setView('home') },
+    { name: 'Core Services', action: () => setView('services') },
+    { name: 'Appraisal Portal', action: () => setView('certificate') },
+    { name: 'Insights Blog', action: () => setView('blog') },
+    { name: 'Fee Structure', action: () => handleFeesClick() },
+    { name: 'Online Quran Classes in the USA', action: () => setView('usa') },
+    { name: 'Online Quran Classes UK', action: () => setView('uk') },
+    { name: 'Online Quran Classes in Canada', action: () => setView('canada') },
   ];
 
-  const curriculumTitle = isAr ? "المناهج الدراسية" : "Curriculum Tracks";
-  const curriculumLinks = isAr 
-    ? ["القاعدة النورانية للمبتدئين", "إتقان أحكام التجويد", "تحفيظ القرآن الكريم بالسند", "تفسير آيات القرآن الكريم", "تأسيس اللغة العربية الفصحى", "دراسة القراءات المتواترة"]
-    : ['Noorani Qaida for Beginners', 'Tajweed Mastery Science', 'Quranic Hifz & Memorization', 'Tafseer-e-Quran Insights', 'Arabic Language Foundations', 'Ten Recitation Qira\'at'];
-
-  const registryTitle = isAr ? "مكتب القبول والتسجيل" : "Registry & Support";
-  const directLineLabel = isAr ? "الهاتف المباشر / واتساب" : "Direct Line & WhatsApp";
-  const officialRegistryLabel = isAr ? "البريد الإلكتروني الرسمي" : "Official Registry Email";
-  const globalPresenceLabel = isAr ? "التواجد الجغرافي" : "Global Reach";
-  const globalPresenceDesc = isAr ? "نخدم الطلاب بفاعلية عبر ٤ قارات حول العالم" : "Online Quran classes for students across 30+ nations, including the USA, UK & Canada";
-
-  const finePrintText = isAr 
-    ? "معهد ريادي مرخص ومصرح للتعليم الرقمي • حماية معلومات مشفرة موافقة لمعايير ISO 27001"
-    : "Authorized Quranic Institute • ISO 27001 Certified Data Security";
+  const globalPresenceDesc = 'Online Quran classes for students across 30+ nations, including the USA, UK & Canada';
 
   const legalItems = [
-    { name: isAr ? "شروط وأحكام الخدمة" : "Terms of Service", action: () => setView('terms') },
-    { name: isAr ? "سياسة الخصوصية وأمن البيانات" : "Privacy Policy", action: () => setView('terms') },
-    { name: isAr ? "دليل الامتثال والجودة" : "Security & Quality", action: () => setView('terms') },
-    { name: isAr ? "سياسة الضمان والاسترجاع" : "Refund Guarantee", action: () => setView('terms') }
+    { name: 'Terms of Service', action: () => setView('terms') },
+    { name: 'Privacy Policy', action: () => setView('terms') },
+    { name: 'Security & Quality', action: () => setView('terms') },
+    { name: 'Refund Guarantee', action: () => setView('terms') },
   ];
 
-  const copyrightText = isAr 
-    ? "© ٢٠٢٦ معهد منارة القرآن الكريم • جميع الحقوق محفوظة • النسخة العالمية المعتمدة"
-    : "© 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED • GLOBAL EDITION";
-
   return (
-    <footer className="bg-[#030d12] text-white pt-20 pb-12 relative overflow-hidden border-t border-[#757454]/30">
-      {/* Background Texture & Ambient Glows */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none grayscale invert" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-[300px] bg-gradient-to-b from-[#084C63]/30 via-transparent to-transparent blur-3xl pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <footer className="bg-[#004050] text-white pt-16 sm:pt-20 pb-12 relative overflow-hidden">
+      {/* Geometric grid texture */}
+      <div className="absolute inset-0 pointer-events-none" style={GRID_TEXTURE} />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#004050]/40 via-transparent to-[#003040]/60" />
 
-        {/* ═══════════════════════════════════════════════════════════════════════
-            1. PRE-FOOTER CTA HERO BANNER — High Conversion Action Box
-           ═══════════════════════════════════════════════════════════════════════ */}
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+
+        {/* ── 1. Pre-footer CTA banner — deep blue card ─────────────── */}
         <Reveal delay={0.1}>
-          <div className="mb-20 card-shine border border-[#757454]/50 rounded-[3rem] p-8 sm:p-14 relative overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.8)]">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-[#757454]/15 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#084C63]/30 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
-            
-            <div className={`grid lg:grid-cols-[1.3fr,1fr] gap-8 items-center relative z-10 ${isAr ? 'text-right' : 'text-left'}`}>
+          <div className="mb-16 sm:mb-20 bg-[#1E4E79] rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+            <div className="absolute inset-0 pointer-events-none opacity-40" style={GRID_TEXTURE} />
+            <div className="grid lg:grid-cols-[1.3fr,1fr] gap-8 items-center relative z-10">
               <div>
-                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#757454]/20 border border-[#757454]/50 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-                  <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
-                  <span className="display text-[10px] font-extrabold uppercase tracking-[0.25em] text-amber-200">
-                    {isAr ? "الانضمام للمعهد" : "Begin Your Path Today"}
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
+                  <Sparkles className="w-4 h-4 text-white" />
+                  <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.25em] text-white">
+                    Begin Your Path Today
                   </span>
                 </div>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold display text-white leading-tight mb-4 drop-shadow-md">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-white leading-tight mb-4">
                   {ctaTitle}
                 </h3>
-                <p className="text-amber-100/90 text-base sm:text-lg leading-relaxed serif italic max-w-2xl">
+                <p className="text-white/85 text-base sm:text-lg leading-relaxed italic max-w-2xl">
                   {ctaDesc}
                 </p>
               </div>
 
-              <div className={`flex flex-col sm:flex-row gap-4 lg:justify-end ${isAr ? 'sm:flex-row-reverse' : ''}`}>
+              <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
                 <button
                   onClick={handleEnrollClick}
-                  className="group relative overflow-hidden bg-[#757454] hover:bg-[#084C63] text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-2xl flex items-center justify-center gap-3 border border-[#949693]/40 cursor-pointer"
+                  className="group bg-[#7A7A50] hover:bg-[#6b6b45] text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-xl flex items-center justify-center gap-3 cursor-pointer"
                 >
-                  <span className="relative z-10">{ctaPrimaryBtn}</span>
-                  <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10 ${isAr ? 'rotate-180' : ''}`} />
+                  <span>{ctaPrimaryBtn}</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button
                   onClick={handleFeesClick}
-                  className="group bg-[#051b23]/80 hover:bg-[#084C63] text-amber-100 px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all border border-[#757454]/40 flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  className="bg-transparent hover:bg-white/10 text-white px-8 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[11px] transition-all border border-white/40 flex items-center justify-center gap-2 cursor-pointer shadow-lg"
                 >
                   <span>{ctaSecondaryBtn}</span>
                 </button>
@@ -122,52 +107,47 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           </div>
         </Reveal>
 
-        {/* ═══════════════════════════════════════════════════════════════════════
-            2. MAIN ARCHITECTURAL FOOTER COLUMNS
-           ═══════════════════════════════════════════════════════════════════════ */}
-        <div className={`grid md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10 ${isAr ? 'text-right' : 'text-left'}`}>
-          
+        {/* ── 2. Main footer columns ─────────────────────────────────── */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-14 pb-14 border-b border-white/15">
+
           {/* Brand & Identity Column */}
           <div className="lg:col-span-4 space-y-6">
             <Reveal delay={0.1}>
-              <div 
-                className={`flex items-center gap-4 group cursor-pointer ${isAr ? 'flex-row-reverse' : ''}`} 
-                onClick={() => setView('home')}
-              >
-                <div className="w-16 h-16 rounded-2xl p-1 bg-[#051b23] border border-[#757454]/50 shadow-xl group-hover:border-amber-400 transition-all duration-500 overflow-hidden shrink-0">
+              <div className="flex items-center gap-4 group cursor-pointer" onClick={() => setView('home')}>
+                <div className="w-16 h-16 rounded-2xl p-1 bg-white border border-white/30 shadow-xl overflow-hidden shrink-0">
                   <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-contain" loading="lazy" decoding="async" />
                 </div>
-                <div className={`flex flex-col ${isAr ? 'items-end' : 'items-start'}`}>
-                   <h2 className="text-2xl sm:text-3xl font-bold display leading-none tracking-tight text-white group-hover:text-amber-300 transition-colors">
-                     {isAr ? "مَنارة" : "BEACON"}
+                <div className="flex flex-col items-start">
+                   <h2 className="text-2xl sm:text-3xl font-bold font-display leading-none tracking-tight text-white">
+                     BEACON
                    </h2>
-                   <span className="display text-[10px] font-extrabold uppercase tracking-[0.35em] text-amber-200 mt-1">
-                     {isAr ? "معهد القرآن الكريم" : "Quran Institute"}
+                   <span className="font-display text-[10px] font-extrabold uppercase tracking-[0.35em] text-white/80 mt-1">
+                     Quran Institute
                    </span>
                 </div>
               </div>
             </Reveal>
 
             <Reveal delay={0.2}>
-              <p className="text-amber-100/90 leading-relaxed text-sm sm:text-base font-normal">
+              <p className="text-white/85 leading-relaxed text-sm sm:text-base font-normal">
                 {brandDesc}
               </p>
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className={`flex items-center gap-3 pt-2 ${isAr ? 'justify-end' : 'justify-start'}`}>
+              <div className="flex items-center gap-3 pt-2">
                 {[
-                  { Icon: Facebook, href: "https://www.facebook.com/share/1DqHmNagMu/", name: "Facebook" },
-                  { Icon: Instagram, href: "https://www.instagram.com/beacon_quran_institute?igsh=bW9sc3B6eWsxZHo5", name: "Instagram" },
-                  { Icon: Linkedin, href: "https://www.linkedin.com/in/beacon-quran-institute-929839406?utm_source=share_via&utm_content=profile&utm_medium=member_android", name: "LinkedIn" }
+                  { Icon: Facebook, href: 'https://www.facebook.com/share/1DqHmNagMu/', name: 'Facebook' },
+                  { Icon: Instagram, href: 'https://www.instagram.com/beacon_quran_institute?igsh=bW9sc3B6eWsxZHo5', name: 'Instagram' },
+                  { Icon: Linkedin, href: 'https://www.linkedin.com/in/beacon-quran-institute-929839406?utm_source=share_via&utm_content=profile&utm_medium=member_android', name: 'LinkedIn' },
                 ].map(({ Icon, href, name }) => (
-                  <a 
-                    key={name} 
-                    href={href} 
-                    target="_blank" 
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
                     rel="noopener noreferrer"
                     title={name}
-                    className="w-11 h-11 rounded-xl bg-[#051b23] border border-[#757454]/40 flex items-center justify-center text-amber-200 hover:bg-[#757454] hover:text-white hover:border-amber-300 transition-all duration-300 shadow-md group"
+                    className="w-11 h-11 rounded-xl bg-white/10 border border-white/25 flex items-center justify-center text-white hover:bg-[#7A7A50] hover:text-white hover:border-[#7A7A50] transition-all duration-300 shadow-md group"
                   >
                     <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   </a>
@@ -179,17 +159,17 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           {/* Quick Navigation Column */}
           <div className="lg:col-span-2 space-y-6">
             <Reveal delay={0.2} direction="up" distance={20}>
-              <h3 className="display text-[11px] font-extrabold uppercase tracking-[0.35em] text-amber-200 border-b border-[#757454]/30 pb-3">{navTitle}</h3>
+              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Quick Navigation</h3>
             </Reveal>
             <ul className="space-y-4">
               {navLinks.map((link, i) => (
                 <Reveal key={link.name} delay={0.3 + i * 0.08} direction="up" distance={10}>
                   <li>
-                    <button 
+                    <button
                       onClick={() => { link.action(); window.scrollTo(0, 0); }}
-                      className={`text-sm font-medium text-white/90 hover:text-amber-200 transition-all flex items-center gap-2.5 group cursor-pointer ${isAr ? 'flex-row-reverse w-full' : ''}`}
+                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-center gap-2.5 group cursor-pointer"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#757454] group-hover:bg-amber-200 group-hover:scale-150 transition-all"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all"></span>
                       {link.name}
                     </button>
                   </li>
@@ -198,63 +178,66 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
             </ul>
           </div>
 
-          {/* Curriculum Tracks Column */}
+          {/* Curriculum Tracks Column — the five courses */}
           <div className="lg:col-span-3 space-y-6">
             <Reveal delay={0.4} direction="up" distance={20}>
-              <h3 className="display text-[11px] font-extrabold uppercase tracking-[0.35em] text-amber-200 border-b border-[#757454]/30 pb-3">{curriculumTitle}</h3>
+              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Curriculum Tracks</h3>
             </Reveal>
             <ul className="space-y-3.5">
-              {curriculumLinks.map((link, i) => (
-                <Reveal key={link} delay={0.5 + i * 0.08} direction="up" distance={10}>
+              {FIVE_COURSES.map((course, i) => (
+                <Reveal key={course} delay={0.5 + i * 0.08} direction="up" distance={10}>
                   <li>
-                    <a href="#courses" className={`text-sm font-medium text-white/90 hover:text-amber-200 transition-all flex items-center gap-2.5 group ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                      <span className="text-amber-200/60 group-hover:text-amber-200 text-xs transition-colors">→</span>
-                      {link}
-                    </a>
+                    <button
+                      onClick={() => { setView('courses'); window.scrollTo(0, 0); }}
+                      className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-center gap-2.5 group cursor-pointer"
+                    >
+                      <span className="text-white/60 group-hover:text-white text-xs transition-colors">→</span>
+                      {course}
+                    </button>
                   </li>
                 </Reveal>
               ))}
             </ul>
           </div>
 
-          {/* Direct Registry & Support Column */}
+          {/* Registry & Support Column */}
           <div className="lg:col-span-3 space-y-6">
             <Reveal delay={0.6} direction="up" distance={20}>
-              <h3 className="display text-[11px] font-extrabold uppercase tracking-[0.35em] text-amber-200 border-b border-[#757454]/30 pb-3">{registryTitle}</h3>
+              <h3 className="font-display text-[11px] font-extrabold uppercase tracking-[0.35em] text-white border-b border-white/20 pb-3">Registry &amp; Support</h3>
             </Reveal>
-            
+
             <div className="space-y-4">
               <Reveal delay={0.7} direction="up" distance={15}>
-                <div className={`p-4 rounded-2xl bg-[#051b23]/90 border border-[#757454]/30 flex items-center gap-4 ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#757454]/20 border border-[#757454]/40 flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4 text-amber-200" />
+                <div className="p-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#7A7A50]/30 border border-white/25 flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-white" />
                   </div>
                   <div className="overflow-hidden">
-                    <p className="display text-[8.5px] font-extrabold uppercase tracking-widest text-amber-200">{directLineLabel}</p>
+                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Direct Line &amp; WhatsApp</p>
                     <p className="text-sm font-bold text-white tracking-wide" dir="ltr">+92 346 1573771</p>
                   </div>
                 </div>
               </Reveal>
 
               <Reveal delay={0.8} direction="up" distance={15}>
-                <div className={`p-4 rounded-2xl bg-[#051b23]/90 border border-[#757454]/30 flex items-center gap-4 ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#757454]/20 border border-[#757454]/40 flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4 text-amber-200" />
+                <div className="p-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#7A7A50]/30 border border-white/25 flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-white" />
                   </div>
                   <div className="overflow-hidden min-w-0">
-                    <p className="display text-[8.5px] font-extrabold uppercase tracking-widest text-amber-200">{officialRegistryLabel}</p>
+                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Official Registry Email</p>
                     <p className="text-[11px] sm:text-xs font-bold text-white whitespace-nowrap" dir="ltr">beaconquraninstitute@gmail.com</p>
                   </div>
                 </div>
               </Reveal>
 
               <Reveal delay={0.9} direction="up" distance={15}>
-                <div className={`p-4 rounded-2xl bg-[#051b23]/90 border border-[#757454]/30 flex items-center gap-4 ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                  <div className="w-10 h-10 rounded-xl bg-[#757454]/20 border border-[#757454]/40 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4 text-amber-200" />
+                <div className="p-4 rounded-2xl bg-white/10 border border-white/20 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#7A7A50]/30 border border-white/25 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="display text-[8.5px] font-extrabold uppercase tracking-widest text-amber-200">{globalPresenceLabel}</p>
+                    <p className="font-display text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Global Reach</p>
                     <p className="text-xs sm:text-sm font-bold text-white">{globalPresenceDesc}</p>
                   </div>
                 </div>
@@ -263,26 +246,24 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════════════════
-            3. DUAL-TIER BOTTOM SECURITY & LEGAL BAR
-           ═══════════════════════════════════════════════════════════════════════ */}
+        {/* ── 3. Bottom legal bar ────────────────────────────────────── */}
         <div className="pt-10 flex flex-col lg:flex-row justify-between items-center gap-6">
           <Reveal delay={1.0}>
-            <div className={`flex items-center gap-3 ${isAr ? 'flex-row-reverse' : ''}`}>
-              <ShieldCheck className="w-4 h-4 text-amber-200 shrink-0" />
-              <p className="display text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
-                {finePrintText}
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="w-4 h-4 text-white shrink-0" />
+              <p className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
+                Secure &amp; private online classes
               </p>
             </div>
           </Reveal>
-          
+
           <Reveal delay={1.1}>
-            <div className={`flex flex-wrap justify-center gap-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-              {legalItems.map(item => (
-                <button 
-                  key={item.name} 
+            <div className="flex flex-wrap justify-center gap-6">
+              {legalItems.map((item) => (
+                <button
+                  key={item.name}
                   onClick={() => { item.action(); window.scrollTo({ top: 0, behavior: 'auto' }); }}
-                  className="display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-amber-200 transition-colors cursor-pointer whitespace-nowrap"
+                  className="font-display text-[9.5px] font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   {item.name}
                 </button>
@@ -291,8 +272,8 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
           </Reveal>
 
           <Reveal delay={1.2}>
-            <p className="display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
-              {copyrightText}
+            <p className="font-display text-[9.5px] font-bold uppercase tracking-[0.25em] text-white/70">
+              © 2026 BEACON QURAN INSTITUTE • ALL RIGHTS RESERVED
             </p>
           </Reveal>
         </div>

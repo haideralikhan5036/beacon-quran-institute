@@ -19,19 +19,19 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.blog': 'Blog',
     'nav.testimonials': 'Testimonials',
     'nav.contact': 'Contact',
-    'nav.startLearning': 'Start Learning',
+    'nav.startLearning': 'Book a Free Trial',
     'institute.arabic': 'معھد منارۃ القرآن',
     'institute.title': 'BEACON QURAN INSTITUTE',
 
     // Hero
-    'hero.badge': 'House of Wisdom • Ancient Islamic Sanctuary',
-    'hero.title1': 'Online Quran Classes',
-    'hero.title2': 'for Kids & Adults',
-    'hero.title3': 'BEACON QURAN INSTITUTE',
+    'hero.badge': 'Online Quran Academy',
+    'hero.title1': 'Learn the Quran properly —',
+    'hero.title2': 'one-to-one, live,',
+    'hero.title3': 'from anywhere in the world.',
     'hero.subtitle': 'Learn Quran Online with Tajweed',
     'hero.description': 'Learn Quran online in live one-on-one classes with certified male and female teachers — from Noorani Qaida and Tajweed to Hifz memorization, for kids and adults in the USA, UK and Canada.',
-    'hero.methodology': 'Explore Corridor',
-    'hero.startJourney': 'Begin Your Journey',
+    'hero.methodology': 'View Courses',
+    'hero.startJourney': 'Book a Free Trial Class',
     'hero.trustedBy': 'Trusted by students in 30+ countries worldwide',
 
     // Sections

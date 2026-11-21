@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
-import { Star, Quote, X } from 'lucide-react';
+import { Star, X } from 'lucide-react';
 
 const testimonials = [
   {
@@ -30,12 +30,12 @@ const testimonials = [
 ];
 
 const colors = [
-  'bg-blue-100 text-blue-600',
-  'bg-emerald-100 text-emerald-600',
-  'bg-amber-100 text-amber-600',
-  'bg-cyan-100 text-cyan-600',
-  'bg-indigo-100 text-indigo-600',
-  'bg-teal-100 text-teal-600'
+  'bg-[#EAF1F7] text-[#004050]',
+  'bg-[#F4F8FB] text-[#1E4E79]',
+  'bg-[#F7F5EF] text-[#7A7A50]',
+  'bg-[#EAF1F7] text-[#004050]',
+  'bg-[#F4F8FB] text-[#1E4E79]',
+  'bg-[#F7F5EF] text-[#7A7A50]'
 ];
 
 export default function TestimonialPopup() {
@@ -71,7 +71,7 @@ export default function TestimonialPopup() {
         timeoutId = setTimeout(() => {
           setIndex((prev) => (prev + 1) % testimonials.length);
           showTestimonial();
-        }, 10000); 
+        }, 10000);
       }, 7000);
     };
 
@@ -92,25 +92,25 @@ export default function TestimonialPopup() {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: -20, scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed bottom-6 left-6 z-[100] w-[280px] max-w-[calc(100vw-3rem)] card-shine border border-accent/40 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-5 text-amber-50 flex gap-4 overflow-hidden group"
+          className="fixed bottom-6 left-6 z-[100] w-[280px] max-w-[calc(100vw-3rem)] bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl shadow-[0_20px_60px_rgba(11,46,58,0.18)] p-5 text-[#0B2E3A] flex gap-4 overflow-hidden group"
         >
           {/* Subtle Progress Bar */}
-          <motion.div 
+          <motion.div
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
             transition={{ duration: 7, ease: "linear" }}
-            className="absolute bottom-0 left-0 h-0.5 bg-amber-300"
+            className="absolute bottom-0 left-0 h-0.5 bg-[#7A7A50]"
           />
 
-          <button 
+          <button
             onClick={() => setIsVisible(false)}
-            className="absolute top-3 right-3 p-1.5 bg-white/5 rounded-full text-amber-100/60 hover:text-amber-50 hover:bg-white/10 transition-all opacity-0 group-hover:opacity-100"
+            className="absolute top-3 right-3 p-1.5 bg-[#F4F8FB] rounded-full text-[#3D5563] hover:text-[#0B2E3A] hover:bg-[#EAF1F7] transition-all opacity-0 group-hover:opacity-100"
           >
             <X className="w-3 h-3" />
           </button>
 
           <div className="relative shrink-0 flex items-center">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm uppercase shadow-sm border border-accent/5 ${colorClass}`}>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm uppercase shadow-sm border border-[#C9D9E8] ${colorClass}`}>
               {initial}
             </div>
           </div>
@@ -118,18 +118,18 @@ export default function TestimonialPopup() {
           <div className="flex flex-col min-w-0 pr-2">
             <div className="flex gap-0.5 mb-1.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-2.5 h-2.5 fill-accent text-accent" />
+                <Star key={i} className="w-2.5 h-2.5 fill-[#7A7A50] text-[#7A7A50]" />
               ))}
             </div>
-            <p className="text-[12px] text-amber-50 font-medium leading-[1.5] mb-2 line-clamp-2 italic">
+            <p className="text-[12px] text-[#0B2E3A] font-medium leading-[1.5] mb-2 line-clamp-2 italic">
               "{currentTestimonial.text}"
             </p>
             <div className="flex items-center gap-2">
               <div className="flex flex-col">
-                <span className="text-[9px] font-black uppercase tracking-wider text-amber-50">
+                <span className="text-[9px] font-black uppercase tracking-wider text-[#0B2E3A]">
                   {currentTestimonial.name}
                 </span>
-                <span className="text-[8px] uppercase tracking-tight text-amber-100/70 font-bold">
+                <span className="text-[8px] uppercase tracking-tight text-[#3D5563] font-bold">
                   {currentTestimonial.location}
                 </span>
               </div>

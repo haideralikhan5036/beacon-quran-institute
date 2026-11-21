@@ -2,12 +2,11 @@ import { motion } from 'motion/react';
 import { Star, Quote, ArrowRight, ArrowLeft, Sparkles, ChevronUp, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Reveal } from './ui/Reveal';
-import { useLanguage } from '../context/LanguageContext';
 
 const allTestimonials = [
   { name: "Sarah Ahmed", location: "United Kingdom", text: "The Noorani Qaida course has been a blessing for my 6-year-old. The teacher is incredibly patient and uses engaging methods that keep my daughter excited for every session." },
   { name: "Omar Farooq", location: "USA", text: "I wanted to improve my Tajweed for years. Beacon Quran Institute provided me with an Ijazah certified teacher who corrected my pronunciation in just a few months." },
-  { name: "Fatima Zahra", location: "Canada", text: "The flexibility of 24/7 classes is what makes this institute stand out. Being a working professional, I can attend my classes at 9 PM after my duties." },
+  { name: "Fatima Zahra", location: "Canada", text: "The flexibility of the classes is what makes this institute stand out. Being a working professional, I can attend my classes at 9 PM after my duties." },
   { name: "Yusuf Khan", location: "Australia", text: "Noorani Qaida course helped my 5-year old start reading Quran with confidence. Thank you Beacon!" },
   { name: "Aisha Malik", location: "UAE", text: "Truly blessed to have found this institute. The Female teachers are highly qualified and very professional." },
   { name: "Zaid Ibrahim", location: "Germany", text: "Their Arabic course for kids is excellent. My son is learning grammar and vocabulary so naturally." },
@@ -52,33 +51,6 @@ const allTestimonials = [
   { name: "Asma Abbas", location: "Mexico", text: "Wonderful teachers who really care about the student's progress." }
 ];
 
-const allTestimonialsAr = [
-  { name: "سارة أحمد", location: "المملكة المتحدة", text: "لقد كانت دورة القاعدة النورانية بركة لطفلتي ذات الـ 6 سنوات. المعلمة صبورة بشكل هائل وتستخدم أساليب ممتعة تجعل ابنتي متشوقة لكل حصة تالية." },
-  { name: "عمر فاروق", location: "الولايات المتحدة الأمريكية", text: "أردت تحسين تجويدي لسنوات عديدة. وفر لي معهد منارة القرآن معلماً متميزاً مجازاً بالسند المتصل صحح نطقي للأحرف ومخارجها خلال أشهر وجيزة." },
-  { name: "فاطمة الزهراء", location: "كندا", text: "مرونة الفصول الدراسية وتوفر الحلقات على مدار ٢٤ ساعة يجعل هذا المعهد استثنائياً حقاً. كوني متخصصة في العمل، يمكنني حضور حصصي بسهولة في أوقات مرنة جداً." },
-  { name: "يوسف خان", location: "أستراليا", text: "ساعدت دورة القاعدة النورانية طفلي البالغ من العمر 5 سنوات على البدء في قراءة القرآن الكريم وحفظ قصار السور بكل ثقة. شكراً لكم!" },
-  { name: "عائشة مالك", location: "الإمارات العربية المتحدة", text: "ممتنة بحق للعثور على هذا المنبر القرآني المبارك. الشيخات والمعلمات هنا مؤهلات للغاية ويتحلين بأسلوب تربوي راقٍ وثري." },
-  { name: "زيد إبراهيم", location: "ألمانيا", text: "دورتهم في اللغة العربية والتربية الإسلامية للأطفال ممتازة للغاية. يتعلم ابني القواعد والمفردات بصورة لغوية طبيعية ممتازة." },
-  { name: "مريم الصديقي", location: "النرويج", text: "كان حفظ كتاب الله هو حلم حياتي الأسمى. مع برنامج الحفظ والمراجعة المدروس لديهم، أتممت 5 أجزاء في 6 أشهر مع تجويد دقيق." },
-  { name: "بلال حسن", location: "قطر", text: "لقد كانت الحصص التجريبية مقنعة للغاية لدرجة أنني سجلت عائلتي والبراعم فوراً. نوصي به بشدة لكل الأعمار والمهتمين بالقرآن وعلم التجويد." },
-  { name: "هدى منصور", location: "جمهورية مصر العربية", text: "على الرغم من كوني عربية، فقد أردت صقل تجويدي والتفوق في علم مخارج الوقف والابتداء. المعلمون والعلماء هنا من الطراز الرفيع." },
-  { name: "سامي الله", location: "باكستان", text: "نهج متميز وصرح جليل لربط المغتربين والدارسين المقيمين في الخارج بهوية لغتهم العربية والقرآن الشريف لغرس الفضائل في أفئدتهم." },
-  { name: "زينب علي", location: "السويد", text: "منهاج التربية الإسلامية للأطفال شامل للغاية ومحبب، يحب أطفالي كثيراً تعلم السيرة المعطرة لرسول الهدى ﷺ والقصص القرآنية." },
-  { name: "حمزة أحمد", location: "المملكة المتحدة", text: "قمة في الالتزام والاحترافية والتوثيق. البوابة الرقمية للمتابعة تجعل من السير الذاتي للتعلم والتقييم الشهري ممتعاً وممتازاً جداً." },
-  { name: "أريبة نور", location: "سنغافورة", text: "أفضل تجارب التعليم والتحفيظ الرقمي للقرآن تواصل وجودة تامة وجودة صوتية ومرئية مميزة خلال الحلقات الفردية الفعالة." },
-  { name: "مصطفى كمال", location: "تركيا", text: "لقد قمت بإرصاد وتوصية جميع أصحابي وأسر المجتمع بالتسجيل هنا. بارك الله في جهود فريق معهد منارة القرآن." },
-  { name: "صفية بيجوم", location: "جنوب أفريقيا", text: "تلتزم المعلمات بالمواعيد بدقة متناهية، والحلقات مثمرة ومفيدة للغاية في تنشئة جيل واعٍ متصل بالذكر الحكيم." }
-];
-
-const colors = [
-  'bg-blue-100 text-blue-600',
-  'bg-emerald-100 text-emerald-600',
-  'bg-amber-100 text-amber-600',
-  'bg-cyan-100 text-cyan-600',
-  'bg-indigo-100 text-indigo-600',
-  'bg-teal-100 text-teal-600'
-];
-
 const randomPictures = [
   "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=120", // Emerald hills
   "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=120", // Deep forest
@@ -100,24 +72,23 @@ const randomPictures = [
 
 function TestimonialAvatar({ name, index }: { name: string, index: number }) {
   const imageUrl = randomPictures[index % randomPictures.length];
-  
+
   return (
-    <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-[0_4px_20px_-4px_rgba(27,84,61,0.2)] shrink-0 border border-primary/10 relative group-hover:border-accent/40 transition-colors duration-500">
-      <img 
-        src={imageUrl} 
-        alt={name} 
+    <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-[0_4px_20px_-4px_rgba(11,46,58,0.2)] shrink-0 border border-[#C9D9E8] relative group-hover:border-[#7A7A50]/40 transition-colors duration-500">
+      <img
+        src={imageUrl}
+        alt={name}
         referrerPolicy="no-referrer"
         loading="lazy"
         decoding="async"
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
     </div>
   );
 }
 
 export default function Testimonials({ full = false, setView }: { full?: boolean; setView?: (view: any) => void }) {
-  const { isAr } = useLanguage();
-  const testimonialsList = isAr ? allTestimonialsAr : allTestimonials;
+  const testimonialsList = allTestimonials;
   const [loading, setLoading] = useState(true);
   const displayTestimonials = full ? testimonialsList : testimonialsList.slice(0, 4);
 
@@ -149,56 +120,41 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
     return () => clearInterval(interval);
   }, [displayTestimonials.length, loading, isPaused]);
 
-  const sectionSub = isAr ? "شهادات وآراء طلابنا" : "Student Testimonials";
-  const sectionTitle = full 
-    ? (isAr ? "الأصوات الكاملة لمجتمعنا المبارك" : "The Complete Voice of Our Community")
-    : (isAr ? "قصص الهدى والارتقاء الروحي" : "Stories of Spiritual Growth");
+  const sectionSub = "Student Testimonials";
+  const sectionTitle = full
+    ? "The Complete Voice of Our Community"
+    : "Stories of Spiritual Growth";
 
   const sectionDesc = full
-    ? (isAr 
-        ? `تصفح تجربة ومسار ${testimonialsList.length} طالب وطالبة ممن وجدوا النور والهداية في صرح المنارة.`
-        : `Explore the collective experience of ${allTestimonials.length} students who found their light at Beacon.`
-      )
-    : (isAr
-        ? "انضم لعائلة عالمية متصلة ترتاد دروب التعلم والتحفيظ لترتقي حياتها بنور القرآن الكريم."
-        : "Join a global family of learners who have transformed their lives through the light of the Holy Quran."
-      );
+    ? `Explore the collective experience of ${allTestimonials.length} students who found their light at Beacon.`
+    : "Join a global family of learners who have transformed their lives through the light of the Holy Quran.";
 
-  const backText = isAr ? "الرجوع للمعهد" : "Back to Institute";
-  const readAllButtonText = isAr ? `قراءة جميع الـ ${testimonialsList.length} قصص نجاح` : `Read All ${testimonialsList.length} Stories`;
+  const backText = "Back to Institute";
+  const readAllButtonText = `Read All ${testimonialsList.length} Stories`;
 
   return (
-    <section id="reviews" className={`relative overflow-hidden ${full ? 'bg-transparent min-h-screen pt-32 sm:pt-36 pb-16 sm:pb-20' : 'bg-transparent py-16 sm:py-20'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="reviews" className={`relative overflow-hidden bg-[#FFFFFF] ${full ? 'min-h-screen pt-32 sm:pt-36 pb-16 sm:pb-20' : 'py-16 sm:py-20'}`}>
+      <div className="max-w-[1280px] mx-auto px-6">
         {full && (
-           <button 
+           <button
              onClick={() => setView?.('home')}
-             className={`group flex items-center gap-3 text-amber-100/80 hover:text-accent display text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 ${isAr ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
+             className="group flex items-center gap-3 text-[#3D5563] hover:text-[#004050] font-display text-[11px] font-bold uppercase tracking-[0.2em] transition-all mb-8 mr-auto cursor-pointer"
            >
-             {isAr ? (
-               <>
-                 {backText}
-                 <ArrowLeft className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
-               </>
-             ) : (
-               <>
-                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                 {backText}
-               </>
-             )}
+             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+             {backText}
            </button>
         )}
         <div className="text-center mb-16 sm:mb-24 relative">
           <Reveal delay={0.1} width="100%">
-            <div className="card-shine border border-[#949693]/35 p-6 sm:p-9 rounded-[2.5rem] max-w-3xl mx-auto text-center mb-16 shadow-2xl">
-              <div className={`inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#084C63]/30 border border-[#949693]/40 mb-4 ${isAr ? 'flex-row-reverse' : ''}`}>
-                <Sparkles className="w-4 h-4 text-amber-200 animate-pulse" />
-                <h2 className="display text-[10px] font-extrabold uppercase tracking-[0.3em] text-amber-200">{sectionSub}</h2>
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+              <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
+                <Sparkles className="w-4 h-4 text-[#7A7A50]" />
+                <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{sectionSub}</h2>
               </div>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold display text-amber-50 mb-4 text-balance">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">
                 {sectionTitle}
               </h3>
-              <p className="text-amber-100/95 max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
+              <p className="text-[#3D5563] max-w-xl mx-auto text-base sm:text-lg leading-relaxed text-balance font-medium">
                 {sectionDesc}
               </p>
             </div>
@@ -206,18 +162,15 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
         </div>
 
         {/* 3D Vertical Rotating Stage Container */}
-        <div 
+        <div
           className="relative w-full max-w-4xl mx-auto min-h-[460px] sm:min-h-[500px] md:min-h-[460px] flex items-center justify-center overflow-visible px-4 py-12 mb-10"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Central elliptical platform illumination shadow */}
-          <div className="absolute inset-y-0 -left-[10%] -right-[10%] bg-gradient-to-b from-primary/[0.01] via-accent/[0.02] to-transparent blur-3xl rounded-full pointer-events-none z-0" />
-          
           {/* Top navigation arrow */}
           <button
             onClick={() => setActiveIndex(prev => (prev - 1 + displayTestimonials.length) % displayTestimonials.length)}
-            className="absolute -top-4 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md text-amber-100 border border-accent/30 shadow-2xl hover:border-accent hover:text-white flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
+            className="absolute -top-4 w-12 h-12 rounded-full bg-[#FFFFFF] text-[#004050] border border-[#C9D9E8] shadow-lg hover:border-[#7A7A50] hover:text-[#7A7A50] flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
             aria-label="Previous Testimonial"
           >
             <ChevronUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
@@ -226,19 +179,19 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
           {/* Bottom navigation arrow */}
           <button
             onClick={() => setActiveIndex(prev => (prev + 1) % displayTestimonials.length)}
-            className="absolute -bottom-4 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md text-amber-100 border border-accent/30 shadow-2xl hover:border-accent hover:text-white flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
+            className="absolute -bottom-4 w-12 h-12 rounded-full bg-[#FFFFFF] text-[#004050] border border-[#C9D9E8] shadow-lg hover:border-[#7A7A50] hover:text-[#7A7A50] flex items-center justify-center transition-all duration-300 active:scale-95 z-40 group cursor-pointer"
             aria-label="Next Testimonial"
           >
             <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
           </button>
 
           {/* 3D Viewport container */}
-          <div 
-            className="w-full h-[320px] sm:h-[350px] relative flex items-center justify-center overflow-visible" 
+          <div
+            className="w-full h-[320px] sm:h-[350px] relative flex items-center justify-center overflow-visible"
             style={{ perspective: 1800, transformStyle: 'preserve-3d' }}
           >
             {loading ? (
-              <div className="h-64 w-full bg-primary/5 animate-pulse rounded-[3rem]"></div>
+              <div className="h-64 w-full bg-[#EAF1F7] animate-pulse rounded-3xl"></div>
             ) : (
               displayTestimonials.map((item, index) => {
                 let diff = index - activeIndex;
@@ -297,32 +250,30 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
                     }}
                     className="w-full max-w-3xl origin-center"
                   >
-                    <div className={`p-8 sm:p-12 rounded-[3rem] card-shine border border-accent/40 shadow-2xl transition-all duration-700 text-amber-50 group flex flex-col md:flex-row gap-8 sm:gap-10 items-start relative overflow-hidden ${isAr ? 'md:flex-row-reverse' : ''}`}>
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-accent/10 transition-colors"></div>
-                      
+                    <div className="p-8 sm:p-12 rounded-3xl bg-[#FFFFFF] border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-all duration-700 text-[#0B2E3A] group flex flex-col md:flex-row gap-8 sm:gap-10 items-start relative overflow-hidden">
                       <div className="shrink-0 flex flex-col items-center gap-4 relative z-10 mx-auto">
                         <TestimonialAvatar name={item.name} index={index} />
                         <div className="flex flex-col items-center">
                           <div className="flex gap-0.5">
                             {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="w-3 h-3 fill-accent text-accent" />
+                              <Star key={i} className="w-3 h-3 fill-[#7A7A50] text-[#7A7A50]" />
                             ))}
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="flex-grow relative z-10 w-full text-center md:text-left">
-                        <Quote className={`w-8 h-8 text-accent/60 mb-4 group-hover:text-accent/50 transition-colors ${isAr ? 'ml-auto mr-0 transform scale-x-[-1]' : 'ml-0 mr-auto'}`} />
-                        <p className={`text-base sm:text-lg serif text-amber-100/90 leading-relaxed italic mb-8 ${isAr ? 'text-right' : 'text-left'}`}>
+                        <Quote className="w-8 h-8 text-[#7A7A50]/60 mb-4 group-hover:text-[#7A7A50] transition-colors ml-0 mr-auto" />
+                        <p className="text-base sm:text-lg font-display text-[#3D5563] leading-relaxed italic mb-8 text-left">
                           "{item.text}"
                         </p>
-                        <div className={`pt-6 border-t border-accent/10 flex items-center justify-between ${isAr ? 'flex-row-reverse text-right' : ''}`}>
-                          <div className={isAr ? 'text-right' : 'text-left'}>
-                            <h4 className="font-bold display text-[11px] uppercase tracking-widest text-amber-50">{item.name}</h4>
-                            <p className="display text-[9px] uppercase tracking-[0.2em] text-accent font-black mt-1.5">{item.location}</p>
+                        <div className="pt-6 border-t border-[#D7E3EE] flex items-center justify-between">
+                          <div className="text-left">
+                            <h4 className="font-bold font-display text-[11px] uppercase tracking-widest text-[#0B2E3A]">{item.name}</h4>
+                            <p className="font-display text-[9px] uppercase tracking-[0.2em] text-[#7A7A50] font-black mt-1.5">{item.location}</p>
                           </div>
-                          <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
-                             <div className="w-2.4 h-2.4 bg-accent rounded-full animate-ping"></div>
+                          <div className="w-10 h-10 bg-[#EAF1F7] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
+                             <div className="w-2.5 h-2.5 bg-[#7A7A50] rounded-full animate-ping"></div>
                           </div>
                         </div>
                       </div>
@@ -337,16 +288,12 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
         {!full && !loading && (
           <div className="mt-20 text-center">
             <Reveal delay={0.5}>
-              <button 
+              <button
                 onClick={() => setView?.('testimonials')}
-                className="group inline-flex items-center gap-4 bg-primary text-white px-10 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-primary/90 transition-all shadow-xl shadow-primary/10"
+                className="group inline-flex items-center gap-4 bg-[#004050] text-white px-10 py-5 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#7A7A50] transition-all shadow-xl cursor-pointer"
               >
                 <span>{readAllButtonText}</span>
-                {isAr ? (
-                  <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-2 transition-transform" />
-                ) : (
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-                )}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
               </button>
             </Reveal>
           </div>

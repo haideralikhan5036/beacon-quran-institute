@@ -1,93 +1,80 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { CheckCircle2, Clock, Users, ShieldCheck, Globe, Trophy, Sparkles, ChevronLeft, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-react';
+import { User, Users, CalendarClock, TrendingUp, GraduationCap, HeartHandshake, Baby, UserRound, Clock, FileText, Award, Target, MessagesSquare } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import { useLanguage } from '../context/LanguageContext';
 
-const reasonsEn = [
+// "Our Strengths" bar graph — lengths are styling only, no numbers.
+const STRENGTH_BARS = [
+  { label: 'Qualified teachers', width: '92%', icon: Award },
+  { label: '1-on-1 attention', width: '96%', icon: User },
+  { label: 'Flexible scheduling', width: '88%', icon: CalendarClock },
+  { label: 'Progress tracking', width: '90%', icon: TrendingUp },
+];
+
+const SERVICES = [
   {
-    title: '1-on-1 Personalized Classes',
-    desc: 'Each student gets full attention from their tutor for rapid progress.',
-    icon: Users,
-    size: 'lg'
+    num: '01',
+    title: '1-on-1 Classes',
+    desc: 'Every lesson is private, with your teacher\u2019s full attention on you alone.',
+    icon: User,
   },
   {
-    title: 'Certified Expert Tutors',
-    desc: 'Ijazah holders and graduates from reputable Islamic universities.',
-    icon: Trophy,
-    size: 'sm'
+    num: '02',
+    title: 'Female Teachers',
+    desc: 'Qualified female teachers available for sisters and children.',
+    icon: HeartHandshake,
   },
   {
-    title: 'Flexible scheduling (24/7)',
-    desc: 'Learn at any time that suits your busy lifestyle from anywhere.',
+    num: '03',
+    title: 'Classes for Kids',
+    desc: 'Patient, friendly lessons that keep young learners engaged.',
+    icon: Baby,
+  },
+  {
+    num: '04',
+    title: 'Classes for Adults',
+    desc: 'Learn at your own pace, whatever your level or schedule.',
+    icon: UserRound,
+  },
+  {
+    num: '05',
+    title: 'Flexible Scheduling',
+    desc: 'Choose class times that fit your family and your time zone.',
     icon: Clock,
-    size: 'sm'
   },
   {
-    title: 'Safe & Secure Environment',
-    desc: 'We prioritize student safety with monitored classes and verified staff.',
-    icon: ShieldCheck,
-    size: 'md'
-  },
-  {
-    title: 'Multi-Lingual Instruction',
-    desc: 'Available in English, Arabic, and Urdu.',
-    icon: Globe,
-    size: 'sm'
-  },
-  {
-    title: 'Regular Progress Reports',
-    desc: 'Monthly detailed performance reports and feedback.',
-    icon: CheckCircle2,
-    size: 'sm'
+    num: '06',
+    title: 'Monthly Progress Reports',
+    desc: 'A clear monthly report on what was learned and what comes next.',
+    icon: FileText,
   },
 ];
 
-const reasonsAr = [
+const EFFORT_ITEMS = [
   {
-    title: 'حلقات فردية مخصصة (تحفيظ وجه لوجه)',
-    desc: 'يتلقى كل طالب وطالبة المتابعة المباشرة والتركيز الكامل من رائد الحصة لضمان التقدم الأسرع والأصح.',
-    icon: Users,
-    size: 'lg'
+    title: 'Teacher quality',
+    desc: 'Carefully selected, certified teachers for every class.',
+    icon: GraduationCap,
   },
   {
-    title: 'معلمون مجازون متخصصون',
-    desc: 'نخبة من حملة الإجازات القرآنية العالية بالسند المتصل وخريجي كبرى الجامعات الإسلامية المرموقة.',
-    icon: Trophy,
-    size: 'sm'
+    title: 'Student progress',
+    desc: 'Every lesson is tracked, so progress never stalls.',
+    icon: Target,
   },
   {
-    title: 'خطط وجدولة مرنة للغاية (٢٤/٧)',
-    desc: 'تعلم واحفظ في أي وقت من ليل أو نهار بما يوافق مهامك وأوقات فراغك من جميع أنحاء المعمورة.',
-    icon: Clock,
-    size: 'sm'
+    title: 'Parent communication',
+    desc: 'Parents always know how their child is doing.',
+    icon: MessagesSquare,
   },
-  {
-    title: 'بيئة تعليمية مأمونة ومراقبة',
-    desc: 'نضع سلامة وأمان الطلاب في رأس أولوياتنا مع مراجعة ومتابعة الدروس بدقة وتوظيف معلمين معتمدين.',
-    icon: ShieldCheck,
-    size: 'md'
-  },
-  {
-    title: 'تدريس متاح بعدة لغات شائعة',
-    desc: 'نقدم الشرح والمتابعة باللغات العربية، الإنجليزية، والأوردية لتسهيل الاستيعاب لغير الناطقين بها.',
-    icon: Globe,
-    size: 'sm'
-  },
-  {
-    title: 'تقارير دورية وشهرية للأداء',
-    desc: 'تقارير تفصيلية شهرية توضح مدى تقدم الطالب ومستوى حفظه مع إرشادات قيمة لولي الأمر.',
-    icon: CheckCircle2,
-    size: 'sm'
-  },
+];
+
+const STATS = [
+  { value: '1-to-1', label: 'Every class is one-to-one' },
+  { value: '5', label: 'Course Paths' },
+  { value: 'Free Trial', label: 'Your first class is free' },
 ];
 
 export default function WhyUs() {
-  const { isAr } = useLanguage();
-  const reasons = isAr ? reasonsAr : reasonsEn;
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -99,301 +86,127 @@ export default function WhyUs() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % reasons.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isPaused, reasons.length]);
-
-  const titleSub = isAr ? 'عن صرح ومنارة القرآن الكريْم' : 'Online Quran Academy';
-  const mainTitle = isAr ? (
-    <>إرث عريـــق مـن<br /><span className="text-accent italic font-semibold">التعليم الإلهي</span>{' '}المبارك</>
-  ) : (
-    <>A Legacy of <br /><span className="text-accent italic font-semibold">Divine</span>{' '}Education</>
-  );
-  const descriptionText = isAr 
-    ? 'تأسس معهد منارة القرآن الكريم على ركائز الإتقان التام في التجويد ونشر النور والهدى الإلهي. نوفر واحة آمنة ومثالية لكل من يرجو الاتصال بآيات الذكر الحكيم وترتيلها وفهمها عبر توجيه فردي دقيق وممتاز.' 
-    : 'Beacon Quran Institute is an online Quran academy founded on Tajweed excellence and spiritual purity. We offer one-on-one online Quran classes for kids and adults — with certified male and female teachers — so every learner can connect deeply with the Word of Allah through personalized, expert guidance.';
-
-  const bullets = isAr ? [
-    'عقد كامل من التميز والريادة التعليمية والأكاديمية',
-    'حضور وانتشار رسمي يخدم الدارسين في أكثر من ٣٠ بلداً',
-    'مناهج تربوية مبسطة ومحببة لقلوب الصغار والناشئة',
-    'طاقم معلمات فاضلات قديرات مجازات لخدمة الأخوات بخصوصية'
-  ] : [
-    'A decade of pedagogical excellence',
-    'One-on-one online Quran classes for students in 30+ nations',
-    'Specialized curriculum for young hearts',
-    'Dedicated female faculty for sisters'
-  ];
-
-  const buttonText = isAr ? 'رسالتنا ورؤيتنا الأكاديمية' : 'Our Mission & Vision';
-  const buttonHover = isAr ? 'استكشف المعهد' : 'Explore More';
-  const badgeCardText = isAr ? 'العلم النافع' : 'Knowledge First';
-
   return (
-    <section id="about" className="py-12 sm:py-16 bg-transparent text-white overflow-hidden relative">
-      {/* Decorative Ornaments - Professional Polish */}
-      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-accent/10 rounded-full blur-[100px] -mr-[15%] -mt-[10%]"></div>
-      <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-white/5 rounded-full blur-[100px] -ml-[15%] -mb-[10%]"></div>
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/arabic-overlay.png")' }}></div>
+    <section id="about" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className={`grid lg:grid-cols-[0.8fr,1fr] gap-16 lg:gap-24 items-start ${isAr ? 'text-right' : ''}`}>
-          <div className="lg:sticky lg:top-32">
-            <Reveal direction={isAr ? 'left' : 'right'} delay={0.1}>
-              <div className={`flex items-center gap-2 mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
-                <Sparkles className="w-4 h-4 text-accent" />
-                <h2 className="display text-[11px] font-bold uppercase tracking-[0.4em] text-accent">{titleSub}</h2>
-              </div>
-            </Reveal>
+        {/* ── a. Our Strengths ─────────────────────────────────────────── */}
+        <Reveal width="100%">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+              Why Beacon
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight mb-4 text-balance">
+              Our Strengths
+            </h2>
+            <p className="text-[#3D5563] text-base sm:text-lg leading-relaxed">
+              Live one-to-one Quran classes for kids and adults, with certified
+              male and female teachers — built around each student, not around a timetable.
+            </p>
+          </div>
+        </Reveal>
 
-            <Reveal direction={isAr ? 'left' : 'right'} delay={0.2}>
-              <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold display mb-8 leading-[1.1] text-balance">
-                {mainTitle}
-              </h3>
-            </Reveal>
-
-            <Reveal direction={isAr ? 'left' : 'right'} delay={0.3}>
-              <div className="card-shine border border-[#949693]/35 p-6 sm:p-7 rounded-3xl shadow-2xl mb-8">
-                <p className="text-amber-50 text-base sm:text-lg leading-relaxed text-balance font-medium">
-                  {descriptionText}
-                </p>
-              </div>
-            </Reveal>
-
-            <div className="space-y-3.5 mb-10">
-              {bullets.map((item, i) => (
-                <Reveal key={item} direction={isAr ? 'left' : 'right'} delay={0.4 + (i * 0.1)}>
-                  <div className={`p-4 sm:p-4.5 rounded-2xl card-shine border border-[#949693]/30 hover:border-amber-300/60 shadow-lg flex items-center gap-4 group transition-all duration-300 hover:scale-[1.01] ${isAr ? 'flex-row-reverse text-right' : 'text-left'}`}>
-                    <div className="w-9 h-9 rounded-xl bg-[#084C63]/40 flex items-center justify-center border border-[#949693]/40 group-hover:bg-[#084C63] transition-all duration-300 shrink-0">
-                      <CheckCircle2 className="w-4.5 h-4.5 text-amber-200 group-hover:text-white transition-colors" />
-                    </div>
-                    <span className="text-amber-50 font-semibold tracking-wide text-sm sm:text-base leading-snug">{item}</span>
+        <Reveal width="100%">
+          <div className="max-w-3xl mx-auto bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-9 shadow-[0_10px_30px_rgba(11,46,58,0.06)] mb-16 sm:mb-20">
+            <div className="space-y-6">
+              {STRENGTH_BARS.map((bar) => (
+                <div key={bar.label}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <bar.icon className="w-4 h-4 text-[#004050] shrink-0" />
+                    <span className="font-display text-sm font-bold text-[#0B2E3A]">{bar.label}</span>
                   </div>
-                </Reveal>
+                  <div className="h-3 rounded-full bg-[#EAF1F7] overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: bar.width }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.9, ease: 'easeOut' }}
+                      className="h-full rounded-full bg-[#004050]"
+                    />
+                  </div>
+                </div>
               ))}
             </div>
-
-            <Reveal direction={isAr ? 'left' : 'right'} delay={0.8}>
-               <button className="group relative overflow-hidden bg-[#084C63] text-white px-10 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-[11px] transition-all shadow-xl shadow-[#084C63]/30 border border-[#949693]/30 flex items-center gap-2 cursor-pointer">
-                 <span className="relative z-10">{buttonText}</span>
-                 <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10 ${isAr ? 'rotate-180' : ''}`} />
-                 <div className="absolute inset-0 bg-[#757454] translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-               </button>
-            </Reveal>
           </div>
+        </Reveal>
 
-          {/* 3D Stacking Deck Viewport for WhyUs Section */}
-          <div 
-            className="relative w-full max-w-xl mx-auto lg:mx-0 h-[480px] sm:h-[500px] flex flex-col justify-center items-center overflow-visible select-none lg:pt-12"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            {/* Ellipictic aura platform shadow under the stack */}
-            <div className="absolute inset-y-0 -left-[10%] -right-[10%] bg-gradient-to-t from-accent/[0.015] via-transparent to-transparent blur-2xl rounded-full pointer-events-none z-0" />
+        {/* ── b. Educational Services ──────────────────────────────────── */}
+        <Reveal width="100%">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+              What We Offer
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight mb-4 text-balance">
+              Educational Services
+            </h2>
+            <p className="text-[#3D5563] text-base sm:text-lg leading-relaxed">
+              Everything a family needs to learn the Quran online — from the
+              first lesson to regular progress updates.
+            </p>
+          </div>
+        </Reveal>
 
-            {/* Viewport container with rich 3D perspective */}
-            <div 
-              className="w-full h-[360px] sm:h-[400px] relative flex items-center justify-center overflow-visible"
-              style={{ perspective: 1800, transformStyle: 'preserve-3d' }}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16 sm:mb-20">
+          {SERVICES.map((service, i) => (
+            <Reveal
+              key={service.num}
+              width="100%"
+              direction={isMobile ? 'up' : i % 2 === 0 ? 'left' : 'right'}
+              delay={0.05 + (i % 3) * 0.08}
             >
-              {reasons.map((reason, index) => {
-                let diff = index - activeIndex;
-                const total = reasons.length;
-
-                // Infinite loop circular arithmetic
-                if (diff > total / 2) diff -= total;
-                else if (diff < -total / 2) diff += total;
-
-                const isActive = index === activeIndex;
-                const isVisible = Math.abs(diff) <= 1;
-                const isNearVisible = Math.abs(diff) <= 2;
-
-                // Keep DOM efficient - prune far elements
-                if (!isNearVisible) return null;
-
-                // Only the active card is rendered at all — the side cards
-                // used to ghost through it with overlapping, unreadable text.
-                if (!isActive) return null;
-
-                const factor = isAr ? -1 : 1;
-                
-                // Arch Fan parameters
-                let xTranslate = 0;
-                let yTranslate = 0;
-                let zTranslate = 0;
-                let rotateY = 0;
-                let rotateX = 0;
-                let rotateZ = 0;
-                let cardScale = 1;
-                let cardOpacity = 1;
-
-                if (diff === 0) {
-                  xTranslate = 0;
-                  yTranslate = 0;
-                  zTranslate = isMobile ? 0 : 140;
-                  rotateY = 0;
-                  rotateX = 0;
-                  rotateZ = 0;
-                  cardScale = 1.02;
-                  cardOpacity = 1;
-                } else if (diff === 1) {
-                  xTranslate = isMobile ? (factor * 30) : (factor * 140);
-                  yTranslate = isMobile ? 10 : 18;
-                  zTranslate = isMobile ? 0 : 50;
-                  rotateY = isMobile ? 0 : factor * -35;
-                  rotateX = isMobile ? 0 : 5;
-                  rotateZ = isMobile ? 0 : factor * 8;
-                  cardScale = isMobile ? 0.92 : 0.88;
-                  cardOpacity = 0.82;
-                } else if (diff === -1) {
-                  xTranslate = isMobile ? (factor * -30) : (factor * -140);
-                  yTranslate = isMobile ? 10 : 18;
-                  zTranslate = isMobile ? 0 : 50;
-                  rotateY = isMobile ? 0 : factor * 35;
-                  rotateX = isMobile ? 0 : 5;
-                  rotateZ = isMobile ? 0 : factor * -8;
-                  cardScale = isMobile ? 0.92 : 0.88;
-                  cardOpacity = 0.82;
-                } else if (diff === 2) {
-                  xTranslate = isMobile ? (factor * 55) : (factor * 250);
-                  yTranslate = isMobile ? 20 : 36;
-                  zTranslate = isMobile ? 0 : -50;
-                  rotateY = isMobile ? 0 : factor * -50;
-                  rotateX = isMobile ? 0 : 10;
-                  rotateZ = isMobile ? 0 : factor * 16;
-                  cardScale = isMobile ? 0.84 : 0.76;
-                  cardOpacity = 0.35;
-                } else if (diff === -2) {
-                  xTranslate = isMobile ? (factor * -55) : (factor * -250);
-                  yTranslate = isMobile ? 20 : 36;
-                  zTranslate = isMobile ? 0 : -50;
-                  rotateY = isMobile ? 0 : factor * 50;
-                  rotateX = isMobile ? 0 : 10;
-                  rotateZ = isMobile ? 0 : factor * -16;
-                  cardScale = isMobile ? 0.84 : 0.76;
-                  cardOpacity = 0.35;
-                }
-
-                const blurFilter = isMobile
-                  ? "none"
-                  : isActive 
-                    ? "blur(0px) brightness(1)" 
-                    : Math.abs(diff) === 1
-                      ? "blur(1px) brightness(0.88)"
-                      : "blur(3px) brightness(0.68)";
-
-                return (
-                  <motion.div
-                    key={reason.title}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{
-                      x: xTranslate,
-                      y: yTranslate,
-                      z: zTranslate,
-                      rotateY: rotateY,
-                      rotateX: rotateX,
-                      rotateZ: rotateZ,
-                      scale: cardScale,
-                      opacity: cardOpacity,
-                      filter: blurFilter,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 110,
-                      damping: 18,
-                      mass: 1.1
-                    }}
-                    style={{
-                      position: 'absolute',
-                      transformStyle: 'preserve-3d',
-                      zIndex: isActive ? 30 : Math.abs(diff) === 1 ? 20 : 10,
-                      pointerEvents: isActive ? 'auto' : 'none',
-                      willChange: 'transform, opacity, filter',
-                    }}
-                    onClick={() => {
-                      if (!isActive) setActiveIndex(index);
-                    }}
-                    className="w-[280px] sm:w-[320px] md:w-[340px] h-[340px] sm:h-[360px] cursor-pointer origin-center"
-                  >
-                    <div className={`group h-full p-8 sm:p-10 border rounded-[3rem] transition-all duration-700 flex flex-col shadow-2xl text-left relative card-shine ${
-                      isActive 
-                        ? 'border-accent/50 shadow-accent/20 text-amber-50' 
-                        : 'border-accent/15 hover:border-accent/35 text-amber-100/70'
-                    }`}>
-                      {/* Sub-card aura light glow */}
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-accent/4 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-accent/8 transition-colors"></div>
-                      
-                      {/* Icon */}
-                      <div className={`w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 border border-accent/20 ${index === 3 ? 'border-dashed' : ''} group-hover:scale-110 group-hover:bg-accent/30 transition-all duration-500 ${isAr ? 'mr-0 ml-auto' : ''} ${
-                        isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-40'
-                      }`}>
-                        <reason.icon className="w-6 h-6 sm:w-7 sm:h-7 text-accent group-hover:text-amber-200 transition-colors duration-500" />
-                      </div>
-
-                      {/* Title */}
-                      <h4 className={`text-xl sm:text-2xl font-bold display mb-3 tracking-tight group-hover:text-white transition-all duration-500 ${isAr ? 'text-right' : 'text-left'} ${
-                        isActive 
-                          ? 'opacity-100 transform translate-y-0 text-white' 
-                          : 'opacity-0 transform translate-y-2 pointer-events-none text-white/40'
-                      }`}>
-                        {reason.title}
-                      </h4>
-
-                      {/* Desc */}
-                      <p className={`text-white/85 text-xs sm:text-sm leading-relaxed flex-grow font-medium transition-all duration-500 delay-75 ${isAr ? 'text-right' : 'text-left'} ${
-                        isActive 
-                          ? 'opacity-100 transform translate-y-0' 
-                          : 'opacity-0 transform translate-y-4 pointer-events-none'
-                      }`}>
-                        {reason.desc}
-                      </p>
-
-                      {/* Card badge ornament footer */}
-                      <div className={`mt-6 pt-4 border-t border-white/5 flex items-center gap-3 transition-opacity duration-500 delay-100 ${isAr ? 'flex-row-reverse' : ''} ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                        <span className="display text-[8px] font-bold uppercase tracking-widest text-accent">{badgeCardText}</span>
-                        <div className="h-[1px] flex-grow bg-accent/15"></div>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Navigation and state indicator bar below the stack */}
-            <div className="flex items-center gap-6 mt-6 relative z-30">
-              <button
-                onClick={() => setActiveIndex(prev => (prev - 1 + reasons.length) % reasons.length)}
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer"
-                aria-label="Previous reason"
-              >
-                {isAr ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-              </button>
-
-              <div className="flex gap-2">
-                {reasons.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${i === activeIndex ? 'w-6 bg-accent' : 'w-2 bg-white/20 hover:bg-white/40'}`}
-                    aria-label={`Go to reason ${i + 1}`}
-                  />
-                ))}
+              <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-7 shadow-[0_10px_30px_rgba(11,46,58,0.05)] hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-shadow h-full">
+                <div className="flex items-center justify-between mb-5">
+                  <span className="font-display text-2xl font-bold text-[#7A7A50]">{service.num}</span>
+                  <div className="w-11 h-11 rounded-2xl bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center">
+                    <service.icon className="w-5 h-5 text-[#004050]" />
+                  </div>
+                </div>
+                <h3 className="font-display text-xl font-bold text-[#0B2E3A] mb-2">{service.title}</h3>
+                <p className="text-[#3D5563] text-sm sm:text-base leading-relaxed">{service.desc}</p>
               </div>
+            </Reveal>
+          ))}
+        </div>
 
-              <button
-                onClick={() => setActiveIndex(prev => (prev + 1) % reasons.length)}
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white hover:border-accent hover:text-accent flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer"
-                aria-label="Next reason"
-              >
-                {isAr ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-              </button>
+        {/* ── c. Where Beacon puts its effort ─────────────────────────── */}
+        <Reveal width="100%">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mb-3">
+              Our Focus
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#0B2E3A] leading-tight text-balance">
+              Where Beacon puts its effort
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto mb-16 sm:mb-20">
+          {EFFORT_ITEMS.map((item, i) => (
+            <Reveal key={item.title} width="100%" delay={0.05 + i * 0.08}>
+              <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 text-center shadow-[0_10px_30px_rgba(11,46,58,0.05)] h-full">
+                <div className="w-11 h-11 rounded-2xl bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="w-5 h-5 text-[#004050]" />
+                </div>
+                <h3 className="font-display text-lg font-bold text-[#0B2E3A] mb-1.5">{item.title}</h3>
+                <p className="text-[#3D5563] text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* ── d. Stat strip ──────────────────────────────────────────── */}
+        <Reveal width="100%">
+          <div className="bg-[#1E4E79] rounded-3xl px-6 sm:px-10 py-10 sm:py-12 shadow-[0_16px_40px_rgba(30,78,121,0.25)]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 text-center">
+              {STATS.map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">{stat.value}</p>
+                  <p className="text-white/85 text-sm sm:text-base mt-2">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </section>
