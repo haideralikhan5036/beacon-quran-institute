@@ -3,6 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { scrollToId } from '../utils/scrollToId';
 import { FEE_ROWS, type CurrencyCode } from '../data/feeTable';
+import quranCover from '../assets/images/pic1-quran-cover.png';
 
 interface FeesProps {
   onSelectFee?: (course: string, schedule: string) => void;
@@ -68,6 +69,20 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
 
   return (
     <section id="fees" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+      {/* Batch 16: the owner's Quran-cover picture as a very faint
+          shade behind the whole Fees section — opacity 0.08 so the
+          fee table stays fully readable. Only a soft shade of it
+          shows, not the full picture. */}
+      <img
+        src={quranCover}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        width={600}
+        height={750}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.08]"
+      />
       {/* Batch 15: light grid, top-left corner of the fees section */}
       <div
         aria-hidden="true"

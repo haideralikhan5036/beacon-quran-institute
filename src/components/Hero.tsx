@@ -1,7 +1,7 @@
 import { ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
-import childReading from '../assets/images/child_quran_reading.jpg';
+import openMushaf from '../assets/images/pic2-open-mushaf.png';
 
 export default function Hero({ onViewCourses, onEnrol }: { onViewCourses?: () => void; onEnrol?: () => void }) {
   const { t } = useLanguage();
@@ -111,21 +111,30 @@ export default function Hero({ onViewCourses, onEnrol }: { onViewCourses?: () =>
             className="hero-anim-lg relative"
             style={{ animationDelay: '0.2s' }}
           >
-            <div className="relative rounded-[2rem] overflow-hidden border border-[#C9D9E8] shadow-[0_30px_60px_-20px_rgba(11,46,58,0.25)] bg-white">
-              {/* LCP image: explicit width/height + aspect class reserve the
-                  space (CLS). NOTE: the WebP variant (105KB) could not be
-                  pushed — the GitHub connector carries text files only, and
-                  the 140KB base64 argument exceeds the tool limit — so the
-                  hero stays on the JPG (791KB) until the WebP is uploaded
-                  another way. */}
+            <div className="relative rounded-[2rem] overflow-hidden border border-[#C9D9E8] shadow-[0_30px_60px_-20px_rgba(11,46,58,0.25)] bg-[linear-gradient(155deg,#004050_20%,#7A7A50_115%)]">
+              {/* LCP image (Batch 16): the owner's open-Mushaf photo
+                  (328KB PNG, 600x903) replaces the 791KB child-reading
+                  JPG as the hero photo. The old file stays in
+                  src/assets (still used by blogData) — only this
+                  reference changed. Duotone treatment is CSS-only
+                  (mockup technique): the B&W photo blends luminosity
+                  over a teal→gold wash; the Arabic page text itself
+                  is untouched. Portrait aspect 4/4.4 so the page
+                  is not cropped. */}
               <img
-                src={childReading}
-                alt="A child reading the Quran on a wooden rehal in a mosque"
+                src={openMushaf}
+                alt="An open Mushaf (Quran) on a rehal"
                 fetchPriority="high"
                 decoding="async"
-                width={1376}
-                height={768}
-                className="w-full aspect-[4/3.4] object-cover"
+                width={600}
+                height={903}
+                className="w-full aspect-[4/4.4] object-cover mix-blend-luminosity contrast-[1.07] brightness-[1.02]"
+              />
+
+              {/* Bottom sheen — same duotone technique as the mockup */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_55%,rgba(0,64,80,0.28)_100%)]"
               />
 
               {/* PROGRESS REPORT chip — fully inside the card, top-right */}
