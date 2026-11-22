@@ -56,6 +56,11 @@ export default function NearYou({ onEnrol }: { onEnrol?: () => void }) {
 
   return (
     <section id="near-you" className="py-8 sm:py-10 bg-[#FFFFFF] relative overflow-hidden">
+      {/* Batch 15: light grid, top-right corner of the section */}
+      <div
+        aria-hidden="true"
+        className="grid-texture pointer-events-none absolute right-[-10px] top-[-10px] w-[150px] h-[100px] opacity-50 hidden md:block"
+      />
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         <div className="max-w-3xl mx-auto">
           {/* Light link row — the only thing visible until the visitor asks. */}

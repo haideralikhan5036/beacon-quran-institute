@@ -13,9 +13,10 @@ export default function Hero({ onViewCourses, onEnrol }: { onViewCourses?: () =>
         aria-hidden="true"
         className="dots-texture pointer-events-none absolute left-[-14px] top-[26px] w-[150px] h-[110px] opacity-[0.55]"
       />
+      {/* Batch 15 (Halka + Mixed): dots top-left, gold streaks bottom-right */}
       <div
         aria-hidden="true"
-        className="dots-texture-gold pointer-events-none absolute right-[6%] bottom-[-6px] w-[170px] h-[90px] opacity-50"
+        className="streaks-texture-gold pointer-events-none absolute right-[6%] bottom-[-6px] w-[170px] h-[90px] opacity-50"
       />
       <div className="max-w-[1280px] mx-auto px-6 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-14 sm:py-20">

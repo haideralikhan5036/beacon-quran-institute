@@ -47,6 +47,10 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
     "Monthly detailed progress reports",
   ];
 
+  // Batch 15 (Halka + Mixed): the four value cards rotate through the
+  // texture families.
+  const VALUE_TEXTURES = ['dots-texture', 'streaks-texture', 'grid-texture', 'dots-texture-gold'];
+
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0B2E3A] pt-24 pb-20 px-6" dir="ltr">
       <div className="max-w-[1280px] mx-auto">
@@ -75,8 +79,13 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
         {/* Story & Vision */}
         <div className="grid md:grid-cols-2 gap-8 mb-24">
           <Reveal delay={0.1}>
-            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)]">
-              <div className="flex items-center gap-4 mb-6">
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
+              {/* Batch 15: dots, top-right of the Story card */}
+              <div
+                aria-hidden="true"
+                className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[130px] h-[80px] opacity-45"
+              />
+              <div className="flex items-center gap-4 mb-6 relative">
                 <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-3 rounded-xl">
                   <BookOpen className="w-6 h-6 text-[#004050]" />
                 </div>
@@ -91,8 +100,13 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)]">
-              <div className="flex items-center gap-4 mb-6">
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
+              {/* Batch 15: gold streaks, top-right of the Vision card */}
+              <div
+                aria-hidden="true"
+                className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[130px] h-[80px] opacity-45"
+              />
+              <div className="flex items-center gap-4 mb-6 relative">
                 <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-3 rounded-xl">
                   <Target className="w-6 h-6 text-[#004050]" />
                 </div>
@@ -120,8 +134,13 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((val, idx) => (
               <Reveal key={idx} delay={idx * 0.1}>
-                <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 rounded-3xl hover:border-[#004050]/40 transition-colors group h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)]">
-                  <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 rounded-3xl hover:border-[#004050]/40 transition-colors group h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
+                  {/* Batch 15: texture family rotates per value card */}
+                  <div
+                    aria-hidden="true"
+                    className={`${VALUE_TEXTURES[idx % VALUE_TEXTURES.length]} pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45`}
+                  />
+                  <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative">
                     {val.icon}
                   </div>
                   <h3 className="text-xl font-bold text-[#0B2E3A] mb-3">
@@ -145,6 +164,11 @@ export default function AboutPage({ onBack }: { onBack: () => void }) {
           <div
             aria-hidden="true"
             className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
+          />
+          {/* Batch 15: gold streaks, top-right of the stats band */}
+          <div
+            aria-hidden="true"
+            className="streaks-texture-gold pointer-events-none absolute right-[-8px] top-[-8px] w-[170px] h-[100px] opacity-50"
           />
           <Reveal>
             <div className="text-center mb-12 relative z-10">

@@ -76,6 +76,11 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                 aria-hidden="true"
                 className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
               />
+              {/* Batch 15: gold streaks, top-right of the CTA band */}
+              <div
+                aria-hidden="true"
+                className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[170px] h-[100px] opacity-50"
+              />
               <div className="grid lg:grid-cols-[1.3fr,1fr] gap-8 items-center relative z-10">
                 <div>
                   <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">

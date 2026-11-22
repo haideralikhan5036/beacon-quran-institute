@@ -55,8 +55,13 @@ function SectionCard({
 }) {
   return (
     <Reveal width="100%" delay={0.05} direction={isMobile ? 'up' : direction} distance={24}>
-      <section className="rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-8">
-        <div className="mb-5 flex items-center gap-3">
+      <section className="rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-8 relative overflow-hidden">
+        {/* Batch 15: teal streaks, top-right of every course section card */}
+        <div
+          aria-hidden="true"
+          className="streaks-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[120px] h-[64px] opacity-45"
+        />
+        <div className="mb-5 flex items-center gap-3 relative">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#004050]/5 text-[#004050]">
             <Icon className="h-5 w-5" />
           </div>
@@ -321,8 +326,13 @@ export default function CourseDetailsPage({
 
           {/* Bottom enrol banner */}
           <Reveal width="100%" delay={0.05} direction={isMobile ? 'up' : 'right'} distance={24}>
-            <section className="rounded-3xl border border-[#C9D9E8] bg-white p-6 text-center shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-10">
-              <h2 className="font-display text-2xl font-semibold text-[#0B2E3A] text-balance sm:text-3xl">
+            <section className="rounded-3xl border border-[#C9D9E8] bg-white p-6 text-center shadow-[0_2px_12px_rgba(0,64,80,0.06)] sm:p-10 relative overflow-hidden">
+              {/* Batch 15: dots, top-left of the enrol banner */}
+              <div
+                aria-hidden="true"
+                className="dots-texture pointer-events-none absolute left-[-12px] top-[-8px] w-[140px] h-[90px] opacity-50"
+              />
+              <h2 className="font-display text-2xl font-semibold text-[#0B2E3A] text-balance sm:text-3xl relative">
                 Ready to begin {activeCourse.title}?
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed sm:text-base">

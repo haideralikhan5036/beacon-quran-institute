@@ -74,6 +74,10 @@ const STATS = [
   { value: 'Free Trial', label: 'Your first class is free' },
 ];
 
+// Batch 15 (Halka + Mixed): the six service cards rotate through the
+// three texture families instead of no texture at all.
+const SERVICE_TEXTURES = ['dots-texture', 'streaks-texture', 'grid-texture'];
+
 export default function WhyUs() {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -154,7 +158,12 @@ export default function WhyUs() {
               direction={isMobile ? 'up' : i % 2 === 0 ? 'left' : 'right'}
               delay={0.05 + (i % 3) * 0.08}
             >
-              <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-7 shadow-[0_10px_30px_rgba(11,46,58,0.05)] hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-shadow h-full">
+              <div className="bg-[#FFFFFF] border border-[#C9D9E8] rounded-3xl p-6 sm:p-7 shadow-[0_10px_30px_rgba(11,46,58,0.05)] hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-shadow h-full relative overflow-hidden">
+                {/* Batch 15: texture family rotates per service card */}
+                <div
+                  aria-hidden="true"
+                  className={`${SERVICE_TEXTURES[i % SERVICE_TEXTURES.length]} pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45`}
+                />
                 <div className="flex items-center justify-between mb-5">
                   <span className="font-display text-2xl font-bold text-[#7A7A50]">{service.num}</span>
                   <div className="w-11 h-11 rounded-2xl bg-[#EAF1F7] border border-[#C9D9E8] flex items-center justify-center">
@@ -196,8 +205,18 @@ export default function WhyUs() {
 
         {/* ── d. Stat strip — mockup deep teal, not navy ──────────────────── */}
         <Reveal width="100%">
-          <div className="bg-[#004050] rounded-3xl px-6 sm:px-10 py-10 sm:py-12 shadow-[0_16px_40px_rgba(0,64,80,0.25)]">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 text-center">
+          <div className="bg-[#004050] rounded-3xl px-6 sm:px-10 py-10 sm:py-12 shadow-[0_16px_40px_rgba(0,64,80,0.25)] relative overflow-hidden">
+            {/* Batch 15 (Halka + Mixed): white dots bottom-left, gold
+                streaks top-right — the strip had no texture before */}
+            <div
+              aria-hidden="true"
+              className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[150px] h-[90px] opacity-50"
+            />
+            <div
+              aria-hidden="true"
+              className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[150px] h-[90px] opacity-50"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 text-center relative">
               {STATS.map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">{stat.value}</p>

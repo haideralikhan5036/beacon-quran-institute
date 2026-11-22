@@ -15,6 +15,15 @@ const COUNTRIES: { view: 'usa' | 'uk' | 'canada'; name: string; line: string }[]
 export default function CountryLinks() {
   return (
     <section className="py-8 sm:py-12 bg-[#FFFFFF] relative overflow-hidden">
+      {/* Batch 15: dots top-left, streaks bottom-right of the section */}
+      <div
+        aria-hidden="true"
+        className="dots-texture pointer-events-none absolute left-[-10px] top-[-8px] w-[150px] h-[90px] opacity-50 hidden md:block"
+      />
+      <div
+        aria-hidden="true"
+        className="streaks-texture pointer-events-none absolute right-[-10px] bottom-[-8px] w-[150px] h-[90px] opacity-50 hidden md:block"
+      />
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         <Reveal delay={0.1} width="100%">
           <div className="text-center mb-8">

@@ -15,7 +15,12 @@ interface HowItWorksPageProps {
 export default function HowItWorksPage({ onBack, onEnrol }: HowItWorksPageProps) {
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#0B2E3A] pt-24 pb-20 px-6" dir="ltr">
-      <div className="max-w-[1280px] mx-auto">
+      <div className="max-w-[1280px] mx-auto relative">
+        {/* Batch 15: light grid, top-right of the page banner */}
+        <div
+          aria-hidden="true"
+          className="grid-texture pointer-events-none absolute right-[-8px] top-[-8px] w-[150px] h-[100px] opacity-50 hidden md:block"
+        />
         <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'How It Works' }]} />
         {/* Back Button */}
         <button
@@ -51,6 +56,11 @@ export default function HowItWorksPage({ onBack, onEnrol }: HowItWorksPageProps)
             <div
               aria-hidden="true"
               className="dots-texture-white pointer-events-none absolute left-[-10px] bottom-[-8px] w-[150px] h-[90px] opacity-50"
+            />
+            {/* Batch 15: gold streaks, top-right of the CTA band */}
+            <div
+              aria-hidden="true"
+              className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[150px] h-[90px] opacity-50"
             />
             <h2 className="font-display text-2xl sm:text-3xl font-semibold text-white mb-3 text-balance relative">
               Ready to begin your Quran journey?

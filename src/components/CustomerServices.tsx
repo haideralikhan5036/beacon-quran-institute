@@ -42,6 +42,10 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
     }
   ];
 
+  // Batch 15 (Halka + Mixed): the six service cards rotate through the
+  // three texture families instead of no texture at all.
+  const SERVICE_TEXTURES = ['dots-texture', 'streaks-texture', 'grid-texture'];
+
   return (
     <div className="bg-[#FFFFFF] min-h-screen pt-28 pb-24 text-[#0B2E3A]">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -60,8 +64,13 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
           </button>
 
           {/* Header Card */}
-          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto relative overflow-hidden">
+            {/* Batch 15: gold streaks, top-right of the header card */}
+            <div
+              aria-hidden="true"
+              className="streaks-texture-gold pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[90px] opacity-50"
+            />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4 relative">
               <Sparkles className="w-4 h-4 text-[#7A7A50]" />
               <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
                 Student Concierge &amp; Support
@@ -87,10 +96,15 @@ export default function CustomerServices({ onBack }: { onBack: () => void }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.08 }}
                 whileHover={{ scale: 1.02, zIndex: 30 }}
-                className="relative bg-[#FFFFFF] border border-[#C9D9E8] text-[#0B2E3A] rounded-3xl p-8 sm:p-9 shadow-[0_10px_30px_rgba(11,46,58,0.05)] transition-all duration-300 group hover:border-[#004050]/40 hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] text-left"
+                className="relative bg-[#FFFFFF] border border-[#C9D9E8] text-[#0B2E3A] rounded-3xl p-8 sm:p-9 shadow-[0_10px_30px_rgba(11,46,58,0.05)] transition-all duration-300 group hover:border-[#004050]/40 hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] text-left overflow-hidden"
               >
+                {/* Batch 15: texture family rotates per service card */}
+                <div
+                  aria-hidden="true"
+                  className={`${SERVICE_TEXTURES[index % SERVICE_TEXTURES.length]} pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45`}
+                />
                 {/* Card Number Badge & Icon */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-6 relative">
                   <span className="text-3xl font-black font-display text-[#7A7A50] tracking-wider">
                     {service.num}
                   </span>

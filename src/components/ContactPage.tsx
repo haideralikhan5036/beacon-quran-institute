@@ -88,8 +88,13 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
         </div>
 
         {/* Header Title Card Box */}
-        <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
+        <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-12 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] text-center max-w-4xl mx-auto mb-16 relative overflow-hidden">
+          {/* Batch 15: dots, top-right of the header card */}
+          <div
+            aria-hidden="true"
+            className="dots-texture pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[90px] opacity-50"
+          />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4 relative">
             <Sparkles className="w-4 h-4 text-[#7A7A50]" />
             <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
               Official Contact &amp; Support Channels

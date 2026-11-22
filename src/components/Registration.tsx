@@ -245,13 +245,26 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule, s
 
   return (
     <section id="registration" className={standalone ? 'py-8 sm:py-12 bg-[#FFFFFF] relative overflow-hidden' : 'py-10 sm:py-16 bg-[#FFFFFF] relative overflow-hidden'}>
+      {/* Batch 15: light grid, top-left corner — home form section only
+          (the /enrol page has its own edge textures; the form stays clean) */}
+      {!standalone && (
+        <div
+          aria-hidden="true"
+          className="grid-texture pointer-events-none absolute left-[-10px] top-[-10px] w-[170px] h-[120px] opacity-50 hidden md:block"
+        />
+      )}
       <div className={standalone ? 'max-w-3xl mx-auto px-6 relative z-10' : 'max-w-[1280px] mx-auto px-6 relative z-10'}>
         <div className={standalone ? 'bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden text-[#0B2E3A] relative' : 'bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden grid lg:grid-cols-12 text-[#0B2E3A] relative'}>
-          {/* Halftone dots, mockup form-card placement: top-right */}
-          <div
-            aria-hidden="true"
-            className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[120px] h-[76px] opacity-50 z-0"
-          />
+          {/* Halftone dots, mockup form-card placement: top-right — home
+              form only. On /enrol (standalone) the form card stays
+              completely clean (Batch 14 rule); textures live at the page
+              edges instead (see EnrolPage). */}
+          {!standalone && (
+            <div
+              aria-hidden="true"
+              className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[120px] h-[76px] opacity-50 z-0"
+            />
+          )}
           {/* Information Sidebar — hidden in standalone (/enrol) mode,
               where the page shows ONLY the form. */}
           {!standalone && (
