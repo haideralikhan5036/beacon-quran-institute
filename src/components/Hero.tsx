@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 import childReading from '../assets/images/child_quran_reading.jpg';
 
-export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) {
+export default function Hero({ onViewCourses, onEnrol }: { onViewCourses?: () => void; onEnrol?: () => void }) {
   const { t } = useLanguage();
 
   return (
@@ -70,7 +70,7 @@ export default function Hero({ onViewCourses }: { onViewCourses?: () => void }) 
               style={{ animationDelay: '0.55s' }}
             >
               <button
-                onClick={() => scrollToId('registration')}
+                onClick={() => { if (onEnrol) onEnrol(); else scrollToId('registration'); }}
                 className="inline-flex items-center justify-center gap-2 bg-[#7A7A50] hover:bg-[#686844] text-white px-8 py-4 rounded-full font-semibold text-[15px] shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer"
               >
                 {t('hero.startJourney')}

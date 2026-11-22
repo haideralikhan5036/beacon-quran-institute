@@ -29,8 +29,8 @@ export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedu
         </button>
 
         <Reveal width="100%">
-          <div className="text-center max-w-2xl mx-auto mb-4">
-            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#1E4E79] mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-6">
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#004050] mb-3">
               Enrol
             </p>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-tight text-[#0B2E3A] text-balance">
@@ -41,6 +41,7 @@ export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedu
               trial class with a certified teacher, at a time that suits your
               family. No payment, no commitment.
             </p>
+            <div aria-hidden="true" className="w-12 h-[3px] bg-[#7A7A50] rounded-full mx-auto mt-6" />
           </div>
         </Reveal>
       </div>
@@ -48,6 +49,7 @@ export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedu
       <Registration
         preSelectedCourse={preSelectedCourse}
         preSelectedSchedule={preSelectedSchedule}
+        standalone
       />
     </div>
   );

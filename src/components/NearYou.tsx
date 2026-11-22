@@ -22,7 +22,7 @@ export const NEAR_ME_FAQ = {
   a: 'Yes — that\'s exactly how Beacon works. We\'re an online-only academy with no physical campus, so there\'s nothing to travel to. You learn one-to-one from home with a certified teacher, at times that fit your family, in any city or country. Book a free trial class and see if online learning suits you before you enrol.',
 } as const;
 
-export default function NearYou() {
+export default function NearYou({ onEnrol }: { onEnrol?: () => void }) {
   const [open, setOpen] = React.useState(false);
   const [faqOpen, setFaqOpen] = React.useState(false);
 
@@ -116,7 +116,7 @@ export default function NearYou() {
         <Reveal delay={0.25} width="100%">
           <div className="text-center mb-10">
             <button
-              onClick={() => scrollToId('registration')}
+              onClick={() => { if (onEnrol) onEnrol(); else scrollToId('registration'); }}
               className="px-7 py-3 rounded-full bg-[#7A7A50] hover:bg-[#004050] text-white font-bold uppercase tracking-[0.2em] text-[11px] shadow-lg transition-colors cursor-pointer"
             >
               {ctaText}

@@ -61,6 +61,11 @@ function CourseCard({
 
   const handleEnrol = (e: MouseEvent) => {
     e.stopPropagation();
+    // preventDefault too: the button sits inside the card's <a href>, and
+    // stopPropagation alone does NOT stop the anchor's default action —
+    // without this the browser follows the href to the course page right
+    // after the SPA navigates to /enrol (caught by the Batch 14 harness).
+    e.preventDefault();
     // App navigates to the dedicated Enrol page with this course preselected.
     onSelectCourse?.(course.title);
   };
