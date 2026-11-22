@@ -16,7 +16,12 @@ interface CoursesHubPageProps {
 export default function CoursesHubPage({ onBack, onSelectCourse, onViewDetails }: CoursesHubPageProps) {
   return (
     <div className="min-h-screen bg-white pb-4 text-[#0B2E3A]">
-      <div className="mx-auto max-w-[1280px] px-6 pt-24 sm:pt-28">
+      <div className="mx-auto max-w-[1280px] px-6 pt-24 sm:pt-28 relative">
+        {/* Batch 15: gold streaks, top-right of the page header */}
+        <div
+          aria-hidden="true"
+          className="streaks-texture-gold pointer-events-none absolute right-[4%] top-[96px] w-[150px] h-[90px] opacity-50 hidden md:block"
+        />
         <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Courses' }]} />
         <button
           type="button"

@@ -16,8 +16,19 @@ interface EnrolPageProps {
 
 export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedule }: EnrolPageProps) {
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-[#0B2E3A] pt-24 pb-20 px-6" dir="ltr">
-      <div className="max-w-[1280px] mx-auto">
+    <div className="min-h-screen bg-[#FFFFFF] text-[#0B2E3A] pt-24 pb-20 px-6 relative overflow-hidden" dir="ltr">
+      {/* Batch 15: textures live ONLY at the page edges here — dots
+          top-left, gold streaks bottom-right. The form card itself stays
+          completely clean (Batch 14 rule). */}
+      <div
+        aria-hidden="true"
+        className="dots-texture pointer-events-none absolute left-[-10px] top-[90px] w-[150px] h-[100px] opacity-50 hidden md:block"
+      />
+      <div
+        aria-hidden="true"
+        className="streaks-texture-gold pointer-events-none absolute right-[-10px] bottom-[-8px] w-[170px] h-[100px] opacity-50 hidden md:block"
+      />
+      <div className="max-w-[1280px] mx-auto relative z-10">
         <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Enrol' }]} />
         {/* Back Button */}
         <button

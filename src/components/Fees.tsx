@@ -68,6 +68,11 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
 
   return (
     <section id="fees" className="py-16 sm:py-20 bg-[#FFFFFF] relative overflow-hidden">
+      {/* Batch 15: light grid, top-left corner of the fees section */}
+      <div
+        aria-hidden="true"
+        className="grid-texture pointer-events-none absolute left-[-10px] top-[-10px] w-[170px] h-[120px] opacity-50 hidden md:block"
+      />
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         <Reveal delay={0.1} width="100%">
           <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
@@ -147,10 +152,10 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
 
         <Reveal delay={0.5} direction="up" distance={20} width="100%">
           <div className="mt-12 text-center bg-[#FFFFFF] border border-[#C9D9E8] p-8 sm:p-10 rounded-3xl w-full text-[#0B2E3A] shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
-             {/* Halftone dots, mockup shell placement: bottom-left */}
+             {/* Batch 15: gold streaks, mockup shell placement: bottom-left */}
              <div
                aria-hidden="true"
-               className="dots-texture pointer-events-none absolute left-[-12px] bottom-[-8px] w-[150px] h-[100px] opacity-50"
+               className="streaks-texture-gold pointer-events-none absolute left-[-12px] bottom-[-8px] w-[150px] h-[100px] opacity-50"
              />
              <div className="inline-block bg-[#EAF1F7] border border-[#C9D9E8] px-4 py-1.5 rounded-full mb-4">
                <p className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#004050]">

@@ -145,8 +145,13 @@ export default function CountryPage({
 
         {/* Hero */}
         <Reveal delay={0.1}>
-          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-10 rounded-3xl max-w-4xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-5">
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-10 rounded-3xl max-w-4xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+            {/* Batch 15: dots, top-right of the country hero card */}
+            <div
+              aria-hidden="true"
+              className="dots-texture pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[90px] opacity-50"
+            />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-5 relative">
               <MapPin className="w-4 h-4 text-[#004050]" />
               <span className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{copy.badge}</span>
             </div>
@@ -199,8 +204,13 @@ export default function CountryPage({
 
         {/* Cities */}
         <Reveal delay={0.1} width="100%">
-          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0B2E3A] mb-4 text-balance">{copy.citiesTitle}</h2>
+          <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+            {/* Batch 15: light grid, bottom-right of the cities shell */}
+            <div
+              aria-hidden="true"
+              className="grid-texture pointer-events-none absolute right-[-10px] bottom-[-8px] w-[150px] h-[100px] opacity-50"
+            />
+            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0B2E3A] mb-4 text-balance relative">{copy.citiesTitle}</h2>
             <p className="text-[#3D5563] text-base leading-relaxed max-w-3xl mb-6">{copy.citiesIntro}</p>
             <div className="flex flex-wrap gap-2.5">
               {copy.cities.map((city) => (
@@ -274,6 +284,11 @@ export default function CountryPage({
             <div
               aria-hidden="true"
               className="dots-texture-white pointer-events-none absolute left-[-8px] bottom-[-8px] w-[170px] h-[100px] opacity-50"
+            />
+            {/* Batch 15: gold streaks, top-right of the CTA band */}
+            <div
+              aria-hidden="true"
+              className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[170px] h-[100px] opacity-50"
             />
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/25 mb-5">
               <GraduationCap className="w-4 h-4 text-white" />

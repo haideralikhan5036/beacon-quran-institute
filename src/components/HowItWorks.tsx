@@ -22,6 +22,10 @@ const STEPS = [
   },
 ];
 
+// Batch 15 (Halka + Mixed): the three step cards rotate through the
+// three texture families instead of dots on every card.
+const STEP_TEXTURES = ['dots-texture', 'streaks-texture', 'grid-texture'];
+
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="bg-white py-14 sm:py-20 scroll-mt-24">
@@ -44,10 +48,10 @@ export default function HowItWorks() {
             return (
               <Reveal key={step.n} direction={direction} delay={0.1 + idx * 0.08} width="100%">
                 <div className="h-full bg-white border border-[#C9D9E8] rounded-3xl p-7 sm:p-8 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
-                  {/* Halftone dots, mockup step-card placement: top-right */}
+                  {/* Batch 15: texture family rotates per step card */}
                   <div
                     aria-hidden="true"
-                    className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[100px] h-[64px] opacity-45"
+                    className={`${STEP_TEXTURES[idx % STEP_TEXTURES.length]} pointer-events-none absolute right-[-10px] top-[-8px] w-[100px] h-[64px] opacity-45`}
                   />
                   <div className="flex items-center justify-between mb-5">
                     <span className="w-12 h-12 rounded-2xl bg-[#004050] text-white flex items-center justify-center">

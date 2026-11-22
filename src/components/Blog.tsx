@@ -81,8 +81,13 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               Back to Home
             </button>
 
-            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-8 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-3">
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-8 rounded-3xl shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+              {/* Batch 15: dots, top-right of the blog header card */}
+              <div
+                aria-hidden="true"
+                className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[130px] h-[80px] opacity-45"
+              />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-3 relative">
                 <h2 className="text-[10px] font-extrabold uppercase tracking-[0.4em] text-[#004050]">
                   Knowledge Hub
                 </h2>

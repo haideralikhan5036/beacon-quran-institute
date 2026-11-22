@@ -150,7 +150,12 @@ export default function Testimonials({ full = false, setView }: { full?: boolean
         )}
         <div className="text-center mb-12 sm:mb-16 relative">
           <Reveal delay={0.1} width="100%">
-            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)]">
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl max-w-3xl mx-auto text-center mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+              {/* Batch 15: gold streaks, top-right of the header shell */}
+              <div
+                aria-hidden="true"
+                className="streaks-texture-gold pointer-events-none absolute right-[-12px] top-[-8px] w-[150px] h-[90px] opacity-50"
+              />
               <div className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] mb-4">
                 <Sparkles className="w-4 h-4 text-[#7A7A50]" />
                 <h2 className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#004050]">{sectionSub}</h2>

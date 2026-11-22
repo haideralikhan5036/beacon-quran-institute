@@ -34,6 +34,10 @@ const COURSE_ICONS: Record<string, typeof BookMarked> = {
   'islamic-studies': GraduationCap,
 };
 
+// Batch 15 (Halka + Mixed): the five cards rotate through the three
+// texture families instead of dots on every card.
+const CARD_TEXTURES = ['dots-texture', 'streaks-texture', 'grid-texture', 'dots-texture-gold', 'streaks-texture-gold'];
+
 interface CoursesProps {
   onSelectCourse?: (courseTitle: string) => void;
   onViewDetails?: (courseId: string) => void;
@@ -85,10 +89,10 @@ function CourseCard({
         }}
         className="group flex h-full cursor-pointer flex-col rounded-3xl border border-[#C9D9E8] bg-white p-6 shadow-[0_2px_12px_rgba(0,64,80,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#1E4E79]/50 hover:shadow-[0_12px_32px_rgba(0,64,80,0.12)] relative overflow-hidden"
       >
-        {/* Halftone dots, mockup service-card placement: bottom-right */}
+        {/* Batch 15: texture family rotates per card (see CARD_TEXTURES) */}
         <div
           aria-hidden="true"
-          className="dots-texture pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45"
+          className={`${CARD_TEXTURES[index % CARD_TEXTURES.length]} pointer-events-none absolute right-[-10px] bottom-[-8px] w-[110px] h-[70px] opacity-45`}
         />
         <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#004050]/5 text-[#004050] transition-colors group-hover:bg-[#004050] group-hover:text-white">
           <Icon className="h-6 w-6" />
