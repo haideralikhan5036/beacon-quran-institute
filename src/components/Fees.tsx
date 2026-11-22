@@ -38,8 +38,14 @@ const COURSE_ROW_SPANS: { course: string; rows: number }[] = [
 
 export default function Fees({ onSelectFee, onContactRegistrar, currency }: FeesProps) {
   const handleSelect = (course: string, schedule: string) => {
-    onSelectFee?.(course, schedule);
-    scrollToId('registration');
+    if (onSelectFee) {
+      // App navigates to /enrol with the course + schedule preselected.
+      onSelectFee(course, schedule);
+    } else {
+      // Fallback only when no navigation handler is provided (defensive;
+      // App always provides one): scroll to the home form section.
+      scrollToId('registration');
+    }
   };
 
   const handleRegistrar = () => {

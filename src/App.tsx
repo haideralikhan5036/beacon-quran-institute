@@ -29,7 +29,6 @@ const HowItWorksPage    = lazy(() => import('./components/HowItWorksPage'));
 const EnrolPage         = lazy(() => import('./components/EnrolPage'));
 const CoursesHubPage    = lazy(() => import('./components/CoursesHubPage'));
 import type { CountryKey } from './components/CountryPage';
-import { scrollToId } from './utils/scrollToId';
 import type { CurrencyCode } from './data/feeTable';
 import { COURSES } from './data/courses';
 import {
@@ -392,16 +391,16 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
         <main>
           {view === 'home' && (
             <>
-              <Hero onViewCourses={handleViewCoursesHub} />
+              <Hero onViewCourses={handleViewCoursesHub} onEnrol={() => setView('enrol')} />
               <Courses
                 onSelectCourse={handleEnrolCourse}
                 onViewDetails={handleViewCourseDetails}
               />
               <HowItWorks />
               <WhyUs />
-              <NearYou />
+              <NearYou onEnrol={() => setView('enrol')} />
               <Testimonials setView={setView} />
-              <Fees currency={currency} onSelectFee={handleSelectFee} onContactRegistrar={() => scrollToId('registration')} />
+              <Fees currency={currency} onSelectFee={handleSelectFee} onContactRegistrar={() => setView('enrol')} />
               <CountryLinks />
               <Registration 
                 preSelectedCourse={selectedCourse} 

@@ -3,6 +3,33 @@ import { motion, AnimatePresence } from 'motion/react';
 import { User, Mail, MessageSquare, Phone, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 
+// ---------------------------------------------------------------------------
+// Registration email alerts (Batch 14, Google Apps Script)
+// Paste the deployed Apps Script web-app URL here (it ends in /exec).
+// The script itself lives in
+// ~/workspace/beacon-quran-institute/registration-email-apps-script/Code.gs
+// (deploy steps in its README.md).
+// Until this is set, the form shows a "not configured yet" note and NEVER
+// pretends to send an email. NEVER invent a URL here.
+// ---------------------------------------------------------------------------
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFmbqmaQ0Kut_JgXoESg2OwjvjRjQigvAb1tjHsv11xeOM8Ovttw557oMogNxL6QE4/exec';
+
+/**
+ * Test-only override used by the local Playwright harness
+ * (work/tests/harness-batch14.py): it sets window.__BEACON_APPS_SCRIPT_URL__
+ * to a mock endpoint before the page loads. Production always uses
+ * APPS_SCRIPT_URL above.
+ */
+function resolveAppsScriptUrl(): string {
+  if (typeof window !== 'undefined') {
+    const w = window as unknown as { __BEACON_APPS_SCRIPT_URL__?: unknown };
+    if (typeof w.__BEACON_APPS_SCRIPT_URL__ === 'string' && w.__BEACON_APPS_SCRIPT_URL__) {
+      return w.__BEACON_APPS_SCRIPT_URL__;
+    }
+  }
+  return APPS_SCRIPT_URL;
+}
+
 interface FormData {
   name: string;
   phone: string;
@@ -21,9 +48,14 @@ interface FormErrors {
 interface RegistrationProps {
   preSelectedCourse?: string | null;
   preSelectedSchedule?: string | null;
+  /** Standalone mode — used ONLY by the /enrol page. Renders a clean,
+      centred, form-only card: the side content (trust checklist,
+      "WhatsApp Registrar" box, "Official Registry" label, sub-footer
+      line) is hidden. The home form section keeps the richer layout. */
+  standalone?: boolean;
 }
 
-export default function Registration({ preSelectedCourse, preSelectedSchedule }: RegistrationProps) {
+export default function Registration({ preSelectedCourse, preSelectedSchedule, standalone = false }: RegistrationProps) {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
@@ -48,6 +80,14 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  // Shown when the email POST fails (network error, bad response, timeout).
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  // Shown when APPS_SCRIPT_URL is still the empty placeholder: the form
+  // must never pretend to send an email it did not send.
+  const [emailNotConfigured, setEmailNotConfigured] = useState(false);
+  // The wa.me link for this submission (same message format as before) —
+  // used by the WhatsApp buttons in the success popup and the error notice.
+  const [pendingWaUrl, setPendingWaUrl] = useState<string | null>(null);
 
   const validateForm = () => {
     const newErrors: FormErrors = {};
@@ -67,26 +107,79 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    setIsSubmitting(true);
+    setSubmitError(null);
+    setEmailNotConfigured(false);
 
-    // Construct WhatsApp message
+    // WhatsApp message — same format as before. It is only opened when the
+    // visitor taps a WhatsApp button (a real user gesture), never on a timer.
     const message = `*New Registration Request*\n---\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Email:* ${formData.email}\n*Course:* ${formData.course}\n*Schedule:* ${formData.schedule}\n*Message:* ${formData.message || 'N/A'}`;
     const waUrl = `https://wa.me/923461573771?text=${encodeURIComponent(message)}`;
+    setPendingWaUrl(waUrl);
 
-    setTimeout(() => {
-      window.open(waUrl, '_blank');
+    const endpoint = resolveAppsScriptUrl();
+    if (!endpoint) {
+      // Email alerts are not wired up yet — say so plainly, do not submit
+      // anything, and do not show a success. The visitor can still reach
+      // the team on WhatsApp from the notice below.
+      setEmailNotConfigured(true);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 20000);
+      let res: Response;
+      try {
+        // Content-Type: text/plain is the standard no-preflight pattern for
+        // Apps Script web apps (avoids the OPTIONS preflight they reject).
+        res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            course: formData.course,
+            schedule: formData.schedule,
+            message: formData.message,
+          }),
+          signal: controller.signal,
+        });
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const data: unknown = await res.json().catch(() => null);
+      if (!data || typeof data !== 'object' || (data as { ok?: unknown }).ok !== true) {
+        throw new Error('Bad response from email service');
+      }
+      // Email sent — show the success popup. The form is reset only when
+      // the visitor closes the popup, so the WhatsApp button still has the
+      // submitted details to share.
       setIsSubmitting(false);
       setIsSuccess(true);
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        course: 'Noorani Qaida',
-        schedule: '3 Days per Week',
-        message: ''
-      });
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 1000);
+    } catch (err) {
+      // Never show a fake success: keep the form as-is so the visitor can
+      // retry, and offer WhatsApp as the fallback.
+      setIsSubmitting(false);
+      setSubmitError('Could not send — please try again or chat on WhatsApp');
+    }
+  };
+
+  const handleClosePopup = () => {
+    setIsSuccess(false);
+    setPendingWaUrl(null);
+    setFormData({
+      name: '',
+      phone: '',
+      email: '',
+      course: 'Noorani Qaida',
+      schedule: '3 Days per Week',
+      message: ''
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -106,8 +199,10 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
   const registryLabel = "Official Registry";
   const subFooterLabel = "Global Academic Standard • Authenticated Ijazah Pathways";
 
-  const successTitleText = "Inquiry Dispatched";
-  const successDescText = "Your application for the evaluation session has been securely received. Our academic advisor will connect via WhatsApp shortly.";
+  const successTitleText = "Details Received";
+  const successDescText = "Your details have reached our team. We will contact you soon.";
+  const successSuggestText = "Prefer to chat directly? Tap the WhatsApp button below.";
+  const whatsappBtnText = "Chat on WhatsApp";
   const closeBtnText = "Close Portal";
 
   const labelName = "Applicant Name";
@@ -149,15 +244,17 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
   const schedulesList = ['Weekend / 2 Days per Week', '3 Days per Week', '5 Days per Week'];
 
   return (
-    <section id="registration" className="py-10 sm:py-16 bg-[#FFFFFF] relative overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
-        <div className="bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden grid lg:grid-cols-12 text-[#0B2E3A] relative">
+    <section id="registration" className={standalone ? 'py-8 sm:py-12 bg-[#FFFFFF] relative overflow-hidden' : 'py-10 sm:py-16 bg-[#FFFFFF] relative overflow-hidden'}>
+      <div className={standalone ? 'max-w-3xl mx-auto px-6 relative z-10' : 'max-w-[1280px] mx-auto px-6 relative z-10'}>
+        <div className={standalone ? 'bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden text-[#0B2E3A] relative' : 'bg-[#FFFFFF] rounded-3xl border border-[#C9D9E8] shadow-[0_16px_40px_rgba(11,46,58,0.08)] overflow-hidden grid lg:grid-cols-12 text-[#0B2E3A] relative'}>
           {/* Halftone dots, mockup form-card placement: top-right */}
           <div
             aria-hidden="true"
             className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[120px] h-[76px] opacity-50 z-0"
           />
-          {/* Information Sidebar */}
+          {/* Information Sidebar — hidden in standalone (/enrol) mode,
+              where the page shows ONLY the form. */}
+          {!standalone && (
           <div className="lg:col-span-5 p-8 sm:p-12 bg-[#F4F8FB] border-b lg:border-b-0 lg:border-r border-[#C9D9E8] flex flex-col justify-between relative overflow-hidden">
              <div className="relative z-10 text-left">
                <Reveal delay={0.1}>
@@ -223,9 +320,10 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                </div>
              </Reveal>
           </div>
+          )}
 
           {/* Form Container */}
-          <div className="lg:col-span-7 p-8 sm:p-12 lg:p-14 bg-[#FFFFFF] text-[#0B2E3A] relative">
+          <div className={standalone ? 'p-8 sm:p-12 bg-[#FFFFFF] text-[#0B2E3A] relative' : 'lg:col-span-7 p-8 sm:p-12 lg:p-14 bg-[#FFFFFF] text-[#0B2E3A] relative'}>
             <AnimatePresence>
               {isSuccess && (
                 <motion.div
@@ -238,11 +336,25 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                      <CheckCircle2 className="w-10 h-10 animate-pulse" />
                   </div>
                   <h4 className="text-4xl font-bold font-display text-[#0B2E3A] mb-6">{successTitleText}</h4>
-                  <p className="text-[#3D5563] mb-12 max-w-sm leading-relaxed text-lg font-medium text-balance">
+                  <p className="text-[#3D5563] mb-6 max-w-sm leading-relaxed text-lg font-medium text-balance">
                     {successDescText}
                   </p>
+                  <p className="text-[#3D5563] mb-8 max-w-sm leading-relaxed font-medium">
+                    {successSuggestText}
+                  </p>
+                  {pendingWaUrl && (
+                    <a
+                      href={pendingWaUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mb-4 px-10 py-4 bg-[#7A7A50] text-white rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#004050] hover:shadow-2xl transition-all shadow-xl cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      {whatsappBtnText}
+                    </a>
+                  )}
                   <button
-                    onClick={() => setIsSuccess(false)}
+                    onClick={handleClosePopup}
                     className="px-14 py-5 bg-[#004050] text-white rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#7A7A50] hover:shadow-2xl transition-all shadow-xl cursor-pointer"
                   >
                     {closeBtnText}
@@ -379,6 +491,45 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                 </div>
               </Reveal>
 
+              {/* Inline submit notices: failure and not-configured states.
+                  Neither ever shows a success — the visitor can retry or
+                  reach the team on WhatsApp instead. */}
+              {submitError && (
+                <div role="alert" className="rounded-2xl border border-[#C9D9E8] border-l-4 border-l-[#7A7A50] bg-[#FFFFFF] px-5 py-4 text-left">
+                  <p className="text-sm font-bold text-[#004050]">{submitError}</p>
+                  {pendingWaUrl && (
+                    <a
+                      href={pendingWaUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 bg-[#7A7A50] text-white rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#004050] transition-all cursor-pointer"
+                    >
+                      <Phone className="w-4 h-4" />
+                      {whatsappBtnText}
+                    </a>
+                  )}
+                </div>
+              )}
+              {emailNotConfigured && (
+                <div role="alert" className="rounded-2xl border border-[#C9D9E8] border-l-4 border-l-[#7A7A50] bg-[#FFFFFF] px-5 py-4 text-left">
+                  <p className="text-sm font-bold text-[#004050]">Email alerts are not set up yet.</p>
+                  <p className="text-sm text-[#3D5563] mt-1">
+                    Your details were not sent by email. Please tap the WhatsApp button below and send your details there for now — our team will get them straight away.
+                  </p>
+                  {pendingWaUrl && (
+                    <a
+                      href={pendingWaUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 bg-[#7A7A50] text-white rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-[#004050] transition-all cursor-pointer"
+                    >
+                      <Phone className="w-4 h-4" />
+                      {whatsappBtnText}
+                    </a>
+                  )}
+                </div>
+              )}
+
               <Reveal delay={0.7} direction="up" distance={20}>
                 <div className="w-full flex justify-start">
                   <button
@@ -386,6 +537,11 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule }:
                     disabled={isSubmitting}
                     className="px-10 py-4 group bg-[#7A7A50] text-white rounded-xl font-bold uppercase tracking-[0.15em] text-[14px] shadow-lg hover:bg-[#004050] active:scale-95 transition-all flex items-center justify-center disabled:opacity-70 relative overflow-hidden cursor-pointer"
                   >
+                    {/* Login-style loading animation (fee-portal login button):
+                        three bouncing dots, shown while submitting. */}
+                    {isSubmitting && (
+                      <span className="reg-submit-dots" aria-hidden="true"><i /><i /><i /></span>
+                    )}
                     {isSubmitting ? submittingBtnText : submitBtnTextText}
                   </button>
                 </div>
