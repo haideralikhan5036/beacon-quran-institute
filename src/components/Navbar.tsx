@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from 'motion/react';
-import { ArrowRight, BookOpen, Check, ChevronDown, MapPin, Menu, X } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { ArrowRight, BookOpen, Check, ChevronDown, Home, Info, ListChecks, Mail, MapPin, Menu, Newspaper, Sparkles, Star, UserPlus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
@@ -77,21 +77,41 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
     onViewCourse(courseId);
   };
 
-  // Mobile drawer capsules — desktop nav-pill style: the active view is a
-  // filled deep-teal capsule with white text; the rest are white capsules
-  // with teal text and the thin blue lining (#C9D9E8).
-  const drawerCapsule = (active: boolean) =>
-    `w-full rounded-full py-3.5 px-5 text-[15px] font-semibold transition-all cursor-pointer ${
-      active
-        ? 'bg-[#004050] text-white shadow-md'
-        : 'bg-white text-[#004050] border border-[#C9D9E8] hover:border-[#004050]/50 hover:bg-[#F4F8FB]'
-    }`;
-  const drawerCapsuleSm = (active: boolean) =>
-    `w-full rounded-full py-2.5 px-4 text-sm font-semibold transition-all cursor-pointer ${
-      active
-        ? 'bg-[#004050] text-white shadow-md'
-        : 'bg-white text-[#004050] border border-[#C9D9E8] hover:border-[#004050]/50 hover:bg-[#F4F8FB]'
-    }`;
+  // Mobile menu pills (Batch 18, MRQS-style): the 9 nav links as white
+  // pills sliding in staggered from the right over a blurred backdrop.
+  // Courses goes to the courses hub — no sub-list, same as the MRQS menu.
+  const mobileLinks = [
+    { label: 'Home', href: '/', icon: Home, go: goHome, active: currentView === 'home' },
+    { label: 'Courses', href: '/courses', icon: BookOpen, go: () => goPage('courses'), active: currentView === 'courses' },
+    { label: 'How It Works', href: '/how-it-works', icon: ListChecks, go: () => goPage('how-it-works'), active: currentView === 'how-it-works' },
+    { label: 'About', href: '/about', icon: Info, go: () => goPage('about'), active: currentView === 'about' },
+    { label: 'Services', href: '/services', icon: Sparkles, go: () => goPage('services'), active: currentView === 'services' },
+    { label: 'Blog', href: '/blog', icon: Newspaper, go: () => goPage('blog'), active: currentView === 'blog' },
+    { label: 'Testimonials', href: '/testimonials', icon: Star, go: () => goPage('testimonials'), active: currentView === 'testimonials' },
+    { label: 'Contact', href: '/contact', icon: Mail, go: () => goPage('contact'), active: currentView === 'contact' },
+    { label: 'Enrol', href: '/enrol', icon: UserPlus, go: () => goPage('enrol'), active: currentView === 'enrol' },
+  ];
+
+  // All 8 regions for the compact region row under the mobile pills.
+  const allRegions: { key: RegionKey; name: string }[] = [
+    { key: 'usa', name: 'USA' },
+    { key: 'uk', name: 'UK' },
+    { key: 'canada', name: 'Canada' },
+    ...regionLinks,
+  ];
+
+  // Mobile menu motion: spring stagger in (~0.05s apart, MRQS-style),
+  // reverse stagger out. Reduced motion: no slide, no stagger, quick fade.
+  const reduceMotion = useReducedMotion();
+  const pillCount = mobileLinks.length;
+  const pillEnter = (i: number) =>
+    reduceMotion
+      ? { duration: 0.15 }
+      : { type: 'spring' as const, damping: 26, stiffness: 320, delay: i * 0.05 };
+  const pillExit = (i: number) =>
+    reduceMotion
+      ? { duration: 0.15 }
+      : { duration: 0.25, delay: (pillCount - 1 - i) * 0.04 };
 
   useEffect(() => {
     if (isOpen) {
@@ -102,6 +122,16 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
     return () => {
       document.body.style.overflow = 'unset';
     };
+  }, [isOpen]);
+
+  // ESC closes the mobile menu (Batch 18).
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [isOpen]);
 
   const closeDropdowns = () => {
@@ -377,7 +407,11 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile menu — MRQS-style pills (Batch 18).
+          Hamburger tap → blurred backdrop, nav links as white pills
+          sliding in one by one from the right with a stagger, X at the
+          bottom to close (also backdrop tap and ESC). Desktop nav above
+          is untouched. The old right-side drawer panel is gone. */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -385,167 +419,84 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0.15 : 0.45 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 xl:hidden bg-[#0B2E3A]/40 z-[105]"
+              data-testid="mobile-menu-backdrop"
+              className="mobile-menu-backdrop fixed inset-0 xl:hidden bg-[#0B2E3A]/40 backdrop-blur-md z-[105]"
             />
             <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-              className="fixed top-0 bottom-0 right-0 w-[85%] max-w-[340px] xl:hidden bg-white z-[110] flex flex-col shadow-[-15px_0_60px_rgba(11,46,58,0.25)] border-l border-[#C9D9E8] overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0.15 : 0.6 }}
+              className="fixed inset-0 z-[110] xl:hidden overflow-y-auto pointer-events-none flex flex-col"
             >
-              <div className="flex-1 flex flex-col p-6 overflow-y-auto">
-                <div className="flex justify-between items-center pb-5 border-b border-[#D7E3EE]">
-                  <div className="flex items-center gap-3">
-                    <span className="w-10 h-10 rounded-xl overflow-hidden border border-[#C9D9E8] bg-white flex items-center justify-center">
-                      <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
-                    </span>
-                    <span className="flex flex-col leading-none">
-                      <span className="text-base font-bold text-[#0B2E3A]">Beacon Quran Institute</span>
-                      <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#7A7A50] mt-1">Online Quran Academy</span>
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    aria-label="Close menu"
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F2F6F9] text-[#004050] hover:bg-[#D7E3EE] transition-colors cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <nav aria-label="Mobile navigation" className="flex flex-col py-4 space-y-2">
-                  <a
-                    href="/"
-                    onClick={(e) => { e.preventDefault(); goHome(); }}
-                    className={`${drawerCapsule(currentView === 'home')} text-left`}
-                  >
-                    Home
-                  </a>
-
-                  <p className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
-                    Courses
-                  </p>
-                  {COURSES.map((course) => (
-                    <a
-                      key={course.id}
-                      href={`/courses/${course.slug}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        openCourse(course.id);
-                      }}
-                      className={`${drawerCapsuleSm(false)} flex items-center gap-3 text-left`}
+              <div className="m-auto flex w-full max-w-[360px] flex-col items-end gap-2.5 px-5 py-10 pointer-events-none">
+                <nav aria-label="Mobile navigation" className="w-full flex flex-col gap-2.5 pointer-events-auto">
+                  {mobileLinks.map((link, i) => (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      onClick={(e) => { e.preventDefault(); link.go(); }}
+                      initial={{ opacity: 0, x: reduceMotion ? 0 : 80 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: reduceMotion ? 0 : 80, transition: pillExit(i) }}
+                      transition={pillEnter(i)}
+                      data-testid="mobile-menu-pill"
+                      className={`w-full flex items-center gap-3 rounded-full px-5 py-3.5 text-[15px] font-semibold shadow-[0_12px_35px_rgba(11,46,58,0.30)] cursor-pointer ${
+                        link.active ? 'bg-[#004050] text-white' : 'bg-white text-[#004050]'
+                      }`}
                     >
-                      <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0" />
-                      {course.title}
-                    </a>
+                      <link.icon className={`w-5 h-5 shrink-0 ${link.active ? 'text-white' : 'text-[#7A7A50]'}`} />
+                      {link.label}
+                    </motion.a>
                   ))}
-                  <a
-                    href="/courses"
-                    onClick={() => setIsOpen(false)}
-                    className={`${drawerCapsuleSm(currentView === 'courses')} text-left`}
-                  >
-                    View all courses →
-                  </a>
-
-                  <a
-                    href="/how-it-works"
-                    onClick={(e) => { e.preventDefault(); goPage('how-it-works'); }}
-                    className={`${drawerCapsule(currentView === 'how-it-works')} text-left`}
-                  >
-                    How It Works
-                  </a>
-                  <a
-                    href="/about"
-                    onClick={(e) => { e.preventDefault(); goPage('about'); }}
-                    className={`${drawerCapsule(currentView === 'about')} text-left`}
-                  >
-                    About
-                  </a>
-                  <a
-                    href="/services"
-                    onClick={(e) => { e.preventDefault(); goPage('services'); }}
-                    className={`${drawerCapsule(currentView === 'services')} text-left`}
-                  >
-                    Services
-                  </a>
-                  <a
-                    href="/blog"
-                    onClick={(e) => { e.preventDefault(); goPage('blog'); }}
-                    className={`${drawerCapsule(currentView === 'blog')} text-left`}
-                  >
-                    Blog
-                  </a>
-                  <a
-                    href="/testimonials"
-                    onClick={(e) => { e.preventDefault(); goPage('testimonials'); }}
-                    className={`${drawerCapsule(currentView === 'testimonials')} text-left`}
-                  >
-                    Testimonials
-                  </a>
-                  <a
-                    href="/contact"
-                    onClick={(e) => { e.preventDefault(); goPage('contact'); }}
-                    className={`${drawerCapsule(currentView === 'contact')} text-left`}
-                  >
-                    Contact
-                  </a>
-                  <a
-                    href="/enrol"
-                    onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
-                    className={`${drawerCapsule(currentView === 'enrol')} text-left`}
-                  >
-                    Enrol
-                  </a>
                 </nav>
 
-                {/* Region switcher */}
-                <div className="pt-4 mt-2 border-t border-[#D7E3EE]">
-                  <p className="px-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
-                    Study in Your Country
+                {/* Region switcher — compact chip row under the pills.
+                    Same regions as the desktop switcher; tapping one
+                    switches the fee currency (page regions navigate). */}
+                <motion.div
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                  transition={reduceMotion ? { duration: 0.15 } : { delay: 0.5, duration: 0.25 }}
+                  data-testid="mobile-menu-region"
+                  className="w-full pointer-events-auto pt-1"
+                >
+                  <p className="pb-2 text-right text-[10px] font-bold uppercase tracking-[0.25em] text-white/90">
+                    Your Region
                   </p>
-                  <div className="space-y-2">
-                    {countryLinks.map((c) => (
-                      <a
-                        key={c.view}
-                        href={`/${c.view}`}
-                        onClick={(e) => { e.preventDefault(); goToCountry(c.view); }}
-                        className={`${drawerCapsule(region === c.view)} flex items-center gap-3 text-left`}
-                      >
-                        <MapPin className={`w-4 h-4 shrink-0 ${region === c.view ? 'text-white' : 'text-[#7A7A50]'}`} />
-                        <span className="flex-1">{c.name} — {c.sub}</span>
-                        {region === c.view && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
-                      </a>
-                    ))}
-                  </div>
-                  <p className="px-4 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
-                    More Regions
-                  </p>
-                  <div className="space-y-2">
-                    {regionLinks.map((r) => (
+                  <div className="flex flex-wrap justify-end gap-1.5">
+                    {allRegions.map((r) => (
                       <button
                         key={r.key}
                         onClick={() => goToRegion(r.key)}
-                        className={`${drawerCapsule(region === r.key)} flex items-center gap-3 text-left`}
+                        className={`rounded-full px-3 py-1.5 text-xs font-semibold cursor-pointer ${
+                          region === r.key
+                            ? 'bg-[#004050] text-white shadow-md'
+                            : 'bg-white text-[#004050] hover:bg-[#F4F8FB]'
+                        }`}
                       >
-                        <MapPin className={`w-4 h-4 shrink-0 ${region === r.key ? 'text-white' : 'text-[#7A7A50]'}`} />
-                        <span className="flex-1">{r.name}</span>
-                        {region === r.key && <Check className="w-4 h-4 text-white shrink-0" aria-label="Current region" />}
+                        {r.name}
                       </button>
                     ))}
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="pt-6 mt-auto">
-                  <a
-                    href="/enrol"
-                    onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
-                    className="w-full bg-[#7A7A50] hover:bg-[#686844] text-white h-12 rounded-full font-semibold text-sm shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center"
-                  >
-                    {t('nav.startLearning')}
-                  </a>
-                </div>
+                {/* X to close — bottom of the stack, MRQS-style. */}
+                <motion.button
+                  initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                  transition={reduceMotion ? { duration: 0.15 } : { delay: 0.6, type: 'spring', damping: 20, stiffness: 300 }}
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close menu"
+                  data-testid="mobile-menu-close"
+                  className="self-center mt-3 w-12 h-12 flex items-center justify-center rounded-full bg-white text-[#004050] shadow-[0_12px_35px_rgba(11,46,58,0.30)] cursor-pointer pointer-events-auto"
+                >
+                  <X className="w-5 h-5" />
+                </motion.button>
               </div>
             </motion.div>
           </>
