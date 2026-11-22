@@ -241,3 +241,13 @@ body {
     backdrop-filter: none !important;
   }
 }
+
+/* ── Batch 18 exception: the mobile menu backdrop KEEPS its blur ─────────
+   The perf disable above strips backdrop-blur on mobile, but the
+   MRQS-style menu is defined by its blurred backdrop — one transient
+   full-screen layer, only while the menu is open. Same specificity as
+   the disable rule, later in the file, so it wins for this element only. */
+.mobile-menu-backdrop {
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+}
