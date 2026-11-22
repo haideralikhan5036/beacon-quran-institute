@@ -11,6 +11,7 @@ const Hero              = lazy(() => import('./components/Hero'));
 const Courses           = lazy(() => import('./components/Courses'));
 const HowItWorks        = lazy(() => import('./components/HowItWorks'));
 const WhyUs             = lazy(() => import('./components/WhyUs'));
+const CalligraphyBand   = lazy(() => import('./components/CalligraphyBand'));
 const NearYou           = lazy(() => import('./components/NearYou'));
 const Fees              = lazy(() => import('./components/Fees'));
 const Testimonials      = lazy(() => import('./components/Testimonials'));
@@ -398,6 +399,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
               />
               <HowItWorks />
               <WhyUs />
+              <CalligraphyBand />
               <NearYou onEnrol={() => setView('enrol')} />
               <Testimonials setView={setView} />
               <Fees currency={currency} onSelectFee={handleSelectFee} onContactRegistrar={() => setView('enrol')} />

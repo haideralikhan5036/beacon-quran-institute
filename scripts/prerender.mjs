@@ -210,13 +210,13 @@ if (!template.includes('<div id="root"></div>')) {
   throw new Error('prerender: dist/index.html has no empty #root div to inject into');
 }
 
-// Hero LCP image (Batch 13): preload it on the home route so the browser
-// starts the 791KB JPG with the CSS instead of discovering it in the body.
-// The file name is hashed per build — resolve it from dist/assets here
-// (the <img> itself cannot carry the preload; index.html is written
-// before the hash exists).
+// Hero LCP image (Batch 16): preload it on the home route so the browser
+// starts the 328KB open-Mushaf PNG with the CSS instead of discovering
+// it in the body. The file name is hashed per build — resolve it from
+// dist/assets here (the <img> itself cannot carry the preload;
+// index.html is written before the hash exists).
 const heroFile = readdirSync(join(DIST, 'assets')).find(
-  (f) => f.startsWith('child_quran_reading-') && f.endsWith('.jpg'),
+  (f) => f.startsWith('pic2-open-mushaf-') && f.endsWith('.png'),
 );
 if (!heroFile) throw new Error('prerender: hero image not found in dist/assets');
 
