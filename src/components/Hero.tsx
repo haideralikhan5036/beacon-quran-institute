@@ -2,12 +2,30 @@ import { ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToId } from '../utils/scrollToId';
 import openMushaf from '../assets/images/pic2-open-mushaf.png';
+import quranCover from '../assets/images/pic1-quran-cover.png';
 
 export default function Hero({ onViewCourses, onEnrol }: { onViewCourses?: () => void; onEnrol?: () => void }) {
   const { t } = useLanguage();
 
   return (
     <section className="relative bg-white overflow-hidden">
+      {/* Batch 17: the owner's Quran-cover picture as a very faint
+          background behind the hero text area — MRQS.pk hero style
+          (a soft ghost of the cover, barely visible). Same technique
+          as the Fees shade (Batch 16): opacity 0.08 so the headline
+          and copy stay fully readable. Left-anchored, 60% wide, so
+          the medallion sits behind the text column; the photo card
+          (opaque, right column) covers the rest. */}
+      <img
+        src={quranCover}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        width={600}
+        height={750}
+        className="pointer-events-none absolute inset-y-0 left-0 h-full w-[60%] object-cover opacity-[0.08]"
+      />
       {/* Halftone dots, mockup placements: grey top-left + gold bottom-right */}
       <div
         aria-hidden="true"
