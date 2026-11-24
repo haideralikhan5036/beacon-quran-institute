@@ -65,18 +65,24 @@
 
 html {
   scroll-behavior: smooth;
-  /* Sticky header is 77px tall on mobile/tablet (Batch 19: ~185px on
-     desktop, where the header is two rows) — anchored sections
-     (scrollIntoView / hash links) must land below it, not half-hidden
-     under it. */
+  /* Sticky header is 77px tall on mobile/tablet (Batch 20: ~265px on
+     desktop at the top, where the header is two rows, but it collapses
+     to ~72px once scrolled — the brand row hides and only the menu pill
+     stays pinned) — anchored sections (scrollIntoView / hash links)
+     must land below it, not half-hidden under it. */
   scroll-padding-top: 96px;
   background-color: #FFFFFF;
 }
 
 @media (min-width: 1280px) {
-  /* Batch 19: desktop header is two rows (~185px tall). */
+  /* Batch 20 part 2: desktop header is ~265px tall at the top. 280px is
+     that height + 15px, so an anchor target is never hidden under the
+     header in either state (expanded at the top, or collapsed to ~72px
+     once scrolled). Trade-off: jumps made from a scrolled position land
+     with ~200px of space above the section instead of hugging the
+     collapsed header — visible, never covered. */
   html {
-    scroll-padding-top: 200px;
+    scroll-padding-top: 280px;
   }
 }
 
