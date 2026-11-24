@@ -142,7 +142,7 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
   return (
     <header className="sticky top-0 z-[100] bg-white border-b border-[#C9D9E8]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between gap-3 h-[76px]">
+        <div className="flex items-center justify-between gap-3 h-[76px] xl:hidden">
           {/* Logo */}
           <a
             href="/"
@@ -163,236 +163,6 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
             </span>
           </a>
 
-          {/* Desktop nav pill + region switcher + CTA.
-              Shown from xl (1280px) up: the 9-item pill + region + CTA need
-              ~1230px, so below xl the hamburger + drawer take over. */}
-          <div className="hidden xl:flex items-center gap-2">
-            <nav
-              aria-label="Main navigation"
-              className="flex items-center gap-0.5 h-12 rounded-full border border-[#C9D9E8] bg-white px-1.5 shadow-[0_2px_10px_rgba(11,46,58,0.04)]"
-            >
-              <a
-                href="/"
-                onClick={(e) => { e.preventDefault(); goHome(); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'home' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Home
-              </a>
-
-              {/* Courses dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => {
-                    setCountriesOpen(false);
-                    setCoursesOpen((o) => !o);
-                  }}
-                  aria-expanded={coursesOpen}
-                  aria-haspopup="true"
-                  className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
-                    currentView === 'courses' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                  }`}
-                >
-                  Courses
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${coursesOpen ? 'rotate-180' : ''}`} />
-                </button>
-                <AnimatePresence>
-                  {coursesOpen && (
-                    <>
-                      <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-80 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
-                      >
-                        <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
-                          Our Courses
-                        </p>
-                        {COURSES.map((course) => (
-                          <a
-                            key={course.id}
-                            href={`/courses/${course.slug}`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              openCourse(course.id);
-                            }}
-                            className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-start gap-3 group cursor-pointer"
-                          >
-                            <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0 mt-0.5" />
-                            <span className="flex flex-col leading-tight flex-1">
-                              <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">
-                                {course.title}
-                              </span>
-                              {course.short && (
-                                <span className="text-xs text-[#3D5563] mt-0.5 leading-snug">{course.short}</span>
-                              )}
-                            </span>
-                          </a>
-                        ))}
-                        <a
-                          href="/courses"
-                          onClick={() => {
-                            setCoursesOpen(false);
-                          }}
-                          className="w-full text-left px-5 py-3.5 border-t border-[#D7E3EE] hover:bg-[#F2F6F9] transition-colors text-sm font-semibold text-[#004050] flex items-center gap-2 cursor-pointer"
-                        >
-                          View all courses
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <a
-                href="/how-it-works"
-                onClick={(e) => { e.preventDefault(); goPage('how-it-works'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'how-it-works' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                How It Works
-              </a>
-              <a
-                href="/about"
-                onClick={(e) => { e.preventDefault(); goPage('about'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'about' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                About
-              </a>
-              <a
-                href="/services"
-                onClick={(e) => { e.preventDefault(); goPage('services'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'services' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Services
-              </a>
-              <a
-                href="/blog"
-                onClick={(e) => { e.preventDefault(); goPage('blog'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'blog' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Blog
-              </a>
-              <a
-                href="/testimonials"
-                onClick={(e) => { e.preventDefault(); goPage('testimonials'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'testimonials' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Testimonials
-              </a>
-              <a
-                href="/contact"
-                onClick={(e) => { e.preventDefault(); goPage('contact'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'contact' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Contact
-              </a>
-              <a
-                href="/enrol"
-                onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
-                className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
-                  currentView === 'enrol' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
-                }`}
-              >
-                Enrol
-              </a>
-            </nav>
-
-            {/* Region switcher — USA/UK/Canada open their landing page; the
-                other regions keep the current page and switch fee currency.
-                The trigger shows the visitor's current region. */}
-            <div className="relative">
-              <button
-                onClick={() => {
-                  setCoursesOpen(false);
-                  setCountriesOpen((o) => !o);
-                }}
-                aria-expanded={countriesOpen}
-                aria-haspopup="true"
-                aria-label={`Choose your country or region, currently ${REGION_LABELS[region]}`}
-                className="flex items-center gap-1.5 px-2.5 h-12 rounded-full border border-[#C9D9E8] bg-white text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
-              >
-                <MapPin className="w-4 h-4 text-[#7A7A50]" />
-                {REGION_LABELS[region]}
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
-              </button>
-              <AnimatePresence>
-                {countriesOpen && (
-                  <>
-                    <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-2 w-72 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
-                    >
-                      <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
-                        Study in Your Country
-                      </p>
-                      {countryLinks.map((c) => (
-                        <a
-                          key={c.view}
-                          href={`/${c.view}`}
-                          onClick={(e) => { e.preventDefault(); goToCountry(c.view); }}
-                          className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
-                        >
-                          <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
-                          <span className="flex flex-col leading-tight flex-1">
-                            <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{c.name}</span>
-                            <span className="text-xs text-[#3D5563]">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
-                          </span>
-                          {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
-                        </a>
-                      ))}
-                      <p className="px-5 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
-                        More Regions
-                      </p>
-                      {regionLinks.map((r) => (
-                        <button
-                          key={r.key}
-                          onClick={() => goToRegion(r.key)}
-                          className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
-                        >
-                          <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
-                          <span className="flex flex-col leading-tight flex-1">
-                            <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{r.name}</span>
-                          </span>
-                          {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
-                        </button>
-                      ))}
-                      <div className="h-2" />
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <a
-              href="/enrol"
-              onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
-              className="h-12 px-5 rounded-full bg-[#7A7A50] hover:bg-[#686844] text-white text-sm font-semibold shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 whitespace-nowrap"
-            >
-              {t('nav.startLearning')}
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-
           {/* Mobile hamburger (below xl — the 9-item pill needs 1280px) */}
           <div className="flex items-center xl:hidden">
             <button
@@ -403,6 +173,264 @@ export default function Navbar({ setView, currentView, region, onRegionChange, o
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
+          </div>
+        </div>
+        {/* Desktop header (xl and up) — two rows. Mobile/tablet header below xl is the Batch 18 layout, untouched. */}
+        <div className="hidden xl:block">
+          {/* Row 1 — brand, centred. Batch 19: the ORIGINAL logo, open
+              and big (80px, no box/border), with the wordmark in the original
+              heavy Clash Display at 38px. */}
+          <div className="flex items-center justify-center gap-4 pt-5 pb-4">
+            <a
+              href="/"
+              onClick={(e) => { e.preventDefault(); goHome(); }}
+              className="flex items-center gap-4 shrink-0 cursor-pointer text-left"
+              aria-label="Beacon Quran Institute — home"
+            >
+              <img src={logo} alt="Beacon Quran Institute logo" className="h-20 w-auto shrink-0" decoding="async" />
+              <span className="flex flex-col leading-none min-w-0">
+                <span className="font-display text-[38px] font-bold text-[#0B2E3A] whitespace-nowrap">
+                  Beacon Quran Institute
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.32em] text-[#7A7A50] mt-2">
+                  Online Quran Academy
+                </span>
+              </span>
+            </a>
+          </div>
+          {/* Row 2 — menu, moved down below the brand row into the open space
+              as a centred floating pill. Same nav markup/classes as before —
+              only its position changes (Batch 19). */}
+          <div className="flex items-center justify-center gap-2 pb-5">
+              {/* Desktop nav pill + region switcher + CTA.
+                  Shown from xl (1280px) up: the 9-item pill + region + CTA need
+                  ~1230px, so below xl the hamburger + drawer take over. */}
+              <div className="hidden xl:flex items-center gap-2">
+                <nav
+                  aria-label="Main navigation"
+                  className="flex items-center gap-0.5 h-12 rounded-full border border-[#C9D9E8] bg-white px-1.5 shadow-[0_2px_10px_rgba(11,46,58,0.04)]"
+                >
+                  <a
+                    href="/"
+                    onClick={(e) => { e.preventDefault(); goHome(); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'home' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Home
+                  </a>
+
+                  {/* Courses dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => {
+                        setCountriesOpen(false);
+                        setCoursesOpen((o) => !o);
+                      }}
+                      aria-expanded={coursesOpen}
+                      aria-haspopup="true"
+                      className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                        currentView === 'courses' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                      }`}
+                    >
+                      Courses
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${coursesOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                      {coursesOpen && (
+                        <>
+                          <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-80 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
+                          >
+                            <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                              Our Courses
+                            </p>
+                            {COURSES.map((course) => (
+                              <a
+                                key={course.id}
+                                href={`/courses/${course.slug}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  openCourse(course.id);
+                                }}
+                                className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-start gap-3 group cursor-pointer"
+                              >
+                                <BookOpen className="w-4 h-4 text-[#7A7A50] shrink-0 mt-0.5" />
+                                <span className="flex flex-col leading-tight flex-1">
+                                  <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">
+                                    {course.title}
+                                  </span>
+                                  {course.short && (
+                                    <span className="text-xs text-[#3D5563] mt-0.5 leading-snug">{course.short}</span>
+                                  )}
+                                </span>
+                              </a>
+                            ))}
+                            <a
+                              href="/courses"
+                              onClick={() => {
+                                setCoursesOpen(false);
+                              }}
+                              className="w-full text-left px-5 py-3.5 border-t border-[#D7E3EE] hover:bg-[#F2F6F9] transition-colors text-sm font-semibold text-[#004050] flex items-center gap-2 cursor-pointer"
+                            >
+                              View all courses
+                              <ArrowRight className="w-4 h-4" />
+                            </a>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <a
+                    href="/how-it-works"
+                    onClick={(e) => { e.preventDefault(); goPage('how-it-works'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'how-it-works' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    How It Works
+                  </a>
+                  <a
+                    href="/about"
+                    onClick={(e) => { e.preventDefault(); goPage('about'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'about' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    About
+                  </a>
+                  <a
+                    href="/services"
+                    onClick={(e) => { e.preventDefault(); goPage('services'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'services' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Services
+                  </a>
+                  <a
+                    href="/blog"
+                    onClick={(e) => { e.preventDefault(); goPage('blog'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'blog' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Blog
+                  </a>
+                  <a
+                    href="/testimonials"
+                    onClick={(e) => { e.preventDefault(); goPage('testimonials'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'testimonials' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Testimonials
+                  </a>
+                  <a
+                    href="/contact"
+                    onClick={(e) => { e.preventDefault(); goPage('contact'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'contact' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Contact
+                  </a>
+                  <a
+                    href="/enrol"
+                    onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+                    className={`px-2 h-9 rounded-full text-[12px] font-semibold transition-colors cursor-pointer whitespace-nowrap flex items-center ${
+                      currentView === 'enrol' ? 'bg-[#004050] text-white' : 'text-[#0B2E3A] hover:bg-[#F2F6F9]'
+                    }`}
+                  >
+                    Enrol
+                  </a>
+                </nav>
+
+                {/* Region switcher — USA/UK/Canada open their landing page; the
+                    other regions keep the current page and switch fee currency.
+                    The trigger shows the visitor's current region. */}
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      setCoursesOpen(false);
+                      setCountriesOpen((o) => !o);
+                    }}
+                    aria-expanded={countriesOpen}
+                    aria-haspopup="true"
+                    aria-label={`Choose your country or region, currently ${REGION_LABELS[region]}`}
+                    className="flex items-center gap-1.5 px-2.5 h-12 rounded-full border border-[#C9D9E8] bg-white text-sm font-semibold text-[#0B2E3A] hover:bg-[#F2F6F9] transition-colors cursor-pointer"
+                  >
+                    <MapPin className="w-4 h-4 text-[#7A7A50]" />
+                    {REGION_LABELS[region]}
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${countriesOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <AnimatePresence>
+                    {countriesOpen && (
+                      <>
+                        <div className="fixed inset-0 z-10" onClick={closeDropdowns} />
+                        <motion.div
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute right-0 top-full mt-2 w-72 z-20 bg-white border border-[#C9D9E8] rounded-2xl shadow-[0_20px_50px_rgba(11,46,58,0.15)] overflow-hidden"
+                        >
+                          <p className="px-5 pt-4 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79]">
+                            Study in Your Country
+                          </p>
+                          {countryLinks.map((c) => (
+                            <a
+                              key={c.view}
+                              href={`/${c.view}`}
+                              onClick={(e) => { e.preventDefault(); goToCountry(c.view); }}
+                              className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
+                            >
+                              <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
+                              <span className="flex flex-col leading-tight flex-1">
+                                <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{c.name}</span>
+                                <span className="text-xs text-[#3D5563]">{c.sub} {c.name === 'UK' ? 'UK' : c.name === 'USA' ? 'in the USA' : 'in Canada'}</span>
+                              </span>
+                              {region === c.view && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
+                            </a>
+                          ))}
+                          <p className="px-5 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-[#1E4E79] border-t border-[#D7E3EE]">
+                            More Regions
+                          </p>
+                          {regionLinks.map((r) => (
+                            <button
+                              key={r.key}
+                              onClick={() => goToRegion(r.key)}
+                              className="w-full text-left px-5 py-3 hover:bg-[#F2F6F9] transition-colors flex items-center gap-3 group cursor-pointer"
+                            >
+                              <MapPin className="w-4 h-4 text-[#7A7A50] shrink-0" />
+                              <span className="flex flex-col leading-tight flex-1">
+                                <span className="text-sm font-semibold text-[#0B2E3A] group-hover:text-[#004050]">{r.name}</span>
+                              </span>
+                              {region === r.key && <Check className="w-4 h-4 text-[#7A7A50] shrink-0" aria-label="Current region" />}
+                            </button>
+                          ))}
+                          <div className="h-2" />
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <a
+                  href="/enrol"
+                  onClick={(e) => { e.preventDefault(); goPage('enrol'); }}
+                  className="h-12 px-5 rounded-full bg-[#7A7A50] hover:bg-[#686844] text-white text-sm font-semibold shadow-lg shadow-[#7A7A50]/25 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                >
+                  {t('nav.startLearning')}
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
           </div>
         </div>
       </div>

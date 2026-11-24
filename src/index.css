@@ -65,10 +65,19 @@
 
 html {
   scroll-behavior: smooth;
-  /* Sticky header is 77px tall: anchored sections (scrollIntoView / hash
-     links) must land below it, not half-hidden under it. */
+  /* Sticky header is 77px tall on mobile/tablet (Batch 19: ~185px on
+     desktop, where the header is two rows) — anchored sections
+     (scrollIntoView / hash links) must land below it, not half-hidden
+     under it. */
   scroll-padding-top: 96px;
   background-color: #FFFFFF;
+}
+
+@media (min-width: 1280px) {
+  /* Batch 19: desktop header is two rows (~185px tall). */
+  html {
+    scroll-padding-top: 200px;
+  }
 }
 
 /* No page-wide horizontal scroll: decorative elements use negative margins
