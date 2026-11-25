@@ -29,7 +29,7 @@ export default function NearYou({ onEnrol }: { onEnrol?: () => void }) {
   const eyebrow = 'Near You, Wherever You Are';
   const title = 'Quran Classes Near You — Learn Online from Anywhere';
   const intro = 'Searching for "Quran classes near me"? You don\'t need a classroom down the road. Beacon Quran Institute is a fully online academy — your class happens at home, with a certified teacher who teaches you one-to-one, at a time that suits your family. No travel, no waiting lists, no matter which city or country you live in.';
-  const body1 = 'When you look for "online Quran classes near me", what you really want is a teacher you can trust, at a time that fits your family. Instead of hoping a "Quran teacher near me" has a free slot, you choose your own certified male or female teacher — and you book a free trial class first.';
+  const body1 = 'When you look for "online Quran classes near me", what you really want is a teacher you can trust, at a time that fits your family. Instead of hoping a "Quran teacher near me" has a free slot, you choose your own certified male or female teacher — and you book a free trial class first. If the fit is not right, you can try another tutor before you enrol.';
   const body2 = 'Think of Beacon as the "Quran academy near me" for every family — online, so "near" means wherever you are. And parents searching for "Quran classes for kids near me" get the same one-to-one attention for their children, from home, with a free trial class first.';
   const faqHeading = 'Frequently asked';
   const faqQ = NEAR_ME_FAQ.q;
@@ -50,7 +50,7 @@ export default function NearYou({ onEnrol }: { onEnrol?: () => void }) {
     {
       icon: GraduationCap,
       title: 'Free trial class',
-      text: 'Meet your teacher first.',
+      text: 'Meet your tutor first.',
     },
   ];
 

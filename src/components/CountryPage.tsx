@@ -38,7 +38,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
       { title: 'Certified male & female teachers', text: 'Experienced, Ijazah-certified Quran teachers, including female teachers for sisters and kids.' },
       { title: 'US time zones covered', text: 'Flexible scheduling across Eastern, Central, Mountain and Pacific time (ET / CT / MT / PT).' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your teacher before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across the USA',
     citiesIntro:
@@ -61,7 +61,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: 'One-to-one live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your tutor focuses only on you.' },
       { title: 'DBS-checked Quran tutors', text: 'UK parents can learn with confidence: our tutors are DBS-checked, with male & female teachers available.' },
       { title: 'GMT / BST scheduling', text: 'Flexible lesson times on UK time, including after-school and weekend slots.' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across the UK',
     citiesIntro:
@@ -84,7 +84,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
       { title: 'Certified male & female teachers', text: 'Experienced, Ijazah-certified Quran teachers, including female teachers for sisters and kids.' },
       { title: 'Canadian time zones covered', text: 'Flexible scheduling across Eastern, Central, Mountain and Pacific time (ET / CT / MT / PT).' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your teacher before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across Canada',
     citiesIntro:
@@ -109,6 +109,21 @@ const COURSE_NAMES = [
 ];
 
 const WHY_ICONS = [Users, ShieldCheck, Clock, Sparkles];
+
+// City/state location pages (Tarteel-adapt item 3) — real <a href> links
+// so crawlers and no-JS visitors reach the prerendered pages. Shown only
+// on the /usa country page; the 8 pages are all online-only, so no local
+// office or address is claimed anywhere.
+const US_CITY_PAGE_LINKS: { name: string; href: string }[] = [
+  { name: 'Houston', href: '/quran-classes-in-houston' },
+  { name: 'New York', href: '/quran-classes-in-new-york' },
+  { name: 'Los Angeles', href: '/quran-classes-in-los-angeles' },
+  { name: 'Dallas', href: '/quran-classes-in-dallas' },
+  { name: 'Texas', href: '/quran-classes-in-texas' },
+  { name: 'California', href: '/quran-classes-in-california' },
+  { name: 'Illinois', href: '/quran-classes-in-illinois' },
+  { name: 'Michigan', href: '/quran-classes-in-michigan' },
+];
 
 export default function CountryPage({
   country,
@@ -225,6 +240,37 @@ export default function CountryPage({
             </div>
           </div>
         </Reveal>
+
+        {/* US city/state pages — USA country page only (Tarteel-adapt
+            item 3). Real <a href> links to the prerendered location
+            pages; classes are online-only, so these link to pages that
+            say so plainly — no local office is claimed. */}
+        {country === 'usa' && (
+          <Reveal delay={0.1} width="100%">
+            <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-6 sm:p-9 rounded-3xl mb-12 sm:mb-16 shadow-[0_10px_30px_rgba(11,46,58,0.06)] relative overflow-hidden">
+              <div
+                aria-hidden="true"
+                className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[150px] h-[90px] opacity-50"
+              />
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#0B2E3A] mb-4 text-balance relative">Quran classes in US cities</h2>
+              <p className="text-[#3D5563] text-base leading-relaxed max-w-3xl mb-6">
+                Looking for online Quran classes in your city or state? Every class is taught live online, one to one — pick your place below for class times, fees and FAQs.
+              </p>
+              <div className="flex flex-wrap gap-2.5">
+                {US_CITY_PAGE_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#EAF1F7] border border-[#C9D9E8] text-[#004050] text-sm font-semibold hover:bg-[#004050] hover:text-white hover:border-[#004050] transition-colors"
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-[#7A7A50]" />
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        )}
 
         {/* Cost + courses */}
         <div className="grid lg:grid-cols-2 gap-5 mb-12 sm:mb-16">

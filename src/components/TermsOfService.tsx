@@ -19,6 +19,12 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-[#7A7A50] mb-4">Legal Framework</h2>
             <h1 className="text-4xl font-bold font-display text-[#0B2E3A] mb-6">Terms of{' '}<span className="text-[#7A7A50] italic font-semibold">Service</span></h1>
             <p className="text-[#3D5563]">Last Updated: May 2024</p>
+            <p className="text-[#3D5563] mt-3">
+              Prefer plain language?{' '}
+              <a href="/rules" className="font-bold text-[#004050] underline underline-offset-2">
+                Read the class rules in plain language →
+              </a>
+            </p>
           </div>
 
           <div className="space-y-12 text-[#3D5563] leading-relaxed">
@@ -48,7 +54,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
                 <h3 className="text-xl font-bold text-[#0B2E3A] uppercase tracking-wider">3. Attendance &amp; Makeup Classes</h3>
               </div>
               <p>
-                Students are expected to be present at the scheduled time. If a student is late, the teacher will wait for 15 minutes. Makeup classes are only provided for absences notified at least 6 hours in advance. No makeup is provided for unannounced absences.
+                Students are expected to be present at the scheduled time. If a student is late, the teacher will wait for 15 minutes. Makeup classes are only provided for absences notified at least 4 hours in advance. No makeup is provided for unannounced absences.
               </p>
             </section>
 

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, BookOpen, ChevronDown, Home, Info, ListChecks, Mail, Menu, Newspaper, Sparkles, Star, UserPlus, X } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronDown, HeartHandshake, Home, Info, ListChecks, Mail, Menu, MessageCircle, Newspaper, Sparkles, Star, UserPlus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
@@ -58,6 +58,7 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
     { label: 'Services', href: '/services', icon: Sparkles, go: () => goPage('services'), active: currentView === 'services' },
     { label: 'Blog', href: '/blog', icon: Newspaper, go: () => goPage('blog'), active: currentView === 'blog' },
     { label: 'Testimonials', href: '/testimonials', icon: Star, go: () => goPage('testimonials'), active: currentView === 'testimonials' },
+    { label: 'Female Teachers', href: '/female-teachers', icon: HeartHandshake, go: () => goPage('female-teachers'), active: currentView === 'female-teachers' },
     { label: 'Contact', href: '/contact', icon: Mail, go: () => goPage('contact'), active: currentView === 'contact' },
     { label: 'Enrol', href: '/enrol', icon: UserPlus, go: () => goPage('enrol'), active: currentView === 'enrol' },
   ];
@@ -65,7 +66,9 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
   // Mobile menu motion: spring stagger in (~0.05s apart, MRQS-style),
   // reverse stagger out. Reduced motion: no slide, no stagger, quick fade.
   const reduceMotion = useReducedMotion();
-  const pillCount = mobileLinks.length;
+  // 11 pills in the mobile menu: the 10 nav links + the WhatsApp contact
+  // pill (Tarteel-adapt item 9) — the count drives the reverse-stagger exit.
+  const pillCount = mobileLinks.length + 1;
   const pillEnter = (i: number) =>
     reduceMotion
       ? { duration: 0.15 }
@@ -170,7 +173,7 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
               because the header sticks at top:-196px (this row's exact
               height). No JS animation, no unmount; the logo link is
               simply above the viewport while scrolled. */}
-          <div data-testid="desktop-brand-row" className="flex items-center justify-center gap-4 pt-5 pb-4">
+          <div data-testid="desktop-brand-row" className="relative flex items-center justify-center gap-4 pt-5 pb-4">
             <a
               href="/"
               onClick={(e) => { e.preventDefault(); goHome(); }}
@@ -186,6 +189,27 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
                   Online Quran Academy
                 </span>
               </span>
+            </a>
+            {/* Tarteel-adapt item 9 — WhatsApp contact chip, desktop brand
+                row only. Absolutely positioned at the row's right edge:
+                the centred logo + name is 618px wide inside the 1232px
+                row, so ~307px of free space sits on each side at every
+                desktop width (container caps at 1280px) — the ~170px
+                chip clears the wordmark by ~135px even at 1280px
+                (probe-verified, real Chromium). Brand colours only:
+                teal text + olive icon on white, no WhatsApp green.
+                It lives INSIDE the brand row, so it scrolls away with
+                the row exactly like the logo (Batch 20 behaviour kept). */}
+            <a
+              href="https://wa.me/923461573771"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat with Beacon Quran Institute on WhatsApp: +92 346 1573771"
+              data-testid="whatsapp-chip-desktop"
+              className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 h-11 px-4 rounded-full border border-[#C9D9E8] bg-white text-[13px] font-semibold text-[#004050] shadow-[0_6px_20px_rgba(11,46,58,0.10)] hover:border-[#7A7A50] transition-colors whitespace-nowrap"
+            >
+              <MessageCircle className="w-4 h-4 text-[#7A7A50] shrink-0" />
+              <span dir="ltr">+92 346 1573771</span>
             </a>
           </div>
           {/* Row 2 — menu, moved down below the brand row into the open space
@@ -411,6 +435,31 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
                       {link.label}
                     </motion.a>
                   ))}
+                  {/* Tarteel-adapt item 9 — WhatsApp contact pill, bottom
+                      of the mobile menu. A WhatsApp button does NOT fit
+                      in the mobile header: at 360px the logo block ends
+                      12px before the hamburger and the header already
+                      overflows by 2px (probe-verified baseline), so the
+                      menu is the only place it fits without breaking
+                      Batch 18/20 behaviour. Olive pill (brand colour,
+                      no WhatsApp green) with the real number; opens
+                      wa.me in a new tab and closes the menu behind it. */}
+                  <motion.a
+                    href="https://wa.me/923461573771"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    initial={{ opacity: 0, x: reduceMotion ? 0 : 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: reduceMotion ? 0 : 80, transition: pillExit(pillCount - 1) }}
+                    transition={pillEnter(pillCount - 1)}
+                    aria-label="Chat with Beacon Quran Institute on WhatsApp: +92 346 1573771"
+                    data-testid="whatsapp-pill-mobile"
+                    className="w-full flex items-center gap-3 rounded-full px-5 py-3.5 text-[15px] font-semibold shadow-[0_12px_35px_rgba(11,46,58,0.30)] cursor-pointer bg-[#7A7A50] text-white"
+                  >
+                    <MessageCircle className="w-5 h-5 shrink-0 text-white" />
+                    <span dir="ltr">WhatsApp: +92 346 1573771</span>
+                  </motion.a>
                 </nav>
 
                 {/* X to close — bottom of the stack, MRQS-style.

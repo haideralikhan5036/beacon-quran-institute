@@ -50,7 +50,8 @@ export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedu
             <p className="text-[#3D5563] text-base sm:text-lg leading-relaxed mt-4 text-balance font-medium">
               Tell us your course and schedule — we arrange a free one-to-one
               trial class with a certified teacher, at a time that suits your
-              family. No payment, no commitment.
+              family. Meet your tutor first — if the fit is not right, try
+              another tutor before you enrol. No payment, no commitment.
             </p>
             <div aria-hidden="true" className="w-12 h-[3px] bg-[#7A7A50] rounded-full mx-auto mt-6" />
           </div>

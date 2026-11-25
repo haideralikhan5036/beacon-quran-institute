@@ -30,7 +30,7 @@ const DIST = join(ROOT, 'dist');
 const SITE = 'https://beacon-quran-institute.pages.dev';
 const TODAY = new Date().toISOString().slice(0, 10);
 
-const { render, PRERENDER_ROUTES, ROUTE_SEO, COURSE_SEO, NEAR_ME_FAQ } = await import(
+const { render, PRERENDER_ROUTES, ROUTE_SEO, COURSE_SEO, BLOG_SEO, NEAR_ME_FAQ } = await import(
   join(ROOT, 'dist-server', 'entry-server.js')
 );
 
@@ -150,6 +150,23 @@ const BREADCRUMBS = {
   '/certificate': [{ name: 'Home', url: `${SITE}/` }, { name: 'Certificate Verification' }],
   '/how-it-works': [{ name: 'Home', url: `${SITE}/` }, { name: 'How It Works' }],
   '/enrol': [{ name: 'Home', url: `${SITE}/` }, { name: 'Enrol' }],
+  '/quality-assurance': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quality Assurance' }],
+  '/parents': [{ name: 'Home', url: `${SITE}/` }, { name: 'For Parents' }],
+  '/female-teachers': [{ name: 'Home', url: `${SITE}/` }, { name: 'Female Teachers' }],
+  '/rules': [{ name: 'Home', url: `${SITE}/` }, { name: 'Class Rules' }],
+  '/quran-classes-in-houston': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Houston' }],
+  '/quran-classes-in-new-york': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in New York' }],
+  '/quran-classes-in-los-angeles': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Los Angeles' }],
+  '/quran-classes-in-dallas': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Dallas' }],
+  '/quran-classes-in-texas': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Texas' }],
+  '/quran-classes-in-california': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in California' }],
+  '/quran-classes-in-illinois': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Illinois' }],
+  '/quran-classes-in-michigan': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Michigan' }],
+  '/quran-classes-for-kids': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes for Kids' }],
+  '/quran-classes-for-beginners': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes for Beginners' }],
+  '/quran-classes-for-adults': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes for Adults' }],
+  '/quran-classes-for-female': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes for Females' }],
+  '/quran-classes-for-male': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes for Males' }],
 };
 
 function jsonLdFor(route) {
@@ -170,6 +187,19 @@ function jsonLdFor(route) {
         { name: 'Home', url: `${SITE}/` },
         { name: 'Courses', url: `${SITE}/courses` },
         { name: course.title },
+      ]),
+    );
+    return { '@context': 'https://schema.org', '@graph': graph };
+  }
+  // Blog posts get a Home / Blog / <title> breadcrumb (same trail the
+  // post page shows on screen).
+  const blogPost = BLOG_SEO.find((b) => b.url === route);
+  if (blogPost) {
+    graph.push(
+      breadcrumbNode([
+        { name: 'Home', url: `${SITE}/` },
+        { name: 'Blog', url: `${SITE}/blog` },
+        { name: blogPost.title },
       ]),
     );
     return { '@context': 'https://schema.org', '@graph': graph };
