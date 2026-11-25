@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { User, ArrowLeft, ArrowRight, Search, X, Clock, FileText } from 'lucide-react';
+import { User, ArrowLeft, ArrowRight, Search, X, Clock, FileText, Calendar } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { blogPosts, BlogPost } from '../data/blogData';
 import { Reveal } from './ui/Reveal';
@@ -68,8 +68,8 @@ function BlogPostView({ post }: { post: BlogPost }) {
           </div>
         </div>
 
-        {/* Meta: read time + author. No date — posts are undated by design
-            (real publication dates are unknown). */}
+        {/* Meta: read time + author + date when the post has one.
+            Older posts carry no date and stay undated. */}
         <div className="flex flex-wrap gap-6 items-center mb-6 text-sm text-[#3D5563]">
           <div className="flex items-center gap-2.5">
             <Clock className="w-4 h-4 text-[#7A7A50]" />
@@ -79,6 +79,12 @@ function BlogPostView({ post }: { post: BlogPost }) {
             <User className="w-4 h-4 text-[#7A7A50]" />
             <span className="font-semibold text-[#004050]">{post.authorEn}</span>
           </div>
+          {post.dateEn && (
+            <div className="flex items-center gap-2.5">
+              <Calendar className="w-4 h-4 text-[#7A7A50]" />
+              <span>{post.dateEn}</span>
+            </div>
+          )}
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-[#0B2E3A] mb-10 leading-tight">

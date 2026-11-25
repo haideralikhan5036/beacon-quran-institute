@@ -33,7 +33,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
   };
 
   const ctaTitle = 'Ready to Begin Your Sacred Quranic Journey?';
-  const ctaDesc = '"The best of you is the one who learns the Quran and teaches it." — Meet your tutor in a free trial class first, and try another tutor if the fit is not right.';
+  const ctaDesc = '"The best of you is the one who learns the Quran and teaches it." — Meet your tutor in a free trial class first, and try another tutor — a 2-day trial with the second tutor — if the fit is not right.';
   const ctaPrimaryBtn = 'Start Free Trial Session';
   const ctaSecondaryBtn = 'Explore Fees';
 
@@ -255,11 +255,11 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                   </div>
                   <div className="overflow-hidden">
                     <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Direct Line &amp; WhatsApp</p>
-                    {/* Tarteel-adapt item 9 — 24/7 contact, stated honestly:
-                        WhatsApp accepts messages around the clock, so the
-                        line promises only that the CHANNEL is always open
-                        ("Message us any time"). No claim of staffed 24/7
-                        support, no reply-time promise — both unconfirmed. */}
+                    {/* Owner-confirmed 2026-11-25 — 24/7 WhatsApp support:
+                        WhatsApp is watched around the clock, the team is
+                        present and replies straight away, so the line
+                        promises exactly that. No US/UK numbers exist yet,
+                        so none are shown. */}
                     <a
                       href="https://wa.me/923461573771"
                       target="_blank"
@@ -269,7 +269,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                     >
                       +92 346 1573771
                     </a>
-                    <p className="text-[11px] text-white/70 mt-1">WhatsApp is open around the clock — message us any time.</p>
+                    <p className="text-[11px] text-white/70 mt-1">WhatsApp support is 24/7 — our team is here around the clock and replies straight away. Message us any time.</p>
                   </div>
                 </div>
               </Reveal>

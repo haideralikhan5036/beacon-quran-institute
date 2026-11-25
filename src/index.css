@@ -65,12 +65,13 @@
 
 html {
   scroll-behavior: smooth;
-  /* Sticky header is 77px tall on mobile/tablet (Batch 20: ~265px on
-     desktop at the top, where the header is two rows, but it collapses
-     to ~72px once scrolled — the brand row hides and only the menu pill
-     stays pinned) — anchored sections (scrollIntoView / hash links)
-     must land below it, not half-hidden under it. */
-  scroll-padding-top: 96px;
+  /* Sticky header is 130px tall on mobile/tablet (Item 9: the centred
+     brand row — logo + name + tagline; Batch 20: ~265px on desktop at
+     the top, where the header is two rows, but it collapses to ~72px
+     once scrolled — the brand row hides and only the menu pill stays
+     pinned) — anchored sections (scrollIntoView / hash links) must land
+     below it, not half-hidden under it. 146px = 130px header + 16px. */
+  scroll-padding-top: 146px;
   background-color: #FFFFFF;
 }
 

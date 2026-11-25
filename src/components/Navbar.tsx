@@ -90,8 +90,14 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
   // (probe-verified: smooth scrollTo/scrollIntoView stalled at ~7–11px
   // while wheel scrolling worked; with the header already collapsed the
   // same calls landed exactly). Threshold 196px = the stick point.
-  // Desktop-only in effect: every class it toggles is xl-scoped and the
-  // brand row lives in the xl-only block, so the mobile header is untouched.
+  // Item 9 correction (2026-11-25): the original ternary dropped
+  // bg-white below xl as well when scrolled — only the xl: classes were
+  // meant to go transparent, but the else-branch carried the only
+  // bg-white, so the MOBILE header went transparent on scroll and page
+  // content showed through the 130px brand row (screenshot-verified).
+  // The scrolled branch now re-states bg-white + border, so below xl
+  // the header stays opaque in both states; at xl the xl: transparent
+  // classes still win when scrolled. Desktop behaviour unchanged.
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 196);
@@ -126,42 +132,63 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
   };
 
   return (
-    <header className={`sticky top-0 xl:top-[-196px] z-[100] border-b ${reduceMotion ? '' : 'transition-colors duration-300'} ${scrolled ? 'xl:bg-transparent xl:border-transparent' : 'bg-white border-[#C9D9E8]'}`}>
+    <header className={`sticky top-0 xl:top-[-196px] z-[100] border-b ${reduceMotion ? '' : 'transition-colors duration-300'} ${scrolled ? 'bg-white border-[#C9D9E8] xl:bg-transparent xl:border-transparent' : 'bg-white border-[#C9D9E8]'}`}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between gap-3 h-[76px] xl:hidden">
-          {/* Logo */}
+        {/* Mobile/tablet header (below xl) — Item 9 (owner answers,
+            2026-11-25): the desktop brand row brought to mobile. Centred
+            vertical lockup — open logo on top (no box/border, like the
+            desktop logo), Clash Display name + gold tagline below —
+            instead of the old small boxed logo + side-by-side name.
+            Sizes are fluid, not desktop pixels: logo h-16 (visible mark
+            ~32px, vs ~20px in the old 40px box), name
+            clamp(21px, 6.7vw, 24px) so it fits even a 320px viewport
+            (24px = 290px wide; the 360px row is 328px), tagline 9px.
+            sm and up: logo h-20, name 30px. Header grows 77px -> 130px
+            (probe-measured at 360px) — the brand row costs height, but
+            the hero only drops ~53px.
+            The hamburger is absolutely positioned (right-0, top-4) so
+            it takes NO flex width: the old row (logo block 290px + 12px
+            gap + 44px burger = 346px in a 328px row) overflowed the
+            360px viewport by 2px (burger right edge 362px); the new
+            layout has nothing beside the centred lockup to overflow.
+            The header stays sticky top-0 (no hide-on-scroll on mobile:
+            there is no menu pill row to pin, and a second slim bar
+            would add ~50px more height at the top; the brand row +
+            hamburger stay reachable while scrolling, as before). */}
+        <div className="relative xl:hidden">
           <a
             href="/"
             onClick={(e) => { e.preventDefault(); goHome(); }}
-            className="flex items-center gap-3 shrink-0 cursor-pointer text-left"
+            className="flex flex-col items-center gap-1 pt-3 pb-3 cursor-pointer text-center"
             aria-label="Beacon Quran Institute — home"
           >
-            <span className="w-10 h-10 rounded-xl overflow-hidden border border-[#C9D9E8] bg-white flex items-center justify-center shrink-0">
-              <img src={logo} alt="Beacon Quran Institute logo" className="w-full h-full object-cover" decoding="async" />
-            </span>
-            <span className="flex flex-col leading-none min-w-0">
-              <span className="font-display text-[19px] sm:text-[21px] font-bold text-[#0B2E3A] whitespace-nowrap">
+            <img src={logo} alt="Beacon Quran Institute logo" className="h-16 sm:h-20 w-auto shrink-0" decoding="async" />
+            <span className="flex flex-col leading-none min-w-0 items-center">
+              <span className="font-display text-[clamp(21px,6.7vw,24px)] sm:text-[30px] font-bold text-[#0B2E3A] whitespace-nowrap">
                 Beacon Quran Institute
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.32em] text-[#7A7A50] mt-1">
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.32em] text-[#7A7A50] mt-1">
                 Online Quran Academy
               </span>
             </span>
           </a>
 
-          {/* Mobile hamburger (below xl — the 9-item pill needs 1280px) */}
-          <div className="flex items-center xl:hidden">
+          {/* Mobile hamburger (below xl — the 9-item pill needs 1280px).
+              Absolutely positioned so it takes no flex width (see the
+              overflow note above); sits at the logo's height, top-right,
+              exactly where it was. */}
+          <div className="absolute right-0 top-4 xl:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
-              className="w-11 h-11 flex items-center justify-center rounded-full border border-[#C9D9E8] text-[#004050] cursor-pointer"
+              className="w-11 h-11 flex items-center justify-center rounded-full border border-[#C9D9E8] text-[#004050] cursor-pointer bg-white"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-        {/* Desktop header (xl and up) — two rows. Mobile/tablet header below xl is the Batch 18 layout, untouched. */}
+        {/* Desktop header (xl and up) — two rows. Mobile/tablet header below xl is the Item 9 brand row (see above); the Batch 18 mobile menu is untouched. */}
         <div className="hidden xl:block">
           {/* Row 1 — brand, centred. Batch 19: the ORIGINAL logo, open
               and big (80px, no box/border), with the wordmark in the original
@@ -437,11 +464,10 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
                   ))}
                   {/* Tarteel-adapt item 9 — WhatsApp contact pill, bottom
                       of the mobile menu. A WhatsApp button does NOT fit
-                      in the mobile header: at 360px the logo block ends
-                      12px before the hamburger and the header already
-                      overflows by 2px (probe-verified baseline), so the
-                      menu is the only place it fits without breaking
-                      Batch 18/20 behaviour. Olive pill (brand colour,
+                      in the mobile header: the centred brand lockup
+                      leaves no room beside it for a third element, so
+                      the menu is the only place it fits without breaking
+                      the header layout. Olive pill (brand colour,
                       no WhatsApp green) with the real number; opens
                       wa.me in a new tab and closes the menu behind it. */}
                   <motion.a

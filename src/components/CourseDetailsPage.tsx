@@ -337,7 +337,7 @@ export default function CourseDetailsPage({
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed sm:text-base">
                 Book a free trial class to meet your tutor and see how the lessons work —
-                if the fit is not right, try another tutor, then enrol when you are ready.
+                if the fit is not right, try another tutor — a 2-day trial with the second tutor — then enrol when you are ready.
               </p>
               <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <button

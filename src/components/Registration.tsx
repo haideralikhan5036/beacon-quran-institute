@@ -193,7 +193,7 @@ export default function Registration({ preSelectedCourse, preSelectedSchedule, s
   const titleText1 = "Begin Your";
   const titleText2 = "Divine";
   const titleText3 = "Journey";
-  const descText = "Book a free trial class with a tutor matched to you — meet them first, and if the fit is not right, try another tutor before you enrol. No commitment required.";
+  const descText = "Book a free trial class with a tutor matched to you — meet them first, and if the fit is not right, try another tutor — a 2-day trial with the second tutor — before you enrol. No commitment required.";
 
   const whatsappLabel = "WhatsApp Registrar";
   const registryLabel = "Official Registry";

@@ -5,20 +5,20 @@ import {
   ClipboardCheck, TrendingUp, FileText, MessageCircle, CheckCircle2,
 } from 'lucide-react';
 
-// Quality Assurance page (Tarteel-adapt batch, item 1).
-// Modelled on Tarteel's published 5-step QA structure, written for
-// Beacon. Wording stays at the level of the institute's standards —
-// no teacher names, no counts, no dates. Every process claim that
-// needs the owner's confirmation is logged in
-// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md (class recording,
-// background checks, monthly reports, expert evaluation).
+// Quality Assurance page (Tarteel-adapt batch, item 1; owner-answers
+// batch, item 5). Modelled on Tarteel's published 5-step QA structure,
+// written for Beacon. Wording stays at the level of the institute's
+// standards — no teacher names, no counts, no dates. Process claims
+// confirmed by the owner (voice call 2026-11-25): classes are recorded
+// and monitored, teachers are background-checked, monthly evaluation
+// is done by the quality control manager.
 
 const STEPS = [
   {
     n: '1',
     icon: UserCheck,
     title: 'Careful teacher selection',
-    text: 'Every teacher is chosen for Quran memorisation, Tajweed knowledge and teaching ability — and checked before their first class. Our tutors are certified and Ijazah-holding, so the person teaching your child has already proven their own recitation.',
+    text: 'Every teacher is chosen for Quran memorisation, Tajweed knowledge and teaching ability — and background-checked before their first class. Our tutors are certified and Ijazah-holding, so the person teaching your child has already proven their own recitation.',
   },
   {
     n: '2',
@@ -29,14 +29,14 @@ const STEPS = [
   {
     n: '3',
     icon: ShieldCheck,
-    title: 'Lessons monitored for quality',
-    text: 'Lessons are monitored so that teaching stays at the standard we promise. Where a lesson can be better, the teacher gets clear feedback and support — quality is checked while the course is running, not only at the end of it.',
+    title: 'Lessons recorded and monitored for quality',
+    text: 'Lessons are recorded and monitored so that teaching stays at the standard we promise. Where a lesson can be better, the teacher gets clear feedback and support — quality is checked while the course is running, not only at the end of it.',
   },
   {
     n: '4',
     icon: ClipboardCheck,
     title: 'Monthly student evaluation',
-    text: 'Every student is evaluated regularly on their recitation and Tajweed, and the findings go into a monthly progress report for the family. Parents always know where their child stands — what is strong, and what needs more practice.',
+    text: 'Every student is evaluated each month by the institute\u2019s quality control manager on their recitation and Tajweed, and the findings go into a monthly progress report for the family. Parents always know where their child stands — what is strong, and what needs more practice.',
   },
   {
     n: '5',

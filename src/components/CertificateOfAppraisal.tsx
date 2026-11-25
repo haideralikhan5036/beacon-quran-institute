@@ -2,7 +2,7 @@ import { Reveal } from './ui/Reveal';
 import Breadcrumbs from './Breadcrumbs';
 import {
   ArrowLeft, ArrowRight, Award, CheckCircle2, GraduationCap,
-  FileBadge, BookOpenCheck, Mail, MessageCircle, ShieldCheck,
+  FileBadge, BookOpenCheck, Mail, MessageCircle, ShieldCheck, Truck,
 } from 'lucide-react';
 
 // Certificate of Appraisal page (Tarteel-adapt batch, item 7).
@@ -12,11 +12,13 @@ import {
 // labelled SAMPLE, and makes no claim it cannot support:
 // - no online verification lookup exists, so verification is by
 //   contacting the institute with the certificate details;
-// - no certificate format (digital / printed) is claimed — the
-//   site does not state one;
+// - format (owner-confirmed 2026-11-25): the certificate is issued
+//   digitally on successful completion of the course syllabus, and a
+//   printed copy can be sent by courier to the student's address on
+//   request;
 // - no Ijazah certificate track — Beacon has no Ijazah course.
 // Open questions are logged in
-// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md (format, signatory,
+// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md (signatory,
 // what "successful completion" means, Ijazah, third-party checks).
 
 const COURSES = [
@@ -174,6 +176,56 @@ export default function CertificateOfAppraisal({ onBack }: { onBack: () => void 
               </p>
             </div>
           </Reveal>
+        </div>
+
+        {/* What you receive — format (owner-confirmed) */}
+        <div className="mb-24">
+          <Reveal>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0B2E3A] mb-4 font-display">
+                What you receive
+              </h2>
+              <div className="w-24 h-1 bg-[#004050] mx-auto rounded-full"></div>
+            </div>
+          </Reveal>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Reveal>
+              <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
+                <div
+                  aria-hidden="true"
+                  className="dots-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[110px] h-[70px] opacity-45"
+                />
+                <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-3 rounded-xl w-fit mb-5 relative">
+                  <FileBadge className="w-6 h-6 text-[#004050]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#0B2E3A] mb-3 relative">
+                  Digital certificate
+                </h3>
+                <p className="text-[#3D5563] leading-relaxed relative">
+                  The certificate is issued digitally on successful
+                  completion of the course syllabus.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
+                <div
+                  aria-hidden="true"
+                  className="streaks-texture pointer-events-none absolute right-[-10px] top-[-8px] w-[110px] h-[70px] opacity-45"
+                />
+                <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-3 rounded-xl w-fit mb-5 relative">
+                  <Truck className="w-6 h-6 text-[#004050]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#0B2E3A] mb-3 relative">
+                  Printed copy on request
+                </h3>
+                <p className="text-[#3D5563] leading-relaxed relative">
+                  A printed copy can be sent by courier to the
+                  student&apos;s address on request.
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
 
         {/* Verification — honest framing: no online lookup exists */}

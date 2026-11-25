@@ -12,7 +12,7 @@ const STEPS = [
     n: '2',
     icon: Users,
     title: 'Meet your teacher',
-    text: 'Your trial is a real one-to-one class with a qualified teacher. Together you agree a plan — Qaida, Tajweed, Hifz or Islamic Studies — and a weekly schedule. If the fit is not right, ask for a different tutor and try again before you enrol.',
+    text: 'Your trial is a real one-to-one class with a qualified teacher. Together you agree a plan — Qaida, Tajweed, Hifz or Islamic Studies — and a weekly schedule. If the fit is not right, ask for a different tutor and try again — a 2-day trial with the second tutor — before you enrol.',
   },
   {
     n: '3',

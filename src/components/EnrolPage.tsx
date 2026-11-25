@@ -51,7 +51,7 @@ export default function EnrolPage({ onBack, preSelectedCourse, preSelectedSchedu
               Tell us your course and schedule — we arrange a free one-to-one
               trial class with a certified teacher, at a time that suits your
               family. Meet your tutor first — if the fit is not right, try
-              another tutor before you enrol. No payment, no commitment.
+              another tutor — a 2-day trial with the second tutor — before you enrol. No payment, no commitment.
             </p>
             <div aria-hidden="true" className="w-12 h-[3px] bg-[#7A7A50] rounded-full mx-auto mt-6" />
           </div>
