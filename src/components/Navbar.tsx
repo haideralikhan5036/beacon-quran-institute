@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, BookOpen, ChevronDown, HeartHandshake, Home, Info, ListChecks, Mail, Menu, MessageCircle, Newspaper, Sparkles, Star, UserPlus, X } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronDown, HeartHandshake, HelpCircle, Home, Info, ListChecks, Mail, Menu, MessageCircle, Newspaper, Sparkles, Star, UserPlus, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import logo from '../assets/images/brand_logo.jpg';
 import { useLanguage } from '../context/LanguageContext';
@@ -20,9 +20,11 @@ interface NavbarProps {
   onRegionChange: (region: RegionKey) => void;
   /** Open the courses view with one course selected. */
   onViewCourse: (courseId: string) => void;
+  /** Open the chat assistant overlay (floating-button chat, FAQ batch). */
+  onOpenChat: () => void;
 }
 
-export default function Navbar({ setView, currentView, onViewCourse }: NavbarProps) {
+export default function Navbar({ setView, currentView, onViewCourse, onOpenChat }: NavbarProps) {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
@@ -61,12 +63,15 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
     { label: 'Female Teachers', href: '/female-teachers', icon: HeartHandshake, go: () => goPage('female-teachers'), active: currentView === 'female-teachers' },
     { label: 'Contact', href: '/contact', icon: Mail, go: () => goPage('contact'), active: currentView === 'contact' },
     { label: 'Enrol', href: '/enrol', icon: UserPlus, go: () => goPage('enrol'), active: currentView === 'enrol' },
+    // FAQ/chatbot batch: the FAQ pill opens the chat overlay (not a page
+    // navigation) — it closes the menu first, like every other pill.
+    { label: 'FAQ', href: '/faq', icon: HelpCircle, go: () => { setIsOpen(false); onOpenChat(); }, active: currentView === 'faq' },
   ];
 
   // Mobile menu motion: spring stagger in (~0.05s apart, MRQS-style),
   // reverse stagger out. Reduced motion: no slide, no stagger, quick fade.
   const reduceMotion = useReducedMotion();
-  // 11 pills in the mobile menu: the 10 nav links + the WhatsApp contact
+  // 12 pills in the mobile menu: the 11 nav links + the WhatsApp contact
   // pill (Tarteel-adapt item 9) — the count drives the reverse-stagger exit.
   const pillCount = mobileLinks.length + 1;
   const pillEnter = (i: number) =>
@@ -217,8 +222,32 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
                 </span>
               </span>
             </a>
-            {/* Tarteel-adapt item 9 — WhatsApp contact chip, desktop brand
-                row only. Absolutely positioned at the row's right edge:
+            {/* FAQ/chatbot batch — small subtle FAQ text button next to
+                the WhatsApp chip. The desktop menu pill has no room for
+                a 10th link (9 links + CTA need ~1230px of the 1232px row
+                at 1280px), so the entry point lives here in the brand
+                row instead. Grouped with the chip in one absolute flex
+                row: the chip stays at the right edge, FAQ sits to its
+                left. Together ~250px — inside the ~307px of free space
+                on each side of the 618px centred lockup at 1280px.
+                Lives INSIDE the brand row, so it scrolls away with the
+                row exactly like the chip (Batch 20 behaviour kept).
+                Opens the chat overlay, not a page navigation (href
+                "/faq" is the real link for crawlers / no-JS). */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <a
+                href="/faq"
+                onClick={(e) => { e.preventDefault(); onOpenChat(); }}
+                aria-label="Frequently asked questions — open the chat"
+                data-testid="faq-button-desktop"
+                className="flex items-center gap-1.5 h-11 px-3 rounded-full text-[13px] font-semibold text-[#004050] hover:bg-[#F2F6F9] transition-colors whitespace-nowrap cursor-pointer"
+              >
+                <HelpCircle className="w-4 h-4 text-[#7A7A50] shrink-0" />
+                FAQ
+              </a>
+              {/* Tarteel-adapt item 9 — WhatsApp contact chip, desktop brand
+                row only. Absolutely positioned at the row's right edge
+                (now grouped with the FAQ button above):
                 the centred logo + name is 618px wide inside the 1232px
                 row, so ~307px of free space sits on each side at every
                 desktop width (container caps at 1280px) — the ~170px
@@ -227,17 +256,18 @@ export default function Navbar({ setView, currentView, onViewCourse }: NavbarPro
                 teal text + olive icon on white, no WhatsApp green.
                 It lives INSIDE the brand row, so it scrolls away with
                 the row exactly like the logo (Batch 20 behaviour kept). */}
-            <a
-              href="https://wa.me/923461573771"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat with Beacon Quran Institute on WhatsApp: +92 346 1573771"
-              data-testid="whatsapp-chip-desktop"
-              className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 h-11 px-4 rounded-full border border-[#C9D9E8] bg-white text-[13px] font-semibold text-[#004050] shadow-[0_6px_20px_rgba(11,46,58,0.10)] hover:border-[#7A7A50] transition-colors whitespace-nowrap"
-            >
-              <MessageCircle className="w-4 h-4 text-[#7A7A50] shrink-0" />
-              <span dir="ltr">+92 346 1573771</span>
-            </a>
+              <a
+                href="https://wa.me/923461573771"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with Beacon Quran Institute on WhatsApp: +92 346 1573771"
+                data-testid="whatsapp-chip-desktop"
+                className="flex items-center gap-2 h-11 px-4 rounded-full border border-[#C9D9E8] bg-white text-[13px] font-semibold text-[#004050] shadow-[0_6px_20px_rgba(11,46,58,0.10)] hover:border-[#7A7A50] transition-colors whitespace-nowrap"
+              >
+                <MessageCircle className="w-4 h-4 text-[#7A7A50] shrink-0" />
+                <span dir="ltr">+92 346 1573771</span>
+              </a>
+            </div>
           </div>
           {/* Row 2 — menu, moved down below the brand row into the open space
               as a centred floating pill. Same nav markup/classes as before —

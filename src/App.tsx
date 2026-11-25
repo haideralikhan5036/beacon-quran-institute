@@ -35,6 +35,8 @@ const FemaleTeachersPage = lazy(() => import('./components/FemaleTeachersPage'))
 const LocationPage = lazy(() => import('./components/LocationPage'));
 const RulesPage = lazy(() => import('./components/RulesPage'));
 const ParentsPage = lazy(() => import('./components/ParentsPage'));
+const FaqPage = lazy(() => import('./components/FaqPage'));
+import { ChatOverlay, FloatingButtons } from './components/ChatBot';
 import type { CountryKey } from './components/CountryPage';
 import type { CurrencyCode } from './data/feeTable';
 import { COURSES } from './data/courses';
@@ -49,7 +51,7 @@ import {
   type RegionKey,
 } from './utils/geo';
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada' | 'how-it-works' | 'enrol' | 'quality-assurance' | 'female-teachers' | 'quran-classes-in-houston' | 'quran-classes-in-new-york' | 'quran-classes-in-los-angeles' | 'quran-classes-in-dallas' | 'quran-classes-in-texas' | 'quran-classes-in-california' | 'quran-classes-in-illinois' | 'quran-classes-in-michigan' | 'quran-classes-for-kids' | 'quran-classes-for-beginners' | 'quran-classes-for-adults' | 'quran-classes-for-female' | 'quran-classes-for-male' | 'rules' | 'parents';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada' | 'how-it-works' | 'enrol' | 'quality-assurance' | 'female-teachers' | 'quran-classes-in-houston' | 'quran-classes-in-new-york' | 'quran-classes-in-los-angeles' | 'quran-classes-in-dallas' | 'quran-classes-in-texas' | 'quran-classes-in-california' | 'quran-classes-in-illinois' | 'quran-classes-in-michigan' | 'quran-classes-for-kids' | 'quran-classes-for-beginners' | 'quran-classes-for-adults' | 'quran-classes-for-female' | 'quran-classes-for-male' | 'rules' | 'parents' | 'faq';
 
 const HOME_TITLE = 'Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute';
 const HOME_DESCRIPTION = 'Online Quran academy — Quran classes near you: 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada, taught live online from home. Tajweed, Hifz, Noorani Qaida. Book a free trial class today.';
@@ -72,6 +74,7 @@ export const VIEW_META: Record<ViewState, { title: string; description: string }
   parents: { title: 'For Parents | Follow Your Child\u2019s Quran Progress — Beacon Quran Institute', description: 'For parents: how to follow your child\u2019s Quran progress at Beacon Quran Institute — monthly progress reports, safe one-to-one classes, and how to reach us any time.' },
   'female-teachers': { title: 'Female Quran Teachers | Qualified Female Tutors for Sisters & Girls — Beacon Quran Institute', description: 'Learn Quran online with a qualified female teacher: 1-on-1 online Quran classes for sisters and young girls — Tajweed, Hifz, Noorani Qaida. Ask us on WhatsApp or by email for a female teacher when you enrol.' },
   rules: { title: 'Class Rules | Make-Up Classes, Leave, Eid Holidays & Fees — Beacon Quran Institute', description: 'Class rules at Beacon Quran Institute in plain language: make-up classes, student leave, teacher unavailability, Eid holidays, fees and cancelling enrolment.' },
+  faq: { title: 'Ask Beacon | Frequently Asked Questions — Beacon Quran Institute', description: 'Ask Beacon: frequently asked questions about online Quran classes — free trial, fees, teachers, make-up classes, holidays, refunds and certificates. Answers from Beacon\u2019s published pages.' },
   'quran-classes-in-houston': { title: 'Online Quran Classes in Houston | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Houston with certified teachers. 1-on-1 online Quran classes for kids and adults on Central Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
   'quran-classes-in-new-york': { title: 'Online Quran Classes in New York | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in New York with certified teachers. 1-on-1 online Quran classes for kids and adults on Eastern Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
   'quran-classes-in-los-angeles': { title: 'Online Quran Classes in Los Angeles | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Los Angeles with certified teachers. 1-on-1 online Quran classes for kids and adults on Pacific Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
@@ -125,6 +128,7 @@ const VIEW_PATHS: Record<Exclude<ViewState, CountryKey>, string> = {
   'quran-classes-for-male': 'quran-classes-for-male',
   rules: 'rules',
   parents: 'parents',
+  faq: 'faq',
 };
 // Exported for the prerender entry (entry-server.tsx).
 export { VIEW_PATHS };
@@ -215,6 +219,10 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
     initialPath !== undefined ? parsePath(initialPath).postSlug : locationState().postSlug,
   );
   const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
+  // Chat assistant overlay (FAQ/chatbot batch): open from the floating
+  // button, the header FAQ button, the mobile menu pill or the footer
+  // link. The overlay is mounted once here so every page can open it.
+  const [chatOpen, setChatOpen] = useState(false);
   // Visitor region + fee-table currency (geo auto-detect, Batch 3).
   // Default is USA/USD — the page always renders with this first; the
   // lookup only switches it afterwards, so a slow/failed lookup can never
@@ -480,7 +488,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
 
   return (
     <div className="min-h-screen bg-white font-sans text-[#0B2E3A]">
-      <Navbar setView={handleNavSetView} currentView={view} region={region} onRegionChange={handleRegionChange} onViewCourse={handleViewCourseDetails} />
+      <Navbar setView={handleNavSetView} currentView={view} region={region} onRegionChange={handleRegionChange} onViewCourse={handleViewCourseDetails} onOpenChat={() => setChatOpen(true)} />
 
       {/* All page content is lazy — only loads what's needed.
           No loading screen: Suspense fallback is null by design
@@ -541,6 +549,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
           {view === 'female-teachers' && <FemaleTeachersPage onBack={() => setView('home')} />}
           {view === 'rules' && <RulesPage onBack={() => setView('home')} />}
           {view === 'parents' && <ParentsPage onBack={() => setView('home')} />}
+          {view === 'faq' && <FaqPage onBack={() => setView('home')} />}
           {view === 'quran-classes-in-houston' && <LocationPage slug="quran-classes-in-houston" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} currency={currency} />}
           {view === 'quran-classes-in-new-york' && <LocationPage slug="quran-classes-in-new-york" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} currency={currency} />}
           {view === 'quran-classes-in-los-angeles' && <LocationPage slug="quran-classes-in-los-angeles" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} currency={currency} />}
@@ -572,8 +581,12 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
             />
           )}
         </main>
-        <Footer setView={handleNavSetView} />
+        <Footer setView={handleNavSetView} onOpenChat={() => setChatOpen(true)} />
       </Suspense>
+      {/* Chat assistant: floating buttons on every page + the overlay panel.
+          Mounted outside Suspense so they render immediately. */}
+      <FloatingButtons chatOpen={chatOpen} onOpenChat={() => setChatOpen(true)} />
+      <ChatOverlay open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }
