@@ -218,7 +218,7 @@ export default function ContactPage({ onBack, onRegisterClick }: { onBack: () =>
               Ready for a 3-Day Free Trial Session?
             </h2>
             <p className="text-[#3D5563] text-sm sm:text-base font-medium max-w-xl mx-auto mb-8 leading-relaxed">
-              Select your preferred course and register in under a minute for a risk-free 3-day trial session with certified tutors.
+              Select your preferred course and register in under a minute for a risk-free 3-day trial session with certified tutors — meet your tutor first, and try another if the fit is not right.
             </p>
             <button
               onClick={onRegisterClick}

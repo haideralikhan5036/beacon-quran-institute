@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { Calendar, User, ArrowLeft, ArrowRight, Search, X, BookOpen, Clock, FileText } from 'lucide-react';
+import { motion } from 'motion/react';
+import { User, ArrowLeft, ArrowRight, Search, X, Clock, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { blogPosts, BlogPost } from '../data/blogData';
 import { Reveal } from './ui/Reveal';
@@ -31,16 +31,111 @@ function BlogSkeleton() {
   );
 }
 
-export default function Blog({ onBack }: { onBack: () => void }) {
+// ── Full-article view ──────────────────────────────────────────────────────
+// A post lives at its own real URL (/blog/<slug>); App passes the slug in
+// as initialPostSlug. Closing returns to the /blog listing via a real link.
+function BlogPostView({ post }: { post: BlogPost }) {
+  return (
+    <div className="bg-[#FFFFFF] min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 text-[#0B2E3A]" dir="ltr">
+      <div className="max-w-[860px] mx-auto px-6">
+        <Breadcrumbs
+          items={[
+            { name: 'Home', href: '/' },
+            { name: 'Blog', href: '/blog' },
+            { name: post.titleEn },
+          ]}
+        />
+
+        <a
+          href="/blog"
+          className="group flex items-center gap-3 text-[#3D5563] hover:text-[#004050] mb-8 font-bold uppercase tracking-[0.3em] text-[9px] transition-all"
+        >
+          <div className="w-8 h-8 rounded-full border border-[#C9D9E8] flex items-center justify-center group-hover:border-[#004050] group-hover:bg-[#004050] transition-all">
+            <ArrowLeft className="w-3.5 h-3.5 text-[#004050] group-hover:text-white" />
+          </div>
+          Back to Blog
+        </a>
+
+        {/* Cover image */}
+        <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-3xl overflow-hidden border border-[#C9D9E8] mb-10">
+          <img
+            src={post.image}
+            alt={post.titleEn}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-6 left-6 bg-[#004050] px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg">
+            {post.categoryEn}
+          </div>
+        </div>
+
+        {/* Meta: read time + author. No date — posts are undated by design
+            (real publication dates are unknown). */}
+        <div className="flex flex-wrap gap-6 items-center mb-6 text-sm text-[#3D5563]">
+          <div className="flex items-center gap-2.5">
+            <Clock className="w-4 h-4 text-[#7A7A50]" />
+            <span>{post.readTimeEn}</span>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <User className="w-4 h-4 text-[#7A7A50]" />
+            <span className="font-semibold text-[#004050]">{post.authorEn}</span>
+          </div>
+        </div>
+
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display text-[#0B2E3A] mb-10 leading-tight">
+          {post.titleEn}
+        </h1>
+
+        {/* Article Content — rendered from Markdown (bold, italics,
+            headings, lists, links) instead of raw ** markers. */}
+        <div className="text-base sm:text-lg text-[#3D5563] leading-relaxed space-y-6 text-left">
+          {renderMarkdown(post.contentEn)}
+        </div>
+
+        {/* Bottom actions */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 border-t border-[#D7E3EE] pt-10 mt-12">
+          <a
+            href="/blog"
+            className="bg-[#004050] hover:bg-[#7A7A50] text-white font-extrabold uppercase tracking-widest text-xs px-8 py-4 rounded-full transition-all shadow-lg flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Blog</span>
+          </a>
+          <a
+            href="/enrol"
+            className="border border-[#004050] text-[#004050] hover:bg-[#EAF1F7] font-extrabold uppercase tracking-widest text-xs px-8 py-4 rounded-full transition-all flex items-center gap-2"
+          >
+            <span>Book a Free Trial</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Blog({
+  onBack,
+  initialPostSlug,
+}: {
+  onBack: () => void;
+  /** Slug from /blog/<slug> (App holds it, like selectedCourseId). */
+  initialPostSlug?: string | null;
+}) {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 350);
     return () => clearTimeout(timer);
   }, []);
+
+  // A deep link (/blog/<slug>) renders the full article; an unknown slug
+  // falls back to the listing instead of a blank page.
+  const selectedPost = initialPostSlug
+    ? blogPosts.find((p) => p.slug === initialPostSlug) ?? null
+    : null;
+  if (selectedPost) return <BlogPostView post={selectedPost} />;
 
   // Filter posts based on search query and category
   const filteredPosts = blogPosts.filter(post => {
@@ -52,8 +147,7 @@ export default function Blog({ onBack }: { onBack: () => void }) {
     const matchesSearch =
       post.titleEn.toLowerCase().includes(query) ||
       post.excerptEn.toLowerCase().includes(query) ||
-      post.contentEn.toLowerCase().includes(query) ||
-      post.authorEn.toLowerCase().includes(query);
+      post.contentEn.toLowerCase().includes(query);
 
     return matchesCategory && matchesSearch;
   });
@@ -132,13 +226,13 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               </>
             ) : filteredPosts.length > 0 ? (
               filteredPosts.map((post, index) => (
-                <motion.article
+                <motion.a
                   key={post.id}
+                  href={`/blog/${post.slug}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="bg-[#FFFFFF] rounded-3xl overflow-hidden border border-[#C9D9E8] hover:border-[#004050]/50 hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-all group text-[#0B2E3A] cursor-pointer"
-                  onClick={() => setSelectedPost(post)}
+                  className="block bg-[#FFFFFF] rounded-3xl overflow-hidden border border-[#C9D9E8] hover:border-[#004050]/50 hover:shadow-[0_16px_40px_rgba(11,46,58,0.08)] transition-all group text-[#0B2E3A] cursor-pointer"
                 >
                   <div className="grid md:grid-cols-5 h-full">
                     {/* Blog Image */}
@@ -160,10 +254,6 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                           {post.categoryEn}
                         </span>
                         <div className="flex items-center gap-2 text-[9px] uppercase font-bold tracking-[0.2em] text-[#3D5563]">
-                          <Calendar className="w-3.5 h-3.5 text-[#7A7A50]" />
-                          <span>{post.date}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[9px] uppercase font-bold tracking-[0.2em] text-[#3D5563]">
                           <Clock className="w-3.5 h-3.5 text-[#7A7A50]" />
                           <span>{post.readTimeEn}</span>
                         </div>
@@ -183,16 +273,16 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                           </div>
                           <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#004050]">{post.authorEn}</span>
                         </div>
-                        <button
+                        <span
                           className="text-[9px] font-extrabold uppercase tracking-[0.25em] text-[#7A7A50] flex items-center gap-2 group-hover:gap-4 transition-all"
                         >
                           <span>Read Full Article</span>
                           <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
+                        </span>
                       </div>
                     </div>
                   </div>
-                </motion.article>
+                </motion.a>
               ))
             ) : (
               <div className="text-center py-20 bg-[#F4F8FB] rounded-3xl border border-[#D7E3EE]">
@@ -249,117 +339,9 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                  ))}
                </div>
             </div>
-
-            {/* Newsletter widget */}
-            <div className="bg-[#FFFFFF] text-[#0B2E3A] p-8 sm:p-10 rounded-3xl border border-[#C9D9E8] shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
-               <h4 className="text-lg font-bold mb-4 text-[#004050]">
-                 Newsletter
-               </h4>
-               <p className="text-[#3D5563] text-sm mb-6 leading-relaxed">
-                 Join 5,000+ subscribers for weekly Quranic insights and institute updates.
-               </p>
-               <input
-                 type="email"
-                 placeholder="your@email.com"
-                 className="w-full px-4 py-4 bg-[#FFFFFF] border border-[#C9D9E8] text-[#0B2E3A] placeholder:text-[#3D5563]/60 rounded-xl mb-4 focus:border-[#004050] outline-none"
-               />
-               <button className="w-full bg-[#7A7A50] hover:bg-[#004050] text-white py-4 rounded-xl font-extrabold uppercase tracking-widest text-xs transition-all cursor-pointer">
-                 Subscribe Now
-               </button>
-            </div>
           </aside>
         </div>
       </div>
-
-      {/* ── BEAUTIFUL DETAILS MODAL ── */}
-      <AnimatePresence>
-        {selectedPost && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
-            {/* Modal Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedPost(null)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            />
-
-            {/* Modal Box */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="bg-[#FFFFFF] border border-[#C9D9E8] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative z-10 text-[#0B2E3A]"
-            >
-              {/* Modal Cover Image */}
-              <div className="relative h-64 sm:h-80 md:h-96 w-full">
-                <img
-                  src={selectedPost.image}
-                  alt={selectedPost.titleEn}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-black/30" />
-
-                {/* Floating category */}
-                <div className="absolute top-6 left-6 bg-[#004050] px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg">
-                  {selectedPost.categoryEn}
-                </div>
-
-                {/* Close Button */}
-                <button
-                  onClick={() => setSelectedPost(null)}
-                  className="absolute top-6 right-6 p-3 rounded-full bg-[#FFFFFF] hover:bg-[#EAF1F7] border border-[#C9D9E8] text-[#0B2E3A] transition-all cursor-pointer shadow-lg"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Modal Content */}
-              <div className="p-8 sm:p-10 md:p-12">
-                <div className="flex flex-wrap gap-6 items-center mb-8 border-b border-[#D7E3EE] pb-6 text-sm text-[#3D5563]">
-                  <div className="flex items-center gap-2.5">
-                    <Calendar className="w-4 h-4 text-[#7A7A50]" />
-                    <span>{selectedPost.date}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Clock className="w-4 h-4 text-[#7A7A50]" />
-                    <span>{selectedPost.readTimeEn}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <User className="w-4 h-4 text-[#7A7A50]" />
-                    <span className="font-semibold text-[#004050]">{selectedPost.authorEn}</span>
-                  </div>
-                </div>
-
-                {/* Main Article Title */}
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-[#0B2E3A] mb-8 leading-tight">
-                  {selectedPost.titleEn}
-                </h2>
-
-                {/* Article Content — rendered from Markdown (bold, italics,
-                    headings, lists) instead of raw ** markers. */}
-                <div className="text-base sm:text-lg text-[#3D5563] leading-relaxed space-y-6 text-left">
-                  {renderMarkdown(selectedPost.contentEn)}
-                </div>
-
-                {/* Bottom Close Button */}
-                <div className="flex justify-center border-t border-[#D7E3EE] pt-10 mt-12">
-                  <button
-                    onClick={() => setSelectedPost(null)}
-                    className="bg-[#004050] hover:bg-[#7A7A50] text-white font-extrabold uppercase tracking-widest text-xs px-8 py-4 rounded-full transition-all cursor-pointer shadow-lg flex items-center gap-2"
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    <span>Done Reading</span>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

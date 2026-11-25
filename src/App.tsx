@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
+import { scrollToId } from './utils/scrollToId';
 
 // ── Lazy load ALL below-fold sections for fast initial paint ─────────────────
 const Hero              = lazy(() => import('./components/Hero'));
@@ -29,9 +30,15 @@ const CountryLinks      = lazy(() => import('./components/CountryLinks'));
 const HowItWorksPage    = lazy(() => import('./components/HowItWorksPage'));
 const EnrolPage         = lazy(() => import('./components/EnrolPage'));
 const CoursesHubPage    = lazy(() => import('./components/CoursesHubPage'));
+const QualityAssurancePage = lazy(() => import('./components/QualityAssurancePage'));
+const FemaleTeachersPage = lazy(() => import('./components/FemaleTeachersPage'));
+const LocationPage = lazy(() => import('./components/LocationPage'));
+const RulesPage = lazy(() => import('./components/RulesPage'));
+const ParentsPage = lazy(() => import('./components/ParentsPage'));
 import type { CountryKey } from './components/CountryPage';
 import type { CurrencyCode } from './data/feeTable';
 import { COURSES } from './data/courses';
+import { blogPosts } from './data/blogData';
 import {
   REGION_CURRENCY,
   detectRegion,
@@ -42,7 +49,7 @@ import {
   type RegionKey,
 } from './utils/geo';
 
-export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada' | 'how-it-works' | 'enrol';
+export type ViewState = 'home' | 'blog' | 'services' | 'terms' | 'certificate' | 'testimonials' | 'courses' | 'contact' | 'about' | 'usa' | 'uk' | 'canada' | 'how-it-works' | 'enrol' | 'quality-assurance' | 'female-teachers' | 'quran-classes-in-houston' | 'quran-classes-in-new-york' | 'quran-classes-in-los-angeles' | 'quran-classes-in-dallas' | 'quran-classes-in-texas' | 'quran-classes-in-california' | 'quran-classes-in-illinois' | 'quran-classes-in-michigan' | 'quran-classes-for-kids' | 'quran-classes-for-beginners' | 'quran-classes-for-adults' | 'quran-classes-for-female' | 'quran-classes-for-male' | 'rules' | 'parents';
 
 const HOME_TITLE = 'Online Quran Classes for Kids & Adults | Learn Quran Online with Tajweed — Beacon Quran Institute';
 const HOME_DESCRIPTION = 'Online Quran academy — Quran classes near you: 1-on-1 online Quran classes for kids and adults in the USA, UK & Canada, taught live online from home. Tajweed, Hifz, Noorani Qaida. Book a free trial class today.';
@@ -59,10 +66,27 @@ export const VIEW_META: Record<ViewState, { title: string; description: string }
   blog: { title: 'Quran Learning Blog | Online Quran Classes & Tajweed — Beacon Quran Institute', description: 'Read the Beacon Quran Institute blog: online Quran classes, Tajweed, Hifz memorization and Noorani Qaida for kids and adults.' },
   testimonials: { title: 'Student Reviews | Online Quran Classes — Beacon Quran Institute', description: 'What families say about Beacon Quran Institute: 1-on-1 online Quran classes for kids and adults in the USA, UK and Canada.' },
   contact: { title: 'Contact Beacon Quran Institute | Online Quran Classes — Beacon Quran Institute', description: 'Contact Beacon Quran Institute about online Quran classes for kids and adults in the USA, UK and Canada. Book a free trial class today.' },
-  'how-it-works': { title: 'How Online Quran Classes Work | Free Trial to Weekly Lessons — Beacon Quran Institute', description: 'How Beacon Quran Institute works: book a free trial class, meet your certified Quran teacher, then learn weekly 1-on-1 online with a monthly progress report.' },
-  enrol: { title: 'Enrol — Book a Free Trial Quran Class | Beacon Quran Institute', description: 'Enrol at Beacon Quran Institute: book a free trial Quran class for kids or adults. Choose your course and schedule — Noorani Qaida, Tajweed, Hifz, Tafseer or Islamic Studies.' },
+  'how-it-works': { title: 'How Online Quran Classes Work | Free Trial to Weekly Lessons — Beacon Quran Institute', description: 'How Beacon Quran Institute works: book a free trial class, meet your tutor — and try a different tutor if the fit is not right — then learn weekly 1-on-1 online with a monthly progress report.' },
+  enrol: { title: 'Enrol — Book a Free Trial Quran Class | Beacon Quran Institute', description: 'Enrol at Beacon Quran Institute: book a free trial Quran class for kids or adults and meet your tutor first — try another tutor if the fit is not right. Choose your course and schedule — Noorani Qaida, Tajweed, Hifz, Tafseer or Islamic Studies.' },
+  'quality-assurance': { title: 'Quality Assurance | How We Keep Every Quran Lesson Excellent — Beacon Quran Institute', description: 'How Beacon Quran Institute assures quality: careful teacher selection, monitored lessons, monthly student evaluation and a monthly progress report for every family.' },
+  parents: { title: 'For Parents | Follow Your Child\u2019s Quran Progress — Beacon Quran Institute', description: 'For parents: how to follow your child\u2019s Quran progress at Beacon Quran Institute — monthly progress reports, safe one-to-one classes, and how to reach us any time.' },
+  'female-teachers': { title: 'Female Quran Teachers | Qualified Female Tutors for Sisters & Girls — Beacon Quran Institute', description: 'Learn Quran online with a qualified female teacher: 1-on-1 online Quran classes for sisters and young girls — Tajweed, Hifz, Noorani Qaida. Ask us on WhatsApp or by email for a female teacher when you enrol.' },
+  rules: { title: 'Class Rules | Make-Up Classes, Leave, Eid Holidays & Fees — Beacon Quran Institute', description: 'Class rules at Beacon Quran Institute in plain language: make-up classes, student leave, teacher unavailability, Eid holidays, fees and cancelling enrolment.' },
+  'quran-classes-in-houston': { title: 'Online Quran Classes in Houston | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Houston with certified teachers. 1-on-1 online Quran classes for kids and adults on Central Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-new-york': { title: 'Online Quran Classes in New York | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in New York with certified teachers. 1-on-1 online Quran classes for kids and adults on Eastern Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-los-angeles': { title: 'Online Quran Classes in Los Angeles | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Los Angeles with certified teachers. 1-on-1 online Quran classes for kids and adults on Pacific Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-dallas': { title: 'Online Quran Classes in Dallas | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Dallas with certified teachers. 1-on-1 online Quran classes for kids and adults on Central Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-texas': { title: 'Online Quran Classes in Texas | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Texas with certified teachers. 1-on-1 online Quran classes for kids and adults across Texas — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-california': { title: 'Online Quran Classes in California | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in California with certified teachers. 1-on-1 online Quran classes for kids and adults on Pacific Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-illinois': { title: 'Online Quran Classes in Illinois | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Illinois with certified teachers. 1-on-1 online Quran classes for kids and adults on Central Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-in-michigan': { title: 'Online Quran Classes in Michigan | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in Michigan with certified teachers. 1-on-1 online Quran classes for kids and adults on Eastern Time — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
+  'quran-classes-for-kids': { title: 'Online Quran Classes for Kids | 1-on-1 Quran Lessons for Children — Beacon Quran Institute', description: 'Online Quran classes for kids: live 1-on-1 Quran lessons for children from age 4 — Noorani Qaida, Tajweed and Hifz with certified teachers. Book a free trial class today.' },
+  'quran-classes-for-beginners': { title: 'Online Quran Classes for Beginners | Learn to Read the Quran — Beacon Quran Institute', description: 'Online Quran classes for beginners: learn to read the Quran from the very first letter — Noorani Qaida, Tajweed and Hifz, 1-on-1 live online. Book a free trial class today.' },
+  'quran-classes-for-adults': { title: 'Online Quran Classes for Adults | Learn Quran Online at Your Pace — Beacon Quran Institute', description: 'Online Quran classes for adults: live 1-on-1 Quran lessons around your work — Tajweed, Hifz and Tafseer with certified teachers. Book a free trial class today.' },
+  'quran-classes-for-female': { title: 'Online Quran Classes for Sisters | Learn Quran with a Female Teacher — Beacon Quran Institute', description: 'Online Quran classes for sisters: learn Quran online 1-on-1 with a qualified female teacher — Tajweed, Hifz, Noorani Qaida. Request a female teacher when you enrol.' },
+  'quran-classes-for-male': { title: 'Online Quran Classes for Brothers | Learn Quran with a Male Teacher — Beacon Quran Institute', description: 'Online Quran classes for brothers: learn Quran online 1-on-1 with a male teacher — Tajweed, Hifz, Noorani Qaida. Book a free trial class today.' },
   terms: { title: 'Terms of Service | Beacon Quran Institute', description: 'Terms of Service for Beacon Quran Institute online Quran classes.' },
-  certificate: { title: 'Certificate Verification | Beacon Quran Institute', description: 'Verify a Beacon Quran Institute certificate of appraisal for online Quran classes.' },
+  certificate: { title: 'Certificates | Beacon Quran Institute', description: 'On successful completion of a course, Beacon Quran Institute issues a formal Certificate of Appraisal. See which courses it applies to and how to verify a certificate.' },
   usa: { title: 'Online Quran Classes in the USA | 1-on-1 Quran Lessons — Beacon Quran Institute', description: 'Learn Quran online in the USA with certified teachers. 1-on-1 online Quran classes for kids and adults — Tajweed, Hifz and Noorani Qaida. Book a free trial class today.' },
   uk: { title: 'Online Quran Classes UK | One-to-One Quran Tutor — Beacon Quran Institute', description: 'Online Quran classes UK with DBS-checked Quran tutors. One-to-one Quran lessons for kids and adults — Tajweed, Hifz memorisation and Noorani Qaida. Book a free trial.' },
   canada: { title: 'Online Quran Classes in Canada | 1-on-1 Quran Classes — Beacon Quran Institute', description: 'Online Quran classes in Canada with certified teachers. 1-on-1 online Quran lessons for kids and adults in Toronto, Mississauga, Brampton and across Canada. Book a free trial.' },
@@ -84,6 +108,23 @@ const VIEW_PATHS: Record<Exclude<ViewState, CountryKey>, string> = {
   certificate: 'certificate',
   'how-it-works': 'how-it-works',
   enrol: 'enrol',
+  'quality-assurance': 'quality-assurance',
+  'female-teachers': 'female-teachers',
+  'quran-classes-in-houston': 'quran-classes-in-houston',
+  'quran-classes-in-new-york': 'quran-classes-in-new-york',
+  'quran-classes-in-los-angeles': 'quran-classes-in-los-angeles',
+  'quran-classes-in-dallas': 'quran-classes-in-dallas',
+  'quran-classes-in-texas': 'quran-classes-in-texas',
+  'quran-classes-in-california': 'quran-classes-in-california',
+  'quran-classes-in-illinois': 'quran-classes-in-illinois',
+  'quran-classes-in-michigan': 'quran-classes-in-michigan',
+  'quran-classes-for-kids': 'quran-classes-for-kids',
+  'quran-classes-for-beginners': 'quran-classes-for-beginners',
+  'quran-classes-for-adults': 'quran-classes-for-adults',
+  'quran-classes-for-female': 'quran-classes-for-female',
+  'quran-classes-for-male': 'quran-classes-for-male',
+  rules: 'rules',
+  parents: 'parents',
 };
 // Exported for the prerender entry (entry-server.tsx).
 export { VIEW_PATHS };
@@ -101,27 +142,34 @@ const isCountryView = (view: ViewState): view is CountryKey => view === 'usa' ||
 
 // Resolve a URL path to a view. Pure function of the path string so the
 // prerender entry can render any route without a browser.
-export function parsePath(pathname: string): { view: ViewState; courseSlug: string | null } {
+export function parsePath(pathname: string): { view: ViewState; courseSlug: string | null; postSlug: string | null } {
   const path = pathname.replace(/^\/+|\/+$/g, '');
-  if (PATH_COUNTRIES[path]) return { view: PATH_COUNTRIES[path], courseSlug: null };
+  if (PATH_COUNTRIES[path]) return { view: PATH_COUNTRIES[path], courseSlug: null, postSlug: null };
   // Real course paths: /courses opens the courses view; /courses/<slug>
   // opens it with that course selected.
-  if (path === 'courses') return { view: 'courses', courseSlug: null };
+  if (path === 'courses') return { view: 'courses', courseSlug: null, postSlug: null };
   if (path.startsWith('courses/')) {
     const slug = decodeURIComponent(path.slice('courses/'.length).split('/')[0]);
-    return { view: 'courses', courseSlug: slug || null };
+    return { view: 'courses', courseSlug: slug || null, postSlug: null };
+  }
+  // Real blog paths: /blog opens the listing; /blog/<slug> opens that
+  // post as a full article (same pattern as courses).
+  if (path === 'blog') return { view: 'blog', courseSlug: null, postSlug: null };
+  if (path.startsWith('blog/')) {
+    const slug = decodeURIComponent(path.slice('blog/'.length).split('/')[0]);
+    return { view: 'blog', courseSlug: null, postSlug: slug || null };
   }
   // Every other view lives at its own real path (/about, /enrol, …).
-  if (PATH_VIEWS[path]) return { view: PATH_VIEWS[path], courseSlug: null };
-  return { view: 'home', courseSlug: null };
+  if (PATH_VIEWS[path]) return { view: PATH_VIEWS[path], courseSlug: null, postSlug: null };
+  return { view: 'home', courseSlug: null, postSlug: null };
 }
 
-function locationState(): { view: ViewState; courseSlug: string | null } {
-  if (typeof window === 'undefined') return { view: 'home', courseSlug: null };
+function locationState(): { view: ViewState; courseSlug: string | null; postSlug: string | null } {
+  if (typeof window === 'undefined') return { view: 'home', courseSlug: null, postSlug: null };
   const fromPath = parsePath(window.location.pathname);
   // Root path: legacy fallback — old #view links still resolve.
   if (window.location.pathname.replace(/^\/+|\/+$/g, '') === '') {
-    return { view: HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home', courseSlug: null };
+    return { view: HASH_VIEWS[window.location.hash.replace(/^#/, '')] ?? 'home', courseSlug: null, postSlug: null };
   }
   return fromPath;
 }
@@ -138,6 +186,10 @@ function isKnownPath(pathname: string): boolean {
   if (path.startsWith('courses/')) {
     const slug = decodeURIComponent(path.slice('courses/'.length).split('/')[0]);
     return COURSES.some((c) => c.slug === slug);
+  }
+  if (path.startsWith('blog/')) {
+    const slug = decodeURIComponent(path.slice('blog/'.length).split('/')[0]);
+    return blogPosts.some((p) => p.slug === slug);
   }
   return false;
 }
@@ -157,6 +209,10 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(() =>
     initialPath !== undefined ? parsePath(initialPath).courseSlug : locationState().courseSlug,
+  );
+  // Blog post slug from /blog/<slug> (same pattern as selectedCourseId).
+  const [selectedPostSlug, setSelectedPostSlug] = useState<string | null>(() =>
+    initialPath !== undefined ? parsePath(initialPath).postSlug : locationState().postSlug,
   );
   const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
   // Visitor region + fee-table currency (geo auto-detect, Batch 3).
@@ -201,17 +257,26 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
       view === 'courses' && selectedCourseId
         ? COURSES.find((c) => c.id === selectedCourseId || c.slug === selectedCourseId)?.slug ?? null
         : null;
+    // Resolve the selected blog post (a slug from a /blog/<slug> deep link
+    // or a card click) to a real post. Unknown values resolve to null so a
+    // bad slug can never invent a URL — the listing renders instead.
+    const selectedPost =
+      view === 'blog' && selectedPostSlug
+        ? blogPosts.find((p) => p.slug === selectedPostSlug) ?? null
+        : null;
     const onCoursesSlugPath =
       view === 'courses' && window.location.pathname.startsWith('/courses/');
     const url = isCountryView(view)
       ? `/${COUNTRY_PATHS[view]}`
       : view === 'courses' && selectedSlug
         ? `/courses/${selectedSlug}`
-        : onCoursesSlugPath
-          ? window.location.pathname
-          : view === 'home'
-            ? '/'
-            : `/${VIEW_PATHS[view]}`;
+        : view === 'blog' && selectedPost
+          ? `/blog/${selectedPost.slug}`
+          : onCoursesSlugPath
+            ? window.location.pathname
+            : view === 'home'
+              ? '/'
+              : `/${VIEW_PATHS[view]}`;
     // History (Batch 13): every real navigation adds an entry, so the
     // phone Back button walks back through pages instead of closing the
     // site (the old code called replaceState on every view change, so the
@@ -229,6 +294,13 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
     fromPopRef.current = false;
     mountedRef.current = true;
     applyViewMeta(view);
+    // A blog post page carries the post's own title + description (same
+    // values the prerender bakes into its served HTML).
+    if (selectedPost) {
+      document.title = `${selectedPost.titleEn} | Beacon Quran Institute`;
+      const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+      if (desc) desc.setAttribute('content', selectedPost.excerptEn);
+    }
     window.scrollTo({ top: 0, behavior: 'auto' });
     // Entering a country page resets the fee-table currency to that
     // country's currency; returning home restores the visitor's own
@@ -236,7 +308,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
     if (isCountryView(view)) setCurrency(REGION_CURRENCY[view]);
     else setCurrency(REGION_CURRENCY[region]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view]);
+  }, [view, selectedPostSlug]);
 
   // Apply a region: set the region + fee currency, and — for USA/UK/Canada —
   // open that country's page when the visitor is on the homepage. Runs only
@@ -301,6 +373,8 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
       // null, so Back from a course detail to the /courses hub clears
       // the selection instead of keeping the old detail on screen.
       if (next.view === 'courses') setSelectedCourseId(next.courseSlug);
+      // Same for the blog: Back from a post to /blog clears the post.
+      if (next.view === 'blog') setSelectedPostSlug(next.postSlug);
     };
     window.addEventListener('popstate', onLocationChange);
     window.addEventListener('hashchange', onLocationChange);
@@ -337,7 +411,12 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
       if (!isKnownPath(url.pathname)) return;
       e.preventDefault();
       if (parsed.view === 'courses') setSelectedCourseId(parsed.courseSlug);
+      if (parsed.view === 'blog') setSelectedPostSlug(parsed.postSlug);
       setView(parsed.view);
+      // In-article links carry a section hash (e.g. the cost post's
+      // [fee table](/#fees)): navigate home, then scroll to the section
+      // once the lazy homepage has mounted (scrollToId retries ~5s).
+      if (url.hash) scrollToId(url.hash.slice(1));
     };
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
@@ -381,9 +460,27 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
     setView('courses');
   };
 
+  // Audience location pages have no fee table of their own — their fee
+  // link goes home and scrolls to the fee table.
+  const handleViewFees = () => {
+    setView('home');
+    scrollToId('fees');
+  };
+
+  // Nav/footer navigation always opens a view's listing page: a stale
+  // blog post slug must not survive the jump. (The desktop nav calls
+  // preventDefault, so the link interceptor never sees those clicks —
+  // Navbar.tsx:322 — and would otherwise reopen the last post when the
+  // user taps "Blog".) The interceptor and popstate paths use the raw
+  // setView and set the slug explicitly, so they are unaffected.
+  const handleNavSetView = (next: ViewState) => {
+    setSelectedPostSlug(null);
+    setView(next);
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-[#0B2E3A]">
-      <Navbar setView={setView} currentView={view} region={region} onRegionChange={handleRegionChange} onViewCourse={handleViewCourseDetails} />
+      <Navbar setView={handleNavSetView} currentView={view} region={region} onRegionChange={handleRegionChange} onViewCourse={handleViewCourseDetails} />
 
       {/* All page content is lazy — only loads what's needed.
           No loading screen: Suspense fallback is null by design
@@ -432,7 +529,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
             />
           )}
           {view === 'testimonials' && <Testimonials full setView={setView} />}
-          {view === 'blog'        && <Blog onBack={() => setView('home')} />}
+          {view === 'blog'        && <Blog onBack={() => setView('home')} initialPostSlug={selectedPostSlug} />}
           {view === 'services'    && <CustomerServices onBack={() => setView('home')} />}
           {view === 'terms'       && <TermsOfService onBack={() => setView('home')} />}
           {view === 'certificate' && <CertificateOfAppraisal onBack={() => setView('home')} />}
@@ -440,6 +537,23 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
           {view === 'how-it-works' && (
             <HowItWorksPage onBack={() => setView('home')} onEnrol={() => setView('enrol')} />
           )}
+          {view === 'quality-assurance' && <QualityAssurancePage onBack={() => setView('home')} />}
+          {view === 'female-teachers' && <FemaleTeachersPage onBack={() => setView('home')} />}
+          {view === 'rules' && <RulesPage onBack={() => setView('home')} />}
+          {view === 'parents' && <ParentsPage onBack={() => setView('home')} />}
+          {view === 'quran-classes-in-houston' && <LocationPage slug="quran-classes-in-houston" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-new-york' && <LocationPage slug="quran-classes-in-new-york" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-los-angeles' && <LocationPage slug="quran-classes-in-los-angeles" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-dallas' && <LocationPage slug="quran-classes-in-dallas" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-texas' && <LocationPage slug="quran-classes-in-texas" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-california' && <LocationPage slug="quran-classes-in-california" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-illinois' && <LocationPage slug="quran-classes-in-illinois" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-in-michigan' && <LocationPage slug="quran-classes-in-michigan" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-for-kids' && <LocationPage slug="quran-classes-for-kids" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-for-beginners' && <LocationPage slug="quran-classes-for-beginners" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-for-adults' && <LocationPage slug="quran-classes-for-adults" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-for-female' && <LocationPage slug="quran-classes-for-female" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
+          {view === 'quran-classes-for-male' && <LocationPage slug="quran-classes-for-male" onBack={() => setView('home')} onRegister={() => handleRegisterFromDetails()} onSelectFee={handleSelectFee} onViewFees={handleViewFees} />}
           {view === 'enrol' && (
             <EnrolPage
               onBack={() => setView('home')}
@@ -458,7 +572,7 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
             />
           )}
         </main>
-        <Footer setView={setView} />
+        <Footer setView={handleNavSetView} />
       </Suspense>
     </div>
   );

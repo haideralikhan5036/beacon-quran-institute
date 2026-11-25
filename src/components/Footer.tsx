@@ -33,7 +33,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
   };
 
   const ctaTitle = 'Ready to Begin Your Sacred Quranic Journey?';
-  const ctaDesc = '"The best of you is the one who learns the Quran and teaches it." — Join 1-on-1 personalized live classes with certified Ijazah tutors today.';
+  const ctaDesc = '"The best of you is the one who learns the Quran and teaches it." — Meet your tutor in a free trial class first, and try another tutor if the fit is not right.';
   const ctaPrimaryBtn = 'Start Free Trial Session';
   const ctaSecondaryBtn = 'Explore Fees';
 
@@ -47,6 +47,14 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
     { name: 'Institute Home', href: '/' },
     { name: 'Core Services', href: '/services' },
     { name: 'Appraisal Portal', href: '/certificate' },
+    { name: 'Quality Assurance', href: '/quality-assurance' },
+    { name: 'Female Teachers', href: '/female-teachers' },
+    { name: 'For Parents', href: '/parents' },
+    { name: 'Quran Classes for Kids', href: '/quran-classes-for-kids' },
+    { name: 'Quran Classes for Beginners', href: '/quran-classes-for-beginners' },
+    { name: 'Quran Classes for Adults', href: '/quran-classes-for-adults' },
+    { name: 'Quran Classes for Sisters', href: '/quran-classes-for-female' },
+    { name: 'Quran Classes for Brothers', href: '/quran-classes-for-male' },
     { name: 'Insights Blog', href: '/blog' },
     { name: 'Fee Structure', action: () => handleFeesClick() },
     { name: 'Online Quran Classes in the USA', href: '/usa' },
@@ -58,6 +66,7 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
 
   const legalItems = [
     { name: 'Terms of Service', href: '/terms' },
+    { name: 'Class Rules', href: '/rules' },
     { name: 'Privacy Policy', href: '/terms' },
     { name: 'Security & Quality', href: '/terms' },
     { name: 'Refund Guarantee', href: '/terms' },
@@ -246,7 +255,21 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                   </div>
                   <div className="overflow-hidden">
                     <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80">Direct Line &amp; WhatsApp</p>
-                    <p className="text-sm font-bold text-white tracking-wide" dir="ltr">+92 346 1573771</p>
+                    {/* Tarteel-adapt item 9 — 24/7 contact, stated honestly:
+                        WhatsApp accepts messages around the clock, so the
+                        line promises only that the CHANNEL is always open
+                        ("Message us any time"). No claim of staffed 24/7
+                        support, no reply-time promise — both unconfirmed. */}
+                    <a
+                      href="https://wa.me/923461573771"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-sm font-bold text-white tracking-wide hover:underline"
+                      dir="ltr"
+                    >
+                      +92 346 1573771
+                    </a>
+                    <p className="text-[11px] text-white/70 mt-1">WhatsApp is open around the clock — message us any time.</p>
                   </div>
                 </div>
               </Reveal>

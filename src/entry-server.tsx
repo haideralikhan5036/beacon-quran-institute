@@ -22,6 +22,7 @@ import { renderToPipeableStream } from 'react-dom/server';
 import { LanguageProvider } from './context/LanguageContext';
 import App, { VIEW_META, VIEW_PATHS } from './App';
 import { COURSES } from './data/courses';
+import { blogPosts } from './data/blogData';
 import { NEAR_ME_FAQ } from './components/NearYou';
 
 export { VIEW_META, NEAR_ME_FAQ };
@@ -32,6 +33,7 @@ export const PRERENDER_ROUTES: string[] = [
   ...Object.values(VIEW_PATHS).filter((p) => p !== '' && p !== 'courses').map((p) => `/${p}`),
   '/courses',
   ...COURSES.map((c) => `/courses/${c.slug}`),
+  ...blogPosts.map((p) => `/blog/${p.slug}`),
   '/usa',
   '/uk',
   '/canada',
@@ -75,6 +77,22 @@ export const COURSE_SEO: CourseSeo[] = COURSES.map((c) => ({
   highPrice: FEE_RANGE_USD[c.feeGroup].high,
 }));
 
+export interface BlogSeo {
+  slug: string;
+  title: string;
+  url: string;
+  excerpt: string;
+}
+
+/** Per-post SEO, used by ROUTE_SEO and by the prerender script for the
+ * BreadcrumbList JSON-LD on each post page. */
+export const BLOG_SEO: BlogSeo[] = blogPosts.map((p) => ({
+  slug: p.slug,
+  title: p.titleEn,
+  url: `/blog/${p.slug}`,
+  excerpt: p.excerptEn,
+}));
+
 /** Per-route title + meta description for the served HTML. */
 export const ROUTE_SEO: Record<string, { title: string; description: string }> = {
   ...Object.fromEntries(
@@ -91,6 +109,15 @@ export const ROUTE_SEO: Record<string, { title: string; description: string }> =
       {
         title: `${c.title} | Beacon Quran Institute`,
         description: c.tagline,
+      },
+    ]),
+  ),
+  ...Object.fromEntries(
+    BLOG_SEO.map((p) => [
+      p.url,
+      {
+        title: `${p.title} | Beacon Quran Institute`,
+        description: p.excerpt,
       },
     ]),
   ),
