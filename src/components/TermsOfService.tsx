@@ -97,6 +97,16 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
                 Classes may be recorded for quality assurance and teacher evaluation purposes. These recordings are strictly for internal use and will not be shared with any third party.
               </p>
             </section>
+
+            <section>
+              <div className="flex items-center gap-3 mb-4">
+                <CheckCircle className="w-6 h-6 text-[#004050]" />
+                <h3 className="text-xl font-bold text-[#0B2E3A] uppercase tracking-wider">8. Cancellation &amp; Refunds</h3>
+              </div>
+              <p>
+                If you decide to stop classes, tell us and we will refund the fee for any classes that have not yet been taken, in full. To ask for a refund, message us on WhatsApp or email us and we will arrange it. This does not apply where an enrolment is ended for misconduct under section 4, or to the Eid holidays in section 6, which are part of the annual schedule and are not charged as separate classes.
+              </p>
+            </section>
           </div>
 
           <div className="mt-16 pt-12 border-t border-[#D7E3EE] bg-[#F4F8FB] -mx-10 md:-mx-16 px-10 md:px-16 pb-10 md:pb-16 rounded-b-3xl">
