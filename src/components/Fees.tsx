@@ -163,6 +163,7 @@ export default function Fees({ onSelectFee, onContactRegistrar, currency }: Fees
             </table>
           </div>
           <p className="text-center text-[#3D5563] text-sm mt-5 font-medium">{noteText}</p>
+          <p className="text-center text-[#3D5563] text-sm mt-2 font-medium">Family plan: families who enrol together get 20% off. Ask about it when you enrol.</p>
         </Reveal>
 
         <Reveal delay={0.5} direction="up" distance={20} width="100%">

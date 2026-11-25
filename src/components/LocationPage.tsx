@@ -8,12 +8,13 @@ import Breadcrumbs from './Breadcrumbs';
 import Fees from './Fees';
 import { LOCATION_COURSES, LOCATION_PAGES } from '../data/locations';
 import { scrollToId } from '../utils/scrollToId';
+import type { CurrencyCode } from '../data/feeTable';
 
 // Location + audience pages (Tarteel-adapt batch, item 3). One shared
 // component renders any of the 13 pages from its data record in
-// src/data/locations.ts — city pages (online-only, fee table in USD via
-// the shared Fees component) and audience pages (no fee table; link to
-// the fee table / enrol instead). Style follows QualityAssurancePage:
+// src/data/locations.ts — city pages (online-only, fee table in the
+// visitor's own currency via the shared Fees component) and audience
+// pages (no fee table; link to the fee table / enrol instead). Style follows QualityAssurancePage:
 // Breadcrumbs, back button, hero, sections, CTA, Reveal, textures;
 // white bg; colours only #004050 + #7A7A50 + existing neutrals; Clash
 // Display only on ≥24px headings; English only.
@@ -26,6 +27,7 @@ export default function LocationPage({
   onRegister,
   onSelectFee,
   onViewFees,
+  currency = 'USD',
 }: {
   slug: string;
   onBack: () => void;
@@ -33,6 +35,10 @@ export default function LocationPage({
   onSelectFee: (course: string, schedule: string) => void;
   /** Audience pages: go home and scroll to the fee table. */
   onViewFees: () => void;
+  /** Fee-table currency, controlled by App (geo auto-detect) — the same
+      prop CountryPage receives, so a city page shows the visitor's own
+      currency instead of fixed USD. Defaults to USD when not passed. */
+  currency?: CurrencyCode;
 }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const data = LOCATION_PAGES[slug];
@@ -158,12 +164,13 @@ export default function LocationPage({
           </Reveal>
         )}
 
-        {/* Fees: city pages show the real fee table in USD (same Fees
-            component / fee-sheet data as CountryPage). Audience pages
+        {/* Fees: city pages show the real fee table in the visitor's own
+            currency (same Fees component / fee-sheet data as CountryPage,
+            with the geo-detected currency passed in). Audience pages
             get a fee card linking to the fee table / enrol instead. */}
         {isCity ? (
           <div className="mb-12 sm:mb-16">
-            <Fees currency="USD" onSelectFee={onSelectFee} onContactRegistrar={onRegister} />
+            <Fees currency={currency} onSelectFee={onSelectFee} onContactRegistrar={onRegister} />
           </div>
         ) : (
           <Reveal delay={0.1} width="100%">
@@ -173,8 +180,11 @@ export default function LocationPage({
                 className="streaks-texture-gold pointer-events-none absolute right-[-10px] top-[-8px] w-[130px] h-[80px] opacity-45"
               />
               <h2 className="text-2xl font-bold font-display text-[#0B2E3A] mb-3 relative">How much do classes cost?</h2>
-              <p className="text-[#3D5563] text-base leading-relaxed max-w-3xl mb-5 relative">
+              <p className="text-[#3D5563] text-base leading-relaxed max-w-3xl mb-3 relative">
                 Monthly fees run from $35 to $80, depending on the course and schedule. See the full fee table for every course, schedule and class length — or book a free trial first and decide after.
+              </p>
+              <p className="text-[#3D5563] text-base leading-relaxed max-w-3xl mb-5 relative">
+                Family plan: families who enrol together get 20% off. Ask about it when you enrol.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 relative">
                 <button

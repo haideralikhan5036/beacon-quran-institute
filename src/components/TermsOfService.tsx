@@ -18,7 +18,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
           <div className="mb-12">
             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-[#7A7A50] mb-4">Legal Framework</h2>
             <h1 className="text-4xl font-bold font-display text-[#0B2E3A] mb-6">Terms of{' '}<span className="text-[#7A7A50] italic font-semibold">Service</span></h1>
-            <p className="text-[#3D5563]">Last Updated: May 2024</p>
+            <p className="text-[#3D5563]">Last Updated: November 2026</p>
             <p className="text-[#3D5563] mt-3">
               Prefer plain language?{' '}
               <a href="/rules" className="font-bold text-[#004050] underline underline-offset-2">
@@ -84,7 +84,7 @@ export default function TermsOfService({ onBack }: { onBack: () => void }) {
                 <h3 className="text-xl font-bold text-[#0B2E3A] uppercase tracking-wider">6. Holidays</h3>
               </div>
               <p>
-                Classes will be closed during the two Eids (Eid-ul-Fitr and Eid-ul-Adha) for a period of 3-5 days each. No makeup classes or fee adjustments are provided for these religious holidays as they are accounted for in the annual schedule.
+                Classes will be closed during the two Eids (Eid-ul-Fitr and Eid-ul-Adha) for one week each. The Eid holidays are announced as official holidays in advance. No makeup classes, refunds or fee adjustments are provided for these religious holidays as they are accounted for in the annual schedule.
               </p>
             </section>
 

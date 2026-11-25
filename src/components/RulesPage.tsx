@@ -4,12 +4,12 @@
 // written in plain language a parent can understand without legal words.
 //
 // HONESTY: every rule here is either a principle in plain words or an
-// exact restatement of Beacon's Terms of Service. No exact number or
-// threshold is stated on this page — no notice period, no day count, no
-// percentage, no fee, no deadline. Every figure the owner still has to
-// confirm (make-up notice period, long-leave threshold, cover vs
-// make-up when a teacher is unavailable, Eid closure length, fee-change
-// notice) is logged in BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md.
+// exact restatement of Beacon's Terms of Service. The two figures the
+// owner has now confirmed (2026-11-25) are stated here: the teacher waits
+// 15 minutes for a late student, and Eid closes classes for one week per
+// Eid, twice a year. Every other figure the owner still has to confirm
+// (long-leave threshold, fee-change notice) is logged in
+// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md.
 import { Reveal } from './ui/Reveal';
 import Breadcrumbs from './Breadcrumbs';
 import {
@@ -21,7 +21,7 @@ const RULES = [
   {
     icon: CalendarClock,
     title: 'Make-up classes',
-    text: 'If you cannot attend a class, tell us at least 4 hours before the class and we will arrange a make-up where possible. If your regular teacher has no time for the make-up, we will arrange it with an alternative teacher. If you are running late, let us know as soon as you can — your teacher will wait for you for a short time. A class missed without telling us cannot be made up.',
+    text: 'If you cannot attend a class, tell us at least 4 hours before the class and we will arrange a make-up where possible. If your regular teacher has no time for the make-up, we will arrange it with an alternative teacher. If you are running late, let us know as soon as you can — your teacher will wait for you for 15 minutes. A class missed without telling us cannot be made up.',
   },
   {
     icon: Plane,
@@ -36,7 +36,7 @@ const RULES = [
   {
     icon: MoonStar,
     title: 'Eid and public holidays',
-    text: 'Classes close for Eid-ul-Fitr and Eid-ul-Adha. The Eid holidays are part of the monthly fee, so no make-up class and no fee adjustment is given for the Eid break. If any other public holiday affects classes, we will let you know in advance.',
+    text: 'Classes close for Eid-ul-Fitr and Eid-ul-Adha — twice a year, for one week each. The Eid holidays are announced as official holidays in advance, and are part of the monthly fee, so no make-up class, no refund and no fee adjustment is given for the Eid break. If any other public holiday affects classes, we will let you know in advance.',
   },
   {
     icon: Wallet,

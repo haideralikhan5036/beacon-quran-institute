@@ -6,25 +6,26 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-// Female Teachers page (Tarteel-adapt batch, item 2).
-// Modelled on Tarteel's dedicated female-teacher page (own page, own
-// menu entry), written for Beacon. Wording stays at the level of the
-// institute's offer and standard — no teacher names, bios, photos,
-// counts, countries, universities or waiting times. What the site
-// already states elsewhere is reused, nothing more: the About page
-// claims "Certified Ijazah-holding tutors", the courses FAQ says
-// "sisters can request a female teacher", and the country pages say
-// female teachers are available for sisters and kids. Every fact the
-// owner still has to confirm is logged in
-// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md (how many female
-// teachers there are, whether all of them hold Ijazah, which courses
-// they cover, whether there is a waiting time, how a request is made).
+// Female Teachers page (Tarteel-adapt batch, item 2; owner-answers
+// batch, item 6). Owner-confirmed 2026-11-25: Beacon's female
+// teachers are Ijazah-certified, from Pakistan, with very good
+// English fluency and excellent Tajweed — the institute's best
+// teachers. Sourcing is stated only as the owner confirmed it —
+// no other country or university is named anywhere on this page.
+// Still NOT claimed: how many female teachers there are, whether
+// they cover all five courses, whether there is a waiting time, or
+// whether a student keeps the same female teacher every week.
+// Requests go via WhatsApp/email conversation — the enrol form has
+// NO teacher-preference field (owner decision 2026-11-24), so
+// nothing here implies one. Step 3 of HOW_TO_REQUEST carries the
+// owner-confirmed "2-day trial with the second tutor" wording
+// (owner-answers item 4) — do not change it.
 
 const WHO_IT_IS_FOR = [
   {
     icon: HeartHandshake,
     title: 'For sisters',
-    text: 'Adult women learning the Quran with a female teacher, one to one — from Noorani Qaida and Tajweed through to Hifz and Tafseer, at a pace and a time that fit your day.',
+    text: 'Adult women learning the Quran with a female teacher, one to one — ask about a female teacher for your course, at a pace and a time that fit your day.',
   },
   {
     icon: GraduationCap,
@@ -42,7 +43,7 @@ const THE_STANDARD = [
   {
     icon: BookOpenCheck,
     title: 'The same Ijazah-level standard',
-    text: 'Our tutors are certified and Ijazah-holding, and female teachers are held to the same standard as every Beacon tutor — proven recitation and Tajweed before they teach a single class.',
+    text: 'Our female teachers are from Pakistan, Ijazah-certified, with very good English fluency and excellent Tajweed — the institute\'s best teachers. They are held to the same standard as every Beacon tutor: proven recitation and Tajweed before they teach a single class.',
   },
   {
     icon: UserCheck,
@@ -75,7 +76,7 @@ const HOW_TO_REQUEST = [
   {
     n: '3',
     title: 'Set your weekly schedule',
-    text: 'If the trial feels right, choose your course and your weekly times, and your regular classes begin with your female teacher. If the fit is not right, tell us and try again with a different female teacher before you enrol.',
+    text: 'If the trial feels right, choose your course and your weekly times, and your regular classes begin with your female teacher. If the fit is not right, tell us and try again with a different female teacher — a 2-day trial with the second tutor — before you enrol.',
   },
 ];
 
@@ -108,7 +109,9 @@ export default function FemaleTeachersPage({ onBack }: { onBack: () => void }) {
             </h1>
             <p className="text-xl md:text-2xl text-[#3D5563] max-w-3xl mx-auto">
               Sisters and young girls can learn the Quran one to one with a
-              female teacher — certified, Ijazah-holding, and held to the
+              female teacher from Pakistan — Ijazah-certified, with very
+              good English fluency and excellent Tajweed. Our female
+              teachers are the institute&apos;s best teachers, held to the
               same standard as every Beacon tutor. Just tell us on
               WhatsApp or by email when you enrol.
             </p>
@@ -195,12 +198,13 @@ export default function FemaleTeachersPage({ onBack }: { onBack: () => void }) {
                   <BookOpenCheck className="w-6 h-6 text-[#004050]" />
                 </div>
                 <h2 className="text-2xl font-bold text-[#0B2E3A] font-display">
-                  Every course, with a female teacher
+                  Ask about a female teacher for your course
                 </h2>
               </div>
               <p className="text-[#3D5563] leading-relaxed text-lg mb-6 relative">
-                A female teacher can teach any of our courses — from a
-                child&apos;s first Qaida lesson to Hifz and Tafseer.
+                Tell us on WhatsApp or by email which course you or your
+                daughter want to learn, and we will let you know about a
+                female teacher for it.
               </p>
               <ul className="space-y-3 relative">
                 {COURSES.map((course) => (

@@ -5,7 +5,7 @@
 // ONLINE — city pages say so plainly and claim no local office, no
 // street address, no "visit us", no local phone number and no teachers
 // based in that city. Fees come from the fee sheet via the shared Fees
-// component (city pages, USD); audience pages link to the fee table /
+// component (city pages, in the visitor's own currency); audience pages link to the fee table /
 // enrol instead of repeating prices.
 //
 // Age guidance is repeated only where Beacon's site already states it:
@@ -62,7 +62,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Houston',
     intro:
       `Learn Quran online in Houston with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Houston — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Central Time (CT), with morning, after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Central Time (CT), with morning, after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Houston choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -84,7 +84,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
       },
       {
         q: 'How much do online Quran classes cost in Houston?',
-        a: 'Monthly fees are in USD and run from $35 to $80, depending on the course and schedule. See the full fee table below for every course, schedule and class length.',
+        a: 'Monthly fees run from $35 to $80, depending on the course and schedule, and are shown in your own currency in the fee table below, which lists every course, schedule and class length.',
       },
       {
         q: 'Can my child start learning if they cannot read Arabic yet?',
@@ -107,7 +107,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in New York',
     intro:
       `Learn Quran online in New York with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across New York City — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Eastern Time (ET), with early-morning, after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Eastern Time (ET), with early-morning, after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in New York choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -152,7 +152,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Los Angeles',
     intro:
       `Learn Quran online in Los Angeles with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Los Angeles — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Pacific Time (PT), with after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Pacific Time (PT), with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Los Angeles choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -197,7 +197,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Dallas',
     intro:
       `Learn Quran online in Dallas with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Dallas — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Central Time (CT), with after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Central Time (CT), with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Dallas choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -219,7 +219,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
       },
       {
         q: 'How much do online Quran classes cost in Dallas?',
-        a: 'Monthly fees are in USD and run from $35 to $80, depending on the course and schedule. See the full fee table below for every course, schedule and class length.',
+        a: 'Monthly fees run from $35 to $80, depending on the course and schedule, and are shown in your own currency in the fee table below, which lists every course, schedule and class length.',
       },
       {
         q: 'Does my child need a Quran or books before the first class?',
@@ -242,12 +242,12 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Texas',
     intro:
       `Learn Quran online in Texas with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Texas — from Houston and Dallas to Austin and San Antonio — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Most of Texas runs on Central Time (CT), and classes are scheduled around your day, with after-school, evening and weekend slots.',
+    timezoneLine: 'Most of Texas runs on Central Time (CT), and classes are scheduled around your day, with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Texas choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
       { title: 'Central Time across the state', text: 'Lesson times on Texas time, wherever in the state you live.' },
-      { title: 'Same fees everywhere', text: 'Texas students pay the same USD fees as students anywhere else — no local markup.' },
+      { title: 'Same fees everywhere', text: 'Texas students pay the same fees as students anywhere else — no local markup.' },
       { title: 'Free trial class', text: 'Book a free trial lesson first and meet your teacher before you enrol.' },
     ],
     coursesTitle: 'Quran courses for learners in Texas',
@@ -268,7 +268,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
       },
       {
         q: 'How much do online Quran classes cost in Texas?',
-        a: 'Monthly fees are in USD and run from $35 to $80, depending on the course and schedule. See the full fee table below for every course, schedule and class length.',
+        a: 'Monthly fees run from $35 to $80, depending on the course and schedule, and are shown in your own currency in the fee table below, which lists every course, schedule and class length.',
       },
       {
         q: 'Can my child learn Quran online from anywhere in Texas?',
@@ -287,7 +287,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in California',
     intro:
       `Learn Quran online in California with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across California — from Los Angeles and San Diego to San Francisco and Sacramento — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Pacific Time (PT), with after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Pacific Time (PT), with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in California choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -332,7 +332,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Illinois',
     intro:
       `Learn Quran online in Illinois with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Illinois — from Chicago to Springfield and beyond — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Classes are scheduled on Central Time (CT), with after-school, evening and weekend slots.',
+    timezoneLine: 'Classes are scheduled on Central Time (CT), with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Illinois choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -377,7 +377,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
     h1: 'Online Quran Classes in Michigan',
     intro:
       `Learn Quran online in Michigan with certified male and female teachers. Our 1-on-1 online Quran classes bring Tajweed, Hifz memorization and Noorani Qaida to kids and adults across Michigan — from Detroit and Dearborn to Ann Arbor and Grand Rapids — live, at times that fit your day. ${ONLINE_LINE}`,
-    timezoneLine: 'Most of Michigan runs on Eastern Time (ET), and classes are scheduled around your day, with after-school, evening and weekend slots.',
+    timezoneLine: 'Most of Michigan runs on Eastern Time (ET), and classes are scheduled around your day, with after-school, evening and weekend slots. Tell us what time suits you in your local time and we will arrange the class at that time.',
     whyTitle: 'Why families in Michigan choose Beacon',
     whyPoints: [
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
@@ -403,7 +403,7 @@ export const LOCATION_PAGES: Record<string, LocationPageData> = {
       },
       {
         q: 'How much do online Quran classes cost in Michigan?',
-        a: 'Monthly fees are in USD and run from $35 to $80, depending on the course and schedule. See the full fee table below for every course, schedule and class length.',
+        a: 'Monthly fees run from $35 to $80, depending on the course and schedule, and are shown in your own currency in the fee table below, which lists every course, schedule and class length.',
       },
       {
         q: 'How long does it take to finish Noorani Qaida?',

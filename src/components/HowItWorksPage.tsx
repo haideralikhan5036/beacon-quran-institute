@@ -66,8 +66,7 @@ export default function HowItWorksPage({ onBack, onEnrol }: HowItWorksPageProps)
               Ready to begin your Quran journey?
             </h2>
             <p className="text-white/80 text-base leading-relaxed mb-6 max-w-xl mx-auto relative">
-              Book a free trial class first — meet your tutor, agree your
-              plan, and try a different tutor if the fit is not right.
+              Book a free trial class first — meet your tutor, agree your plan, and try a different tutor — a 2-day trial with the second tutor — if the fit is not right. Male and female teachers are available.
             </p>
             <button
               onClick={onEnrol}

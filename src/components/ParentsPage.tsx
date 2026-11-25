@@ -2,17 +2,17 @@ import { Reveal } from './ui/Reveal';
 import Breadcrumbs from './Breadcrumbs';
 import {
   ArrowLeft, ArrowRight, FileText, ShieldCheck, HeartHandshake,
-  MessageCircle, CheckCircle2, GraduationCap,
+  LayoutDashboard, CheckCircle2, GraduationCap,
 } from 'lucide-react';
 
 // Parents page (Tarteel-adapt batch, item 10).
 // What is truthfully possible as website content: a page for parents
-// about how they follow their child's progress. There is NO parent
-// portal, NO parent app and NO login — the page says so plainly
-// ("no app to install, no login to remember") instead of claiming
-// tools that do not exist. The product gap is recorded in
-// BEACON-TARTEEL-ADAPT-DECISIONS-2026-11-24.md. No names, counts
-// or dates are claimed anywhere on this page.
+// about how they follow their child's progress. The institute's LMS
+// has a separate student + parent portal (owner-confirmed 2026-11-25):
+// parents track lessons and their child's learning through it. No
+// portal URL, app name or login link is published here — none exists
+// in the repo — so the page describes the portal without linking to
+// it. No names, counts or dates are claimed anywhere on this page.
 
 const REPORT_COVERS = [
   'What was covered in the month\u2019s lessons',
@@ -24,7 +24,7 @@ const REPORT_COVERS = [
 const FAQS = [
   {
     q: 'How do I know how my child is doing?',
-    a: 'You receive a written progress report every month — the same report the teacher works from. Between reports, you can message us any time on WhatsApp and ask how things are going.',
+    a: 'Through the student and parent portal of our learning system, where you can follow your child\u2019s lessons and learning. You also receive a written progress report every month — the same report the teacher works from. Between reports, you can message us any time on WhatsApp and ask how things are going.',
   },
   {
     q: 'Can I be present during my child\u2019s class?',
@@ -40,7 +40,7 @@ const FAQS = [
   },
   {
     q: 'What if the teacher is not the right fit?',
-    a: 'Tell us. Your child can try a different tutor before you enrol — and after enrolment, talk to us and we will arrange a change.',
+    a: 'Tell us. Your child can try a different tutor — a 2-day trial with the second tutor — before you enrol. After enrolment, talk to us and we will arrange a change.',
   },
 ];
 
@@ -71,7 +71,7 @@ export default function ParentsPage({ onBack }: { onBack: () => void }) {
           </div>
         </Reveal>
 
-        {/* How you follow progress + no-app honesty */}
+        {/* How you follow progress + parent portal */}
         <div className="grid md:grid-cols-2 gap-8 mb-24">
           <Reveal delay={0.1}>
             <div className="bg-[#FFFFFF] border border-[#C9D9E8] p-8 rounded-3xl h-full shadow-[0_10px_30px_rgba(11,46,58,0.05)] relative overflow-hidden">
@@ -110,17 +110,18 @@ export default function ParentsPage({ onBack }: { onBack: () => void }) {
               />
               <div className="flex items-center gap-4 mb-6 relative">
                 <div className="bg-[#EAF1F7] border border-[#C9D9E8] p-3 rounded-xl">
-                  <MessageCircle className="w-6 h-6 text-[#004050]" />
+                  <LayoutDashboard className="w-6 h-6 text-[#004050]" />
                 </div>
                 <h2 className="text-2xl font-bold text-[#0B2E3A] font-display">
-                  No app to install, no login to remember
+                  A parent portal to follow every lesson
                 </h2>
               </div>
               <p className="text-[#3D5563] leading-relaxed text-lg mb-6 relative">
-                There is no parent app or login to keep track of. Your
-                child&apos;s progress comes to you as a monthly report, and
-                between reports you can message us any time on WhatsApp or
-                by email — a real person answers, not a dashboard.
+                Our learning system has a separate student and parent
+                portal. Through it, you can follow your child&apos;s
+                lessons and learning — what was covered, how they are
+                progressing, and what comes next — without waiting for
+                the monthly report.
               </p>
               <p className="text-[#3D5563] leading-relaxed relative">
                 WhatsApp us on{' '}

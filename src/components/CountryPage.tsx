@@ -38,7 +38,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
       { title: 'Certified male & female teachers', text: 'Experienced, Ijazah-certified Quran teachers, including female teachers for sisters and kids.' },
       { title: 'US time zones covered', text: 'Flexible scheduling across Eastern, Central, Mountain and Pacific time (ET / CT / MT / PT).' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor — a 2-day trial with the second tutor — before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across the USA',
     citiesIntro:
@@ -61,7 +61,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: 'One-to-one live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your tutor focuses only on you.' },
       { title: 'DBS-checked Quran tutors', text: 'UK parents can learn with confidence: our tutors are DBS-checked, with male & female teachers available.' },
       { title: 'GMT / BST scheduling', text: 'Flexible lesson times on UK time, including after-school and weekend slots.' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor — a 2-day trial with the second tutor — before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across the UK',
     citiesIntro:
@@ -84,7 +84,7 @@ const COUNTRY_COPY: Record<CountryKey, CountryCopy> = {
       { title: '1-on-1 live Quran lessons', text: 'Private, one-to-one classes for kids and adults — your teacher focuses only on you.' },
       { title: 'Certified male & female teachers', text: 'Experienced, Ijazah-certified Quran teachers, including female teachers for sisters and kids.' },
       { title: 'Canadian time zones covered', text: 'Flexible scheduling across Eastern, Central, Mountain and Pacific time (ET / CT / MT / PT).' },
-      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor before you enrol.' },
+      { title: 'Free trial class', text: 'Book a free trial lesson first and meet your tutor — if the fit is not right, try another tutor — a 2-day trial with the second tutor — before you enrol.' },
     ],
     citiesTitle: 'Online Quran classes across Canada',
     citiesIntro:

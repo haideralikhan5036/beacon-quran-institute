@@ -24,6 +24,9 @@ export interface BlogPost {
   image: string;
   readTimeEn: string;
   readTimeAr: string;
+  // Publication date, shown only when set. Older posts carry no date
+  // and stay undated.
+  dateEn?: string;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -368,7 +371,7 @@ Every fee is for live one-to-one classes with a certified teacher — not record
 
 ### Start with a free trial
 
-Before you pay anything, book a free trial class. The trial runs for 3 days: you meet the teacher, agree the course and schedule, and only then decide whether to continue. If the first teacher is not the right fit, you can try a different tutor before you enrol. There is no payment and no commitment for the trial. Book one from the [enrol page](/enrol).`,
+Before you pay anything, book a free trial class. The trial runs for 3 days: you meet the teacher, agree the course and schedule, and only then decide whether to continue. If the first teacher is not the right fit, you can try a different tutor — a 2-day trial with the second tutor — before you enrol. There is no payment and no commitment for the trial. Book one from the [enrol page](/enrol).`,
     contentAr: "",
     authorEn: "Beacon Quran Institute",
     authorAr: "",
@@ -376,7 +379,8 @@ Before you pay anything, book a free trial class. The trial runs for 3 days: you
     categoryAr: "",
     image: image2,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
   {
     id: 11,
@@ -409,7 +413,7 @@ Before you pay anything, ask: will my child keep the same teacher every week? Ho
 
 ### Start with a trial, not a payment
 
-Any academy confident in its teaching will offer a free trial class with no payment and no commitment. At Beacon the trial runs for 3 days: a real lesson with a qualified teacher, not a sales call. Use it — a trial tells you more in half an hour than any website can: how the teacher speaks to your child, whether the lesson is organised, and whether your child actually wants to come back. If the first teacher is not the right fit, you can try a different tutor before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class), or book one from the [enrol page](/enrol).`,
+Any academy confident in its teaching will offer a free trial class with no payment and no commitment. At Beacon the trial runs for 3 days: a real lesson with a qualified teacher, not a sales call. Use it — a trial tells you more in half an hour than any website can: how the teacher speaks to your child, whether the lesson is organised, and whether your child actually wants to come back. If the first teacher is not the right fit, you can try a different tutor — a 2-day trial with the second tutor — before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class), or book one from the [enrol page](/enrol).`,
     contentAr: "",
     authorEn: "Beacon Quran Institute",
     authorAr: "",
@@ -417,7 +421,8 @@ Any academy confident in its teaching will offer a free trial class with no paym
     categoryAr: "",
     image: image3,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
   {
     id: 12,
@@ -450,7 +455,7 @@ Before you pay anything, ask: will my child keep the same teacher every week? Ho
 
 ### Use the free trial
 
-Before paying anything, book a free trial class. At Beacon the trial runs for 3 days. It is a real lesson with a qualified teacher, not a sales call: the teacher checks your child's level, you agree the course and the weekly schedule together, and then you decide. There is no payment and no commitment for the trial — and if the first teacher is not the right fit, you can try a different tutor before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class), or book one from the [enrol page](/enrol).`,
+Before paying anything, book a free trial class. At Beacon the trial runs for 3 days. It is a real lesson with a qualified teacher, not a sales call: the teacher checks your child's level, you agree the course and the weekly schedule together, and then you decide. There is no payment and no commitment for the trial — and if the first teacher is not the right fit, you can try a different tutor — a 2-day trial with the second tutor — before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class), or book one from the [enrol page](/enrol).`,
     contentAr: "",
     authorEn: "Beacon Quran Institute",
     authorAr: "",
@@ -458,7 +463,8 @@ Before paying anything, book a free trial class. At Beacon the trial runs for 3 
     categoryAr: "",
     image: image4,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
   {
     id: 13,
@@ -483,13 +489,13 @@ Children learn slowly, forget quickly and lose focus — that is normal. A good 
 
 ### Use the trial class to decide
 
-The free trial class exists for exactly this decision — and at Beacon the trial runs for 3 days. Sit nearby and watch: does the teacher speak kindly to your child, explain things in words your child understands, and check what your child already knows before starting? Does your child want to come back? A single trial lesson tells you more than any brochure. If the first teacher is not the right fit, you can try a different tutor before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class).
+The free trial class exists for exactly this decision — and at Beacon the trial runs for 3 days. Sit nearby and watch: does the teacher speak kindly to your child, explain things in words your child understands, and check what your child already knows before starting? Does your child want to come back? A single trial lesson tells you more than any brochure. If the first teacher is not the right fit, you can try a different tutor — a 2-day trial with the second tutor — before you enrol. Read [what happens in a free trial class](/blog/what-happens-in-a-free-trial-class).
 
 ### The practical questions to ask — and Beacon's answers
 
 Before you enrol, ask these four things. Here are Beacon's answers, so you can check them against any other academy:
 
-**Will my child keep the same teacher every week, and can we change teacher if the fit is wrong?** Your child keeps the same teacher on a regular weekly schedule. If the fit is not right in the trial, try a different tutor before you enrol — the trial is for choosing your teacher, not just for checking the level.
+**Will my child keep the same teacher every week, and can we change teacher if the fit is wrong?** Your child keeps the same teacher on a regular weekly schedule. If the fit is not right in the trial, try a different tutor before you enrol — a 2-day trial with the second tutor. The trial is for choosing your teacher, not just for checking the level.
 
 **Can we request a female teacher for our daughter?** Yes. Tell us on WhatsApp or by email when you enrol — there is no form field for it, so the request is made in conversation with the registrar. See the [female teachers](/female-teachers) page for how that works.
 
@@ -503,7 +509,8 @@ Before you enrol, ask these four things. Here are Beacon's answers, so you can c
     categoryAr: "",
     image: childQuran,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
   {
     id: 14,
@@ -544,7 +551,8 @@ You do not have to guess. In the [free trial class](/blog/what-happens-in-a-free
     categoryAr: "",
     image: rehal,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
   {
     id: 15,
@@ -569,7 +577,7 @@ After the level check, the teacher teaches a short lesson at the right level: a 
 
 ### If the teacher is not the right fit
 
-The trial is also how you choose your teacher. If the fit is not right — the pace, the manner, the way they explain — tell us and we will arrange a trial with a different tutor before you enrol. You should only start regular classes with a teacher you are happy with.
+The trial is also how you choose your teacher. If the fit is not right — the pace, the manner, the way they explain — tell us and we will arrange a 2-day trial with the second tutor before you enrol. You should only start regular classes with a teacher you are happy with.
 
 ### Then you agree a plan together
 
@@ -593,6 +601,7 @@ Tell them simply: a teacher is going to meet you, hear you read a little, and te
     categoryAr: "",
     image: dua,
     readTimeEn: "3 min read",
-    readTimeAr: ""
+    readTimeAr: "",
+    dateEn: "25 November 2026",
   },
 ];
