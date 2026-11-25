@@ -24,8 +24,9 @@ import App, { VIEW_META, VIEW_PATHS } from './App';
 import { COURSES } from './data/courses';
 import { blogPosts } from './data/blogData';
 import { NEAR_ME_FAQ } from './components/NearYou';
+import { FAQ_ITEMS } from './data/faqData';
 
-export { VIEW_META, NEAR_ME_FAQ };
+export { VIEW_META, NEAR_ME_FAQ, FAQ_ITEMS };
 
 /** Every public, indexable route — the same list feeds the sitemap. */
 export const PRERENDER_ROUTES: string[] = [

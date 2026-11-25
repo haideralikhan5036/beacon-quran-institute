@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { ViewState } from '../App';
 import { Reveal } from './ui/Reveal';
@@ -22,7 +22,7 @@ const FIVE_COURSES = [
   'Islamic Studies',
 ];
 
-export default function Footer({ setView }: { setView: (view: ViewState) => void }) {
+export default function Footer({ setView, onOpenChat }: { setView: (view: ViewState) => void; onOpenChat?: () => void }) {
   const handleEnrollClick = () => {
     setView('enrol');
   };
@@ -43,13 +43,18 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
   // handler in App.tsx routes them client-side, crawlers and no-JS
   // visitors follow the href to the prerendered page. 'Fee Structure'
   // has no page of its own — it scrolls to the fee table on the homepage.
-  const navLinks: { name: string; href?: string; action?: () => void }[] = [
+  const navLinks: { name: string; href?: string; action?: () => void; openChat?: boolean }[] = [
     { name: 'Institute Home', href: '/' },
     { name: 'Core Services', href: '/services' },
     { name: 'Appraisal Portal', href: '/certificate' },
     { name: 'Quality Assurance', href: '/quality-assurance' },
     { name: 'Female Teachers', href: '/female-teachers' },
     { name: 'For Parents', href: '/parents' },
+    // FAQ/chatbot batch: opens the chat overlay (href="/faq" is the real
+    // link for crawlers / no-JS — the full chat page). Placed after
+    // "For Parents", near the top of the column, not after the country
+    // links where it would read as a geo link.
+    { name: 'FAQ — Ask Beacon', href: '/faq', openChat: true },
     { name: 'Quran Classes for Kids', href: '/quran-classes-for-kids' },
     { name: 'Quran Classes for Beginners', href: '/quran-classes-for-beginners' },
     { name: 'Quran Classes for Adults', href: '/quran-classes-for-adults' },
@@ -199,6 +204,9 @@ export default function Footer({ setView }: { setView: (view: ViewState) => void
                     {link.href ? (
                       <a
                         href={link.href}
+                        {...(link.openChat
+                          ? { onClick: (e: ReactMouseEvent) => { e.preventDefault(); onOpenChat?.(); }, 'data-testid': 'footer-faq-link' }
+                          : {})}
                         className="text-sm font-medium text-white/90 hover:text-white transition-all flex items-start gap-2.5 group cursor-pointer w-full text-left"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-[#7A7A50] group-hover:bg-white group-hover:scale-150 transition-all shrink-0 mt-[7px]"></span>

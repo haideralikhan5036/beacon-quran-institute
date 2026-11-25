@@ -30,7 +30,7 @@ const DIST = join(ROOT, 'dist');
 const SITE = 'https://beacon-quran-institute.pages.dev';
 const TODAY = new Date().toISOString().slice(0, 10);
 
-const { render, PRERENDER_ROUTES, ROUTE_SEO, COURSE_SEO, BLOG_SEO, NEAR_ME_FAQ } = await import(
+const { render, PRERENDER_ROUTES, ROUTE_SEO, COURSE_SEO, BLOG_SEO, NEAR_ME_FAQ, FAQ_ITEMS } = await import(
   join(ROOT, 'dist-server', 'entry-server.js')
 );
 
@@ -136,6 +136,19 @@ function faqNode() {
   };
 }
 
+// FAQPage node for /faq — built from the same FAQ_ITEMS the page prints
+// in its "Quick answers" section, so the schema matches visible content.
+function faqPageNode() {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+}
+
 const BREADCRUMBS = {
   '/courses': [{ name: 'Home', url: `${SITE}/` }, { name: 'Courses' }],
   '/usa': [{ name: 'Home', url: `${SITE}/` }, { name: 'Online Quran Classes in the USA' }],
@@ -154,6 +167,7 @@ const BREADCRUMBS = {
   '/parents': [{ name: 'Home', url: `${SITE}/` }, { name: 'For Parents' }],
   '/female-teachers': [{ name: 'Home', url: `${SITE}/` }, { name: 'Female Teachers' }],
   '/rules': [{ name: 'Home', url: `${SITE}/` }, { name: 'Class Rules' }],
+  '/faq': [{ name: 'Home', url: `${SITE}/` }, { name: 'Ask Beacon' }],
   '/quran-classes-in-houston': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Houston' }],
   '/quran-classes-in-new-york': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in New York' }],
   '/quran-classes-in-los-angeles': [{ name: 'Home', url: `${SITE}/` }, { name: 'Quran Classes in Los Angeles' }],
@@ -206,6 +220,10 @@ function jsonLdFor(route) {
   }
   if (route === '/about') {
     graph.push(orgNode(), breadcrumbNode(BREADCRUMBS['/about']));
+    return { '@context': 'https://schema.org', '@graph': graph };
+  }
+  if (route === '/faq') {
+    graph.push(faqPageNode(), breadcrumbNode(BREADCRUMBS['/faq']));
     return { '@context': 'https://schema.org', '@graph': graph };
   }
   if (BREADCRUMBS[route]) {
