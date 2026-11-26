@@ -318,34 +318,35 @@ export default function App({ initialPath }: { initialPath?: string } = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedPostSlug]);
 
-  // Apply a region: set the region + fee currency, and — for USA/UK/Canada —
-  // open that country's page when the visitor is on the homepage. Runs only
-  // on mount (first visit / stored choice), never on in-app navigation, so
-  // clicking Home later stays on Home.
-  const applyRegion = (next: RegionKey, navigateFromHome: boolean) => {
+  // Apply a region: set the region + fee currency. The visitor STAYS on the
+  // page they landed on — the homepage shows their own currency, nobody is
+  // navigated to a country page anymore (Batch 26, owner decision
+  // 2026-11-26). Runs only on mount (first visit / stored choice), never
+  // on in-app navigation. Country pages stay reachable by link/direct URL.
+  const applyRegion = (next: RegionKey) => {
     setRegion(next);
     setCurrency(REGION_CURRENCY[next]);
-    if (navigateFromHome && isPageRegion(next) && viewRef.current === 'home') {
-      setView(next);
-    }
   };
 
   // Geo auto-detect (first visit only). A stored manual choice wins and is
-  // applied directly; otherwise the IP lookup runs in the background and the
-  // page switches once it returns (or stays USA/USD if it fails/times out).
-  // Search/AI crawlers are never redirected: they must see exactly the URL
-  // they asked for (a bot that lands on / is shown /, not /usa) — otherwise
+  // applied directly; otherwise the IP lookup runs in the background and
+  // only the fee-table currency switches once it returns (or stays USA/USD
+  // if it fails/times out). The visitor is never navigated away from the
+  // page they landed on.
+  // Search/AI crawlers get no region at all: they must see exactly the URL
+  // they asked for, with the default render (a bot that lands on / is
+  // shown /, not /usa, and never a currency-switched page) — otherwise
   // the homepage would barely be crawled as itself.
   useEffect(() => {
     if (isSearchCrawler()) return;
     const stored = loadStoredRegion();
     if (stored) {
-      applyRegion(stored, true);
+      applyRegion(stored);
       return;
     }
     let cancelled = false;
     detectRegion().then((detected) => {
-      if (!cancelled && detected) applyRegion(detected, true);
+      if (!cancelled && detected) applyRegion(detected);
     });
     return () => {
       cancelled = true;

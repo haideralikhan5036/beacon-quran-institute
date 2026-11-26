@@ -1,6 +1,8 @@
-// Geo auto-detect: show a first-time visitor their own country's version
-// (fee currency + country page) based on their IP address, with a manual
-// header switcher that always wins and is remembered in localStorage.
+// Geo auto-detect: show a first-time visitor the fee table in their own
+// country's currency, on the page they landed on, based on their IP
+// address. Nobody is navigated to a country page anymore (Batch 26, owner
+// decision 2026-11-26). A stored choice always wins and is remembered in
+// localStorage.
 //
 // Endpoint: ipwho.is — free, no API key, CORS-enabled, returns the visitor's
 // ISO country code as `country_code`. The lookup NEVER blocks rendering:
@@ -119,9 +121,9 @@ export function saveRegion(region: RegionKey): void {
 /**
  * True when the visitor is a search/AI crawler (Googlebot, Bingbot, GPTBot,
  * ClaudeBot, PerplexityBot, link-preview bots, …). Crawlers must be served
- * exactly the URL they asked for — the geo auto-redirect is skipped for
- * them, or the homepage would barely be crawled as itself. Humans are
- * never affected.
+ * exactly the URL they asked for, with the default render — no region is
+ * applied for them at all, or the homepage would barely be crawled as
+ * itself. Humans are never affected.
  */
 export function isSearchCrawler(userAgent?: string): boolean {
   const ua =
